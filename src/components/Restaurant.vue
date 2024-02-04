@@ -16,48 +16,65 @@
     </div>
     <div class="subtitle">{{ location }}</div>
     <div id="photoMapContainer">
-      <div id="carouselExample" class="carousel slide" style="width: 50%">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img
-              src="https://wallpapercave.com/wp/wp11260432.jpg"
-              class="d-block w-100"
-              alt="..."
-            />
-          </div>
-          <div class="carousel-item">
-            <img
-              src="https://wallpapers.com/images/hd/green-mcdonald-s-logo-ydibzt83bgsa17la.jpg"
-              class="d-block w-100"
-              alt="..."
-            />
-          </div>
-          <div class="carousel-item">
-            <img
-              src="https://images4.alphacoders.com/109/thumb-1920-1093163.jpg"
-              class="d-block w-100"
-              alt="..."
-            />
+      <div class="row">
+        <div class="col-8">
+          <div id="carouselExample" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img
+                  src="https://wallpapercave.com/wp/wp11260432.jpg"
+                  class="d-block w-100"
+                  alt="..."
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://wallpapers.com/images/hd/green-mcdonald-s-logo-ydibzt83bgsa17la.jpg"
+                  class="d-block w-100"
+                  alt="..."
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="https://images4.alphacoders.com/109/thumb-1920-1093163.jpg"
+                  class="d-block w-100"
+                  alt="..."
+                />
+              </div>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="prev"
+            >
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="next"
+            >
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
         </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#carouselExample"
-          data-bs-slide="prev"
-        >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#carouselExample"
-          data-bs-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+        <div class="col-4">
+          <div style="display: flex; flex-direction: column; justify-content: center">
+            <GMapMap
+              :center="restaurantLocation"
+              :zoom="18"
+              map-type-id="terrain"
+              style="height: 500px"
+            >
+              <GMapMarker :position="restaurantLocation" />
+            </GMapMap>
+            <button type="button">GET DIRECTIONS</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -68,8 +85,7 @@ export default {
   name: "Restaurant",
   data() {
     return {
-      center: { lat: 46.782878601986255, lng: -71.28690361946938 },
-      markerPosition: { lat: 46.782878601986255, lng: -71.28690361946938 },
+      restaurantLocation: { lat: 46.782878601986255, lng: -71.28690361946938 },
       name: "McDonald's",
       rate: "★ 4.8",
       location: "⚲ 2520 Chem. des Quatre-Bourgeois, QC, G1V 4R2",
@@ -103,7 +119,7 @@ export default {
 
 #photoMapContainer {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
 }
 
 #title {
@@ -120,6 +136,9 @@ export default {
 }
 
 button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   bottom: 0;
   margin-top: 10px;
   background-color: #392992;
@@ -127,5 +146,23 @@ button {
   border-radius: 4px;
   padding: 10px;
   border: none;
+}
+.row{
+  display:flex;
+  flex:1 0 100%;
+  flex-wrap:wrap;
+}
+.row > *{
+  flex-shrink:0;
+  width:100%;
+  max-width:100%;
+}
+.col-4{
+  flex:0 0 auto;
+  width:33.333333%;
+}
+.col-8{
+  flex:0 0 auto;
+  width:66.666667%;
 }
 </style>
