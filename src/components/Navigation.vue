@@ -149,18 +149,18 @@ function search() {
 
 .dropdown {
   position: relative;
-  color: #ffffff; /* Set username color to white */
-  font-size: 1.2rem; /* Increase font size */
+  color: #ffffff;
+  font-size: 1.2rem;
   display: flex;
   align-items: center;
 }
 
 .dropbtn {
-  margin-left: 0.5rem; /* Add space between username and dropdown button */
-  font-size: 1rem; /* Set dropdown button font size */
+  margin-left: 0.5rem;
+  font-size: 1rem;
   border: none;
   cursor: pointer;
-  background: none; /* Ensures that the button has no background */
+  background: none;
 }
 
 .dropdown-content {
