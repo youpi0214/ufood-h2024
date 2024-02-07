@@ -38,8 +38,8 @@ export default {
 }
 
 .restaurant-card {
-  width: 200px; /* Adjust width */
-  height: 300px; /* Adjust height */
+  width: 200px;
+  height: 300px;
   margin: 20px;
   padding: 20px;
   background-color: #f4f4f4;
@@ -49,7 +49,26 @@ export default {
 
 .restaurant-card img {
   width: 100%;
-  height: 150px; /* Adjust height */
+  height: 150px;
   border-radius: 5px;
+}
+
+.card-body {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #666;
+  flex-grow: 1;
 }
 </style>
