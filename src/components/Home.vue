@@ -1,158 +1,265 @@
 <template>
   <div>
-    <div class="search-filter-section">
-      <input type="text" placeholder="Search restaurants..." v-model="searchQuery" />
-      <select v-model="selectedPriceRange">
-        <option value="">Select Price Range</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
-      <select v-model="selectedGenre">
-        <option value="">Select Genre</option>
-        <option value="Lebanese">Lebanese</option>
-        <option value="Breakfast">Breakfast</option>
-        <option value="Asian">Japanese</option>
-        <option value="Italian">Italian</option>
-        <option value="American">American</option>
-        <option value="Dessert">Dessert</option>
-      </select>
+    <div class="sidebar-wrapper">
+      <SideBar
+        :isSidebarOpen="isSidebarOpen"
+        @close="isSidebarOpen = false"
+        @apply-filters="applyFilters"
+        @reset-filters="resetFilters"
+      />
     </div>
-    <RestaurantCards :filteredRestaurants="filteredRestaurants" />
+    <div class="main-content">
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasExample"
+        aria-controls="offcanvasExample"
+        @click="toggleSidebar"
+      >
+        Filter
+      </button>
+      <RestaurantCards :filteredRestaurants="selectedRestaurants" />
+    </div>
   </div>
 </template>
 
 <script>
-import RestaurantCards from './HomeOrg/RestaurantCards.vue';
+import RestaurantCards from "./HomeOrg/RestaurantCards.vue";
+import SideBar from "./HomeOrg/SideBar.vue";
 
 export default {
   components: {
     RestaurantCards,
+    SideBar,
   },
   data() {
     return {
-      searchQuery: '',
-      selectedPriceRange: '',
-      selectedGenre: '',
+      isSidebarOpen: false,
+      searchQuery: "",
+      selectedPrice: "",
+      selectedCategory: "",
+      selectedRestaurants: [],
       restaurants: [
         {
           id: 1,
           name: "Kebab House",
           description: "Authentic Lebanese Kebab",
-          image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D",
-          priceRange: "medium",
-          genre: "Lebanese",
+          image:
+            "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D",
+          selectedPrice: "$$",
+          selectedCategory: "Mediterranean Cuisine",
         },
         {
           id: 2,
           name: "Breakfast Spot",
           description: "Toast, egg benedict and more",
-          image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NHx8fGVufDB8fHx8fA%3D%3D",
-          priceRange: "low",
-          genre: "Breakfast",
+          image:
+            "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NHx8fGVufDB8fHx8fA%3D%3D",
+          selectedPrice: "$",
+          selectedCategory: "Breakfast",
         },
         {
           id: 3,
           name: "POKI",
           description: "Poke bowls",
-          image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
-          priceRange: "medium",
-          genre: "Asian",
+          image:
+            "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
+          selectedPrice: "$$",
+          selectedCategory: "Asian",
         },
         {
           id: 4,
           name: "Papa's Pizzeria",
           description: "The famous PAPA's pizza",
-          image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Nnx8fGVufDB8fHx8fA%3D%3D",
-          priceRange: "medium",
-          genre: "Italian",
+          image:
+            "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Nnx8fGVufDB8fHx8fA%3D%3D",
+          selectedPrice: "$$",
+          selectedCategory: "Italian",
         },
         {
           id: 5,
           name: "Cake factory",
           description: "The spot for a sweet tooth",
-          image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8fA%3D%3D",
-          priceRange: "medium",
-          genre: "Dessert",
+          image:
+            "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8fA%3D%3D",
+          selectedPrice: "$$",
+          selectedCategory: "Dessert",
         },
         {
           id: 6,
           name: "Borgir",
           description: "Burgers.",
-          image: "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTV8fHxlbnwwfHx8fHw%3D",
-          priceRange: "low",
-          genre: "American",
+          image:
+            "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTV8fHxlbnwwfHx8fHw%3D",
+          selectedPrice: "$",
+          selectedCategory: "American",
         },
         {
           id: 7,
           name: "MamaMia",
           description: "Italian Pasta.",
-          image: "https://plus.unsplash.com/premium_photo-1671547330493-b07d377085ca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGFzdGF8ZW58MHx8MHx8fDA%3D",
-          priceRange: "medium",
-          genre: "Italian",
+          image:
+            "https://plus.unsplash.com/premium_photo-1671547330493-b07d377085ca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGFzdGF8ZW58MHx8MHx8fDA%3D",
+          selectedPrice: "$$",
+          selectedCategory: "Italian",
         },
         {
           id: 8,
           name: "A la Japonaise",
           description: "Sushi Fresh",
-          image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3VzaGl8ZW58MHx8MHx8fDA%3D",
-          priceRange: "high",
-          genre: "Asian",
+          image:
+            "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3VzaGl8ZW58MHx8MHx8fDA%3D",
+          selectedPrice: "$$$",
+          selectedCategory: "Asian",
+        },
+        {
+          id: 9,
+          name: "DumDumling",
+          description: "Dumplings in all shapes and tastes.",
+          image:
+            "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzV8fGZvb2R8ZW58MHwwfDB8fHww",
+          selectedPrice: "$",
+          selectedCategory: "Asian Cuisine",
+        },
+        {
+          id: 10,
+          name: "SteakHouse",
+          description: "Finest steaks.",
+          image:
+            "https://images.unsplash.com/photo-1558030006-450675393462?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA2fHxmb29kfGVufDB8MHwwfHx8MA%3D%3D",
+          selectedPrice: "$$$",
+          selectedCategory: "Fine Dinning",
+        },
+        {
+          id: 11,
+          name: "Izuka",
+          description: "A burst of flavor from different cuisines",
+          image:
+            "https://images.unsplash.com/photo-1471253794676-0f039a6aae9d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA4fHxmb29kfGVufDB8MHwwfHx8MA%3D%3D",
+          selectedPrice: "$$$",
+          selectedCategory: "Fine Dinning",
+        },
+        {
+          id: 12,
+          name: "Pastry Haven",
+          description: "All kind of pasties",
+          image:
+            "https://images.unsplash.com/photo-1586724832670-3b5ddb084c73?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzV8fGZvb2QlMjBkZXNlcnR8ZW58MHwwfDB8fHww",
+          selectedPrice: "$$",
+          selectedCategory: "Dessert",
+        },
+        {
+          id: 13,
+          name: "MakiMaki",
+          description: "Macaroons",
+          image:
+            "https://images.unsplash.com/photo-1570476922354-81227cdbb76c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDd8fGZvb2QlMjBkZXNlcnR8ZW58MHwwfDB8fHww",
+          selectedPrice: "$",
+          selectedCategory: "Dessert",
+        },
+        {
+          id: 14,
+          name: "Poella",
+          description: "Paella and fish dishes.",
+          image:
+            "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fGZvb2R8ZW58MHwwfDB8fHww",
+          selectedPrice: "$$",
+          selectedCategory: "Mediterranean Cuisine",
+        },
+        {
+          id: 15,
+          name: "Pinnochio",
+          description: "Italian gelato",
+          image:
+            "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGZvb2QlMjBnZWxhdG98ZW58MHwwfDB8fHww",
+          selectedPrice: "$",
+          selectedCategory: "Dessert",
+        },
+        {
+          id: 16,
+          name: "Cohe",
+          description: "Finest coffee",
+          image:
+            "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZCUyMGNvZmVlfGVufDB8MHwwfHx8MA%3D%3D",
+          selectedPrice: "$",
+          selectedCategory: "Dessert",
+        },
+        {
+          id: 17,
+          name: "Po",
+          description: "Pho.",
+          image:
+            "https://images.unsplash.com/photo-1478749485505-2a903a729c63?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZCUyMHBob3xlbnwwfDB8MHx8fDA%3D",
+          selectedPrice: "$",
+          selectedCategory: "Asian Cuisine",
+        },
+        {
+          id: 18,
+          name: "Elfonco",
+          description: "Italian Fine dinning experience",
+          image:
+            "https://images.unsplash.com/photo-1464093515883-ec948246accb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fGZvb2QlMjBmaW5lJTIwZGluaW5nfGVufDB8MHwwfHx8MA%3D%3D",
+          selectedPrice: "$$$",
+          selectedCategory: "Fine Dinning",
         },
       ],
     };
   },
+  created() {
+    // Initialise selectedRestaurants with all the restaurants at the beginning
+    this.selectedRestaurants = [...this.restaurants];
+  },
   computed: {
-    filteredRestaurants() {
-      return this.restaurants.filter(restaurant => {
-        const matchesSearchQuery = restaurant.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const matchesPriceRange = this.selectedPriceRange ? restaurant.priceRange === this.selectedPriceRange : true;
-        const matchesGenre = this.selectedGenre ? restaurant.genre === this.selectedGenre : true;
-        return matchesSearchQuery && matchesPriceRange && matchesGenre;
+    filteredRestaurants: function () {
+      return this.restaurants.filter((restaurant) => {
+        const matchesSearchQuery = restaurant.name
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase());
+
+        const matchesPrice =
+          this.selectedPrice === "All" || !this.selectedPrice
+            ? true
+            : restaurant.selectedPrice === this.selectedPrice;
+
+        const matchesCategory =
+          this.selectedCategory === "All" || !this.selectedCategory
+            ? true
+            : restaurant.selectedCategory === this.selectedCategory;
+        return matchesSearchQuery && matchesPrice && matchesCategory;
       });
+    },
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    applyFilters(selectedPrice, selectedCategory) {
+      this.selectedPrice = selectedPrice;
+      this.selectedCategory = selectedCategory;
+      this.selectedRestaurants = [...this.filteredRestaurants];
+    },
+    resetFilters() {
+      this.selectedPrice = "All";
+      this.selectedCategory = "All";
+      this.selectedRestaurants = [...this.filteredRestaurants];
     },
   },
 };
 </script>
 
 <style scoped>
-.search-filter-section {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 20px;
-  gap: 15px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  margin: 20px auto;
-  max-width: 800px;
+.sidebar-wrapper {
+  width: 250px; /* Adjust as needed */
+  background-color: #f0f0f0; /* Add background color */
 }
 
-.search-filter-section input[type="text"],
-.search-filter-section select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+.main-content {
+  flex-grow: 1;
+  padding: 20px; /* Add padding */
 }
 
 .btn {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  text-align: center;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background-color: #0056b3;
-}
-
-.btn:active {
-  background-color: #004299;
-  transform: scale(0.98);
+  margin-left: 650px;
 }
 </style>
