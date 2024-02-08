@@ -24,6 +24,7 @@
             <option value="Fast Food">Fast Food</option>
             <option value="Italian Cuisine">Italian Cuisine</option>
             <option value="Mediterranean Cuisine">Mediterranean Cuisine</option>
+            <option value="fine dinning">fine dinning</option>
           </select>
         </div>
         <button @click="filteringRestaurants">Apply</button>
@@ -56,7 +57,11 @@ export default {
       this.$emit("update-selected-category", this.localSelectedCategory);
     },
     filteringRestaurants() {
-      this.$emit("filter-restaurants", this.localSelectedPrice, this.localSelectedCategory);
+      this.$emit(
+        "filter-restaurants",
+        this.localSelectedPrice,
+        this.localSelectedCategory,
+      );
     },
     resetFilter() {
       // Reset local selections to their initial values
