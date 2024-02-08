@@ -1,72 +1,10 @@
 <template>
   <div id="header">
-    <div>
-      <span id="title">{{ name }}</span>
-      <span
-        class="subtitle"
-        id="rating"
-        style="
-          padding: 5px;
-          border-radius: 20px;
-          margin-left: 10px;
-          color: whitesmoke;
-        "
-        >{{ rate }}</span
-      >
-    </div>
-    <div class="subtitle">{{ location }}</div>
+   <PageHeaderInfos></PageHeaderInfos>
     <div id="photoMapContainer">
       <div class="row">
         <div class="col-8">
-          <div id="carouselExample" class="carousel slide">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  src="https://wallpapercave.com/wp/wp11260432.jpg"
-                  class="d-block w-100"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://wallpapers.com/images/hd/green-mcdonald-s-logo-ydibzt83bgsa17la.jpg"
-                  class="d-block w-100"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://images4.alphacoders.com/109/thumb-1920-1093163.jpg"
-                  class="d-block w-100"
-                  alt="..."
-                />
-              </div>
-            </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExample"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExample"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
+          <ImageSlider></ImageSlider>
         </div>
         <div class="col-4">
           <div
@@ -92,7 +30,10 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import PageHeaderInfos from "@/components/restaurant_view/PageHeaderInfos.vue";
+import ImageSlider from "@/components/restaurant_view/ImageSlider.vue";
+</script>
 
 <style></style>
 <script>
