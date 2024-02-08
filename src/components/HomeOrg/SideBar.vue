@@ -62,7 +62,7 @@
             </ul>
           </div>
           <div class="button-apply">
-            <button class="btn btn-primary mt-3" @click="applyFilters">Apply</button>
+            <button class="btn btn-success mt-3" @click="applyFilters">Apply</button>
           </div>
           <div class="button-reset">
             <button class="btn btn-secondary mt-3" @click="resetFilters">Reset</button>
@@ -99,6 +99,7 @@ export default {
 
 <style scoped>
 .sidebar {
+  margin: 5px;
   position: fixed;
   top: 0px;
   left: -250px; /* Initially hidden */
