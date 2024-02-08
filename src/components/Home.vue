@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="sidebar-wrapper">
+  <div class="container">
+    <div class="sidebar">
       <SideBar
         :isSidebarOpen="isSidebarOpen"
         @close="isSidebarOpen = false"
@@ -249,17 +249,23 @@ export default {
 </script>
 
 <style scoped>
-.sidebar-wrapper {
-  width: 250px; /* Adjust as needed */
-  background-color: #f0f0f0; /* Add background color */
+.container {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
 }
 
 .main-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   flex-grow: 1;
-  padding: 20px; /* Add padding */
+  padding: 20px;
 }
 
 .btn {
-  margin-left: 650px;
+  margin-bottom: 20px;
 }
 </style>
