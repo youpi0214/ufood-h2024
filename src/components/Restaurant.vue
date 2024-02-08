@@ -27,12 +27,14 @@
         </div>
       </div>
     </div>
+    <OpenHours></OpenHours>
   </div>
 </template>
 
 <script setup>
 import PageHeaderInfos from "@/components/restaurant_view/PageHeaderInfos.vue";
 import ImageSlider from "@/components/restaurant_view/ImageSlider.vue";
+import OpenHours from "@/components/restaurant_view/OpenHours.vue";
 </script>
 
 <style></style>
