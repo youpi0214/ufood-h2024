@@ -1,7 +1,7 @@
 <template>
-  <div id="header">
+  <div class="container">
     <PageHeaderInfos></PageHeaderInfos>
-    <div id="photoMapContainer">
+    <div id="photoMapContainer" class="container">
       <div class="row">
         <div class="col-8">
           <ImageSlider></ImageSlider>
@@ -39,17 +39,11 @@ export default {
 </script>
 
 <style scoped>
-#header {
-  font-family: Arial, sans-serif;
-  display: flex;
-  margin-top: 15px;
-  padding-left: 10px;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
-#photoMapContainer {
-  display: flex;
-  flex-direction: row;
+@media (max-width: 767px) {
+  /* Media query for mobile screens */
+  .container {
+    /* Styles for vertical alignment */
+    flex-direction: column;
+  }
 }
 </style>
