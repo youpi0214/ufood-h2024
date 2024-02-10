@@ -74,7 +74,7 @@
                 <input
                   type="radio"
                   id="categoryAsian"
-                  value="Asian"
+                  value="Asian Cuisine"
                   v-model="selectedCategory"
                 />
                 <label for="categoryAsian">Asian Cuisine</label>
@@ -126,11 +126,6 @@
               </li>
             </ul>
           </div>
-          <div class="button-apply">
-            <button class="btn btn-success mt-3" @click="applyFilters">
-              Apply
-            </button>
-          </div>
           <div class="button-reset">
             <button class="btn btn-secondary mt-3" @click="resetFilters">
               Reset
@@ -143,24 +138,37 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     isSidebarOpen: Boolean,
   },
-  data() {
-    return {
-      selectedPrice: "All",
-      selectedCategory: "All",
-    };
+  computed: {
+    ...mapGetters(['selectedFilters']), // Obtenir les filtres sélectionnés depuis le store
+    selectedPrice: {
+      get() {
+        return this.selectedFilters.price; // Obtenir le prix sélectionné depuis le store
+      },
+      set(value) {
+        this.$emit('apply-filters', value, this.selectedCategory); // Émettre un événement pour appliquer les filtres
+      },
+    },
+    selectedCategory: {
+      get() {
+        return this.selectedFilters.category; // Obtenir la catégorie sélectionnée depuis le store
+      },
+      set(value) {
+        this.$emit('apply-filters', this.selectedPrice, value); // Émettre un événement pour appliquer les filtres
+      },
+    },
   },
   methods: {
-    applyFilters() {
-      this.$emit("apply-filters", this.selectedPrice, this.selectedCategory);
-    },
     resetFilters() {
-      this.selectedPrice = "All";
-      this.selectedCategory = "All";
-      this.$emit("reset-filters");
+      // Réinitialiser les valeurs des filtres à "All"
+      this.selectedPrice = 'All';
+      this.selectedCategory = 'All';
+      this.$emit('reset-filters');
     },
   },
 };

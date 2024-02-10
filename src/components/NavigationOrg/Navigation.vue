@@ -1,30 +1,32 @@
 <template>
   <div class="container">
     <nav class="navigation">
+      <!-- Logo -->
       <router-link to="/" class="nav-link logo">
-        <!-- Use require to include the logo in the webpack build -->
         <img
           :src="require('/src/images/UFoodLogo.png')"
           alt="Logo"
           class="logo-image"
         />
       </router-link>
+
+      <!-- Search Bar -->
       <div class="search-bar">
+        <!-- Search Input -->
         <input
           type="text"
           placeholder="Search..."
           v-model="searchQuery"
           class="search-input"
         />
+        <!-- Search Button -->
         <button @click="search" class="search-button">
           <i class="fas fa-search"></i>
         </button>
       </div>
-      <button
-        v-if="isMobile"
-        @click="handleFilterButtonClick"
-        class="filter-button"
-      >
+
+      <!-- Filter Button -->
+      <button @click="toggleSidebar" class="filter-button">
         <i class="bi bi-filter-square-fill"></i>
       </button>
       <div v-if="userName" class="user-info">
@@ -55,54 +57,131 @@
       <button @click="logout">Yes</button>
       <button @click="cancelLogout">No</button>
     </div>
+    <SideBar class="sidebar"
+      :isSidebarOpen="isSidebarOpen"
+      :selectedPrice="selectedPrice"
+      :selectedCategory="selectedCategory"
+      @apply-filters="applyFilters"
+      @reset-filters="resetFilters"
+    />
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script>
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import AccountPopUp from "./AccountPopUp.vue";
+import SideBar from "@/components/HomeOrg/SideBar.vue";
+import { mapState, mapActions } from "vuex";
 
-const userName = ref(localStorage.getItem("userName") || "");
-const showPopup = ref(false);
-const showDropdown = ref(false);
-const showLogoutConfirmation = ref(false);
-const searchQuery = ref("");
-const router = useRouter();
-const isMobile = ref(window.innerWidth <= 600);
+export default {
+  components: {
+    AccountPopUp,
+    SideBar,
+  },
+  data() {
+    return {
+      // Your existing data properties
+      selectedPrice: "All",
+      selectedCategory: "All",
+    };
+  },
+  setup() {
+    const userName = ref(localStorage.getItem("userName") || "");
+    const showPopup = ref(false);
+    const showDropdown = ref(false);
+    const showLogoutConfirmation = ref(false);
+    const searchQuery = ref("");
+    const router = useRouter();
+    const isSidebarOpen = ref(false);
+    const isMobile = ref(window.innerWidth <= 600);
+    const isMobileLayout = ref(false);
 
-function handleUserUpdate(newUserName) {
-  userName.value = newUserName;
-  localStorage.setItem("userName", newUserName || "");
-  showPopup.value = false;
-}
+    function handleUserUpdate(newUserName) {
+      userName.value = newUserName;
+      localStorage.setItem("userName", newUserName || "");
+      showPopup.value = false;
+    }
 
-function confirmLogout() {
-  showLogoutConfirmation.value = true;
-}
+    function confirmLogout() {
+      showLogoutConfirmation.value = true;
+    }
 
-function logout() {
-  userName.value = "";
-  localStorage.removeItem("userName");
-  showLogoutConfirmation.value = false;
-  router.push("/");
-}
+    function logout() {
+      userName.value = "";
+      localStorage.removeItem("userName");
+      showLogoutConfirmation.value = false;
+      router.push("/");
+    }
 
-function cancelLogout() {
-  showLogoutConfirmation.value = false;
-}
+    function cancelLogout() {
+      showLogoutConfirmation.value = false;
+    }
 
-function search() {
-  console.log(`Searching for: ${searchQuery.value}`);
-}
+    function search() {
+      console.log(`Searching for: ${searchQuery.value}`);
+    }
 
-function toggleDropdown() {
-  showDropdown.value = !showDropdown.value;
-}
+    function toggleDropdown() {
+      showDropdown.value = !showDropdown.value;
+    }
+
+    function toggleSidebar() {
+      isSidebarOpen.value = !isSidebarOpen.value;
+    }
+
+    const handleResize = () => {
+      isMobile.value = window.innerWidth <= 600;
+      isMobileLayout.value = window.innerWidth <= 768;
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    const cleanup = () => {
+      window.removeEventListener("resize", handleResize);
+    };
+
+    onUnmounted(() => cleanup());
+
+    return {
+      userName,
+      showPopup,
+      showDropdown,
+      showLogoutConfirmation,
+      searchQuery,
+      isSidebarOpen,
+      isMobile,
+      isMobileLayout,
+      handleUserUpdate,
+      confirmLogout,
+      logout,
+      cancelLogout,
+      search,
+      toggleDropdown,
+      toggleSidebar,
+    };
+  },
+  computed: {
+    ...mapState(["selectedFilters"]), // Map Vuex state to local computed properties
+  },
+  methods: {
+    ...mapActions(['setSelectedFilters']),
+    applyFilters(price, category) {
+      this.setSelectedFilters({ price, category });
+    },
+    resetFilters() {
+      this.setSelectedFilters({ price: 'All', category: 'All' });
+    },
+  },
+};
 </script>
 
 <style scoped>
 .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   max-width: 1200px;
   margin: auto;
   padding: 20px;
@@ -262,6 +341,11 @@ function toggleDropdown() {
   background-color: #ccc;
   color: #333;
 }
+
+.sidebar{
+  z-index: 9999;
+}
+
 @media (min-width: 601px) {
   .filter-button {
     display: none;
@@ -298,8 +382,8 @@ function toggleDropdown() {
 }
 
 .logo-image {
-  height: 100px;
-  width: auto;
+  height: 60px; /* Adjust the height as needed */
+  width: auto; /* Automatically adjust the width to maintain aspect ratio */
 }
 
 @media (max-width: 768px) {

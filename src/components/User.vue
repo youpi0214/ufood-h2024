@@ -7,21 +7,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from "vue";
 
-const userName = ref(localStorage.getItem('userName') || '');
+const userName = ref(localStorage.getItem("userName") || "");
 function updateUserNameFromStorage(event) {
-  if (event.key === 'userName') {
+  if (event.key === "userName") {
     userName.value = event.newValue;
   }
 }
 
 onMounted(() => {
-  window.addEventListener('storage', updateUserNameFromStorage);
+  window.addEventListener("storage", updateUserNameFromStorage);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('storage', updateUserNameFromStorage);
+  window.removeEventListener("storage", updateUserNameFromStorage);
 });
 </script>
 
