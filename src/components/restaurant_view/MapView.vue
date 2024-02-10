@@ -1,16 +1,21 @@
 <template>
-  <div class="map-view">
-    <GMapMap :center="restaurantLocation" :zoom="zoom" :map-type-id="mapTypeId">
-      <GMapMarker :position="restaurantLocation" />
-    </GMapMap>
+  <div class="container-fluid h-100 bg-light">
+    <div class="row h-100">
+      <GMapMap
+        :center="restaurantLocation"
+        :zoom="zoom"
+        :map-type-id="mapTypeId"
+      >
+        <GMapMarker :position="restaurantLocation" />
+      </GMapMap>
+    </div>
+
     <button type="button" class="btn-primary">{{ buttonText }}</button>
   </div>
 </template>
-
 <script>
-const key = "AIzaSyC-TIo4u7jtVVu0yLHFe5hIdh3xICwIMmk";
 export default {
-  name: "MapView",
+  name: "App",
   props: {
     zoom: {
       type: Number,
@@ -33,11 +38,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.map-view {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+<style scoped></style>

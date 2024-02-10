@@ -47,35 +47,9 @@ export default {
   flex-direction: column;
 }
 
-.subtitle {
-  font-size: 20px;
-}
-
-#rating {
-  background-color: green;
-}
-
-.image-container {
-  display: flex;
-  flex-direction: column;
-}
-
 #photoMapContainer {
   display: flex;
   flex-direction: row;
-}
-
-#title {
-  font-size: 60px;
-  margin-top: 15px;
-  font-weight: bold;
-}
-
-.button-container {
-  display: flex;
-  width: 50%;
-  flex-direction: column;
-  align-items: center;
 }
 
 button {
