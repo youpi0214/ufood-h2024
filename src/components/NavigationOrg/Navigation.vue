@@ -3,10 +3,19 @@
     <nav class="navigation">
       <router-link to="/" class="nav-link logo">
         <!-- Use require to include the logo in the webpack build -->
-        <img :src="require('/src/images/UFoodLogo.png')" alt="Logo" class="logo-image"/>
+        <img
+          :src="require('/src/images/UFoodLogo.png')"
+          alt="Logo"
+          class="logo-image"
+        />
       </router-link>
       <div class="search-bar">
-        <input type="text" placeholder="Search..." v-model="searchQuery" class="search-input" />
+        <input
+          type="text"
+          placeholder="Search..."
+          v-model="searchQuery"
+          class="search-input"
+        />
         <button @click="search" class="search-button">
           <i class="fas fa-search"></i>
         </button>
@@ -18,20 +27,16 @@
       >
         <i class="bi bi-filter-square-fill"></i>
       </button>
-      <div
-        v-if="userName"
-        @mouseover="showDropdown = true"
-        @mouseleave="showDropdown = false"
-        class="user-info"
-      >
-        {{ userName }}
-        <div v-if="showDropdown" class="dropdown-menu">
       <div v-if="userName" class="user-info">
         <span class="user-name">{{ userName }}</span>
         <button @click="toggleDropdown" class="icon-button">
           <i class="fas fa-user"></i>
         </button>
-        <div v-show="showDropdown" class="dropdown-menu" @click="showDropdown = false">
+        <div
+          v-show="showDropdown"
+          class="dropdown-menu"
+          @click="showDropdown = false"
+        >
           <router-link to="/user" class="dropdown-item">Profile</router-link>
           <a @click.prevent="confirmLogout" class="dropdown-item">Log out</a>
         </div>
@@ -108,7 +113,11 @@ function toggleDropdown() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(180deg, #006d5b, #005a4c); /* Gradient background */
+  background: linear-gradient(
+    180deg,
+    #006d5b,
+    #005a4c
+  ); /* Gradient background */
   padding: 10px 20px;
   position: fixed;
   top: 0;
@@ -116,7 +125,7 @@ function toggleDropdown() {
   right: 0;
   z-index: 1000;
   box-shadow: 0 2px 4px #666;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .nav-link {
@@ -261,10 +270,31 @@ function toggleDropdown() {
 
 /* Media query for smaller mobile devices */
 @media (max-width: 600px) {
+  .navigation {
+    flex-direction: column;
+  }
+
+  .search-bar {
+    margin-top: 10px;
+  }
+  .account-button {
+    margin: 10px;
+  }
+  .filter-button {
+    display: block;
+    margin-top: 10px;
+    background-color: #f8f9fa; /* Light gray */
+    color: #212529; /* Dark gray */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
 .logo {
   padding: 0;
   display: flex;
-  align-items: center
+  align-items: center;
 }
 
 .logo-image {
@@ -278,7 +308,8 @@ function toggleDropdown() {
     padding: 10px;
   }
 
-  .nav-link, .account-button {
+  .nav-link,
+  .account-button {
     width: 100%;
     text-align: center;
   }
@@ -302,7 +333,8 @@ function toggleDropdown() {
     margin-bottom: 10px;
   }
 
-  .search-input, .search-button {
+  .search-input,
+  .search-button {
     width: 100%;
     margin: 0;
   }
