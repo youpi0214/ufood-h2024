@@ -77,7 +77,7 @@ export default {
   flex-grow: 1;
 }
 
-.btn{
+.btn {
   position: absolute;
   bottom: 5px;
   left: 50%;

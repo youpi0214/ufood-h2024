@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="sidebar">
+    <div class="sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
       <SideBar
         :isSidebarOpen="isSidebarOpen"
         @close="isSidebarOpen = false"
@@ -11,6 +11,7 @@
     <div class="main-content">
       <div class="filter-button-container">
         <button
+          v-if="!isMobile"
           class="btn btn-success"
           type="button"
           data-bs-toggle="offcanvas"
@@ -18,6 +19,7 @@
           aria-controls="offcanvasExample"
           @click="toggleSidebar"
         >
+          <i class="bi bi-filter-square-fill"></i>
           Filter
         </button>
       </div>
@@ -33,7 +35,7 @@ import SideBar from "./HomeOrg/SideBar.vue";
 export default {
   components: {
     RestaurantCards,
-    SideBar
+    SideBar,
   },
   data() {
     return {
@@ -50,7 +52,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D",
           selectedPrice: "$$",
-          selectedCategory: "Mediterranean Cuisine"
+          selectedCategory: "Mediterranean Cuisine",
         },
         {
           id: 2,
@@ -59,7 +61,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NHx8fGVufDB8fHx8fA%3D%3D",
           selectedPrice: "$",
-          selectedCategory: "Breakfast"
+          selectedCategory: "Breakfast",
         },
         {
           id: 3,
@@ -68,7 +70,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
           selectedPrice: "$$",
-          selectedCategory: "Asian"
+          selectedCategory: "Asian",
         },
         {
           id: 4,
@@ -77,7 +79,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Nnx8fGVufDB8fHx8fA%3D%3D",
           selectedPrice: "$$",
-          selectedCategory: "Italian"
+          selectedCategory: "Italian",
         },
         {
           id: 5,
@@ -86,7 +88,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8fA%3D%3D",
           selectedPrice: "$$",
-          selectedCategory: "Dessert"
+          selectedCategory: "Dessert",
         },
         {
           id: 6,
@@ -95,7 +97,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTV8fHxlbnwwfHx8fHw%3D",
           selectedPrice: "$",
-          selectedCategory: "American"
+          selectedCategory: "American",
         },
         {
           id: 7,
@@ -104,7 +106,7 @@ export default {
           image:
             "https://plus.unsplash.com/premium_photo-1671547330493-b07d377085ca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGFzdGF8ZW58MHx8MHx8fDA%3D",
           selectedPrice: "$$",
-          selectedCategory: "Italian"
+          selectedCategory: "Italian",
         },
         {
           id: 8,
@@ -113,7 +115,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3VzaGl8ZW58MHx8MHx8fDA%3D",
           selectedPrice: "$$$",
-          selectedCategory: "Asian"
+          selectedCategory: "Asian",
         },
         {
           id: 9,
@@ -122,7 +124,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzV8fGZvb2R8ZW58MHwwfDB8fHww",
           selectedPrice: "$",
-          selectedCategory: "Asian Cuisine"
+          selectedCategory: "Asian Cuisine",
         },
         {
           id: 10,
@@ -131,7 +133,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1558030006-450675393462?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA2fHxmb29kfGVufDB8MHwwfHx8MA%3D%3D",
           selectedPrice: "$$$",
-          selectedCategory: "Fine Dinning"
+          selectedCategory: "Fine Dinning",
         },
         {
           id: 11,
@@ -140,7 +142,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1471253794676-0f039a6aae9d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA4fHxmb29kfGVufDB8MHwwfHx8MA%3D%3D",
           selectedPrice: "$$$",
-          selectedCategory: "Fine Dinning"
+          selectedCategory: "Fine Dinning",
         },
         {
           id: 12,
@@ -149,7 +151,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1586724832670-3b5ddb084c73?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzV8fGZvb2QlMjBkZXNlcnR8ZW58MHwwfDB8fHww",
           selectedPrice: "$$",
-          selectedCategory: "Dessert"
+          selectedCategory: "Dessert",
         },
         {
           id: 13,
@@ -158,7 +160,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1570476922354-81227cdbb76c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDd8fGZvb2QlMjBkZXNlcnR8ZW58MHwwfDB8fHww",
           selectedPrice: "$",
-          selectedCategory: "Dessert"
+          selectedCategory: "Dessert",
         },
         {
           id: 14,
@@ -167,7 +169,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fGZvb2R8ZW58MHwwfDB8fHww",
           selectedPrice: "$$",
-          selectedCategory: "Mediterranean Cuisine"
+          selectedCategory: "Mediterranean Cuisine",
         },
         {
           id: 15,
@@ -176,7 +178,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGZvb2QlMjBnZWxhdG98ZW58MHwwfDB8fHww",
           selectedPrice: "$",
-          selectedCategory: "Dessert"
+          selectedCategory: "Dessert",
         },
         {
           id: 16,
@@ -185,7 +187,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZCUyMGNvZmVlfGVufDB8MHwwfHx8MA%3D%3D",
           selectedPrice: "$",
-          selectedCategory: "Dessert"
+          selectedCategory: "Dessert",
         },
         {
           id: 17,
@@ -194,7 +196,7 @@ export default {
           image:
             "https://images.unsplash.com/photo-1478749485505-2a903a729c63?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZCUyMHBob3xlbnwwfDB8MHx8fDA%3D",
           selectedPrice: "$",
-          selectedCategory: "Asian Cuisine"
+          selectedCategory: "Asian Cuisine",
         },
         {
           id: 18,
@@ -203,9 +205,9 @@ export default {
           image:
             "https://images.unsplash.com/photo-1464093515883-ec948246accb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fGZvb2QlMjBmaW5lJTIwZGluaW5nfGVufDB8MHwwfHx8MA%3D%3D",
           selectedPrice: "$$$",
-          selectedCategory: "Fine Dinning"
-        }
-      ]
+          selectedCategory: "Fine Dinning",
+        },
+      ],
     };
   },
   created() {
@@ -213,7 +215,7 @@ export default {
     this.selectedRestaurants = [...this.restaurants];
   },
   computed: {
-    filteredRestaurants: function() {
+    filteredRestaurants: function () {
       return this.restaurants.filter((restaurant) => {
         const matchesSearchQuery = restaurant.name
           .toLowerCase()
@@ -230,7 +232,7 @@ export default {
             : restaurant.selectedCategory === this.selectedCategory;
         return matchesSearchQuery && matchesPrice && matchesCategory;
       });
-    }
+    },
   },
   methods: {
     toggleSidebar() {
@@ -245,8 +247,8 @@ export default {
       this.selectedPrice = "All";
       this.selectedCategory = "All";
       this.selectedRestaurants = [...this.filteredRestaurants];
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -257,6 +259,9 @@ export default {
 
 .sidebar {
   width: 250px;
+  transition: width 0.3s ease-in-out;
+  z-index: 9999; /* Set a high z-index value to bring the popup to the front */
+  height: 100%;
 }
 
 .main-content {
@@ -269,20 +274,14 @@ export default {
 }
 
 .filter-button-container {
-  position: absolute;
-  top: 20px;
-  left: 50%;
+  position: relative;
   transform: translateX(-50%);
   z-index: 1;
-  margin-bottom: 20px; /* Add more margin as needed */
 }
 
-.btn {
-  /* Styling for your button goes here */
-}
-
-.cards-container {
-  width: 100%; /* Ensure the cards take full width */
-  padding-top: 40px; /* Add more padding as needed */
+@media (max-width: 600px) {
+  .btn {
+    display: none;
+  }
 }
 </style>

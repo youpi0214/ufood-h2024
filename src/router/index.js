@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-  import Home from "@/components/Home";
+import Home from "@/components/Home";
 import Restaurant from "@/components/Restaurant";
 import User from "@/components/User";
 

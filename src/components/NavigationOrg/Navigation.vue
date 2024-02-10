@@ -3,19 +3,42 @@
     <nav class="navigation">
       <router-link to="/" class="nav-link">Home</router-link>
       <div class="search-bar">
-        <input type="text" placeholder="Search..." v-model="searchQuery" class="search-input" />
+        <input
+          type="text"
+          placeholder="Search..."
+          v-model="searchQuery"
+          class="search-input"
+        />
         <button @click="search" class="search-button">Search</button>
       </div>
-      <div v-if="userName" @mouseover="showDropdown = true" @mouseleave="showDropdown = false" class="user-info">
+      <button
+        v-if="isMobile"
+        @click="handleFilterButtonClick"
+        class="filter-button"
+      >
+        <i class="bi bi-filter-square-fill"></i>
+      </button>
+      <div
+        v-if="userName"
+        @mouseover="showDropdown = true"
+        @mouseleave="showDropdown = false"
+        class="user-info"
+      >
         {{ userName }}
         <div v-if="showDropdown" class="dropdown-menu">
           <router-link to="/user" class="dropdown-item">Profile</router-link>
           <a @click="confirmLogout" class="dropdown-item">Log out</a>
         </div>
       </div>
-      <button v-else @click="showPopup = true" class="account-button">Login</button>
+      <button v-else @click="showPopup = true" class="account-button">
+        Login
+      </button>
     </nav>
-    <AccountPopUp v-if="showPopup" @update:user="handleUserUpdate" @close="showPopup = false" />
+    <AccountPopUp
+      v-if="showPopup"
+      @update:user="handleUserUpdate"
+      @close="showPopup = false"
+    />
     <div v-if="showLogoutConfirmation" class="logout-confirmation">
       <p>Are you sure you want to log out?</p>
       <button @click="logout">Yes</button>
@@ -25,20 +48,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import AccountPopUp from './AccountPopUp.vue';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import AccountPopUp from "./AccountPopUp.vue";
 
-const userName = ref(localStorage.getItem('userName') || '');
+const userName = ref(localStorage.getItem("userName") || "");
 const showPopup = ref(false);
 const showDropdown = ref(false);
 const showLogoutConfirmation = ref(false);
-const searchQuery = ref('');
+const searchQuery = ref("");
 const router = useRouter();
+const isMobile = ref(window.innerWidth <= 600);
 
 function handleUserUpdate(newUserName) {
   userName.value = newUserName;
-  localStorage.setItem('userName', newUserName || '');
+  localStorage.setItem("userName", newUserName || "");
   showPopup.value = false;
 }
 
@@ -47,10 +71,10 @@ function confirmLogout() {
 }
 
 function logout() {
-  userName.value = '';
-  localStorage.removeItem('userName');
+  userName.value = "";
+  localStorage.removeItem("userName");
   showLogoutConfirmation.value = false;
-  router.push('/');
+  router.push("/");
 }
 
 function cancelLogout() {
@@ -127,7 +151,7 @@ function search() {
   display: none;
   position: absolute;
   background-color: #ffffff;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   padding: 10px;
   border-radius: 5px;
   top: 100%;
@@ -171,7 +195,7 @@ function search() {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -196,14 +220,33 @@ function search() {
   background-color: #ccc;
   color: #333;
 }
+@media (min-width: 601px) {
+  .filter-button {
+    display: none;
+  }
+}
 
-@media (max-width: 768px) {
+/* Media query for smaller mobile devices */
+@media (max-width: 600px) {
   .navigation {
     flex-direction: column;
   }
 
   .search-bar {
     margin-top: 10px;
+  }
+  .account-button {
+    margin: 10px;
+  }
+  .filter-button {
+    display: block;
+    margin-top: 10px;
+    background-color: #f8f9fa; /* Light gray */
+    color: #212529; /* Dark gray */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
   }
 }
 </style>

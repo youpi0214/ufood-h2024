@@ -5,7 +5,8 @@
         <input type="text" placeholder="Username or Email" v-model="username" />
         <input type="password" placeholder="Password" v-model="password" />
         <button @click="login">Login</button>
-        <p>Don't have an account?
+        <p>
+          Don't have an account?
           <router-link to="/signup">Sign up</router-link>
         </p>
       </div>
@@ -25,7 +26,7 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
     };
   },
   methods: {
@@ -38,13 +39,12 @@ export default {
     },
     close() {
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 .account-popup {
   position: fixed;
   top: 50%;
@@ -60,7 +60,6 @@ export default {
   box-sizing: border-box;
   z-index: 9999; /* Set a high z-index value to bring the popup to the front */
 }
-
 
 .popup-content {
   display: flex;
