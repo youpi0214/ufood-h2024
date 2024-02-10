@@ -58,11 +58,11 @@
       <button @click="cancelLogout">No</button>
     </div>
     <SideBar class="sidebar"
-      :isSidebarOpen="isSidebarOpen"
-      :selectedPrice="selectedPrice"
-      :selectedCategory="selectedCategory"
-      @apply-filters="applyFilters"
-      @reset-filters="resetFilters"
+             :isSidebarOpen="isSidebarOpen"
+             :selectedPrice="selectedPrice"
+             :selectedCategory="selectedCategory"
+             @apply-filters="applyFilters"
+             @reset-filters="resetFilters"
     />
   </div>
 </template>
@@ -342,12 +342,11 @@ export default {
 }
 
 .sidebar {
-  width: 250px;
-  transition: width 0.3s ease-in-out;
+  width: 100%; /* Take up entire width */
   z-index: 9999;
-  height: 70%;
-  margin-left: 0;
-  margin-top: 230px;
+  height: 75%;
+  margin-top: 240px; /* Adjust as needed */
+
 }
 
 @media (min-width: 601px) {

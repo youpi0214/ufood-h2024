@@ -179,7 +179,7 @@ export default {
   margin: 5px;
   position: fixed;
   top: 0;
-  left: -250px; /* Initially hidden */
+  left: -1000px; /* Initially hidden */
   width: 220px;
   max-height: 100vh; /* Maximum height to fit the viewport */
   overflow-y: auto; /* Enable vertical scrolling */
