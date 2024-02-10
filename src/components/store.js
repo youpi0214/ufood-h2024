@@ -173,15 +173,13 @@ export default createStore({
     ],
   },
   mutations: {
-    // Mutation pour ouvrir la sidebar
     OPEN_SIDEBAR(state) {
       state.isSidebarOpen = true;
     },
-    // Mutation pour fermer la sidebar
     CLOSE_SIDEBAR(state) {
       state.isSidebarOpen = false;
     },
-    // Mutation pour mettre à jour l'état de la sidebar lorsque vous changez de mode
+    //mettre à jour l'état de la sidebar lorsque vous changez de mode
     UPDATE_SIDEBAR_STATE(state, isOpen) {
       state.isSidebarOpen = isOpen;
     },

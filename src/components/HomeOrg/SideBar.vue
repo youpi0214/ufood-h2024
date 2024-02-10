@@ -178,7 +178,7 @@ export default {
 .sidebar {
   margin: 5px;
   position: fixed;
-  top: 0px;
+  top: 0;
   left: -250px; /* Initially hidden */
   width: 220px;
   max-height: 100vh; /* Maximum height to fit the viewport */
@@ -196,10 +196,6 @@ export default {
 }
 .sidebar-open {
   left: 0;
-}
-
-.button-apply {
-  padding-left: 20px;
 }
 
 .button-reset {

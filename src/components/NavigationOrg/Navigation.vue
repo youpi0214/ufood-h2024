@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import AccountPopUp from "./AccountPopUp.vue";
 import SideBar from "@/components/HomeOrg/SideBar.vue";
@@ -184,8 +184,7 @@ export default {
   align-items: center;
   max-width: 1200px;
   margin: auto;
-  padding: 20px;
-  padding-top: 80px; /* Adjusted to ensure space for the fixed navbar */
+  padding: 80px 20px 20px;
 }
 
 .navigation {
@@ -342,8 +341,13 @@ export default {
   color: #333;
 }
 
-.sidebar{
+.sidebar {
+  width: 250px;
+  transition: width 0.3s ease-in-out;
   z-index: 9999;
+  height: 70%;
+  margin-left: 0;
+  margin-top: 230px;
 }
 
 @media (min-width: 601px) {
