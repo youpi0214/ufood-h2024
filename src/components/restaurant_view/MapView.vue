@@ -3,7 +3,7 @@
     <GMapMap :center="restaurantLocation" :zoom="zoom" :map-type-id="mapTypeId">
       <GMapMarker :position="restaurantLocation" />
     </GMapMap>
-    <button type="button" class="btn-primary">GET DIRECTIONS</button>
+    <button type="button" class="btn-primary">{{ buttonText }}</button>
   </div>
 </template>
 
@@ -12,14 +12,6 @@ const key = "AIzaSyC-TIo4u7jtVVu0yLHFe5hIdh3xICwIMmk";
 export default {
   name: "MapView",
   props: {
-    restaurantLocation: {
-      type: Object,
-      required: true,
-      // TODO this default will be removed once we'll dynamically get the location from the restaurant
-      default: () => {
-        return { lat: 46.782878601986255, lng: -71.28690361946938 };
-      },
-    },
     zoom: {
       type: Number,
       default: 15,
@@ -32,6 +24,11 @@ export default {
       type: String,
       default: "GET DIRECTIONS",
     },
+  },
+  data() {
+    return {
+      restaurantLocation: { lat: 46.782878601986255, lng: -71.28690361946938 },
+    };
   },
 };
 </script>

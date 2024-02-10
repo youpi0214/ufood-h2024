@@ -8,9 +8,9 @@ import VueGoogleMaps from "@fawmi/vue-google-maps";
 const app = createApp(App);
 
 app.use(router).use(bootstrap);
-app.use(VueGoogleMaps, {
-  load: {
-    key: "AIzaSyAsL466PcSItMpYQWSEs7Y56-6WNUpnoAE",
-  },
-});
+// app.use(VueGoogleMaps, {
+//   load: {
+//     key: "AIzaSyAsL466PcSItMpYQWSEs7Y56-6WNUpnoAE",
+//   },
+// });
 app.mount("#app");

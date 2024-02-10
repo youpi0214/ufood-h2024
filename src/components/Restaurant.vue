@@ -1,29 +1,13 @@
 <template>
   <div id="header">
-   <PageHeaderInfos></PageHeaderInfos>
+    <PageHeaderInfos></PageHeaderInfos>
     <div id="photoMapContainer">
       <div class="row">
         <div class="col-8">
           <ImageSlider></ImageSlider>
         </div>
         <div class="col-4">
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-            "
-          >
-            <GMapMap
-              :center="restaurantLocation"
-              :zoom="18"
-              map-type-id="terrain"
-              style="height: 500px"
-            >
-              <GMapMarker :position="restaurantLocation" />
-            </GMapMap>
-            <button type="button" class="btn-primary">GET DIRECTIONS</button>
-          </div>
+          <MapView></MapView>
         </div>
       </div>
     </div>
@@ -31,19 +15,17 @@
   </div>
 </template>
 
-<script setup>
+<style></style>
+<script>
 import PageHeaderInfos from "@/components/restaurant_view/PageHeaderInfos.vue";
 import ImageSlider from "@/components/restaurant_view/ImageSlider.vue";
 import OpenHours from "@/components/restaurant_view/OpenHours.vue";
-</script>
-
-<style></style>
-<script>
 import MapView from "@/components/restaurant_view/MapView.vue";
 
 const key = "AIzaSyC-TIo4u7jtVVu0yLHFe5hIdh3xICwIMmk";
 export default {
   name: "Restaurant",
+  components: { PageHeaderInfos, ImageSlider, OpenHours, MapView },
   data() {
     return {
       restaurantLocation: { lat: 46.782878601986255, lng: -71.28690361946938 },

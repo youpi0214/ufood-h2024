@@ -5,9 +5,9 @@ export default {
     pictures: {
       type: Array,
       default: () => [
-        'https://wallpapercave.com/wp/wp11260432.jpg',
-        'https://wallpapers.com/images/hd/green-mcdonald-s-logo-ydibzt83bgsa17la.jpg',
-        'https://images4.alphacoders.com/109/thumb-1920-1093163.jpg'
+        "https://wallpapercave.com/wp/wp11260432.jpg",
+        "https://wallpapers.com/images/hd/green-mcdonald-s-logo-ydibzt83bgsa17la.jpg",
+        "https://images4.alphacoders.com/109/thumb-1920-1093163.jpg",
       ],
     },
   },
