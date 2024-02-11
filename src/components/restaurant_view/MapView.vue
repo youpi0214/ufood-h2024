@@ -1,31 +1,34 @@
 <template>
   <div>
-    <div ref="mapElement" style="height: 400px;"></div>
+    <div ref="mapElement" style="height: 400px"></div>
   </div>
 </template>
 
 <script>
-import mapboxgl from '!mapbox-gl';
+import mapboxgl from "!mapbox-gl";
 
 export default {
   data() {
     return {
       map: null,
-      currentPosition: null,
-      restaurantLocation: [  -71.28690361946938, 46.782878601986255],
+      currentPosition: [-71.1755, 46.8049],
+      restaurantLocation: [-71.28690361946938, 46.782878601986255],
     };
   },
-  mounted() {
+  created() {
     this.getLocation();
+  },
+  mounted() {
     this.initMap();
   },
   methods: {
     initMap() {
-      mapboxgl.accessToken = 'pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g';
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g";
       this.map = new mapboxgl.Map({
         container: this.$refs.mapElement,
-        center: this.currentPosition,
-        zoom: 15,
+        center: this.restaurantLocation,
+        zoom: 15
       });
 
       this.addRoute();
@@ -34,12 +37,15 @@ export default {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            this.currentPosition = [position.coords.longitude, position.coords.latitude]; // [lng, lat
+            this.currentPosition = [
+              position.coords.longitude,
+              position.coords.latitude
+            ];
           },
           (error) => {
             console.error("Error getting current location:", error);
           },
-          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
+          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
         );
       } else {
         alert("Geolocation is not supported by this browser.");
@@ -51,29 +57,29 @@ export default {
 
       const coordinates = [originLngLat, destinationLngLat];
 
-      this.map.on('load', () => {
+      this.map.on("load", () => {
         this.map.addLayer({
-          id: 'route',
-          type: 'line',
+          id: "route",
+          type: "line",
           source: {
-            type: 'geojson',
+            type: "geojson",
             data: {
-              type: 'Feature',
+              type: "Feature",
               properties: {},
               geometry: {
-                type: 'LineString',
-                coordinates: coordinates,
-              },
-            },
+                type: "LineString",
+                coordinates: coordinates
+              }
+            }
           },
           layout: {
-            'line-join': 'round',
-            'line-cap': 'round',
+            "line-join": "round",
+            "line-cap": "round"
           },
           paint: {
-            'line-color': '#888',
-            'line-width': 8,
-          },
+            "line-color": "#d73636",
+            "line-width": 8
+          }
         });
         this.map.addControl(
           new mapboxgl.GeolocateControl({
@@ -82,11 +88,11 @@ export default {
             },
             trackUserLocation: true,
             showUserHeading: true
-          }))
+          })
+        );
       });
-
-    },
-  },
+    }
+  }
 };
 </script>
 
