@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="map" style="height: 400px;"></div>
+    <div ref="mapElement" style="height: 400px;"></div>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     return {
       map: null,
       currentPosition: null,
-      restaurantLocation: [ 46.782878601986255, -71.28690361946938 ],
+      restaurantLocation: [  -71.28690361946938, 46.782878601986255],
     };
   },
   mounted() {
@@ -23,10 +23,9 @@ export default {
     initMap() {
       mapboxgl.accessToken = 'pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g';
       this.map = new mapboxgl.Map({
-        container: this.$refs.map,
-        style: 'mapbox://styles/mapbox/streets-v11', // You can choose a different map style
-        center: this.restaurantLocation,
-        zoom: 8,
+        container: this.$refs.mapElement,
+        center: this.currentPosition,
+        zoom: 15,
       });
 
       this.addRoute();
