@@ -41,9 +41,6 @@ import RestaurantCards from "./HomeOrg/RestaurantCards.vue";
 import SideBar from "./HomeOrg/SideBar.vue";
 import { mapState, mapGetters, mapActions, useStore } from "vuex";
 import { ref, watch } from "vue";
-
-const store = useStore();
-
 export default {
   components: {
     RestaurantCards,

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <nav class="resto-nav navbar bg-body-tertiary sticky-top">
+  <div class="sticky-top">
+    <nav class="resto-nav navbar bg-body-tertiary">
       <div class="container-fluid">
         <router-link to="/" class="nav-link logo">
           <a class="navbar-brand">
