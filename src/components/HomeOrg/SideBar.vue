@@ -172,7 +172,7 @@ export default {
   margin: 5px;
   position: fixed;
   top: 6rem;
-  bottom: 0%;
+  bottom: 0;
   left: -1000px;
   width: 16rem;
   max-height: 100vh;
@@ -186,7 +186,7 @@ export default {
     margin: 5px;
     position: fixed;
     top: 6rem;
-    bottom: 0%;
+    bottom: 0;
     left: -1000px;
     width: 100%;
     max-height: 100vh;
