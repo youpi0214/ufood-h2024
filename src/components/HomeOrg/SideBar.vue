@@ -138,20 +138,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   props: {
     isSidebarOpen: Boolean,
   },
   computed: {
-    ...mapGetters(['selectedFilters']), // Obtenir les filtres sélectionnés depuis le store
+    ...mapGetters(["selectedFilters"]), // Obtenir les filtres sélectionnés depuis le store
     selectedPrice: {
       get() {
         return this.selectedFilters.price; // Obtenir le prix sélectionné depuis le store
       },
       set(value) {
-        this.$emit('apply-filters', value, this.selectedCategory); // Émettre un événement pour appliquer les filtres
+        this.$emit("apply-filters", value, this.selectedCategory); // Émettre un événement pour appliquer les filtres
       },
     },
     selectedCategory: {
@@ -159,16 +159,16 @@ export default {
         return this.selectedFilters.category; // Obtenir la catégorie sélectionnée depuis le store
       },
       set(value) {
-        this.$emit('apply-filters', this.selectedPrice, value); // Émettre un événement pour appliquer les filtres
+        this.$emit("apply-filters", this.selectedPrice, value); // Émettre un événement pour appliquer les filtres
       },
     },
   },
   methods: {
     resetFilters() {
       // Réinitialiser les valeurs des filtres à "All"
-      this.selectedPrice = 'All';
-      this.selectedCategory = 'All';
-      this.$emit('reset-filters');
+      this.selectedPrice = "All";
+      this.selectedCategory = "All";
+      this.$emit("reset-filters");
     },
   },
 };

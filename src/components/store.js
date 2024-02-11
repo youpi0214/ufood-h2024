@@ -1,10 +1,10 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
     selectedFilters: {
-      price: 'All',
-      category: 'All',
+      price: "All",
+      category: "All",
     },
     isSidebarOpen: false,
     restaurants: [
@@ -190,30 +190,32 @@ export default createStore({
   actions: {
     // Action pour ouvrir la sidebar
     openSidebar({ commit }) {
-      commit('OPEN_SIDEBAR');
+      commit("OPEN_SIDEBAR");
     },
     // Action pour fermer la sidebar
     closeSidebar({ commit }) {
-      commit('CLOSE_SIDEBAR');
+      commit("CLOSE_SIDEBAR");
     },
     // Action pour mettre à jour l'état de la sidebar lorsque vous changez de mode
     updateSidebarState({ commit }, isOpen) {
-      commit('UPDATE_SIDEBAR_STATE', isOpen);
+      commit("UPDATE_SIDEBAR_STATE", isOpen);
     },
     setSelectedFilters({ commit }, filters) {
-      commit('SET_SELECTED_FILTERS', filters);
+      commit("SET_SELECTED_FILTERS", filters);
     },
   },
   getters: {
     filteredRestaurants: (state) => {
       const { price, category } = state.selectedFilters;
       return state.restaurants.filter((restaurant) => {
-        const matchesPrice = price === 'All' || restaurant.selectedPrice === price;
-        const matchesCategory = category === 'All' || restaurant.selectedCategory === category;
+        const matchesPrice =
+          price === "All" || restaurant.selectedPrice === price;
+        const matchesCategory =
+          category === "All" || restaurant.selectedCategory === category;
         return matchesPrice && matchesCategory;
       });
     },
     selectedFilters: (state) => state.selectedFilters,
-    isSidebarOpen: state => state.isSidebarOpen,
+    isSidebarOpen: (state) => state.isSidebarOpen,
   },
 });

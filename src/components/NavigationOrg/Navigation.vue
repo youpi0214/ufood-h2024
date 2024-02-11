@@ -57,12 +57,13 @@
       <button @click="logout">Yes</button>
       <button @click="cancelLogout">No</button>
     </div>
-    <SideBar class="sidebar"
-             :isSidebarOpen="isSidebarOpen"
-             :selectedPrice="selectedPrice"
-             :selectedCategory="selectedCategory"
-             @apply-filters="applyFilters"
-             @reset-filters="resetFilters"
+    <SideBar
+      class="sidebar"
+      :isSidebarOpen="isSidebarOpen"
+      :selectedPrice="selectedPrice"
+      :selectedCategory="selectedCategory"
+      @apply-filters="applyFilters"
+      @reset-filters="resetFilters"
     />
   </div>
 </template>
@@ -166,12 +167,12 @@ export default {
     ...mapState(["selectedFilters"]), // Map Vuex state to local computed properties
   },
   methods: {
-    ...mapActions(['setSelectedFilters']),
+    ...mapActions(["setSelectedFilters"]),
     applyFilters(price, category) {
       this.setSelectedFilters({ price, category });
     },
     resetFilters() {
-      this.setSelectedFilters({ price: 'All', category: 'All' });
+      this.setSelectedFilters({ price: "All", category: "All" });
     },
   },
 };
@@ -339,14 +340,6 @@ export default {
 .logout-confirmation button:last-child {
   background-color: #ccc;
   color: #333;
-}
-
-.sidebar {
-  width: 100%; /* Take up entire width */
-  z-index: 9999;
-  height: 75%;
-  margin-top: 240px; /* Adjust as needed */
-
 }
 
 @media (min-width: 601px) {
