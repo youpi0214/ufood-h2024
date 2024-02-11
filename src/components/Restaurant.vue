@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <PageHeaderInfos></PageHeaderInfos>
+    <div class="center-header">
+      <PageHeaderInfos></PageHeaderInfos>
+    </div>
     <div id="photoMapContainer" class="container">
       <div class="row">
         <div class="col-8">
@@ -12,6 +14,7 @@
       </div>
     </div>
     <!--    <OpenHours></OpenHours>-->
+    <OpenHours></OpenHours>
   </div>
 </template>
 
@@ -39,11 +42,23 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 767px) {
+@media (max-width: 600px) {
   /* Media query for mobile screens */
   .container {
-    /* Styles for vertical alignment */
     flex-direction: column;
+    align-items: center;
+  }
+  .center-header {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .col-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 }
 </style>

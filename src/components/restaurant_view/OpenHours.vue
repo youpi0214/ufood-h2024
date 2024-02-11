@@ -19,7 +19,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="open-hours">
     <h1 style="font-weight: bold">Hours :</h1>
     <ul>
       <li v-for="(hour, index) in openingHours" :key="index">{{ hour }}</li>
@@ -27,4 +27,12 @@ export default {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@media (max-width: 600px) {
+  .open-hours {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>

@@ -83,4 +83,23 @@ export default {
   margin-left: 10px;
   color: whitesmoke;
 }
+
+@media (max-width: 600px) {
+  /* Media query for mobile screens */
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left-half,
+  .right-half {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
 </style>
