@@ -404,8 +404,8 @@ export default {
   .filter-button {
     display: block;
     margin-top: 10px;
-    background-color: #f8f9fa; /* Light gray */
-    color: #212529; /* Dark gray */
+    background-color: #f8f9fa;
+    color: #212529;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;

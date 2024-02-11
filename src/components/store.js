@@ -181,7 +181,7 @@ export default createStore({
     },
   },
   actions: {
-    // Action pour ouvrir la sidebar
+    // Action to open the sidebar
     changeSideBarState({ commit }) {
       commit("changeSideBarState");
     },

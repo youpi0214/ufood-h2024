@@ -19,10 +19,13 @@
           <RestaurantCards :filteredRestaurants="filteredRestaurants" />
         </div>
         <div class="col">
-          <div class="sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
+          <div
+            class="sidebar"
+            :class="{ 'sidebar-open': isSidebarOpen }"
+            @click="closeSidebar"
+          >
             <SideBar
               :isSidebarOpen="isSidebarOpen"
-              @close="isSidebarOpen = false"
               @apply-filters="applyFilters"
               @reset-filters="resetFilters"
             />
@@ -55,15 +58,27 @@ export default {
       () => store.state.isSidebarOpen,
       (newValue) => {
         isSidebarOpen.value = newValue;
+        if (newValue) {
+          // Disable scrolling when sidebar is open
+          document.body.style.overflow = "hidden";
+        } else {
+          // Enable scrolling when sidebar is closed
+          document.body.style.overflow = "";
+        }
       },
     );
     const toggleSidebar = () => {
       store.dispatch("changeSideBarState");
     };
 
+    const closeSidebar = () => {
+      store.dispatch("closeSidebar");
+    };
+
     return {
       isSidebarOpen,
       toggleSidebar,
+      closeSidebar,
     };
   },
   computed: {

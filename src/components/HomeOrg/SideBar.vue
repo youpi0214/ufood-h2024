@@ -173,10 +173,10 @@ export default {
   position: fixed;
   top: 6rem;
   bottom: 0%;
-  left: -1000px; /* Initially hidden */
-  width: 15rem;
-  max-height: 100vh; /* Maximum height to fit the viewport */
-  overflow-y: auto; /* Enable vertical scrolling */
+  left: -1000px;
+  width: 16rem;
+  max-height: 100vh;
+  overflow-y: auto;
   background-color: #f2f2f2;
   color: black;
   transition: left 0.5s ease;
@@ -187,10 +187,10 @@ export default {
     position: fixed;
     top: 6rem;
     bottom: 0%;
-    left: -1000px; /* Initially hidden */
+    left: -1000px;
     width: 100%;
-    max-height: 100vh; /* Maximum height to fit the viewport */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 100vh;
+    overflow-y: auto;
     background-color: #f2f2f2;
     color: black;
     transition: left 0.5s ease;
