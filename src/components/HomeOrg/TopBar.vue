@@ -13,6 +13,9 @@
       </router-link>
 
       <form class="d-flex w-50 p-3" role="search">
+        <button @click="toggleSidebar" class="btn btn-outline-success">
+          <i class="bi bi-filter-square-fill"></i>
+        </button>
         <input
           class="form-control me-2"
           type="search"
@@ -35,6 +38,7 @@ export default {
       // Your existing data properties
       selectedPrice: "All",
       selectedCategory: "All",
+      isFilterOpen: false,
     };
   },
   setup() {
@@ -116,5 +120,11 @@ export default {
   background-color: #f8f9fa;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   padding: 0.5rem 1rem;
+}
+
+@media (min-width: 600px) {
+  .btn {
+    display: none;
+  }
 }
 </style>

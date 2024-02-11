@@ -2,7 +2,7 @@
   <div class="container-lg">
     <div class="container">
       <div class="row">
-        <div class="main-content">
+        <div class="main-content col-auto">
           <div class="filter-button-container">
             <button
               class="btn btn-success"

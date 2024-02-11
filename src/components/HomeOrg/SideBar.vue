@@ -2,19 +2,13 @@
   <aside class="sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
     <ul>
       <div
-        class="offcanvas offcanvas-start"
+        class="offcanvas-lg offcanvas-start"
         tabindex="-1"
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
       >
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filters</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
         </div>
         <div class="offcanvas-body">
           <div>
@@ -178,14 +172,30 @@ export default {
 .sidebar {
   margin: 5px;
   position: fixed;
-  top: 0;
+  top: 6rem;
+  bottom: 0%;
   left: -1000px; /* Initially hidden */
-  width: 220px;
+  width: 15rem;
   max-height: 100vh; /* Maximum height to fit the viewport */
   overflow-y: auto; /* Enable vertical scrolling */
-  background-color: #f0f0f0;
+  background-color: #f2f2f2;
   color: black;
   transition: left 0.5s ease;
+}
+@media (max-width: 600px) {
+  .sidebar {
+    margin: 5px;
+    position: fixed;
+    top: 6rem;
+    bottom: 0%;
+    left: -1000px; /* Initially hidden */
+    width: 100%;
+    max-height: 100vh; /* Maximum height to fit the viewport */
+    overflow-y: auto; /* Enable vertical scrolling */
+    background-color: #f2f2f2;
+    color: black;
+    transition: left 0.5s ease;
+  }
 }
 .sidebar ul {
   list-style-type: none;
