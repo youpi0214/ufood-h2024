@@ -173,35 +173,14 @@ export default createStore({
     ],
   },
   mutations: {
-    OPEN_SIDEBAR(state) {
-      state.isSidebarOpen = true;
-    },
-    CLOSE_SIDEBAR(state) {
-      state.isSidebarOpen = false;
-    },
-    //mettre à jour l'état de la sidebar lorsque vous changez de mode
-    UPDATE_SIDEBAR_STATE(state, isOpen) {
-      state.isSidebarOpen = isOpen;
-    },
-    SET_SELECTED_FILTERS(state, { price, category }) {
-      state.selectedFilters = { price, category };
+    changeSideBarState(state) {
+      state.isSidebarOpen = !state.isSidebarOpen;
     },
   },
   actions: {
     // Action pour ouvrir la sidebar
-    openSidebar({ commit }) {
-      commit("OPEN_SIDEBAR");
-    },
-    // Action pour fermer la sidebar
-    closeSidebar({ commit }) {
-      commit("CLOSE_SIDEBAR");
-    },
-    // Action pour mettre à jour l'état de la sidebar lorsque vous changez de mode
-    updateSidebarState({ commit }, isOpen) {
-      commit("UPDATE_SIDEBAR_STATE", isOpen);
-    },
-    setSelectedFilters({ commit }, filters) {
-      commit("SET_SELECTED_FILTERS", filters);
+    changeSideBarState({ commit }) {
+      commit("changeSideBarState");
     },
   },
   getters: {

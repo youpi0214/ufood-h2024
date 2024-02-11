@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import { ref, onUnmounted } from "vue";
+import { ref, onUnmounted, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 export default {
   name: "TopBar",
   data() {
@@ -48,9 +49,17 @@ export default {
     const showLogoutConfirmation = ref(false);
     const searchQuery = ref("");
     const router = useRouter();
-    const isSidebarOpen = ref(false);
     const isMobile = ref(window.innerWidth <= 600);
     const isMobileLayout = ref(false);
+    const store = useStore();
+
+    // Create a computed property to observe changes to the boolean value
+    const isSidebarOpen = computed(() => store.state.isSidebarOpen);
+
+    // Method to toggle the boolean value
+    const toggleSidebar = () => {
+      store.dispatch("changeSideBarState");
+    };
 
     function handleUserUpdate(newUserName) {
       userName.value = newUserName;
@@ -81,10 +90,6 @@ export default {
       showDropdown.value = !showDropdown.value;
     }
 
-    function toggleSidebar() {
-      isSidebarOpen.value = !isSidebarOpen.value;
-    }
-
     const handleResize = () => {
       isMobile.value = window.innerWidth <= 600;
       isMobileLayout.value = window.innerWidth <= 768;
@@ -110,6 +115,7 @@ export default {
       search,
       toggleDropdown,
       toggleSidebar,
+      isSidebarOpen,
     };
   },
 };
