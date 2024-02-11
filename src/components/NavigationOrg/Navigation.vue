@@ -82,7 +82,6 @@ export default {
   },
   data() {
     return {
-      // Your existing data properties
       selectedPrice: "All",
       selectedCategory: "All",
     };
@@ -164,7 +163,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["selectedFilters"]), // Map Vuex state to local computed properties
+    ...mapState(["selectedFilters"]),
   },
   methods: {
     ...mapActions(["setSelectedFilters"]),
@@ -232,7 +231,7 @@ export default {
   padding: 10px 20px;
   border: none;
   border-radius: 30px;
-  margin-right: -40px; /* To overlap the search button */
+  margin-right: -40px;
 }
 
 .search-button {
@@ -342,13 +341,23 @@ export default {
   color: #333;
 }
 
+.logo {
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 60px;
+  width: auto;
+}
+
 @media (min-width: 601px) {
   .filter-button {
     display: none;
   }
 }
 
-/* Media query for smaller mobile devices */
 @media (max-width: 600px) {
   .navigation {
     flex-direction: column;
@@ -357,29 +366,21 @@ export default {
   .search-bar {
     margin-top: 10px;
   }
+
   .account-button {
     margin: 10px;
   }
+
   .filter-button {
     display: block;
     margin-top: 10px;
-    background-color: #f8f9fa; /* Light gray */
-    color: #212529; /* Dark gray */
+    background-color: orange;
+    color: #212529;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
   }
-}
-.logo {
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.logo-image {
-  height: 60px; /* Adjust the height as needed */
-  width: auto; /* Automatically adjust the width to maintain aspect ratio */
 }
 
 @media (max-width: 768px) {

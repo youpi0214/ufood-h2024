@@ -177,7 +177,7 @@ export default createStore({
       state.isSidebarOpen = !state.isSidebarOpen;
     },
     setSelectedFilters(state, filters) {
-      state.selectedFilters = filters; // Assuming selectedFilters is a property in your state
+      state.selectedFilters = filters;
     },
   },
   actions: {

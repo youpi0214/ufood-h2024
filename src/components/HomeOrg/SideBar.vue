@@ -139,27 +139,26 @@ export default {
     isSidebarOpen: Boolean,
   },
   computed: {
-    ...mapGetters(["selectedFilters"]), // Obtenir les filtres sélectionnés depuis le store
+    ...mapGetters(["selectedFilters"]),
     selectedPrice: {
       get() {
-        return this.selectedFilters.price; // Obtenir le prix sélectionné depuis le store
+        return this.selectedFilters.price;
       },
       set(value) {
-        this.$emit("apply-filters", value, this.selectedCategory); // Émettre un événement pour appliquer les filtres
+        this.$emit("apply-filters", value, this.selectedCategory);
       },
     },
     selectedCategory: {
       get() {
-        return this.selectedFilters.category; // Obtenir la catégorie sélectionnée depuis le store
+        return this.selectedFilters.category;
       },
       set(value) {
-        this.$emit("apply-filters", this.selectedPrice, value); // Émettre un événement pour appliquer les filtres
+        this.$emit("apply-filters", this.selectedPrice, value);
       },
     },
   },
   methods: {
     resetFilters() {
-      // Réinitialiser les valeurs des filtres à "All"
       this.selectedPrice = "All";
       this.selectedCategory = "All";
       this.$emit("reset-filters");

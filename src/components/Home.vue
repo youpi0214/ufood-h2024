@@ -13,7 +13,7 @@
               @click="toggleSidebar"
             >
               <i class="bi bi-filter-square-fill"></i>
-              Filter
+              Filters
             </button>
           </div>
           <RestaurantCards :filteredRestaurants="filteredRestaurants" />
@@ -30,8 +30,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Utilisation de filteredRestaurants -->
   </div>
 </template>
 
@@ -39,7 +37,7 @@
 import RestaurantCards from "./HomeOrg/RestaurantCards.vue";
 import SideBar from "./HomeOrg/SideBar.vue";
 import { mapState, mapGetters, mapActions, useStore } from "vuex";
-import { ref, watch } from "vue"; // Importer mapGetters et mapActions
+import { ref, watch } from "vue";
 
 const store = useStore();
 
@@ -52,15 +50,13 @@ export default {
     const store = useStore();
     const isSidebarOpen = ref(store.state.isSidebarOpen);
 
-    // Watch for changes to the boolean value
+    // Watch for changes to isSideBarOpen
     watch(
       () => store.state.isSidebarOpen,
       (newValue) => {
         isSidebarOpen.value = newValue;
       },
     );
-
-    // Method to toggle the boolean value
     const toggleSidebar = () => {
       store.dispatch("changeSideBarState");
     };
@@ -75,9 +71,6 @@ export default {
     ...mapGetters(["filteredRestaurants"]),
   },
   methods: {
-    // toggleSidebar() { TODO : Supprimer cette méthode
-    //   this.isSidebarOpen = !this.isSidebarOpen;
-    // },
     ...mapActions(["setSelectedFilters"]),
     applyFilters(price, category) {
       this.setSelectedFilters({ price, category });
