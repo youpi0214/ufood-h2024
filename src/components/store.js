@@ -176,11 +176,17 @@ export default createStore({
     changeSideBarState(state) {
       state.isSidebarOpen = !state.isSidebarOpen;
     },
+    setSelectedFilters(state, filters) {
+      state.selectedFilters = filters; // Assuming selectedFilters is a property in your state
+    },
   },
   actions: {
     // Action pour ouvrir la sidebar
     changeSideBarState({ commit }) {
       commit("changeSideBarState");
+    },
+    setSelectedFilters({ commit }, filters) {
+      commit("setSelectedFilters", filters);
     },
   },
   getters: {

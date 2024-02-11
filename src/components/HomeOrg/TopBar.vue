@@ -13,7 +13,10 @@
       </router-link>
 
       <form class="d-flex w-50 p-3" role="search">
-        <button @click="toggleSidebar" class="btn btn-outline-success">
+        <button
+          @click="toggleSidebar"
+          class="filter-btn btn btn-outline-success"
+        >
           <i class="bi bi-filter-square-fill"></i>
         </button>
         <input
@@ -129,7 +132,7 @@ export default {
 }
 
 @media (min-width: 600px) {
-  .btn {
+  .filter-btn {
     display: none;
   }
 }
