@@ -1,87 +1,65 @@
 <template>
-  <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" @click="toggleOffCanvas">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-    </nav>
-    <div :class="{ offcanvas: isOffCanvasOpen }">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Offcanvas Menu</h5>
-        <button
-          type="button"
-          class="btn-close"
-          aria-label="Close"
-          @click="toggleOffCanvas"
-        ></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="list-group">
-          <li class="list-group-item">Item 1</li>
-          <li class="list-group-item">Item 2</li>
-          <li class="list-group-item">Item 3</li>
-        </ul>
+  <div class="container">
+    <div class="center-header">
+      <PageHeaderInfos></PageHeaderInfos>
+    </div>
+    <div id="photoMapContainer" class="container">
+      <div class="row">
+        <div class="col-8">
+          <ImageSlider></ImageSlider>
+        </div>
+        <div class="col-4">
+          <MapView></MapView>
+        </div>
       </div>
     </div>
+    <!--    <OpenHours></OpenHours>-->
+    <OpenHours></OpenHours>
   </div>
 </template>
 
+<style></style>
 <script>
+import PageHeaderInfos from "@/components/restaurant_view/PageHeaderInfos.vue";
+import ImageSlider from "@/components/restaurant_view/ImageSlider.vue";
+import OpenHours from "@/components/restaurant_view/OpenHours.vue";
+import MapView from "@/components/restaurant_view/MapView.vue";
+
+const key = "AIzaSyC-TIo4u7jtVVu0yLHFe5hIdh3xICwIMmk";
 export default {
+  name: "Restaurant",
+  // eslint-disable-next-line vue/no-unused-components
+  components: { PageHeaderInfos, ImageSlider, OpenHours, MapView },
   data() {
     return {
-      isOffCanvasOpen: false,
+      restaurantLocation: { lat: 46.782878601986255, lng: -71.28690361946938 },
+      name: "McDonald's",
+      rate: "★ 4.8",
+      location: "⚲ 2520 Chem. des Quatre-Bourgeois, QC, G1V 4R2",
     };
-  },
-  methods: {
-    toggleOffCanvas() {
-      this.isOffCanvasOpen = !this.isOffCanvasOpen;
-    },
   },
 };
 </script>
 
-<style>
-.offcanvas {
-  position: fixed;
-  top: 56px; /* Adjust based on your navbar height */
-  bottom: 0;
-  left: -250px; /* Adjust based on your off-canvas width */
-  width: 250px; /* Adjust based on your off-canvas width */
-  background-color: #fff;
-  transition: left 0.3s ease;
-  z-index: 1050;
-}
+<style scoped>
+@media (max-width: 600px) {
+  /* Media query for mobile screens */
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .center-header {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .col-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 
-.offcanvas.show {
-  left: 0;
-}
-
-.offcanvas-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.offcanvas-title {
-  margin-bottom: 0;
-}
-
-.offcanvas-body {
-  padding: 0.5rem 1rem;
-}
-
-.navbar-toggler {
-  border-color: transparent;
-}
-
-.navbar-toggler:focus {
-  outline: none;
 }
 </style>
