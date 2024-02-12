@@ -22,7 +22,7 @@
       class="container-fluid d-flex justify-content-center align-items-center"
       style="height: 20rem"
     >
-      <button type="button" class="btn btn-primary">
+      <button type="button" class="btn btn-outline-success">
         <router-link to="/" class="nav-link">Return to Home</router-link>
       </button>
     </div>
