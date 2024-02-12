@@ -13,7 +13,6 @@
         </div>
       </div>
     </div>
-    <!--    <OpenHours></OpenHours>-->
     <OpenHours></OpenHours>
   </div>
 </template>
@@ -59,7 +58,8 @@ export default {
   .col-4 {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    display: block;
+    width: 100%;
   }
-
 }
 </style>

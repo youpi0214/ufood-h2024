@@ -6,7 +6,6 @@
 </template>
 
 <script>
-
 import TopBar from "@/components/HomeOrg/TopBar.vue";
 
 export default {

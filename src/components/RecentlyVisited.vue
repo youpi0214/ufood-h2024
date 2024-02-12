@@ -3,52 +3,53 @@ import RestaurantCards from "./HomeOrg/RestaurantCards.vue";
 
 export default {
   name: "RecentlyVisited",
-  data () {
+  data() {
     return {
       restaurantArray: [
         {
           name: "Kebab House",
-          Visits: 3
+          Visits: 3,
         },
         {
           name: "Breakfast Spot",
-          Visits: 2
+          Visits: 2,
         },
         {
           name: "POKI",
-          Visits: 1
+          Visits: 1,
         },
         {
           name: "Papa's Pizzeria",
-          Visits: 4
+          Visits: 4,
         },
         {
           name: "Dessert House",
-          Visits: 5
+          Visits: 5,
         },
         {
           name: "Sushi Bar",
-          Visits: 6
+          Visits: 6,
         },
         {
           name: "Burger House",
-          Visits: 7
+          Visits: 7,
         },
         {
           name: "Pasta House",
-          Visits: 8
+          Visits: 8,
         },
         {
           name: "American Diner",
-          Visits: 9
+          Visits: 9,
         },
         {
           name: "Lebanese House",
-          Visits: 10
-        } ]
-        }
-    }
-}
+          Visits: 10,
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <template>
@@ -58,9 +59,6 @@ export default {
       <p>{{ restaurant.name }} - {{ restaurant.Visits }} Visits</p>
     </div>
   </div>
-
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
