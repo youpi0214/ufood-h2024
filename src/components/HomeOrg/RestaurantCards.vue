@@ -13,7 +13,9 @@
       <div class="card-body">
         <h5 class="card-title">{{ restaurant.name }}</h5>
         <p class="card-text">{{ restaurant.description }}</p>
-        <a href="#" class="btn btn-primary">Order</a>
+      </div>
+      <div>
+        <a href="#" class="btn btn-outline-success">Register a visit</a>
       </div>
     </div>
   </div>
@@ -35,9 +37,11 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 40px;
 }
 
 .restaurant-card {
+  position: relative;
   width: 200px;
   height: 300px;
   margin: 20px;
@@ -57,18 +61,29 @@ export default {
   padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
 }
 
 .card-title {
   margin: 0;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
 }
 
 .card-text {
-  font-size: 14px;
+  font-size: 12px;
   color: #666;
   flex-grow: 1;
+}
+
+.btn {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  text-align: center;
 }
 </style>

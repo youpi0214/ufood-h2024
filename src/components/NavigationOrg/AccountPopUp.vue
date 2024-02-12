@@ -5,7 +5,10 @@
         <input type="text" placeholder="Username or Email" v-model="username" />
         <input type="password" placeholder="Password" v-model="password" />
         <button @click="login">Login</button>
-        <p>Don't have an account? <router-link to="/signup">Sign up</router-link></p>
+        <p>
+          Don't have an account?
+          <router-link to="/signup">Sign up</router-link>
+        </p>
       </div>
       <div v-else>
         <p>Welcome, {{ username }}!</p>
@@ -18,24 +21,24 @@
 
 <script>
 export default {
-  props: ['isLoggedIn'],
-  emits: ['update:user', 'close'],
+  props: ["isLoggedIn"],
+  emits: ["update:user", "close"],
   data() {
     return {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
     };
   },
   methods: {
     login() {
-      this.$emit('update:user', this.username);
+      this.$emit("update:user", this.username);
       this.close();
     },
     logout() {
-      this.$emit('update:user', null);
+      this.$emit("update:user", null);
     },
     close() {
-      this.$emit('close');
+      this.$emit("close");
     },
   },
 };
@@ -55,6 +58,7 @@ export default {
   width: 90%;
   max-width: 350px;
   box-sizing: border-box;
+  z-index: 9999; /* Set a high z-index value to bring the popup to the front */
 }
 
 .popup-content {
