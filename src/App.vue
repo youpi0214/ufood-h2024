@@ -1,22 +1,18 @@
 <template>
   <div id="app">
-    <TopBar />
+    <nav-menu></nav-menu>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-
-import TopBar from "@/components/HomeOrg/TopBar.vue";
-
+import Navigation from "@/components/Navigation";
 export default {
-  name: "App",
+  name: "app",
   components: {
-    TopBar,
+    "nav-menu": Navigation,
   },
 };
 </script>
 
-<style>
-/* Add global styles here */
-</style>
+<style></style>
