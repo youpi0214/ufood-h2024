@@ -2,20 +2,38 @@
   <div class="container-lg">
     <div class="container">
       <div class="row">
-        <div class="main-content col-auto">
-          <div class="filter-button-container">
-            <button
-              class="btn btn-success"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasExample"
-              aria-controls="offcanvasExample"
-              @click="toggleSidebar"
-            >
-              <i class="bi bi-filter-square-fill"></i>
-              Filters
-            </button>
+        <div class="main-content col-auto ">
+          <div class="d-flex justify-content-center ">
+            <div class="col">
+              <div class="row d-flex justify-content-center">
+                <button
+                  class="btn btn-success"
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasExample"
+                  aria-controls="offcanvasExample"
+                  @click="toggleSidebar"
+                >
+                  <i class="bi bi-filter-square-fill"></i>
+                  Filters
+                </button>
+              </div>
+              <div class="row d-flex justify-content-center">
+                <form class="d-flex w-50 p-3" role="search">
+                  <input
+                    class="form-control me-2"
+                    type="search"
+                    placeholder="Search..."
+                    aria-label="Search"
+                  />
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+
+
           </div>
+
           <RestaurantCards :filteredRestaurants="filteredRestaurants" />
         </div>
         <div class="col">
