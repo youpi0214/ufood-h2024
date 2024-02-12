@@ -244,7 +244,7 @@ export default {
   z-index: 100;
 }
 
-.user-info:hover .dropdown-menu {
+.dropdown-menu {
   display: block;
 }
 
