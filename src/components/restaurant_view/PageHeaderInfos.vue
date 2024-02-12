@@ -71,17 +71,17 @@ export default {
 }
 
 #title {
-  font-size: 3vw;
+  font-size: 2rem;
   margin-top: 15px;
   font-weight: bold;
 }
 
 #rating {
-  font-size: 1vw;
+  font-size: 1rem;
   padding: 5px;
   border-radius: 20px;
   margin-left: 10px;
-  color: whitesmoke;
+  color: #000000;
 }
 
 @media (max-width: 600px) {
