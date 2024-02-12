@@ -1,5 +1,6 @@
 <template>
   <div>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
     <div ref="mapElement" style="height: 400px"></div>
     <button class="btn btn-outline-success" @click="getRoute">
       Get Directions
@@ -39,12 +40,9 @@ export default {
         center: this.restaurantLocation,
         zoom: 15,
       });
-    },
-    addDestinationMarker() {
-      const name = "McDonald's";
-      new mapboxgl.Marker()
+      const marker1 = new mapboxgl.Marker({ color: 'red' })
         .setLngLat(this.restaurantLocation)
-        .setPopup(new mapboxgl.Popup().setHTML(`<h3>${name}</h3>`))
+        .setPopup(new mapboxgl.Popup().setHTML(`<h5>McDonald's</h5>`))
         .addTo(this.map);
     },
     getLocation() {
@@ -68,6 +66,10 @@ export default {
     async getRoute() {
       const [originLong, originLat] = this.currentPosition;
       const [destinationLong, destinationLat] = this.restaurantLocation;
+      const marker2 = new mapboxgl.Marker()
+        .setLngLat(this.currentPosition)
+        .setPopup(new mapboxgl.Popup().setHTML(`<h5>Your Location</h5>`))
+        .addTo(this.map);
       const query = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/driving/${originLong},${originLat};
         ${destinationLong},${destinationLat}?steps=true&geometries=geojson&access_token=${this.mapBoxApiKey}`,
