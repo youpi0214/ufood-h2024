@@ -2,6 +2,7 @@
   <div>
     <h1>{{ userName }}</h1>
 
+
     <div>Rating: 4.5 &star;</div>
   </div>
 </template>
@@ -12,10 +13,8 @@ export default {
   props: {
     userName: String
   }
+
 };
 </script>
 
-
-<style scoped>
-
-</style>
+<style scoped></style>

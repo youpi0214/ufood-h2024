@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UserHeader v-model="userName" />
+    <UserHeader :user-name="userName" />
     <!-- START  TODO this will disappear when adding api handling -->
     <div class="form-check form-switch">
       <input
@@ -24,33 +24,43 @@
       style="height: 20rem"
     >
       <router-link to="/" class="nav-link">
-        <button type="button" class="btn btn-outline-success">Return to Home</button>
+        <button type="button" class="btn btn-outline-success">
+          Return to Home
+        </button>
       </router-link>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, onUnmounted } from "vue";
-import RecentlyVisited from "@/components/profileView/RecentlyVisited.vue";
+<script>
 import UserHeader from "@/components/profileView/UserHeader.vue";
+import RecentlyVisited from "@/components/profileView/RecentlyVisited.vue";
 
-const userName = ref(localStorage.getItem("userName") || "");
-const isSwitched = ref(false);
-
-function updateUserNameFromStorage(event) {
-  if (event.key === "userName") {
-    userName.value = event.newValue;
+export default {
+  components: {
+    RecentlyVisited,
+    UserHeader
+  },
+  data() {
+    return {
+      userName: localStorage.getItem("userName") || "",
+      isSwitched: false
+    };
+  },
+  mounted() {
+    window.addEventListener("storage", this.updateUserNameFromStorage);
+  },
+  unmounted() {
+    window.removeEventListener("storage", this.updateUserNameFromStorage);
+  },
+  methods: {
+    updateUserNameFromStorage(event) {
+      if (event.key === "userName") {
+        this.userName = event.newValue;
+      }
+    }
   }
-}
-
-onMounted(() => {
-  window.addEventListener("storage", updateUserNameFromStorage);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("storage", updateUserNameFromStorage);
-});
+};
 </script>
 
 <style></style>
