@@ -11,7 +11,7 @@
         v-model="isSwitched"
       />
       <label class="form-check-label" for="flexSwitchCheckDefault"
-      >No visits</label
+        >No visits</label
       >
       <!--      END-->
     </div>
@@ -39,12 +39,12 @@ import RecentlyVisited from "@/components/profileView/RecentlyVisited.vue";
 export default {
   components: {
     RecentlyVisited,
-    UserHeader
+    UserHeader,
   },
   data() {
     return {
       userName: localStorage.getItem("userName") || "",
-      isSwitched: false
+      isSwitched: false,
     };
   },
   mounted() {
@@ -58,8 +58,8 @@ export default {
       if (event.key === "userName") {
         this.userName = event.newValue;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

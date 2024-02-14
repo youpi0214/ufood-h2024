@@ -5,7 +5,7 @@
         <router-link to="/" class="nav-link logo">
           <a class="navbar-brand">
             <img
-              :src="require('/src/images/UFoodLogo.png')"
+              :src="require('/src/assets/logo/UFoodLogo.png')"
               alt="Bootstrap"
               width="60rem"
               height="60rem"
@@ -64,7 +64,7 @@
 import { ref, onUnmounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import AccountPopUp from "@/components/NavigationOrg/AccountPopUp.vue";
+import AccountPopUp from "@/components/loginView/AccountPopUp.vue";
 export default {
   name: "TopBar",
   components: { AccountPopUp },

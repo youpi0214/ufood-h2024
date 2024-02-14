@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import TopBar from "@/components/HomeView/TopBar.vue";
+import TopBar from "@/components/homeView/TopBar.vue";
 
 export default {
   name: "App",

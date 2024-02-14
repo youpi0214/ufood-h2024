@@ -1,53 +1,50 @@
 <template>
   <div class="container-lg">
-    <div class="container">
-      <div class="row">
-        <div class="main-content col-auto">
-          <div class="d-flex justify-content-center">
-            <div class="col">
-              <div class="row d-flex justify-content-center">
-                <button
-                  class="btn btn-success"
-                  type="button"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasExample"
-                  aria-controls="offcanvasExample"
-                  @click="toggleSidebar"
-                >
-                  <i class="bi bi-filter-square-fill"></i>
-                  Filters
+    <div class="row">
+      <div class="main-content col-auto">
+        <div class="d-flex justify-content-center">
+          <div class="col">
+            <div class="row d-flex justify-content-center">
+              <button
+                class="btn btn-success"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample"
+                aria-controls="offcanvasExample"
+                @click="toggleSidebar"
+              >
+                <i class="bi bi-filter-square-fill"></i>
+                Filters
+              </button>
+            </div>
+            <div class="row d-flex justify-content-center">
+              <form class="d-flex w-50 p-3" role="search">
+                <input
+                  class="form-control me-2"
+                  type="search"
+                  placeholder="Search..."
+                  aria-label="Search"
+                />
+                <button class="btn btn-outline-success" type="submit">
+                  Search
                 </button>
-              </div>
-              <div class="row d-flex justify-content-center">
-                <form class="d-flex w-50 p-3" role="search">
-                  <input
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="Search..."
-                    aria-label="Search"
-                  />
-                  <button class="btn btn-outline-success" type="submit">
-                    Search
-                  </button>
-                </form>
-              </div>
+              </form>
             </div>
           </div>
-
-          <RestaurantCards :filteredRestaurants="filteredRestaurants" />
         </div>
-        <div class="col">
-          <div
-            class="sidebar"
-            :class="{ 'sidebar-open': isSidebarOpen }"
-            @click="closeSidebar"
-          >
-            <SideBar
-              :isSidebarOpen="isSidebarOpen"
-              @apply-filters="applyFilters"
-              @reset-filters="resetFilters"
-            />
-          </div>
+        <RestaurantCards :filteredRestaurants="filteredRestaurants" />
+      </div>
+      <div class="col">
+        <div
+          class="sidebar"
+          :class="{ 'sidebar-open': isSidebarOpen }"
+          @click="closeSidebar"
+        >
+          <SideBar
+            :isSidebarOpen="isSidebarOpen"
+            @apply-filters="applyFilters"
+            @reset-filters="resetFilters"
+          />
         </div>
       </div>
     </div>
@@ -55,10 +52,11 @@
 </template>
 
 <script>
-import RestaurantCards from "@/components/HomeView/RestaurantCards.vue";
-import SideBar from "@/components/HomeView/SideBar.vue";
+import RestaurantCards from "@/components/homeView/RestaurantCards.vue";
+import SideBar from "@/components/homeView/SideBar.vue";
 import { mapState, mapGetters, mapActions, useStore } from "vuex";
 import { ref, watch } from "vue";
+
 export default {
   components: {
     RestaurantCards,
@@ -113,22 +111,9 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .main-content {
   margin-top: 20px;
   position: relative;
-}
-
-.filter-button-container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 @media (max-width: 600px) {
