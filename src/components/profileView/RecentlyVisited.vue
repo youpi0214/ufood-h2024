@@ -1,5 +1,5 @@
 <script>
-import RestaurantCards from "./HomeOrg/RestaurantCards.vue";
+import RestaurantCards from "@/components/HomeView/RestaurantCards.vue";
 
 export default {
   name: "RecentlyVisited",

@@ -4,7 +4,7 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
-    <div  ref="mapElement" style="height: 400px"></div>
+    <div ref="mapElement" style="height: 400px"></div>
     <button class="btn btn-outline-success" @click="getRoute">
       Get Directions
     </button>
@@ -19,14 +19,14 @@ export default {
     mapBoxApiKey: {
       type: String,
       default: () =>
-        "pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g"
-    }
+        "pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g",
+    },
   },
   data() {
     return {
       map: null,
       currentPosition: [-71.1755, 46.8049],
-      restaurantLocation: [-71.28690361946938, 46.782878601986255]
+      restaurantLocation: [-71.28690361946938, 46.782878601986255],
     };
   },
   created() {
@@ -41,7 +41,7 @@ export default {
       this.map = new mapboxgl.Map({
         container: this.$refs.mapElement,
         center: this.restaurantLocation,
-        zoom: 15
+        zoom: 15,
       });
       const marker1 = new mapboxgl.Marker({ color: "red" })
         .setLngLat(this.restaurantLocation)
@@ -54,13 +54,13 @@ export default {
           (position) => {
             this.currentPosition = [
               position.coords.longitude,
-              position.coords.latitude
+              position.coords.latitude,
             ];
           },
           (error) => {
             console.error("Error getting current location:", error);
           },
-          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
         );
       } else {
         alert("Geolocation is not supported by this browser.");
@@ -76,7 +76,7 @@ export default {
       const query = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/driving/${originLong},${originLat};
         ${destinationLong},${destinationLat}?steps=true&geometries=geojson&access_token=${this.mapBoxApiKey}`,
-        { method: "GET" }
+        { method: "GET" },
       );
       const json = await query.json();
       const data = json.routes[0];
@@ -86,8 +86,8 @@ export default {
         properties: {},
         geometry: {
           type: `LineString`,
-          coordinates: route
-        }
+          coordinates: route,
+        },
       };
       if (this.map.getSource(`route`)) {
         this.map.getSource(`route`).setData(geojson);
@@ -97,23 +97,22 @@ export default {
           type: "line",
           source: {
             type: "geojson",
-            data: geojson
+            data: geojson,
           },
           layout: {
             "line-join": "round",
-            "line-cap": "round"
+            "line-cap": "round",
           },
           paint: {
             "line-color": "#d73636",
             "line-width": 5,
-            "line-opacity": 0.75
-          }
+            "line-opacity": 0.75,
+          },
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

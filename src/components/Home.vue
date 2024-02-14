@@ -2,8 +2,8 @@
   <div class="container-lg">
     <div class="container">
       <div class="row">
-        <div class="main-content col-auto ">
-          <div class="d-flex justify-content-center ">
+        <div class="main-content col-auto">
+          <div class="d-flex justify-content-center">
             <div class="col">
               <div class="row d-flex justify-content-center">
                 <button
@@ -26,12 +26,12 @@
                     placeholder="Search..."
                     aria-label="Search"
                   />
-                  <button class="btn btn-outline-success" type="submit">Search</button>
+                  <button class="btn btn-outline-success" type="submit">
+                    Search
+                  </button>
                 </form>
               </div>
             </div>
-
-
           </div>
 
           <RestaurantCards :filteredRestaurants="filteredRestaurants" />
@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import RestaurantCards from "./HomeOrg/RestaurantCards.vue";
-import SideBar from "./HomeOrg/SideBar.vue";
+import RestaurantCards from "@/components/HomeView/RestaurantCards.vue";
+import SideBar from "@/components/HomeView/SideBar.vue";
 import { mapState, mapGetters, mapActions, useStore } from "vuex";
 import { ref, watch } from "vue";
 export default {
