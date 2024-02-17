@@ -1,6 +1,7 @@
 <template>
   <div class="sticky-top">
-    <nav class="resto-nav navbar bg-body-tertiary">
+    <nav :class="{ 'resto-nav-transparent': isTransparent, 'resto-nav-solid': !isTransparent }"
+         class="resto-nav navbar bg-body-tertiary">
       <div class="container-fluid">
         <router-link to="/" class="nav-link logo">
           <a class="navbar-brand">
@@ -65,15 +66,16 @@ import { ref, onUnmounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import AccountPopUp from "@/components/NavigationOrg/AccountPopUp.vue";
+
 export default {
   name: "TopBar",
   components: { AccountPopUp },
   data() {
     return {
-      // Your existing data properties
       selectedPrice: "All",
       selectedCategory: "All",
       isFilterOpen: false,
+      isTransparent: true // Initially set to true for transparency
     };
   },
   setup() {
@@ -151,19 +153,55 @@ export default {
       cancelLogout,
       search,
       toggleDropdown,
-      toggleSidebar,
+      toggleSidebar
     };
   },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+    this.handleScroll(); // Call handleScroll initially to set transparency
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      // Check the scroll position
+      this.isTransparent = window.scrollY === 0;
+    }
+  }
 };
 </script>
 
 <style scoped>
 .resto-nav {
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 1rem;
+  transition: background-color 0.3s; /* Add transition for smooth color change */
 }
 
+.resto-nav-transparent {
+  background-color: transparent !important; /* Set initial background to transparent */
+}
+
+.resto-nav-solid {
+  background-color: #f8f9fa !important; /* Set the solid color when not transparent */
+}
+
+.resto-nav {
+  transition: background-color 0.3s; /* Add transition for smooth color change */
+  width: 100%; /* Make the navbar full width */
+  position: fixed; /* Fix the navbar position */
+  top: 0; /* Position it at the top of the page */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.container-fluid {
+  padding-left: 0; /* Remove left padding */
+  padding-right: 0; /* Remove right padding */
+  margin-left: auto; /* Center container horizontally */
+  margin-right: auto; /* Center container horizontally */
+  max-width: 100%; /* Ensure container stretches full width */
+}
+
+/* Media queries and other styles */
 @media (min-width: 600px) {
   .filter-btn {
     display: none;
@@ -195,7 +233,7 @@ export default {
 }
 
 .logout-confirmation button:first-child {
-  background-color: #00897b;
+  background-color: green;
   color: white;
 }
 
@@ -203,6 +241,7 @@ export default {
   background-color: #ccc;
   color: #333;
 }
+
 .icon-button {
   background-color: transparent;
   border: none;
@@ -251,7 +290,7 @@ export default {
 .dropdown-item {
   display: block;
   padding: 10px;
-  color: #005a4c;
+  color: green;
   text-decoration: none;
 }
 
