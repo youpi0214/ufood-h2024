@@ -13,7 +13,7 @@
           </a>
         </router-link>
 
-        <form class="d-flex w-50 p-3" role="search">
+        <form class="d-flex w-50 p-3" role="search" @submit.prevent="search">
           <button
             @click="toggleSidebar"
             class="filter-btn btn btn-outline-success"
@@ -21,6 +21,7 @@
             <i class="bi bi-filter-square-fill"></i>
           </button>
           <input
+            v-model="searchQuery"
             class="form-control me-2"
             type="search"
             placeholder="Search..."
@@ -65,17 +66,10 @@ import { ref, onUnmounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import AccountPopUp from "@/components/loginView/AccountPopUp.vue";
+
 export default {
   name: "TopBar",
   components: { AccountPopUp },
-  data() {
-    return {
-      // Your existing data properties
-      selectedPrice: "All",
-      selectedCategory: "All",
-      isFilterOpen: false,
-    };
-  },
   setup() {
     const userName = ref(localStorage.getItem("userName") || "");
     const showPopup = ref(false);
@@ -83,60 +77,52 @@ export default {
     const showLogoutConfirmation = ref(false);
     const searchQuery = ref("");
     const router = useRouter();
-    const isMobile = ref(window.innerWidth <= 600);
-    const isMobileLayout = ref(false);
     const store = useStore();
 
-    // Create a computed property to observe changes to the boolean value
     const isSidebarOpen = computed(() => store.state.isSidebarOpen);
 
-    // Method to toggle the boolean value
     const toggleSidebar = () => {
       store.dispatch("changeSideBarState");
     };
 
-    function handleUserUpdate(newUserName) {
+    const handleUserUpdate = (newUserName) => {
       userName.value = newUserName;
       localStorage.setItem("userName", newUserName || "");
       showPopup.value = false;
-    }
+    };
 
-    function confirmLogout() {
+    const confirmLogout = () => {
       showLogoutConfirmation.value = true;
-    }
+    };
 
-    function logout() {
+    const logout = () => {
       userName.value = "";
       localStorage.removeItem("userName");
       showLogoutConfirmation.value = false;
       router.push("/");
-    }
+    };
 
-    function cancelLogout() {
+    const cancelLogout = () => {
       showLogoutConfirmation.value = false;
-    }
+    };
 
-    function search() {
+    const search = () => {
       console.log(`Searching for: ${searchQuery.value}`);
-    }
+    };
 
-    function toggleDropdown() {
+    const toggleDropdown = () => {
       showDropdown.value = !showDropdown.value;
-    }
+    };
 
     const handleResize = () => {
-      isMobile.value = window.innerWidth <= 600;
-      isMobileLayout.value = window.innerWidth <= 768;
+      // Handle window resize
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize();
 
-    const cleanup = () => {
+    onUnmounted(() => {
       window.removeEventListener("resize", handleResize);
-    };
-
-    onUnmounted(() => cleanup());
+    });
 
     return {
       userName,
