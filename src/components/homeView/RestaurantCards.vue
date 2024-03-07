@@ -39,13 +39,14 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  justify-content: space-evenly;
   margin-top: 40px;
 }
 
 .restaurant-card {
   position: relative;
-  width: 200px;
-  height: 300px;
+  width: 300px;
+  height: 350px;
   margin: 20px;
   padding: 20px;
   background-color: #f4f4f4;
@@ -55,7 +56,7 @@ export default {
 
 .restaurant-card img {
   width: 100%;
-  height: 150px;
+  height:200px;
   border-radius: 5px;
 }
 
