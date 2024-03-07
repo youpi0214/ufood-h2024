@@ -19,10 +19,10 @@
 
 <style></style>
 <script>
-import PageHeaderInfos from "@/components/restaurant_view/PageHeaderInfos.vue";
-import ImageSlider from "@/components/restaurant_view/ImageSlider.vue";
-import OpenHours from "@/components/restaurant_view/OpenHours.vue";
-import MapView from "@/components/restaurant_view/MapView.vue";
+import PageHeaderInfos from "@/components/restaurantView/PageHeaderInfos.vue";
+import ImageSlider from "@/components/restaurantView/ImageSlider.vue";
+import OpenHours from "@/components/restaurantView/OpenHours.vue";
+import MapView from "@/components/restaurantView/MapView.vue";
 
 const key = "AIzaSyC-TIo4u7jtVVu0yLHFe5hIdh3xICwIMmk";
 export default {

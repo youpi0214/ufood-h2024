@@ -1,6 +1,13 @@
-<script>
-import RestaurantCards from "./HomeOrg/RestaurantCards.vue";
+<template>
+  <div>
+    <h1>Recently Visited</h1>
+    <div v-for="restaurant in restaurantArray" :key="restaurant.name">
+      <p>{{ restaurant.name }} - {{ restaurant.Visits }} Visits</p>
+    </div>
+  </div>
+</template>
 
+<script>
 export default {
   name: "RecentlyVisited",
   data() {
@@ -51,14 +58,5 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div>
-    <h1>Recently Visited</h1>
-    <div v-for="restaurant in restaurantArray" :key="restaurant.name">
-      <p>{{ restaurant.name }} - {{ restaurant.Visits }} Visits</p>
-    </div>
-  </div>
-</template>
 
 <style scoped></style>

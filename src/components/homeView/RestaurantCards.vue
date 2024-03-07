@@ -15,9 +15,9 @@
         <p class="card-text">{{ restaurant.description }}</p>
       </div>
       <div>
-
-          <router-link to="/restaurant"><a class="btn btn-outline-success">Register a visit</a></router-link>
-
+        <router-link to="/restaurant"
+          ><a class="btn btn-outline-success">Register a visit</a></router-link
+        >
       </div>
     </div>
   </div>
@@ -28,9 +28,9 @@ export default {
   props: {
     filteredRestaurants: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

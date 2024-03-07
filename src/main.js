@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import { router } from "./router";
+import { router } from "./router/router";
 import App from "./App.vue";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
 import "@fortawesome/fontawesome-free/css/all.css";
