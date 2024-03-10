@@ -2,7 +2,7 @@
   <div class="container">
     <div class="center-header">
       <PageHeaderInfos></PageHeaderInfos>
-      <div style="display: flex; justify-content: flex-end; padding: 15px;">
+      <div style="display: flex; justify-content: flex-end; padding: 20px;">
         <button
                 id="loveButton"
                 class="btn btn-primary btn-sm"
