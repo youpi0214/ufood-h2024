@@ -1,31 +1,44 @@
-const BASE_URL = "https://ufoodapi.herokuapp.com//unsecure"; // Assuming your API base URL
+import { convertQueryOptionsToString } from "./UtilityAPI.js";
 
-export const getRestaurants = async (token, options = {}) => {
-  const {
-    limit = 10,
-    page = 0,
-    q = "",
-    genres = "",
-    price_range = "",
-    lon = "",
-    lat = "",
-  } = options;
-  const queryString = `?limit=${limit}&page=${page}&q=${encodeURIComponent(q)}&genres=${encodeURIComponent(genres)}&price_range=${encodeURIComponent(price_range)}&lon=${lon}&lat=${lat}`;
-  const response = await fetch(`${BASE_URL}/restaurants${queryString}`, {
+const BASE_URL = "https://ufoodapi.herokuapp.com/unsecure"; // Assuming your API base URL
+
+export const getRestaurants = async (options) => {
+  const queryString = convertQueryOptionsToString(options);
+
+  return fetch(`${BASE_URL}/restaurants${queryString}`, {
+    method: "GET",
     headers: {
-      Authorization: `Token ${token}`,
+      "Content-Type": "application/json",
     },
-  });
-  return await response.json();
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch");
+
+      return response.json();
+    })
+    .then((data) => {
+      return [data.items, data.total];
+    })
+    .catch((error) => console.error("Request failed:", error));
 };
 
-export const getRestaurantById = async (token, id) => {
-  const response = await fetch(`${BASE_URL}/restaurants/${id}`, {
+export const getRestaurantById = async (id) => {
+  return fetch(`${BASE_URL}/restaurants/${id}`, {
+    method: "GET",
     headers: {
-      Authorization: `Token ${token}`,
+      "Content-Type": "application/json",
     },
-  });
-  return await response.json();
+  })
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(`Failed to fetch restaurant with id:${id}`);
+
+      return response.json();
+    })
+    .then((restaurant) => {
+      return restaurant;
+    })
+    .catch((error) => console.error("Request failed:", error));
 };
 
 export const getVisitsByRestaurantId = async (token, id, options = {}) => {
@@ -41,6 +54,3 @@ export const getVisitsByRestaurantId = async (token, id, options = {}) => {
   );
   return await response.json();
 };
-
-const restaurants = getRestaurants("", { limit: 10, page: 0, q: "burger" });
-console.log(restaurants);
