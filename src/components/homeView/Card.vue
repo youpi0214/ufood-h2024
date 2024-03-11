@@ -1,6 +1,6 @@
 <template>
   <div class="restaurant-card">
-    <router-link :to="`/restaurants/${restaurant.id}`">
+    <router-link :to="`/restaurants/${restaurant.id}`" class="router-link">
       <img
         :src="restaurant.pictures[0]"
         class="card-img-top"
@@ -107,5 +107,14 @@ export default {
   transform: translateX(-50%);
   width: 150px;
   text-align: center;
+}
+
+.router-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-title:hover {
+  text-decoration: underline;
 }
 </style>
