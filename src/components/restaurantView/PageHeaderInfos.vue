@@ -40,6 +40,12 @@ export default {
       <div>{{ address }}</div>
     </div>
     <div class="right-half">
+      <button
+        id="loveButton"
+        class="btn btn-primary btn-sm"
+      >
+        Add to favourites
+      </button>
       <div>{{ tel }}</div>
       <div>{{ genres }} {{ "•" }} {{ price_range }}</div>
     </div>
@@ -70,6 +76,16 @@ export default {
   align-items: flex-end;
 }
 
+#loveButton {
+  background-color: crimson;
+  color: white;
+  border: none;
+  border-radius: 7px;
+
+}
+#loveButton:hover {
+  text-decoration-line: underline;
+}
 #title {
   font-size: 2rem;
   margin-top: 15px;
