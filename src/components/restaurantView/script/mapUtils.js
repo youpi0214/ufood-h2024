@@ -1,4 +1,6 @@
 import mapboxgl from "mapbox-gl";
+
+let markerCurrentPosition;
 export const MAPBOX_API_KEY =
   "pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g";
 
@@ -6,7 +8,7 @@ async function getRoute(currentPosition, restaurantLocation, map) {
   const [originLong, originLat] = currentPosition;
   const [destinationLong, destinationLat] = restaurantLocation;
   console.log(currentPosition);
-  const marker2 = new mapboxgl.Marker()
+  markerCurrentPosition = new mapboxgl.Marker()
     .setLngLat(currentPosition)
     .setPopup(new mapboxgl.Popup().setHTML(`<h5>Your Location</h5>`))
     .addTo(map);
@@ -50,6 +52,7 @@ async function getRoute(currentPosition, restaurantLocation, map) {
 }
 
 async function removeRoute(restaurantLocation, map) {
+  markerCurrentPosition.remove();
   if (map.getLayer("route")) {
     map.removeLayer("route");
   }
