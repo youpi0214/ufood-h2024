@@ -12,6 +12,7 @@ describe("getRestaurants", () => {
     const options = [[RestaurantQueryOptions.LIMIT, maxNumberOfRestaurants]];
 
     const [restaurants, _] = await getRestaurants(options);
+    console.log(restaurants);
 
     expect(restaurants).toBeDefined();
     expect(restaurants.length).toBeGreaterThan(0);

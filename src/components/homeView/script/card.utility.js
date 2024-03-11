@@ -16,10 +16,10 @@ export class Restaurant {
     this.address = address;
     this.tel = tel;
     this.location = location;
-    this.openingHours = opening_hours;
+    this.opening_hours = opening_hours;
     this.pictures = pictures;
     this.genres = genres;
-    this.priceRange = price_range;
+    this.price_range = price_range;
     this.rating = rating;
   }
 }

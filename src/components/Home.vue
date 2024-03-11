@@ -93,6 +93,7 @@ export default {
     const [restaurants, _] = await getRestaurants([]);
     this.restaurants = restaurants;
     this.$store.commit("updateRestaurant", this.restaurants);
+    console.log(restaurants.priceRange);
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);

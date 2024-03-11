@@ -1,20 +1,22 @@
 <template>
   <div class="restaurant-card">
-    <router-link :to="`/restaurants/${restaurant.id}`">
-      <img
-        :src="restaurant.pictures[0]"
-        class="card-img-top"
-        :alt="restaurant.name"
-      />
-      <div class="card-body">
-        <h5 class="card-title">{{ restaurant.name }}</h5>
-        <p class="card-text">{{ restaurant.genres }}</p>
-      </div>
-    </router-link>
+    <img
+      :src="restaurant.pictures[0]"
+      class="card-img-top"
+      :alt="restaurant.name"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{ restaurant.name }}</h5>
+      <p class="card-text">{{ formatGenres(restaurant.genres) }}</p>
+      <p class="card-text">{{ "rating: " + restaurant.rating.toFixed(2) }}</p>
+      <p class="card-text">
+        {{ "price: " + formatPriceRange(restaurant.price_range) }}
+      </p>
+    </div>
     <div>
-      <button class="btn btn-outline-success" @click="print">
-        Register a visit
-      </button>
+      <router-link to="/restaurant">
+        <button class="btn btn-outline-success">Register a visit</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -29,13 +31,30 @@ export default {
       required: true,
     },
   },
+  methods: {
+    formatGenres(genres) {
+      return genres.join(", ").replace(/["[\]]/g, ""); // Retire les guillemets et crochets
+    },
+    formatPriceRange(priceRange) {
+      switch (priceRange) {
+        case 1:
+          return "$";
+        case 2:
+          return "$$";
+        case 3:
+          return "$$$";
+        default:
+          return ""; // Handle unexpected values
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .restaurant-card {
   position: relative;
-  width: 200px;
+  width: 250px;
   height: 300px;
   margin: 20px;
   padding: 20px;
@@ -51,8 +70,10 @@ export default {
 }
 
 .card-body {
+  position: relative;
   padding: 15px;
-  display: flex;
+  margin: 0rem;
+  display: flow;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
@@ -61,19 +82,20 @@ export default {
 
 .card-title {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
 }
 
 .card-text {
-  font-size: 12px;
+  font-size: 11px;
   color: #666;
   flex-grow: 1;
+  margin-bottom: 0rem;
 }
 
 .btn {
   position: absolute;
-  bottom: 5px;
+  bottom: 0.5rem;
   left: 50%;
   transform: translateX(-50%);
   width: 150px;
