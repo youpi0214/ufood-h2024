@@ -93,6 +93,10 @@ export default {
   font-weight: bold;
 }
 
+.card-title:hover {
+  text-decoration: underline;
+}
+
 .card-text {
   font-size: 11px;
   color: #666;
@@ -114,7 +118,4 @@ export default {
   color: inherit;
 }
 
-.card-title:hover {
-  text-decoration: underline;
-}
 </style>
