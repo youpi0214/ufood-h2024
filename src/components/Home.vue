@@ -60,8 +60,8 @@
 <script>
 import RestaurantCards from "@/components/homeView/RestaurantCardsContainer.vue";
 import SideBar from "@/components/homeView/SideBar.vue";
-import { mapState, mapGetters, mapActions, useStore } from "vuex";
-import { ref, watch } from "vue";
+import { mapState, mapGetters, mapActions } from "vuex";
+import { ref } from "vue";
 import { getRestaurants } from "@/api/restaurant";
 
 export default {
@@ -69,33 +69,11 @@ export default {
     RestaurantCards,
     SideBar,
   },
-  setup() {
-    const store = useStore();
-    const isSidebarOpen = ref(store.state.isSidebarOpen);
-
-    watch(
-      () => store.state.isSidebarOpen,
-      (newValue) => {
-        isSidebarOpen.value = newValue;
-        if (newValue) {
-          document.body.style.overflow = "hidden";
-        } else {
-          document.body.style.overflow = "";
-        }
-      },
-    );
-    const toggleSidebar = () => {
-      store.dispatch("changeSideBarState");
-    };
-
-    const closeSidebar = () => {
-      store.dispatch("closeSidebar");
-    };
-
+  data() {
     return {
-      isSidebarOpen,
-      toggleSidebar,
-      closeSidebar,
+      isSidebarOpen: false,
+      isBackgroundVisible: true,
+      restaurants: [],
     };
   },
   computed: {
@@ -107,6 +85,12 @@ export default {
   },
   methods: {
     ...mapActions(["setSelectedFilters"]),
+    toggleSidebar() {
+      this.$store.dispatch("changeSideBarState");
+    },
+    closeSidebar() {
+      this.$store.dispatch("closeSidebar");
+    },
     applyFilters(price, category) {
       this.setSelectedFilters({ price, category });
     },
@@ -114,20 +98,11 @@ export default {
       this.setSelectedFilters({ price: "All", category: "All" });
     },
     handleScroll() {
-      // Check if user has scrolled down
       if (window.scrollY > 0) {
-        // Hide the background image
         this.isBackgroundVisible = true;
-        // Remove the scroll event listener to prevent unnecessary checks
         window.removeEventListener("scroll", this.handleScroll);
       }
     },
-  },
-  data() {
-    return {
-      isBackgroundVisible: true,
-      restaurants: [],
-    };
   },
   async created() {
     const [restaurants, _] = await getRestaurants([]);
@@ -140,6 +115,16 @@ export default {
   beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
   },
+  watch: {
+    "$store.state.isSidebarOpen"(newValue) {
+      this.isSidebarOpen = newValue;
+      if (newValue) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    },
+  },
 };
 </script>
 
@@ -150,21 +135,25 @@ export default {
   align-items: flex-start;
   min-height: 100vh;
 }
+
 .main-content {
   margin-top: 20px;
   position: relative;
 }
+
 .search-form-container {
   width: 100%; /* Adjust the width as needed */
   max-width: 1000px; /* Max width to limit the size of the search form */
   text-align: right; /* Align the search form to the right */
 }
+
 .filter-button-container {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
 }
+
 .row {
   display: flow;
 }
@@ -173,11 +162,13 @@ export default {
   .btn {
     display: none;
   }
+
   .background-image {
     height: auto;
     width: auto;
   }
 }
+
 .background-image {
   display: flex;
   min-height: 100vh;
