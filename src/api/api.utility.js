@@ -1,6 +1,10 @@
-import { getRestaurantById, getRestaurants } from "./restaurant.js";
+import {
+  getRestaurantById,
+  getRestaurants,
+  getVisitsByRestaurantId,
+} from "./restaurant.js";
 
-export const Constants = {
+export const RestaurantQueryOptions = {
   LIMIT: "limit",
   PAGE: "page",
   Q: "q",
@@ -28,17 +32,3 @@ export const convertQueryOptionsToString = function (options) {
 
   return optionsResult;
 };
-
-/***********  request examples **********/
-
-// get list of restaurants
-const options = [[Constants.LIMIT, 15]];
-const [restaurants, total] = await getRestaurants(options);
-
-// console.log(total, restaurants);
-
-// get restaurant by id
-const id = "5f31fc7155d7790550c08b02";
-const restaurant = await getRestaurantById(id);
-
-console.log(restaurant);

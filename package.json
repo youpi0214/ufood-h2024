@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "vitest",
-    "start_script": "node --experimental-detect-module src/components/api/UtilityAPI.js"
+    "start_script": "node --experimental-detect-module src/api/api.utility.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
