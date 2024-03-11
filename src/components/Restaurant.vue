@@ -1,33 +1,39 @@
 <template>
-  <div v-if="restaurant" class="container">
-    <div class="center-header">
-      <PageHeaderInfos
-        :name="restaurant.name"
-        :address="restaurant.address"
-        :rating="restaurantRating"
-        :tel="restaurant.tel"
-        :price_range="restaurant.price_range"
-        :genres="restaurant.genres"
-      ></PageHeaderInfos>
-      <div style="display: flex; justify-content: flex-end; padding: 20px">
-        <button id="loveButton" class="btn btn-primary btn-sm">
-          Register a visit
-        </button>
+  <div>
+    <div v-if="restaurant" class="container">
+      <div class="center-header">
+        <PageHeaderInfos
+          :name="restaurant.name"
+          :address="restaurant.address"
+          :rating="restaurantRating"
+          :tel="restaurant.tel"
+          :price_range="restaurant.price_range"
+          :genres="restaurant.genres"
+        ></PageHeaderInfos>
       </div>
-    </div>
-    <div id="photoMapContainer" class="container">
-      <div class="row">
-        <div class="col-8">
-          <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
-        </div>
-        <div class="col-4">
-          <MapView
-            :restaurant-location="restaurant.location.coordinates"
-          ></MapView>
+      <div id="photoMapContainer" class="container">
+        <div class="row">
+          <div class="col-8">
+            <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
+          </div>
+          <div class="col-4">
+            <MapView
+              :restaurant-location="restaurant.location.coordinates"
+            ></MapView>
+          </div>
         </div>
       </div>
+      <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
     </div>
-    <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
+    <div v-else>
+      <div
+        class="center-header"
+        style="display: flex; justify-content: center; align-items: center"
+      >
+        <div class="spinner-border" role="status"></div>
+        <div>Loading...</div>
+      </div>
+    </div>
   </div>
 </template>
 

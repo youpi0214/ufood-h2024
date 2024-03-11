@@ -1,38 +1,55 @@
 <template>
-  <div
-    id="carouselExampleControls"
-    class="carousel slide"
-    data-bs-ride="carousel"
-  >
-    <div class="carousel-inner">
-      <div
-        v-for="(picture, index) in pictures"
-        :key="index"
-        :class="['carousel-item', { active: index === this.currentIndex }]"
-      >
-        <img :src="picture" class="d-block w-100" alt="..." />
+  <div>
+    <div
+      id="carouselExampleControls"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div
+          v-for="(picture, index) in pictures"
+          :key="index"
+          :class="['carousel-item', { active: index === this.currentIndex }]"
+        >
+          <img :src="picture" class="d-block w-100" alt="..." />
+        </div>
       </div>
+      <button
+        id="buttonSlide"
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleControls"
+        data-bs-slide="prev"
+        @click="prevImage"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button
+        id="buttonSlide"
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleControls"
+        data-bs-slide="next"
+        @click="nextImage"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
     </div>
-    <button
-      id="buttonSlide"
-      class="carousel-control-prev"
-      type="button"
-      data-bs-target="#carouselExampleControls"
-      data-bs-slide="prev"
-      @click="prevImage"
-    >
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    </button>
-    <button
-      id="buttonSlide"
-      class="carousel-control-next"
-      type="button"
-      data-bs-target="#carouselExampleControls"
-      data-bs-slide="next"
-      @click="nextImage"
-    >
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    </button>
+    <div style="display: flex; width: 100%">
+      <button
+        style="flex: 1; border-radius: 0px"
+        class="btn btn-primary btn-lg"
+      >
+        Register a visit
+      </button>
+      <button
+        style="flex: 1; border-radius: 0px"
+        id="loveButton"
+        class="btn btn-primary btn-lg"
+      >
+        ♥ Add to favourites
+      </button>
+    </div>
   </div>
 </template>
 
@@ -74,5 +91,14 @@ export default {
 #buttonSlide {
   background: transparent;
   border: none;
+}
+#loveButton {
+  background-color: crimson;
+  color: white;
+  border: none;
+  border-radius: 7px;
+}
+#loveButton:hover {
+  background-color: #ac0a29;
 }
 </style>

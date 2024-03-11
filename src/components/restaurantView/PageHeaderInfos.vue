@@ -27,6 +27,14 @@ export default {
       default: 0,
     },
   },
+  methods: {
+    formatGenre(genres) {
+      let formattedGenres = genres.map(
+        (genre) => genre.charAt(0).toUpperCase() + genre.slice(1),
+      );
+      return formattedGenres.join(", ");
+    },
+  },
 };
 </script>
 
@@ -40,12 +48,9 @@ export default {
       <div>{{ "⚲" }} {{ address }}</div>
     </div>
     <div class="right-half">
-      <button id="loveButton" class="btn btn-primary btn-sm">
-        Add to favourites
-      </button>
       <div>{{ tel }}</div>
       <div>
-        {{ genres.join(", ") }} {{ "•" }} {{ "$".repeat(this.price_range) }}
+        {{ formatGenre(genres) }} {{ "•" }} {{ "$".repeat(this.price_range) }}
       </div>
     </div>
   </div>
@@ -75,15 +80,6 @@ export default {
   align-items: flex-end;
 }
 
-#loveButton {
-  background-color: crimson;
-  color: white;
-  border: none;
-  border-radius: 7px;
-}
-#loveButton:hover {
-  text-decoration-line: underline;
-}
 #title {
   font-size: 2rem;
   margin-top: 15px;
