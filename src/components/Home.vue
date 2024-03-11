@@ -1,58 +1,45 @@
 <template>
-  <div>
-    <!-- Background image covering the whole page -->
-    <div class="background-image" :style="{ backgroundImage: backgroundStyle }">
-      <div class="container d-flex justify-content-center align-items-center">
-        <div class="search-form-container">
-          <form class="d-flex w-50 p-3" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search..."
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="container-lg">
-      <div class="row">
-        <div class="main-content col-auto">
-          <div class="d-flex justify-content-center">
-            <div class="col">
-              <div class="row d-flex justify-content-center">
-                <button
-                  class="btn btn-success"
-                  type="button"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasExample"
-                  aria-controls="offcanvasExample"
-                  @click="toggleSidebar"
-                >
-                  <i class="bi bi-filter-square-fill"></i>
-                  Filters
-                </button>
-              </div>
-              <div class="row d-flex justify-content-center"></div>
+  <div class="container-lg">
+    <div class="row">
+      <!--Content begin-->
+      <div class="main-content col-auto">
+        <!--FilterBtn and SearchBar begin-->
+        <div class="d-flex justify-content-center">
+          <div class="col">
+            <div class="row d-flex justify-content-center">
+              <button
+                class="btn btn-success"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample"
+                aria-controls="offcanvasExample"
+                @click="toggleSidebar"
+              >
+                <i class="bi bi-filter-square-fill"></i>
+                Filters
+              </button>
             </div>
+            <SearchBar />
           </div>
-          <RestaurantCards :filteredRestaurants="filteredRestaurants" />
         </div>
-        <div
-          class="sidebar"
-          :class="{ 'sidebar-open': isSidebarOpen }"
-          @click="closeSidebar"
-        >
-          <SideBar
-            :isSidebarOpen="isSidebarOpen"
-            @apply-filters="applyFilters"
-            @reset-filters="resetFilters"
-          />
-        </div>
+        <!--FilterBtn and SearchBar end-->
+        <RestaurantCards :filteredRestaurants="filteredRestaurants" />
       </div>
+      <!--Content end-->
+
+      <!--SideBar begin-->
+      <div
+        class="sidebar"
+        :class="{ 'sidebar-open': isSidebarOpen }"
+        @click="closeSidebar"
+      >
+        <SideBar
+          :isSidebarOpen="isSidebarOpen"
+          @apply-filters="applyFilters"
+          @reset-filters="resetFilters"
+        />
+      </div>
+      <!--SideBar end-->
     </div>
   </div>
 </template>
@@ -61,11 +48,12 @@
 import RestaurantCards from "@/components/homeView/RestaurantCardsContainer.vue";
 import SideBar from "@/components/homeView/SideBar.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
-import { ref } from "vue";
 import { getRestaurants } from "@/api/restaurant";
+import SearchBar from "@/components/homeView/SearchBar.vue";
 
 export default {
   components: {
+    SearchBar,
     RestaurantCards,
     SideBar,
   },
@@ -79,9 +67,6 @@ export default {
   computed: {
     ...mapState(["selectedPrice", "selectedCategory"]),
     ...mapGetters(["filteredRestaurants"]),
-    backgroundStyle() {
-      return `url('https://images.pexels.com/photos/1639562/pexels-photo-1639562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')`;
-    },
   },
   methods: {
     ...mapActions(["setSelectedFilters"]),
@@ -129,29 +114,9 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-height: 100vh;
-}
-
 .main-content {
-  margin-top: 20px;
+  margin-top: 10rem;
   position: relative;
-}
-
-.search-form-container {
-  width: 100%; /* Adjust the width as needed */
-  max-width: 1000px; /* Max width to limit the size of the search form */
-  text-align: right; /* Align the search form to the right */
-}
-
-.filter-button-container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .row {
@@ -162,19 +127,5 @@ export default {
   .btn {
     display: none;
   }
-
-  .background-image {
-    height: auto;
-    width: auto;
-  }
-}
-
-.background-image {
-  display: flex;
-  min-height: 100vh;
-  background-size: cover;
-  background-position: center;
-  justify-content: flex-end;
-  align-items: center;
 }
 </style>
