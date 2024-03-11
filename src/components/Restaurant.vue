@@ -1,5 +1,6 @@
 <template>
   <div>
+	// test commit
     <div v-if="restaurant" class="container">
       <div class="center-header">
         <PageHeaderInfos
