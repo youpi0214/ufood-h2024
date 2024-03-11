@@ -50,7 +50,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #00897b;
+  background-color: green;
   color: white;
   padding: 40px;
   border-radius: 8px;
@@ -87,7 +87,7 @@ input[type="password"] {
 }
 
 button {
-  background-color: #004d40;
+  background-color: green;
   color: white;
   font-weight: bold;
   margin-bottom: 0;
@@ -104,7 +104,7 @@ button:hover {
   cursor: pointer;
   color: white;
   font-size: 24px;
-  background-color: #00695c;
+  background-color: green;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -114,7 +114,7 @@ button:hover {
 }
 
 a {
-  color: #aad4d3;
+  color: lawngreen;
   text-decoration: none;
 }
 

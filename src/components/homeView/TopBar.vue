@@ -1,6 +1,7 @@
 <template>
   <div class="sticky-top">
-    <nav class="resto-nav navbar bg-body-tertiary">
+    <nav :class="{ 'resto-nav-transparent': isTransparent, 'resto-nav-solid': !isTransparent }"
+         class="resto-nav navbar bg-body-tertiary">
       <div class="container-fluid">
         <router-link to="/" class="nav-link logo">
           <a class="navbar-brand">
@@ -79,6 +80,9 @@ export default {
     const router = useRouter();
     const store = useStore();
 
+    // New data property to track scroll position
+    const isTransparent = ref(true);
+
     const isSidebarOpen = computed(() => store.state.isSidebarOpen);
 
     const toggleSidebar = () => {
@@ -124,6 +128,13 @@ export default {
       window.removeEventListener("resize", handleResize);
     });
 
+    // Event listener for scroll
+    const handleScroll = () => {
+      isTransparent.value = window.scrollY === 0;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
     return {
       userName,
       showDropdown,
@@ -138,6 +149,8 @@ export default {
       search,
       toggleDropdown,
       toggleSidebar,
+      // Expose the isTransparent variable
+      isTransparent,
     };
   },
 };
@@ -145,10 +158,33 @@ export default {
 
 <style scoped>
 .resto-nav {
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 1rem;
+  transition: background-color 0.3s;
 }
+
+.resto-nav-transparent {
+  background-color: transparent !important;
+}
+
+.resto-nav-solid {
+  background-color: #f8f9fa !important;
+}
+
+.resto-nav {
+  transition: background-color 0.3s;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+
 
 @media (min-width: 600px) {
   .filter-btn {
@@ -181,7 +217,7 @@ export default {
 }
 
 .logout-confirmation button:first-child {
-  background-color: #00897b;
+  background-color: green;
   color: white;
 }
 
@@ -189,6 +225,7 @@ export default {
   background-color: #ccc;
   color: #333;
 }
+
 .icon-button {
   background-color: transparent;
   border: none;
@@ -237,7 +274,7 @@ export default {
 .dropdown-item {
   display: block;
   padding: 10px;
-  color: #005a4c;
+  color: green;
   text-decoration: none;
 }
 
