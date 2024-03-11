@@ -28,19 +28,18 @@ import mapboxgl from "!mapbox-gl";
 import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/mapUtils.js";
 
 export default {
+  props: {
+    restaurantLocation: {
+      type: Array,
+      default: () => [-71.28690361946938, 46.782878601986255],
+    },
+  },
   data() {
     return {
       map: null,
       currentPosition: [-71.17, 46.782878601986255],
       getDirectionsIsClicked: false,
-      restaurantLocation: [-71.28690361946938, 46.782878601986255],
     };
-  },
-  created() {
-    this.getLocation();
-  },
-  mounted() {
-    this.initMap();
   },
   methods: {
     initMap() {
@@ -88,6 +87,12 @@ export default {
       this.getDirectionsIsClicked = false;
       await removeRoute(this.restaurantLocation, this.map);
     },
+  },
+  created() {
+    this.getLocation();
+  },
+  mounted() {
+    this.initMap();
   },
 };
 </script>

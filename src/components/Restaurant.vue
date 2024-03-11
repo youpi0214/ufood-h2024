@@ -1,7 +1,14 @@
 <template>
-  <div class="container">
+  <div v-if="restaurant" class="container">
     <div class="center-header">
-      <PageHeaderInfos></PageHeaderInfos>
+      <PageHeaderInfos
+        :name="restaurant.name"
+        :address="restaurant.address"
+        :rating="restaurantRating"
+        :tel="restaurant.tel"
+        :price_range="restaurant.price_range"
+        :genres="restaurant.genres"
+      ></PageHeaderInfos>
       <div style="display: flex; justify-content: flex-end; padding: 20px">
         <button id="loveButton" class="btn btn-primary btn-sm">
           Register a visit
@@ -11,14 +18,16 @@
     <div id="photoMapContainer" class="container">
       <div class="row">
         <div class="col-8">
-          <ImageSlider></ImageSlider>
+          <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
         </div>
         <div class="col-4">
-          <MapView></MapView>
+          <MapView
+            :restaurant-location="restaurant.location.coordinates"
+          ></MapView>
         </div>
       </div>
     </div>
-    <OpenHours></OpenHours>
+    <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
   </div>
 </template>
 
@@ -28,6 +37,7 @@ import PageHeaderInfos from "@/components/restaurantView/PageHeaderInfos.vue";
 import ImageSlider from "@/components/restaurantView/ImageSlider.vue";
 import OpenHours from "@/components/restaurantView/OpenHours.vue";
 import MapView from "@/components/restaurantView/MapView.vue";
+import { getRestaurantById } from "@/api/restaurant";
 
 const key = "AIzaSyC-TIo4u7jtVVu0yLHFe5hIdh3xICwIMmk";
 export default {
@@ -36,11 +46,22 @@ export default {
   components: { PageHeaderInfos, ImageSlider, OpenHours, MapView },
   data() {
     return {
-      restaurantLocation: { lat: 46.782878601986255, lng: -71.28690361946938 },
-      name: "McDonald's",
-      rate: "★ 4.8",
-      location: "⚲ 2520 Chem. des Quatre-Bourgeois, QC, G1V 4R2",
+      restaurant: null,
     };
+  },
+  computed: {
+    restaurantRating() {
+      return Math.round(this.restaurant.rating * 100) / 100;
+    },
+  },
+  async created() {
+    try {
+      this.restaurant = await getRestaurantById(
+        this.$route.params.restaurantId,
+      );
+    } catch (error) {
+      console.error("Error getting restaurant...");
+    }
   },
 };
 </script>

@@ -1,37 +1,3 @@
-<script>
-export default {
-  name: "ImageSlider",
-  props: {
-    pictures: {
-      type: Array,
-      default: () => [
-        "https://wallpapercave.com/wp/wp11260432.jpg",
-        "https://wallpapers.com/images/hd/green-mcdonald-s-logo-ydibzt83bgsa17la.jpg",
-        "https://images4.alphacoders.com/109/thumb-1920-1093163.jpg",
-      ],
-    },
-    currentIndex: {
-      type: Number,
-      default: 0,
-    },
-  },
-  methods: {
-    prevImage() {
-      this.$emit(
-        "update:currentIndex",
-        (this.currentIndex + 1) % this.pictures.length,
-      );
-    },
-    nextImage() {
-      this.$emit(
-        "update:currentIndex",
-        (this.currentIndex - 1 + this.pictures.length) % this.pictures.length,
-      );
-    },
-  },
-};
-</script>
-
 <template>
   <div
     id="carouselExampleControls"
@@ -69,6 +35,40 @@ export default {
     </button>
   </div>
 </template>
+
+<script>
+export default {
+  name: "ImageSlider",
+  props: {
+    pictures: {
+      type: Array,
+      default: () => [
+        "https://wallpapercave.com/wp/wp11260432.jpg",
+        "https://wallpapers.com/images/hd/green-mcdonald-s-logo-ydibzt83bgsa17la.jpg",
+        "https://images4.alphacoders.com/109/thumb-1920-1093163.jpg",
+      ],
+    },
+    currentIndex: {
+      type: Number,
+      default: 0,
+    },
+  },
+  methods: {
+    prevImage() {
+      this.$emit(
+        "update:currentIndex",
+        (this.currentIndex + 1) % this.pictures.length,
+      );
+    },
+    nextImage() {
+      this.$emit(
+        "update:currentIndex",
+        (this.currentIndex - 1 + this.pictures.length) % this.pictures.length,
+      );
+    },
+  },
+};
+</script>
 
 <style scoped>
 #buttonSlide {

@@ -4,27 +4,27 @@ export default {
   props: {
     name: {
       type: String,
-      default: "McDonald's",
+      default: "",
     },
     rating: {
       type: Number,
-      default: 4.8,
+      default: 0,
     },
     address: {
       type: String,
-      default: "⚲ 2520 Chem. des Quatre-Bourgeois, QC, G1V 4R2",
+      default: "",
     },
     tel: {
       type: String,
-      default: "(418) 651-5085",
+      default: "",
     },
     genres: {
-      type: String,
-      default: "Fast-Food",
+      type: Array,
+      default: () => [],
     },
     price_range: {
-      type: String,
-      default: "$$",
+      type: Number,
+      default: 0,
     },
   },
 };
@@ -37,14 +37,16 @@ export default {
         <span id="title">{{ name }}</span>
         <span id="rating">{{ "★" }} {{ rating }}</span>
       </div>
-      <div>{{ address }}</div>
+      <div>{{ "⚲" }} {{ address }}</div>
     </div>
     <div class="right-half">
       <button id="loveButton" class="btn btn-primary btn-sm">
         Add to favourites
       </button>
       <div>{{ tel }}</div>
-      <div>{{ genres }} {{ "•" }} {{ price_range }}</div>
+      <div>
+        {{ genres.join(", ") }} {{ "•" }} {{ "$".repeat(this.price_range) }}
+      </div>
     </div>
   </div>
 </template>

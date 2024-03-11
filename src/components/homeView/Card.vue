@@ -1,18 +1,20 @@
 <template>
   <div class="restaurant-card">
-    <img
-      :src="restaurant.pictures[0]"
-      class="card-img-top"
-      :alt="restaurant.name"
-    />
-    <div class="card-body">
-      <h5 class="card-title">{{ restaurant.name }}</h5>
-      <p class="card-text">{{ restaurant.genres }}</p>
-    </div>
+    <router-link :to="`/restaurants/${restaurant.id}`">
+      <img
+        :src="restaurant.pictures[0]"
+        class="card-img-top"
+        :alt="restaurant.name"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ restaurant.name }}</h5>
+        <p class="card-text">{{ restaurant.genres }}</p>
+      </div>
+    </router-link>
     <div>
-      <router-link to="/restaurant">
-        <button class="btn btn-outline-success">Register a visit</button>
-      </router-link>
+      <button class="btn btn-outline-success" @click="print">
+        Register a visit
+      </button>
     </div>
   </div>
 </template>
