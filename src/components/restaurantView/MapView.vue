@@ -47,6 +47,7 @@ export default {
       this.map = new mapboxgl.Map({
         container: this.$refs.mapElement,
         center: this.restaurantLocation,
+        style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
         zoom: 15,
       });
       new mapboxgl.Marker({ color: "red" })
