@@ -14,7 +14,7 @@ async function getRoute(currentPosition, restaurantLocation, map) {
     .addTo(map);
   const query = await fetch(
     `https://api.mapbox.com/directions/v5/mapbox/driving/${originLong},${originLat};
-        ${destinationLong},${destinationLat}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`,
+        ${destinationLong},${destinationLat}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}&overview=full`,
     { method: "GET" },
   );
   const json = await query.json();
