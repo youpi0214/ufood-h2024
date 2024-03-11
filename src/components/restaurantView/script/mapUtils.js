@@ -1,5 +1,6 @@
 import mapboxgl from "mapbox-gl";
-export const MAPBOX_API_KEY = "pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g";
+export const MAPBOX_API_KEY =
+  "pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g";
 
 async function getRoute(currentPosition, restaurantLocation, map) {
   const [originLong, originLat] = currentPosition;
@@ -12,7 +13,7 @@ async function getRoute(currentPosition, restaurantLocation, map) {
   const query = await fetch(
     `https://api.mapbox.com/directions/v5/mapbox/driving/${originLong},${originLat};
         ${destinationLong},${destinationLat}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`,
-    { method: "GET" }
+    { method: "GET" },
   );
   const json = await query.json();
   const data = json.routes[0];
@@ -22,8 +23,8 @@ async function getRoute(currentPosition, restaurantLocation, map) {
     properties: {},
     geometry: {
       type: `LineString`,
-      coordinates: route
-    }
+      coordinates: route,
+    },
   };
   if (map.getSource(`route`)) {
     map.getSource(`route`).setData(geojson);
@@ -33,17 +34,17 @@ async function getRoute(currentPosition, restaurantLocation, map) {
       type: "line",
       source: {
         type: "geojson",
-        data: geojson
+        data: geojson,
       },
       layout: {
         "line-join": "round",
-        "line-cap": "round"
+        "line-cap": "round",
       },
       paint: {
         "line-color": "#d73636",
         "line-width": 5,
-        "line-opacity": 0.75
-      }
+        "line-opacity": 0.75,
+      },
     });
   }
 }
@@ -55,14 +56,12 @@ async function removeRoute(restaurantLocation, map) {
   if (map.getSource("route")) {
     map.removeSource("route");
   }
-  map.flyTo(
-    {
-      center: restaurantLocation,
-      zoom: 15,
-      essential: true,
-      duration: 2000
-    }
-  )
+  map.flyTo({
+    center: restaurantLocation,
+    zoom: 15,
+    essential: true,
+    duration: 2000,
+  });
 }
 
-export { getRoute, removeRoute }
+export { getRoute, removeRoute };

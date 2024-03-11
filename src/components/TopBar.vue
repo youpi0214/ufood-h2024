@@ -1,7 +1,12 @@
 <template>
   <div class="sticky-top">
-    <nav :class="{ 'resto-nav-transparent': isTransparent, 'resto-nav-solid': !isTransparent }"
-         class="resto-nav navbar bg-body-tertiary">
+    <nav
+      :class="{
+        'resto-nav-transparent': isTransparent,
+        'resto-nav-solid': !isTransparent,
+      }"
+      class="resto-nav navbar bg-body-tertiary"
+    >
       <div class="container-fluid">
         <router-link to="/" class="nav-link logo">
           <a class="navbar-brand">
@@ -184,7 +189,6 @@ export default {
   margin-right: auto;
   max-width: 100%;
 }
-
 
 @media (min-width: 600px) {
   .filter-btn {

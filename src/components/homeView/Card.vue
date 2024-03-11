@@ -1,9 +1,13 @@
 <template>
   <div class="restaurant-card">
-    <img :src="restaurant.image" class="card-img-top" :alt="restaurant.name" />
+    <img
+      :src="restaurant.pictures[0]"
+      class="card-img-top"
+      :alt="restaurant.name"
+    />
     <div class="card-body">
       <h5 class="card-title">{{ restaurant.name }}</h5>
-      <p class="card-text">{{ restaurant.description }}</p>
+      <p class="card-text">{{ restaurant.genres }}</p>
     </div>
     <div>
       <router-link to="/restaurant">
@@ -14,10 +18,12 @@
 </template>
 
 <script>
+import { Restaurant } from "@/components/homeView/script/card.utility";
+
 export default {
   props: {
     restaurant: {
-      type: Object,
+      type: Restaurant,
       required: true,
     },
   },

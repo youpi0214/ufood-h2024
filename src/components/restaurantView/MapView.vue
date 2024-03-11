@@ -80,10 +80,7 @@ export default {
         this.currentPosition,
         this.restaurantLocation,
       );
-      const markers = [
-        this.restaurantLocation,
-        this.currentPosition,
-      ];
+      const markers = [this.restaurantLocation, this.currentPosition];
       markers.forEach((marker) => bounds.extend(marker.coordinates));
       this.map.fitBounds(bounds, { padding: 40, duration: 2000 });
     },

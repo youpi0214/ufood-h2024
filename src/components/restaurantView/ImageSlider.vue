@@ -13,26 +13,36 @@ export default {
     currentIndex: {
       type: Number,
       default: 0,
-    }
+    },
   },
   methods: {
     prevImage() {
-      this.$emit('update:currentIndex', (this.currentIndex + 1) % this.pictures.length);
+      this.$emit(
+        "update:currentIndex",
+        (this.currentIndex + 1) % this.pictures.length,
+      );
     },
     nextImage() {
-      this.$emit('update:currentIndex', (this.currentIndex - 1 + this.pictures.length) % this.pictures.length);
-    }
-  }
+      this.$emit(
+        "update:currentIndex",
+        (this.currentIndex - 1 + this.pictures.length) % this.pictures.length,
+      );
+    },
+  },
 };
 </script>
 
 <template>
-  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div
+    id="carouselExampleControls"
+    class="carousel slide"
+    data-bs-ride="carousel"
+  >
     <div class="carousel-inner">
       <div
         v-for="(picture, index) in pictures"
         :key="index"
-        :class="['carousel-item', { active: index === this.currentIndex}]"
+        :class="['carousel-item', { active: index === this.currentIndex }]"
       >
         <img :src="picture" class="d-block w-100" alt="..." />
       </div>
@@ -66,4 +76,3 @@ export default {
   border: none;
 }
 </style>
-

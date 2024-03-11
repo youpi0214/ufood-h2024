@@ -40,10 +40,7 @@ export default {
       <div>{{ address }}</div>
     </div>
     <div class="right-half">
-      <button
-        id="loveButton"
-        class="btn btn-primary btn-sm"
-      >
+      <button id="loveButton" class="btn btn-primary btn-sm">
         Add to favourites
       </button>
       <div>{{ tel }}</div>
@@ -81,7 +78,6 @@ export default {
   color: white;
   border: none;
   border-radius: 7px;
-
 }
 #loveButton:hover {
   text-decoration-line: underline;

@@ -36,8 +36,7 @@
                   Filters
                 </button>
               </div>
-              <div class="row d-flex justify-content-center">
-              </div>
+              <div class="row d-flex justify-content-center"></div>
             </div>
           </div>
           <RestaurantCards :filteredRestaurants="filteredRestaurants" />
@@ -59,10 +58,11 @@
 </template>
 
 <script>
-import RestaurantCards from "@/components/homeView/RestaurantCards.vue";
+import RestaurantCards from "@/components/homeView/RestaurantCardsContainer.vue";
 import SideBar from "@/components/homeView/SideBar.vue";
 import { mapState, mapGetters, mapActions, useStore } from "vuex";
 import { ref, watch } from "vue";
+import { getRestaurants } from "@/api/restaurant";
 
 export default {
   components: {
@@ -126,7 +126,13 @@ export default {
   data() {
     return {
       isBackgroundVisible: true,
+      restaurants: [],
     };
+  },
+  async created() {
+    const [restaurants, _] = await getRestaurants([]);
+    this.restaurants = restaurants;
+    this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
@@ -167,11 +173,11 @@ export default {
   .btn {
     display: none;
   }
-  .background-image{
+  .background-image {
     height: auto;
     width: auto;
   }
-  }
+}
 .background-image {
   display: flex;
   min-height: 100vh;
