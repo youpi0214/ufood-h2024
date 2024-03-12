@@ -56,7 +56,7 @@ export default {
 
 .restaurant-card img {
   width: 100%;
-  height:200px;
+  height: 200px;
   border-radius: 5px;
 }
 

@@ -1,7 +1,6 @@
 const BASE_URL = "https://ufoodapi.herokuapp.com//unsecure"; // Assuming your API base URL
 
-export const getUserRestaurantVisits = async (token, userId, options = {}) => {
-  const { limit = 10, page = 0 } = options;
+export const getUserRestaurantVisits = async (token, userId, options = []) => {
   const queryString = `?limit=${limit}&page=${page}`;
   const response = await fetch(
     `${BASE_URL}/users/${userId}/restaurants/visits${queryString}`,

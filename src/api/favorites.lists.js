@@ -1,10 +1,47 @@
-const BASE_URL = 'https://ufoodapi.herokuapp.com/unsecure';
+import { BASE_URL, convertQueryOptionsToString } from "./api.utility";
+
+export const getAllFavoriteLists = async (options = []) => {
+  const queryString = convertQueryOptionsToString(options);
+
+  return fetch(`${BASE_URL}/favorites${queryString}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch");
+
+      return response.json();
+    })
+    .then((data) => {
+      return [data.items, data.total];
+    })
+    .catch((error) => console.error("Request failed:", error));
+};
+
+export const getaSpecificFavoriteList = async (id) => {
+  return await fetch(`${BASE_URL}/favorites/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch");
+
+      return response.json();
+    })
+    .then((data) => {
+      return [data.id, data.name, data.restaurants, data.owner];
+    })
+    .catch((error) => console.error("Request failed:", error));
+};
 
 export const createFavoriteList = async (token, userId, listName) => {
   const response = await fetch(`${BASE_URL}/users/${userId}/favorites`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ name: listName }),
@@ -14,9 +51,9 @@ export const createFavoriteList = async (token, userId, listName) => {
 
 export const renameFavoriteList = async (token, listId, newName) => {
   const response = await fetch(`${BASE_URL}/favorites/${listId}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ name: newName }),
@@ -24,11 +61,15 @@ export const renameFavoriteList = async (token, listId, newName) => {
   return await response.json();
 };
 
-export const addRestaurantToFavoriteList = async (token, listId, restaurantId) => {
+export const addRestaurantToFavoriteList = async (
+  token,
+  listId,
+  restaurantId,
+) => {
   const response = await fetch(`${BASE_URL}/favorites/${listId}/add`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ restaurantId }),
@@ -36,11 +77,15 @@ export const addRestaurantToFavoriteList = async (token, listId, restaurantId) =
   return await response.json();
 };
 
-export const removeRestaurantFromFavoriteList = async (token, listId, restaurantId) => {
+export const removeRestaurantFromFavoriteList = async (
+  token,
+  listId,
+  restaurantId,
+) => {
   const response = await fetch(`${BASE_URL}/favorites/${listId}/remove`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ restaurantId }),
@@ -50,7 +95,7 @@ export const removeRestaurantFromFavoriteList = async (token, listId, restaurant
 
 export const deleteFavoriteList = async (token, listId) => {
   const response = await fetch(`${BASE_URL}/favorites/${listId}`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
     },
