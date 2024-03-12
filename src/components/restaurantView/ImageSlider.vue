@@ -4,14 +4,21 @@
       id="carouselExampleControls"
       class="carousel slide"
       data-bs-ride="carousel"
+      style="max-width: 100%; max-height: 400px; overflow: hidden"
     >
-      <div class="carousel-inner">
+      <div class="carousel-inner" style="background-color: #000000">
+        <!-- Added inline styles -->
         <div
           v-for="(picture, index) in pictures"
           :key="index"
           :class="['carousel-item', { active: index === this.currentIndex }]"
         >
-          <img :src="picture" class="d-block w-100" alt="..." />
+          <img
+            :src="picture"
+            class="d-block w-100"
+            alt="..."
+            style="object-fit: contain; width: 100%; height: 400px"
+          />
         </div>
       </div>
       <button
