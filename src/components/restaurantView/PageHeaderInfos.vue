@@ -37,10 +37,25 @@ export default {
   methods: {
     formatGenres,
     ratingColor(rating) {
-      if (rating > 4) return "forestgreen";
-      if (rating > 3) return "orange";
-      if (rating > 2) return "orangered";
-      else return "firebrick";
+      let color = "";
+      let grade = "";
+      if (rating > 4.5) {
+        grade = "EXCELLENT";
+        color = "forestgreen";
+      } else if (rating > 4.0) {
+        grade = "VERY GOOD";
+        color = "yellowgreen";
+      } else if (rating > 3.0) {
+        grade = "GOOD";
+        color = "orange";
+      } else if (rating > 2.0) {
+        grade = "OK";
+        color = "orangered";
+      } else {
+        grade = "POOR";
+        color = "firebrick";
+      }
+      return { grade, color };
     },
   },
 };
@@ -51,8 +66,8 @@ export default {
     <div class="left-half">
       <div>
         <span id="title">{{ name }}</span>
-        <span id="rating" :style="{ backgroundColor: ratingColor(this.rating) }"
-          >{{ "★" }} {{ rating }}</span
+        <span id="rating" :style="{ color: ratingColor(this.rating).color }"
+          >{{ "★" }} {{ rating }} {{ ratingColor(this.rating).grade }}</span
         >
       </div>
       <div>{{ "⚲" }} {{ address }}</div>
@@ -83,7 +98,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 10px;
 }
 
 .right-half {
@@ -99,6 +113,7 @@ export default {
 #rating {
   font-size: 1rem;
   padding: 3px;
+  font-weight: bold;
   border-radius: 20px;
   margin-left: 10px;
   color: #ffffff;
