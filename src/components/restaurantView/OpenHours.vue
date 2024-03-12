@@ -1,4 +1,6 @@
 <script>
+import { formatString } from "@/components/restaurantView/PageHeaderInfos.vue";
+
 export default {
   name: "OpenHours",
   props: {
@@ -9,9 +11,7 @@ export default {
     },
   },
   methods: {
-    formatDay(day) {
-      return day.charAt(0).toUpperCase() + day.slice(1);
-    },
+    formatString,
   },
 };
 </script>
@@ -21,7 +21,7 @@ export default {
     <h1 style="font-weight: bold">Hours :</h1>
     <ul>
       <li v-for="(hours, day) in openingHours" :key="day">
-        {{ formatDay(day) + ":" }} {{ hours || "Closed" }}
+        {{ formatString(day) + ":" }} {{ hours || "Closed" }}
       </li>
     </ul>
   </div>

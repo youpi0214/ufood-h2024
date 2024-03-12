@@ -11,7 +11,7 @@
         <p class="card-text">{{ formatGenres(restaurant.genres) }}</p>
         <p class="card-text">{{ "rating: " + restaurant.rating.toFixed(2) }}</p>
         <p class="card-text">
-          {{ "price: " + formatPriceRange(restaurant.price_range) }}
+          {{ "price: " + "$".repeat(restaurant.price_range) }}
         </p>
       </div>
       <div>
@@ -30,7 +30,7 @@
 
 <script>
 import { Restaurant } from "@/components/homeView/script/card.utility";
-
+import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue"
 export default {
   props: {
     restaurant: {
@@ -39,21 +39,7 @@ export default {
     },
   },
   methods: {
-    formatGenres(genres) {
-      return genres.join(", ").replace(/["[\]]/g, ""); // Retire les guillemets et crochets
-    },
-    formatPriceRange(priceRange) {
-      switch (priceRange) {
-        case 1:
-          return "$";
-        case 2:
-          return "$$";
-        case 3:
-          return "$$$";
-        default:
-          return ""; // Handle unexpected values
-      }
-    },
+    formatGenres,
   },
 };
 </script>
