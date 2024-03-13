@@ -91,6 +91,12 @@ export default {
       );
     },
   },
+  mounted() {
+    this.pictures.forEach((picture) => {
+      const image = new Image();
+      image.src = picture;
+    });
+  },
 };
 </script>
 

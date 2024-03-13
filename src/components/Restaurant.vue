@@ -1,5 +1,6 @@
 <template>
   <div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <div v-if="restaurant" class="container">
       <div class="center-header">
         <PageHeaderInfos
@@ -11,16 +12,14 @@
           :genres="restaurant.genres"
         ></PageHeaderInfos>
       </div>
-      <div id="photoMapContainer" class="container">
-        <div class="row">
-          <div class="col-8">
-            <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
-          </div>
-          <div class="col-4">
-            <MapView
-              :restaurant-location="restaurant.location.coordinates"
-            ></MapView>
-          </div>
+      <div style="display: flex; flex-wrap: wrap">
+        <div style="flex: 2; margin: 1rem">
+          <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
+        </div>
+        <div style="flex: 1; margin: 1rem">
+          <MapView
+            :restaurant-location="restaurant.location.coordinates"
+          ></MapView>
         </div>
       </div>
       <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
@@ -73,8 +72,7 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 600px) {
-  /* Media query for mobile screens */
+@media only screen and (max-width: 1000px) {
   .container {
     flex-direction: column;
     align-items: center;
@@ -83,15 +81,8 @@ export default {
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
-  .row {
+  div[style="display: flex; width: 100%"] {
     flex-direction: column;
-    align-items: center;
-  }
-  .col-4 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    display: block;
-    width: 100%;
   }
 }
 </style>

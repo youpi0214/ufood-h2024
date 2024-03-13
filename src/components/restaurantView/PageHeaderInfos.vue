@@ -73,8 +73,10 @@ export default {
       <div>{{ "⚲" }} {{ address }}</div>
     </div>
     <div class="right-half">
-      <div>{{ tel }}</div>
       <div>
+        <span><i class="bi bi-telephone-fill" style="margin-right: 5px"></i></span>{{ tel }}</div>
+      <div>
+        <span><i class="bi bi-funnel-fill"></i></span>
         {{ formatGenres(genres) }} {{ "•" }} {{ "$".repeat(this.price_range) }}
       </div>
     </div>
