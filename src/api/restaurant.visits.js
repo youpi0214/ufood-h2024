@@ -1,60 +1,82 @@
-const BASE_URL = "https://ufoodapi.herokuapp.com//unsecure"; // Assuming your API base URL
+import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
 
-export const getUserRestaurantVisits = async (token, userId, options = []) => {
-  const queryString = `?limit=${limit}&page=${page}`;
-  const response = await fetch(
-    `${BASE_URL}/users/${userId}/restaurants/visits${queryString}`,
-    {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    },
-  );
-  return await response.json();
+export const getUserRestaurantVisits = async (id, options = []) => {
+  const { limit = 10, page = 0 } = options;
+  const queryString = convertQueryOptionsToString([limit, page]);
+
+  try {
+    const response = await fetch(
+      `${BASE_URL}/users/${id}/restaurants/visits${queryString}`,
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch user restaurant visits");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Request failed:", error);
+    throw error;
+  }
 };
 
-export const getUserRestaurantVisitById = async (token, userId, visitId) => {
-  const response = await fetch(
-    `${BASE_URL}/users/${userId}/restaurants/visits/${visitId}`,
-    {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    },
-  );
-  return await response.json();
+export const getUserRestaurantVisitById = async (userId, visitId) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/users/${userId}/restaurants/visits/${visitId}`,
+    );
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch user restaurant visit with id:${visitId}`,
+      );
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Request failed:", error);
+    throw error;
+  }
 };
 
-export const createRestaurantVisit = async (token, userId, visitData) => {
-  const response = await fetch(
-    `${BASE_URL}/users/${userId}/restaurants/visits`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
+export const createRestaurantVisit = async (userId, visitData) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/users/${userId}/restaurants/visits`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(visitData),
       },
-      body: JSON.stringify(visitData),
-    },
-  );
-  return await response.json();
+    );
+    if (!response.ok) {
+      throw new Error("Failed to create restaurant visit");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Request failed:", error);
+    throw error;
+  }
 };
 
-export const getRestaurantVisitsByUser = async (
-  token,
+export const getRestaurantVisitsByUserAndRestaurant = async (
   userId,
   restaurantId,
   options = {},
 ) => {
   const { limit = 10, page = 0 } = options;
-  const queryString = `?limit=${limit}&page=${page}`;
-  const response = await fetch(
-    `${BASE_URL}/users/${userId}/restaurants/${restaurantId}/visits${queryString}`,
-    {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    },
-  );
-  return await response.json();
+  const queryString = convertQueryOptionsToString([limit, page]);
+
+  try {
+    const response = await fetch(
+      `${BASE_URL}/users/${userId}/restaurants/${restaurantId}/visits${queryString}`,
+    );
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch restaurant visits for user:${userId} and restaurant:${restaurantId}`,
+      );
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Request failed:", error);
+    throw error;
+  }
 };
