@@ -5,7 +5,7 @@ import {
   getRestaurantVisitsByUserAndRestaurant,
 } from "src/api/restaurant.visits";
 import { test, describe, expect } from "vitest";
-import { RestaurantQueryOptions } from "@/api/api.utility";
+import { RestaurantQueryOptions } from "src/api/api.utility";
 
 describe("getUserRestaurantVisits", () => {
   test("fetch user restaurant visits", async () => {
@@ -15,7 +15,9 @@ describe("getUserRestaurantVisits", () => {
       [RestaurantQueryOptions.PAGE, 2],
     ];
 
-    const visits = await getUserRestaurantVisits(userId, options);
+    const [visits, total] = await getUserRestaurantVisits(userId, options);
+
+    console.log(visits);
 
     expect(visits).toBeDefined();
   });
@@ -26,9 +28,11 @@ describe("getUserRestaurantVisitById", () => {
     const userId = "60765a3d505e68000443c7bb";
     const visitId = "";
 
-    const visit = await getUserRestaurantVisitById(userId, visitId);
+    const [visits, total] = await getUserRestaurantVisitById(userId, visitId);
 
-    expect(visit).toBeDefined();
+    console.log(visits);
+
+    expect(visits).toBeDefined();
   });
 });
 
@@ -44,6 +48,8 @@ describe("createRestaurantVisit", () => {
 
     const newVisit = await createRestaurantVisit(userId, visitData);
 
+    console.log(newVisit);
+
     expect(newVisit).toBeDefined();
   });
 });
@@ -57,11 +63,13 @@ describe("getRestaurantVisitsByUserAndRestaurant", () => {
       [RestaurantQueryOptions.PAGE, 2],
     ];
 
-    const visits = await getRestaurantVisitsByUserAndRestaurant(
+    const [visits, total] = await getRestaurantVisitsByUserAndRestaurant(
       userId,
       restaurantId,
       options,
     );
+
+    console.log(visits);
 
     expect(visits).toBeDefined();
   });

@@ -10,7 +10,9 @@ export const getUserRestaurantVisits = async (id, options = []) => {
     if (!response.ok) {
       throw new Error("Failed to fetch user restaurant visits");
     }
-    return await response.json();
+
+    const data = await response.json();
+    return [data.items, data.total];
   } catch (error) {
     console.error("Request failed:", error);
     throw error;
@@ -27,7 +29,8 @@ export const getUserRestaurantVisitById = async (userId, visitId) => {
         `Failed to fetch user restaurant visit with id:${visitId}`,
       );
     }
-    return await response.json();
+    const data = await response.json();
+    return [data.items, data.total];
   } catch (error) {
     console.error("Request failed:", error);
     throw error;
@@ -72,7 +75,8 @@ export const getRestaurantVisitsByUserAndRestaurant = async (
         `Failed to fetch restaurant visits for user:${userId} and restaurant:${restaurantId}`,
       );
     }
-    return await response.json();
+    const data = await response.json();
+    return [data.items, data.total];
   } catch (error) {
     console.error("Request failed:", error);
     throw error;
