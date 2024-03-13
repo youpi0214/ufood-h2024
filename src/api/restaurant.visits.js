@@ -1,8 +1,7 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
 
 export const getUserRestaurantVisits = async (id, options = []) => {
-  const { limit = 10, page = 0 } = options;
-  const queryString = convertQueryOptionsToString([limit, page]);
+  const queryString = convertQueryOptionsToString(options);
 
   try {
     const response = await fetch(
@@ -60,10 +59,9 @@ export const createRestaurantVisit = async (userId, visitData) => {
 export const getRestaurantVisitsByUserAndRestaurant = async (
   userId,
   restaurantId,
-  options = {},
+  options = [],
 ) => {
-  const { limit = 10, page = 0 } = options;
-  const queryString = convertQueryOptionsToString([limit, page]);
+  const queryString = convertQueryOptionsToString(options);
 
   try {
     const response = await fetch(
