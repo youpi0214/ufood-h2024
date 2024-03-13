@@ -20,8 +20,8 @@ export const getAllFavoriteLists = async (options = []) => {
     .catch((error) => console.error("Request failed:", error));
 };
 
-export const getaSpecificFavoriteList = async (id) => {
-  return await fetch(`${BASE_URL}/favorites/${id}`, {
+export const getaSpecificFavoriteList = async (listId) => {
+  return await fetch(`${BASE_URL}/favorites/${listId}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -37,68 +37,92 @@ export const getaSpecificFavoriteList = async (id) => {
     .catch((error) => console.error("Request failed:", error));
 };
 
-export const createFavoriteList = async (token, userId, listName) => {
-  const response = await fetch(`${BASE_URL}/users/${userId}/favorites`, {
+export const createFavoriteList = async (userEmail, listName) => {
+  return fetch(`${BASE_URL}/favorites`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ name: listName }),
-  });
-  return await response.json();
+    body: JSON.stringify({ name: listName, owner: userEmail }), // in tp3 the owner will be removed
+    //
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch");
+
+      return response.json();
+    })
+    .then((data) => {
+      return [data.id, data.name, data.restaurants];
+    })
+    .catch((error) => console.error("Request failed:", error));
 };
 
-export const renameFavoriteList = async (token, listId, newName) => {
-  const response = await fetch(`${BASE_URL}/favorites/${listId}`, {
+export const deleteFavoriteList = async (listId) => {
+  return fetch(`${BASE_URL}/favorites/${listId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .catch((error) => console.error("Request failed:", error));
+};
+
+export const renameFavoriteList = async (listId, newName, userEmail) => {
+  return fetch(`${BASE_URL}/favorites/${listId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ name: newName }),
-  });
-  return await response.json();
+    body: JSON.stringify({ name: newName, owner: userEmail }), // in tp3 the owner will be removed
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch");
+
+      return response.json();
+    })
+    .then((data) => {
+      return [data.id, data.name, data.restaurants];
+    })
+    .catch((error) => console.error("Request failed:", error));
 };
 
-export const addRestaurantToFavoriteList = async (
-  token,
-  listId,
-  restaurantId,
-) => {
-  const response = await fetch(`${BASE_URL}/favorites/${listId}/add`, {
+export const addRestaurantToFavoriteList = async (listId, restaurantId) => {
+  return fetch(`${BASE_URL}/favorites/${listId}/restaurants`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ restaurantId }),
-  });
-  return await response.json();
+    body: JSON.stringify({ id: restaurantId }),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch");
+
+      return response.json();
+    })
+    .then((data) => {
+      return [data.id, data.name, data.restaurants];
+    })
+    .catch((error) => console.error("Request failed:", error));
 };
 
 export const removeRestaurantFromFavoriteList = async (
-  token,
   listId,
   restaurantId,
 ) => {
-  const response = await fetch(`${BASE_URL}/favorites/${listId}/remove`, {
+  return fetch(`${BASE_URL}/favorites/${listId}/restaurants/${restaurantId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ restaurantId }),
-  });
-  return await response.json();
-};
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch");
 
-export const deleteFavoriteList = async (token, listId) => {
-  const response = await fetch(`${BASE_URL}/favorites/${listId}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return await response.json();
+      return response.json();
+    })
+    .then((data) => {
+      return [data.id, data.name, data.restaurants];
+    })
+    .catch((error) => console.error("Request failed:", error));
 };
