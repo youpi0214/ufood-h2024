@@ -62,13 +62,10 @@ export const createRestaurantVisit = async (userId, visitData) => {
 export const getRestaurantVisitsByUserAndRestaurant = async (
   userId,
   restaurantId,
-  options = [],
 ) => {
-  const queryString = convertQueryOptionsToString(options);
-
   try {
     const response = await fetch(
-      `${BASE_URL}/users/${userId}/restaurants/${restaurantId}/visits${queryString}`,
+      `${BASE_URL}/users/${userId}/restaurants/${restaurantId}/visits`,
     );
     if (!response.ok) {
       throw new Error(
