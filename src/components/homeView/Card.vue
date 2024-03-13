@@ -14,7 +14,7 @@
       <div class="card-body">
         <h5 class="card-title">{{ restaurant.name }}</h5>
         <p class="card-text">{{ formatGenres(restaurant.genres) }}</p>
-        <p class="card-text">{{ "rating: " + restaurant.rating.toFixed(2) }}</p>
+        <p class="card-text">{{ "★ " + restaurant.rating.toFixed(2) }}</p>
         <p class="card-text">
           {{ "price: " + "$".repeat(restaurant.price_range) }}
         </p>
@@ -53,7 +53,7 @@ export default {
 .restaurant-card {
   position: relative;
   width: 250px;
-  height: 300px;
+  height: 320px;
   margin: 20px;
   padding: 20px;
   background-color: #f4f4f4;

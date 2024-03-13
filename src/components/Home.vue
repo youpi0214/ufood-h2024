@@ -50,6 +50,7 @@ import SideBar from "@/components/homeView/SideBar.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import { getRestaurants } from "@/api/restaurant";
 import SearchBar from "@/components/homeView/SearchBar.vue";
+import { RestaurantQueryOptions } from "@/api/api.utility";
 
 export default {
   components: {
@@ -62,6 +63,8 @@ export default {
       isSidebarOpen: false,
       isBackgroundVisible: true,
       restaurants: [],
+      currentPage: 0,
+      isLoading: false,
     };
   },
   computed: {
@@ -82,18 +85,41 @@ export default {
     resetFilters() {
       this.setSelectedFilters({ price: "All", category: "All" });
     },
+    async loadMoreRestaurants() {
+      if (this.isLoading) return;
+
+      this.isLoading = true;
+
+      const options = [[RestaurantQueryOptions.PAGE, this.currentPage]];
+      const [newRestaurants, _] = await getRestaurants(options);
+
+      this.restaurants = [...this.restaurants, ...newRestaurants];
+      this.currentPage++;
+
+      this.$store.commit("updateRestaurant", this.restaurants);
+
+      this.isLoading = false;
+    },
     handleScroll() {
-      if (window.scrollY > 0) {
-        this.isBackgroundVisible = true;
-        window.removeEventListener("scroll", this.handleScroll);
+      const scrollOffset =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      const totalHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
+      const windowHeight =
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight;
+
+      const bottomOfWindow = scrollOffset + windowHeight >= totalHeight;
+
+      if (bottomOfWindow) {
+        this.loadMoreRestaurants();
       }
     },
   },
   async created() {
-    const [restaurants, _] = await getRestaurants([]);
-    this.restaurants = restaurants;
+    await this.loadMoreRestaurants();
     this.$store.commit("updateRestaurant", this.restaurants);
-    console.log(restaurants.priceRange);
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);

@@ -1,6 +1,6 @@
 <template>
   <div class="visit-card">
-     <Card :restaurant="restaurant" />
+    <Card :restaurant="restaurant" />
     <Visit />
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      restaurant:{} ,
+      restaurant: {},
       visits: [],
       total: { type: Number },
     };
@@ -36,7 +36,7 @@ export default {
     const result = await getRestaurantById(this.restaurantId);
 
     this.restaurant = new Restaurant(result);
-    console.log(this.restaurant.pictures)
+    console.log(this.restaurant.pictures);
   },
 };
 </script>
