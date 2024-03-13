@@ -1,140 +1,24 @@
 <template>
   <aside class="sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
     <ul>
-      <div
-        class="offcanvas-lg offcanvas-start"
-        tabindex="-1"
-        id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel"
-      >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filters</h5>
-        </div>
-        <div class="offcanvas-body">
-          <div>
-            <h6>Price:</h6>
-            <ul>
-              <li>
-                <input
-                  type="radio"
-                  id="priceAll"
-                  value="All"
-                  v-model="selectedPrice"
-                />
-                <label for="priceAll">All</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="priceLow"
-                  value="$"
-                  v-model="selectedPrice"
-                />
-                <label for="priceLow">$</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="priceMedium"
-                  value="$$"
-                  v-model="selectedPrice"
-                />
-                <label for="priceMedium">$$</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="priceHigh"
-                  value="$$$"
-                  v-model="selectedPrice"
-                />
-                <label for="priceHigh">$$$</label>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h6>Category:</h6>
-            <ul>
-              <li>
-                <input
-                  type="radio"
-                  id="categoryAll"
-                  value="All"
-                  v-model="selectedCategory"
-                />
-                <label for="categoryAll">All</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="categoryAsian"
-                  value="Asian Cuisine"
-                  v-model="selectedCategory"
-                />
-                <label for="categoryAsian">Asian Cuisine</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="categoryItalian"
-                  value="Italian"
-                  v-model="selectedCategory"
-                />
-                <label for="categoryItalian">Italian Cuisine</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="categoryFineDinning"
-                  value="Fine Dinning"
-                  v-model="selectedCategory"
-                />
-                <label for="categoryFineDinning">Fine Dinning</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="categoryDessert"
-                  value="Dessert"
-                  v-model="selectedCategory"
-                />
-                <label for="categoryDessert">Dessert</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="categoryMediterranean"
-                  value="Mediterranean Cuisine"
-                  v-model="selectedCategory"
-                />
-                <label for="categoryMediterranean">Mediterranean Cuisine</label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="categoryBreakfast"
-                  value="Breakfast"
-                  v-model="selectedCategory"
-                />
-                <label for="categoryBreakfast">Breakfast</label>
-              </li>
-            </ul>
-          </div>
-          <div class="button-reset">
-            <button class="btn btn-secondary mt-3" @click="resetFilters">
-              Reset
-            </button>
-          </div>
-        </div>
-      </div>
+      <RestaurantFilter
+        :selectedPrice="selectedPrice"
+        :selectedCategory="selectedCategory"
+        @apply-filters="handleApplyFilters"
+        @reset-filters="resetFilters"
+      />
     </ul>
   </aside>
 </template>
 
 <script>
+import RestaurantFilter from "./RestaurantFilter.vue";
 import { mapGetters } from "vuex";
 
 export default {
+  components: {
+    RestaurantFilter,
+  },
   props: {
     isSidebarOpen: Boolean,
   },
@@ -158,6 +42,10 @@ export default {
     },
   },
   methods: {
+    handleApplyFilters(price, category) {
+      this.selectedPrice = price;
+      this.selectedCategory = category;
+    },
     resetFilters() {
       this.selectedPrice = "All";
       this.selectedCategory = "All";
@@ -181,6 +69,7 @@ export default {
   color: black;
   transition: left 0.5s ease;
 }
+
 @media (max-width: 600px) {
   .sidebar {
     margin: 5px;
@@ -194,15 +83,19 @@ export default {
     background-color: #f2f2f2;
     color: black;
     transition: left 0.5s ease;
+    height: 100%;
   }
 }
+
 .sidebar ul {
   list-style-type: none;
   padding: 0;
 }
+
 .sidebar li {
   padding: 10px;
 }
+
 .sidebar-open {
   left: 0;
 }

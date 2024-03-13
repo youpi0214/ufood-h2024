@@ -34,18 +34,16 @@
         </div>
         <RestaurantCards :filteredRestaurants="filteredRestaurants" />
       </div>
-      <div class="col">
-        <div
-          class="sidebar"
-          :class="{ 'sidebar-open': isSidebarOpen }"
-          @click="closeSidebar"
-        >
-          <SideBar
-            :isSidebarOpen="isSidebarOpen"
-            @apply-filters="applyFilters"
-            @reset-filters="resetFilters"
-          />
-        </div>
+      <div
+        class="sidebar"
+        :class="{ 'sidebar-open': isSidebarOpen }"
+        @click="closeSidebar"
+      >
+        <SideBar
+          :isSidebarOpen="isSidebarOpen"
+          @apply-filters="applyFilters"
+          @reset-filters="resetFilters"
+        />
       </div>
     </div>
   </div>
@@ -66,16 +64,13 @@ export default {
     const store = useStore();
     const isSidebarOpen = ref(store.state.isSidebarOpen);
 
-    // Watch for changes to isSideBarOpen
     watch(
       () => store.state.isSidebarOpen,
       (newValue) => {
         isSidebarOpen.value = newValue;
         if (newValue) {
-          // Disable scrolling when sidebar is open
           document.body.style.overflow = "hidden";
         } else {
-          // Enable scrolling when sidebar is closed
           document.body.style.overflow = "";
         }
       },
@@ -114,6 +109,9 @@ export default {
 .main-content {
   margin-top: 20px;
   position: relative;
+}
+.row {
+  display: flow;
 }
 
 @media (max-width: 600px) {
