@@ -30,7 +30,7 @@
 
 <script>
 import { Restaurant } from "@/components/homeView/script/card.utility";
-import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue"
+import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue";
 export default {
   props: {
     restaurant: {

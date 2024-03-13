@@ -1,0 +1,36 @@
+<template>
+  <div class="visit-card">
+    <Card :restaurant="restaurant" />
+    <Visit />
+  </div>
+</template>
+
+<script>
+import Visit from "@/components/profileView/Visit.vue";
+import Card from "@/components/homeView/Card.vue";
+import { getRestaurantVisitsByUserAndRestaurant } from "@/api/restaurant.visits";
+import { Restaurant } from "@/components/homeView/script/card.utility";
+
+export default {
+  name: "VisitCard",
+  components: { Visit, Card },
+  props: {
+    restaurantId: { type: String, required: true },
+    userId: { type: String, required: true },
+  },data () {
+    return {
+      restaurant: { type: Restaurant },
+      visits: [],
+      total: { type: Number },
+    };
+  },
+  async created() {
+    const [visits,total] = await getRestaurantVisitsByUserAndRestaurant(this.userId, this.restaurantId,);
+    this.total = total;
+    this.visits = visits;
+    this.restaurant = ge;
+  },
+};
+</script>
+
+<style scoped></style>

@@ -2,7 +2,7 @@
   <div>
     <h1>{{ userName }}</h1>
 
-    <div>Rating: 4.5 &star;</div>
+    <div>Rating: {{ rating }} &star;</div>
   </div>
 </template>
 
@@ -10,7 +10,9 @@
 export default {
   name: "UserHeader",
   props: {
-    userName: String,
+    userName: { type: String, required: true },
+    rating: { type: Number, required: true },
+    id: { type: String, required: true },
   },
 };
 </script>
