@@ -3,7 +3,7 @@ import {
   getUserRestaurantVisitById,
   createRestaurantVisit,
   getRestaurantVisitsByUserAndRestaurant,
-} from "./src/api/restaurant.visits";
+} from "src/api/restaurant.visits";
 import { test, describe, expect } from "vitest";
 import { RestaurantQueryOptions } from "@/api/api.utility";
 
