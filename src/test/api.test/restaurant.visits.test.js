@@ -5,13 +5,14 @@ import {
   getRestaurantVisitsByUserAndRestaurant,
 } from "./src/api/restaurant.visits";
 import { test, describe, expect } from "vitest";
+import { RestaurantQueryOptions } from "@/api/api.utility";
 
 describe("getUserRestaurantVisits", () => {
   test("fetch user restaurant visits", async () => {
     const userId = "60765a3d505e68000443c7bb";
     const options = [
-      ["limit", 10],
-      ["page", 0],
+      [RestaurantQueryOptions.LIMIT, 15],
+      [RestaurantQueryOptions.PAGE, 2],
     ];
 
     const visits = await getUserRestaurantVisits(userId, options);
@@ -52,8 +53,8 @@ describe("getRestaurantVisitsByUserAndRestaurant", () => {
     const userId = "60765a3d505e68000443c7bb";
     const restaurantId = "5f31fc8f55d7790550c08b09";
     const options = [
-      ["limit", 10],
-      ["page", 0],
+      [RestaurantQueryOptions.LIMIT, 15],
+      [RestaurantQueryOptions.PAGE, 2],
     ];
 
     const visits = await getRestaurantVisitsByUserAndRestaurant(
