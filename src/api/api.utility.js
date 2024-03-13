@@ -1,8 +1,4 @@
-import {
-  getRestaurantById,
-  getRestaurants,
-  getVisitsByRestaurantId,
-} from "./restaurant.js";
+export const BASE_URL = "https://ufoodapi.herokuapp.com/unsecure";
 
 export const RestaurantQueryOptions = {
   LIMIT: "limit",
