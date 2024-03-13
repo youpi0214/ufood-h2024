@@ -57,7 +57,7 @@ export default {
     };
   },
   async created() {
-    const [visits, total] = await getUserRestaurantVisits(id);
+    const [visits, total] = await getUserRestaurantVisits(this.id);
     this.visits = visits;
   },
 };

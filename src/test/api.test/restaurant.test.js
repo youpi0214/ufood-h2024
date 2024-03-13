@@ -105,6 +105,7 @@ describe("getRestaurantById", () => {
     const id = "5f31fc7155d7790550c08b02";
 
     const restaurant = await getRestaurantById(id);
+    console.log(restaurant);
 
     expect(restaurant).toBeDefined();
     expect(restaurant.id).toBe(id);

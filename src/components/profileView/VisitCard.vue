@@ -1,6 +1,6 @@
 <template>
   <div class="visit-card">
-    <Card :restaurant="restaurant" />
+     <Card :restaurant="restaurant" />
     <Visit />
   </div>
 </template>
@@ -10,6 +10,7 @@ import Visit from "@/components/profileView/Visit.vue";
 import Card from "@/components/homeView/Card.vue";
 import { getRestaurantVisitsByUserAndRestaurant } from "@/api/restaurant.visits";
 import { Restaurant } from "@/components/homeView/script/card.utility";
+import { getRestaurantById } from "@/api/restaurant";
 
 export default {
   name: "VisitCard",
@@ -17,18 +18,25 @@ export default {
   props: {
     restaurantId: { type: String, required: true },
     userId: { type: String, required: true },
-  },data () {
+  },
+  data() {
     return {
-      restaurant: { type: Restaurant },
+      restaurant:{} ,
       visits: [],
       total: { type: Number },
     };
   },
   async created() {
-    const [visits,total] = await getRestaurantVisitsByUserAndRestaurant(this.userId, this.restaurantId,);
+    const [visits, total] = await getRestaurantVisitsByUserAndRestaurant(
+      this.userId,
+      this.restaurantId,
+    );
     this.total = total;
     this.visits = visits;
-    this.restaurant = ge;
+    const result = await getRestaurantById(this.restaurantId);
+
+    this.restaurant = new Restaurant(result);
+    console.log(this.restaurant.pictures)
   },
 };
 </script>
