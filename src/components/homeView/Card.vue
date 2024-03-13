@@ -1,7 +1,12 @@
 <template>
   <div class="restaurant-card">
-    <router-link :to="`/restaurants/${restaurant.id}`" class="router-link">
+    <router-link
+      :to="`/restaurants/${restaurant.id}`"
+      class="router-link"
+      v-if="restaurant.id"
+    >
       <img
+        v-if="restaurant.pictures && restaurant.pictures.length > 0"
         :src="restaurant.pictures[0]"
         class="card-img-top"
         :alt="restaurant.name"
@@ -20,10 +25,9 @@
         </router-link>
       </div>
     </router-link>
-    <div>
-      <button class="btn btn-outline-success" @click="print">
-        Register a visit
-      </button>
+    <div v-else>
+      <!-- Render a placeholder or loading indicator -->
+      <span>Loading...</span>
     </div>
   </div>
 </template>
@@ -31,6 +35,7 @@
 <script>
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue";
+
 export default {
   props: {
     restaurant: {

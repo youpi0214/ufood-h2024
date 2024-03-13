@@ -1,22 +1,45 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
 
+// export const getUserRestaurantVisits = async (id, options = []) => {
+//   const queryString = convertQueryOptionsToString(options);
+//
+//   try {
+//     const response = await fetch(
+//       `${BASE_URL}/users/${id}/restaurants/visits${queryString}`,
+//     );
+//     if (!response.ok) {
+//       throw new Error("Failed to fetch user restaurant visits");
+//     }
+//
+//     const data = await response.json();
+//     return [data.items, data.total];
+//   } catch (error) {
+//     console.error("Request failed:", error);
+//     throw error;
+//   }
+// };
+
 export const getUserRestaurantVisits = async (id, options = []) => {
   const queryString = convertQueryOptionsToString(options);
 
-  try {
-    const response = await fetch(
-      `${BASE_URL}/users/${id}/restaurants/visits${queryString}`,
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch user restaurant visits");
-    }
+  return fetch(`${BASE_URL}/users/${id}/restaurants/visits${queryString}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok)
+        throw new Error("Failed to fetch user restaurant visits");
 
-    const data = await response.json();
-    return [data.items, data.total];
-  } catch (error) {
-    console.error("Request failed:", error);
-    throw error;
-  }
+      return response.json();
+    })
+    .then((data) => {
+      return [data.items, data.total];
+    })
+    .catch((error) => {
+      console.error("Request failed:", error);
+    });
 };
 
 export const getUserRestaurantVisitById = async (userId, visitId) => {
