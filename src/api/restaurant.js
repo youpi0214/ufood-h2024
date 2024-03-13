@@ -1,10 +1,8 @@
-import { convertQueryOptionsToString } from "./api.utility.js";
+import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
 
-const BASE_URL = "https://ufoodapi.herokuapp.com/unsecure"; // Assuming your API base URL
-
-export const getRestaurants = async (options) => {
+export const getRestaurants = async (options = []) => {
   const queryString = convertQueryOptionsToString(options);
-  console.log(`${BASE_URL}/restaurants${queryString}`);
+
   return fetch(`${BASE_URL}/restaurants${queryString}`, {
     method: "GET",
     headers: {
@@ -41,7 +39,7 @@ export const getRestaurantById = async (id) => {
     .catch((error) => console.error("Request failed:", error));
 };
 
-export const getVisitsByRestaurantId = async (id, options) => {
+export const getVisitsByRestaurantId = async (id, options = []) => {
   const queryString = convertQueryOptionsToString(options);
 
   return fetch(`${BASE_URL}/restaurants/${id}/visits${queryString}`, {
