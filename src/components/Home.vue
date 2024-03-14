@@ -23,7 +23,7 @@
           </div>
         </div>
         <!--FilterBtn and SearchBar end-->
-        <RestaurantCards :filteredRestaurants="filteredRestaurants" />
+        <RestaurantCards :restaurants="restaurants" />
       </div>
       <!--Content end-->
 
@@ -35,6 +35,7 @@
       >
         <SideBar
           :isSidebarOpen="isSidebarOpen"
+          :filterGenres="filterGenres"
           @apply-filters="applyFilters"
           @reset-filters="resetFilters"
         />
@@ -47,11 +48,11 @@
 <script>
 import RestaurantCards from "@/components/homeView/RestaurantCardsContainer.vue";
 import SideBar from "@/components/homeView/SideBar.vue";
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { getRestaurants } from "@/api/restaurant";
 import SearchBar from "@/components/homeView/SearchBar.vue";
-import { RestaurantQueryOptions } from "@/api/api.utility";
-
+import { Restaurant } from "@/components/homeView/script/card.utility";
+import { generateRestaurantFetchOptions } from "@/components/homeView/script/home.utility";
 export default {
   components: {
     SearchBar,
@@ -63,13 +64,14 @@ export default {
       isSidebarOpen: false,
       isBackgroundVisible: true,
       restaurants: [],
+      filterGenres: [],
       currentPage: 0,
       isLoading: false,
+      filtersApplied: false,
     };
   },
   computed: {
     ...mapState(["selectedPrice", "selectedCategory"]),
-    ...mapGetters(["filteredRestaurants"]),
   },
   methods: {
     ...mapActions(["setSelectedFilters"]),
@@ -81,22 +83,70 @@ export default {
     },
     applyFilters(price, category) {
       this.setSelectedFilters({ price, category });
+      this.filtersApplied = true;
+      this.fetchRestaurants();
+      console.log(
+        "Category: " + this.selectedCategory,
+        "Price: " + this.selectedPrice,
+      );
     },
     resetFilters() {
       this.setSelectedFilters({ price: "All", category: "All" });
+      this.filtersApplied = false;
+    },
+    async fetchRestaurants() {
+      let options = generateRestaurantFetchOptions(
+        this.selectedCategory,
+        this.selectedPrice,
+      );
+
+      try {
+        const [restaurants, _] = await getRestaurants(options);
+        this.restaurants = restaurants.map(
+          (restaurant) => new Restaurant(restaurant),
+        );
+        console.log("Fetched restaurants:", restaurants);
+      } catch (error) {
+        console.error("Error fetching restaurants:", error);
+      }
     },
     async loadMoreRestaurants() {
       if (this.isLoading) return;
 
       this.isLoading = true;
 
-      const options = [[RestaurantQueryOptions.PAGE, this.currentPage]];
-      const [newRestaurants, _] = await getRestaurants(options);
+      const options = generateRestaurantFetchOptions(
+        this.selectedCategory,
+        this.selectedPrice,
+        this.currentPage,
+      );
 
-      this.restaurants = [...this.restaurants, ...newRestaurants];
-      this.currentPage++;
+      try {
+        const [newRestaurants, _] = await getRestaurants(options);
 
-      this.$store.commit("updateRestaurant", this.restaurants);
+        const newGenres = newRestaurants.flatMap(
+          (restaurant) => restaurant.genres,
+        );
+        newGenres.forEach((genre) => {
+          if (!this.filterGenres.includes(genre)) {
+            this.filterGenres.push(genre);
+          }
+        });
+
+        this.restaurants = [
+          ...this.restaurants,
+          ...newRestaurants.map(
+            (restaurant) => new Restaurant(restaurant),
+          ),
+        ];
+        console.log("la page downloaded: "+ this.currentPage)
+        this.currentPage++;
+
+
+        this.$store.commit("updateRestaurant", this.restaurants);
+      } catch (error) {
+        console.error("Error loading more restaurants:", error);
+      }
 
       this.isLoading = false;
     },
@@ -113,12 +163,16 @@ export default {
       const bottomOfWindow = scrollOffset + windowHeight >= totalHeight;
 
       if (bottomOfWindow) {
-        this.loadMoreRestaurants();
+        if (!this.filtersApplied || this.restaurants.length % 10 === 0) {
+          this.loadMoreRestaurants();
+        }
       }
     },
   },
   async created() {
+    this.setSelectedFilters({ price: "All", category: "All" });
     await this.loadMoreRestaurants();
+    console.log(this.restaurants);
     this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {

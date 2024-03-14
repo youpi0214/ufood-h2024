@@ -43,6 +43,9 @@ export default {
       required: true,
     },
   },
+  computed: {
+    //TODO méthode format name of restaurants
+  },
   methods: {
     formatGenres,
   },

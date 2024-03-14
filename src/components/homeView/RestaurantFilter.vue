@@ -27,17 +27,15 @@
       <div>
         <h6>Category:</h6>
         <ul class="list-unstyled">
-          <li v-for="category in categories" :key="category.value">
+          <li v-for="genre in filterGenres" :key="genre">
             <input
-              type="radio"
-              :id="`category-${category.value}`"
-              :value="category.value"
-              :checked="selectedCategory === category.value"
-              @change="updateSelectedCategory(category.value)"
+              type="checkbox"
+              :id="`category-${genre}`"
+              :value="genre"
+              :checked="selectedCategories.includes(genre)"
+              @change="updateSelectedCategory($event.target.value)"
             />
-            <label :for="`category-${category.value}`">{{
-              category.label
-            }}</label>
+            <label :for="`category-${genre}`">{{ genre }}</label>
           </li>
         </ul>
       </div>
@@ -53,6 +51,7 @@
 <script>
 export default {
   props: {
+    filterGenres: Array,
     selectedPrice: String,
     selectedCategory: String,
   },
@@ -64,23 +63,25 @@ export default {
         { value: "$$", label: "$$" },
         { value: "$$$", label: "$$$" },
       ],
-      categories: [
-        { value: "All", label: "All" },
-        { value: "Asian Cuisine", label: "Asian Cuisine" },
-        { value: "Italian", label: "Italian Cuisine" },
-        { value: "Fine Dinning", label: "Fine Dinning" },
-        { value: "Dessert", label: "Dessert" },
-        { value: "Mediterranean Cuisine", label: "Mediterranean Cuisine" },
-        { value: "Breakfast", label: "Breakfast" },
-      ],
     };
+  },
+  computed: {
+    selectedCategories() {
+      return this.selectedCategory.split(','); // Convert selectedCategory string to an array
+    }
   },
   methods: {
     updateSelectedPrice(value) {
       this.$emit("apply-filters", value, this.selectedCategory);
     },
     updateSelectedCategory(value) {
-      this.$emit("apply-filters", this.selectedPrice, value);
+      let selectedCategories = this.selectedCategories; // Get the current selected categories array
+      if (selectedCategories.includes(value)) {
+        selectedCategories = selectedCategories.filter(cat => cat !== value); // Remove the category if already selected
+      } else {
+        selectedCategories.push(value);
+      }
+      this.$emit("apply-filters", this.selectedPrice, selectedCategories.join(','));
     },
     resetFilters() {
       this.$emit("reset-filters");

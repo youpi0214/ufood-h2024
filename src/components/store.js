@@ -15,6 +15,8 @@ export default createStore({
     },
     setSelectedFilters(state, filters) {
       state.selectedFilters = filters;
+      state.selectedCategory = filters.category;
+      state.selectedPrice = filters.price;
     },
     updateRestaurant(state, newRestaurants) {
       state.restaurants = newRestaurants;
