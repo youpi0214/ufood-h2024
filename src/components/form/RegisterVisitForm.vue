@@ -40,7 +40,10 @@
               >Please select a valid date (not in the future).</span
             >
           </div>
-          <div class="button-group" style="display: flex;justify-content: center; align-items: center">
+          <div
+            class="button-group"
+            style="display: flex; justify-content: center; align-items: center"
+          >
             <button
               type="submit"
               class="btn btn-primary"

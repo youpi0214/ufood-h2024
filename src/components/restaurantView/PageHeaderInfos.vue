@@ -91,7 +91,7 @@ export default {
         <div>
           <span id="title">{{ name }}</span>
           <span id="rating" :style="{ color: ratingColor(this.rating).color }"
-          >{{ "★" }} {{ rating }} {{ ratingColor(this.rating).grade }}</span
+            >{{ "★" }} {{ rating }} {{ ratingColor(this.rating).grade }}</span
           >
         </div>
         <div>{{ "⚲" }} {{ address }}</div>
@@ -105,10 +105,10 @@ export default {
       >
         <div style="justify-content: flex-end">
           <span
-          ><i
-            class="bi bi-telephone-fill"
-            style="margin-right: 5px"
-          ></i></span
+            ><i
+              class="bi bi-telephone-fill"
+              style="margin-right: 5px"
+            ></i></span
           >{{ tel }}
         </div>
         <div>

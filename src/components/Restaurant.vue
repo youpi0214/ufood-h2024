@@ -39,7 +39,11 @@
         </div>
       </div>
       <div v-if="showForm">
-        <RegisterVisitForm :show-form="showForm" @close="hideFeedbackForm" :restaurant="restaurant">
+        <RegisterVisitForm
+          :show-form="showForm"
+          @close="hideFeedbackForm"
+          :restaurant="restaurant"
+        >
         </RegisterVisitForm>
       </div>
       <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
