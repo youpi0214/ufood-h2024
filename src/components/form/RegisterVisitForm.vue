@@ -20,7 +20,7 @@
             >
           </div>
           <div class="form-group">
-            <label for="rating">Rating (0.0-5.0) :</label><br />
+            <label for="rating">Rating (1.0-5.0) :</label><br />
             <input
               type="number"
               id="rating"
@@ -64,11 +64,12 @@
 
 <script>
 import { Restaurant } from "@/components/homeView/script/card.utility";
+import { createRestaurantVisit } from "@/api/restaurant.visits";
 export default {
   props: {
     userID: {
       type: String,
-      default: "60765a3d505e68000443c7bb",
+      default: "619a82f824b6ec0004c9f035",
     },
     restaurant: {
       type: Restaurant,
@@ -103,8 +104,9 @@ export default {
     maxDate() {
       return new Date().toISOString().split("T")[0];
     },
-    dateTime() {
-      return this.userDate + "T" + new Date().getTime().toString() + "Z";
+
+    formattedDate() {
+      return new Date(this.userDate).toISOString();
     },
   },
   methods: {
@@ -117,9 +119,13 @@ export default {
           restaurant_id: this.restaurant.id,
           comment: this.userComment,
           rating: this.userRating,
-          date: this.dateTime,
+          date: this.formattedDate,
         };
-        console.log(visitData.date);
+        if (await createRestaurantVisit(this.userID, visitData)) {
+          console.log("Visit is created");
+        } else {
+          alert("Visit is not created");
+        }
         this.formSubmitted = false;
         this.closeForm();
       } else {
@@ -152,7 +158,7 @@ export default {
       this.commentValid = value.trim().length > 0;
     },
     userRating(value) {
-      this.ratingValid = typeof value === "number" && value >= 0 && value <= 5;
+      this.ratingValid = typeof value === "number" && value >= 1 && value <= 5;
     },
     userDate(value) {
       const selectedDate = new Date(value);

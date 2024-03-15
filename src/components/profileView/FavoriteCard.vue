@@ -32,13 +32,11 @@ export default {
 </script>
 
 <style scoped>
-
- .favorite-card {
-   display: flex;
-   flex-direction: column;
-   margin: 0.2rem;
-   align-items: center;
-   background-color: #f8f9fa;
- }
-
+.favorite-card {
+  display: flex;
+  flex-direction: column;
+  margin: 0.2rem;
+  align-items: center;
+  background-color: #f8f9fa;
+}
 </style>

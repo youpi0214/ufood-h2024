@@ -22,14 +22,14 @@ import {
   renameFavoriteList,
 } from "@/api/favorites.lists";
 import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
-import {Owner} from "@/components/profileView/Owner";
+import { Owner } from "@/components/profileView/Owner";
 
 export default {
   name: "FavoriteList",
-  components: {FavoriteCard},
+  components: { FavoriteCard },
   props: {
-    id: {type: String, required: true},
-    update: {type: Function, required: true},
+    id: { type: String, required: true },
+    update: { type: Function, required: true },
   },
   data() {
     return {
@@ -64,7 +64,6 @@ export default {
 
 <style scoped>
 .favorite-list {
-
   padding: 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 5px;
@@ -85,8 +84,4 @@ export default {
   justify-content: stretch;
   align-items: center;
 }
-
-
-
-
 </style>

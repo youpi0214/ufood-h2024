@@ -96,6 +96,4 @@ export default {
 .accordion-item {
   margin-top: 1rem;
 }
-
-
 </style>

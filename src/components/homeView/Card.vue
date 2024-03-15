@@ -20,7 +20,11 @@
         </p>
       </div>
       <div>
-        <button class="btn btn-outline-success" @click="showFeedbackForm" :disabled="registerDisable">
+        <button
+          class="btn btn-outline-success"
+          @click="showFeedbackForm"
+          :disabled="registerDisable"
+        >
           Register a visit
         </button>
       </div>
