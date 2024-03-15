@@ -155,15 +155,19 @@ export default {
     },
     handleScroll() {
       const scrollOffset =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      const totalHeight =
-        document.documentElement.scrollHeight || document.body.scrollHeight;
+        window.pageYOffset || document.documentElement.scrollTop;
+      const totalHeight = document.documentElement.scrollHeight;
       const windowHeight =
-        window.innerHeight ||
-        document.documentElement.clientHeight ||
-        document.body.clientHeight;
+        window.innerHeight || document.documentElement.clientHeight;
 
-      const bottomOfWindow = scrollOffset + windowHeight >= totalHeight;
+      let bottomOfWindow = false;
+
+      // Check if the user is close to the bottom of the page
+      if (totalHeight - (scrollOffset + windowHeight) < 100) {
+        bottomOfWindow = true;
+      }
+
+      console.log(bottomOfWindow);
 
       if (bottomOfWindow) {
         if (!this.filtersApplied || this.restaurants.length % 10 === 0) {
