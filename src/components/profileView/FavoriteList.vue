@@ -1,13 +1,17 @@
 <template>
   <div class="favorite-list">
-    <h3>{{ name }}</h3>
-    <button class="btn btn-primary" @click="editName">edit name</button>
-    <button class="btn btn-danger" @click="deleteList">delete list</button>
-    <FavoriteCard
-      v-for="restaurantId in restaurantIds"
-      :restaurantId="restaurantId.id"
-      :key="restaurantId.id"
-    />
+    <div class="favorite-list-header">
+      <h3>{{ name }}</h3>
+      <button class="btn btn-primary" @click="editName">edit name</button>
+      <button class="btn btn-danger" @click="deleteList">delete list</button>
+    </div>
+    <div class="favorite-list-body">
+      <FavoriteCard
+        v-for="restaurantId in restaurantIds"
+        :restaurantId="restaurantId.id"
+        :key="restaurantId.id"
+      />
+    </div>
   </div>
 </template>
 
@@ -18,14 +22,14 @@ import {
   renameFavoriteList,
 } from "@/api/favorites.lists";
 import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
-import { Owner } from "@/components/profileView/Owner";
+import {Owner} from "@/components/profileView/Owner";
 
 export default {
   name: "FavoriteList",
-  components: { FavoriteCard },
+  components: {FavoriteCard},
   props: {
-    id: { type: String, required: true },
-    update: { type: Function, required: true },
+    id: {type: String, required: true},
+    update: {type: Function, required: true},
   },
   data() {
     return {
@@ -60,10 +64,29 @@ export default {
 
 <style scoped>
 .favorite-list {
-  margin-top: 1rem;
+
   padding: 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 5px;
   background-color: #f8f9fa;
 }
+
+.favorite-list-header {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.favorite-list-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  align-items: center;
+}
+
+
+
+
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="favorite-card">
-    <Card :restaurant="restaurant" />
+    <Card :restaurant="restaurant" :registerDisable="true" />
     <button class="btn btn-danger">remove from list</button>
   </div>
 </template>
@@ -31,4 +31,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+ .favorite-card {
+   display: flex;
+   flex-direction: column;
+   margin: 0.2rem;
+   align-items: center;
+   background-color: #f8f9fa;
+ }
+
+</style>

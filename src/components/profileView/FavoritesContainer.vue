@@ -92,4 +92,10 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.accordion-item {
+  margin-top: 1rem;
+}
+
+
+</style>

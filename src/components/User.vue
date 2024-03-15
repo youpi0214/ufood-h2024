@@ -1,5 +1,5 @@
 <template>
-  <div class="container-lg main-content">
+  <div class="container-xl main-content">
     <div class="col-md-auto">
       <UserHeader :userName="userName" :rating="rating" :id="id" />
     </div>
@@ -46,6 +46,6 @@ export default {
 }
 
 .accordion {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 </style>
