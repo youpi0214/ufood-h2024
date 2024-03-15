@@ -43,31 +43,63 @@
 
 <script>
 import VisitCard from "@/components/profileView/VisitCard.vue";
-import { getUserRestaurantVisits } from "@/api/restaurant.visits";
+import {getUserRestaurantVisits} from "@/api/restaurant.visits";
+import {RestaurantQueryOptions} from "@/api/api.utility";
+import {getAllFavoriteLists} from "@/api/favorites.lists";
 
 export default {
   name: "RecentlyVisitedRestaurants",
-  components: { VisitCard },
+  components: {VisitCard},
   props: {
-    id: { type: String, required: true },
+    id: {type: String, required: true},
   },
   data() {
     return {
       visits: [],
     };
   },
-  async created() {
-    const [visits, total] = await getUserRestaurantVisits(this.id);
-    this.visits = visits.reduce((accumulator, currator) => {
-      const existing = accumulator.find(
-        (visitInAccumulator) =>
-          visitInAccumulator.restaurant_id === currator.restaurant_id,
-      );
-      if (!existing) {
-        accumulator.push(currator);
+  methods: {
+    async updateVisits() {
+      this.visits = [];
+      let queryQuantity = 10;
+      let totalQueries = (await this.getTotal()) / queryQuantity;
+      let recentlyVisited = [];
+
+      for (let i = 0; i < totalQueries; i++) {
+        const options = [
+          [RestaurantQueryOptions.LIMIT, queryQuantity],
+          [RestaurantQueryOptions.PAGE, i],
+        ];
+        const [visits, _] = await getUserRestaurantVisits(this.id, options);
+        for (let visit of visits) {
+          recentlyVisited.push(visit);
+        }
       }
-      return accumulator;
-    }, []);
+      this.visits = this.filterUniqueRestaurantIds(recentlyVisited);
+
+    },
+    filterUniqueRestaurantIds(visitList) {
+      return visitList.reduce((accumulator, currator) => {
+        const existing = accumulator.find(
+          (visitInAccumulator) =>
+            visitInAccumulator.restaurant_id === currator.restaurant_id,
+        );
+        if (!existing) {
+          accumulator.push(currator);
+        }
+        return accumulator;
+      }, []);
+
+    }
+    ,
+    async getTotal() {
+      const [_, total] = await getUserRestaurantVisits(this.id);
+      return total;
+    },
+  }
+  ,
+  async created() {
+    this.updateVisits();
   },
 };
 </script>
