@@ -48,7 +48,7 @@ export default {
       this.$emit("apply-filters", price, category);
     },
     resetFilters() {
-      this.$emit("apply-filters", "All", "All");
+      this.$emit("apply-filters", "", "");
       this.$emit("reset-filters");
     },
   },

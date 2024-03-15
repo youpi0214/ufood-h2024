@@ -40,9 +40,7 @@
         </ul>
       </div>
       <div class="button-reset">
-        <button class="btn btn-secondary mt-3" @click="resetFilters">
-          Reset
-        </button>
+        <button class="btn btn-success" @click="resetFilters">Reset</button>
       </div>
     </div>
   </div>
