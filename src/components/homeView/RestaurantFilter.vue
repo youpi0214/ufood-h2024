@@ -14,11 +14,11 @@
         <ul class="list-unstyled">
           <li v-for="price in prices" :key="price.value">
             <input
-              type="radio"
+              type="checkbox"
               :id="`price-${price.value}`"
               :value="price.value"
-              :checked="selectedPrice === price.value"
-              @change="updateSelectedPrice(price.value)"
+              :checked="selectedPrices.includes(price.value)"
+              @change="updateSelectedPrice($event.target.value)"
             />
             <label :for="`price-${price.value}`">{{ price.label }}</label>
           </li>
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+
+
 export default {
   props: {
     filterGenres: Array,
@@ -58,7 +60,6 @@ export default {
   data() {
     return {
       prices: [
-        { value: "All", label: "All" },
         { value: "$", label: "$" },
         { value: "$$", label: "$$" },
         { value: "$$$", label: "$$$" },
@@ -67,17 +68,29 @@ export default {
   },
   computed: {
     selectedCategories() {
-      return this.selectedCategory.split(','); // Convert selectedCategory string to an array
+      return this.selectedCategory.split(',');
+    },
+    selectedPrices() {
+      return this.selectedPrice.split(',');
     }
   },
   methods: {
     updateSelectedPrice(value) {
-      this.$emit("apply-filters", value, this.selectedCategory);
+      let selectedPrices = this.selectedPrices;
+      const index = selectedPrices.indexOf(value);
+
+      if (index !== -1) {
+        selectedPrices.splice(index, 1);
+      } else {
+        selectedPrices.push(value);
+      }
+
+      this.$emit("apply-filters", selectedPrices.join(','), this.selectedCategory);
     },
     updateSelectedCategory(value) {
-      let selectedCategories = this.selectedCategories; // Get the current selected categories array
+      let selectedCategories = this.selectedCategories;
       if (selectedCategories.includes(value)) {
-        selectedCategories = selectedCategories.filter(cat => cat !== value); // Remove the category if already selected
+        selectedCategories = selectedCategories.filter(cat => cat !== value);
       } else {
         selectedCategories.push(value);
       }

@@ -21,11 +21,17 @@ export function generateRestaurantFetchOptions(selectedCategory, selectedPrice, 
     }
   }
 
+  // Check if selectedPrice is not "All"
   if (selectedPrice !== "All") {
-    options.push([
-      RestaurantQueryOptions.PRICE_RANGE,
-      priceMapping[selectedPrice],
-    ]);
+    // Split the selectedPrice string into an array of prices
+    const prices = selectedPrice.split(',').map(price => price.trim());
+    // Filter out the "All" price and push the remaining prices into the options array
+    const filteredPrices = prices.filter(price => price !== "All");
+    if (filteredPrices.length > 0) {
+      // Map the filtered prices to their corresponding numeric values using the priceMapping object
+      const priceValues = filteredPrices.map(price => priceMapping[price]);
+      options.push([RestaurantQueryOptions.PRICE_RANGE, priceValues]);
+    }
   }
 
   // If no filters are applied, return an empty array
