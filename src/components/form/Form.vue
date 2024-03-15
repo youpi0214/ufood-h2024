@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- Button to trigger form display -->
-    <button @click="showForm = true">Leave Feedback</button>
-
     <!-- Feedback form (will be displayed as a modal when showForm is true) -->
     <div v-if="showForm" class="modal-background">
       <div class="modal-content">
@@ -72,6 +69,10 @@ export default {
       type: String,
       default: "5f31fc8f55d7790550c08b09",
     },
+    showForm: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
@@ -81,7 +82,6 @@ export default {
       commentValid: true,
       ratingValid: true,
       dateValid: true,
-      showForm: false,
       formSubmitted: false,
       errorMessage: "",
     };
@@ -104,7 +104,7 @@ export default {
       this.formSubmitted = true;
       if (this.formValid) {
         console.log("Form submitted!");
-        // Your form submission logic here
+        // Form submission logic here
         this.formSubmitted = false;
         this.closeForm();
       } else {
@@ -118,7 +118,7 @@ export default {
       this.closeForm();
     },
     closeForm() {
-      this.showForm = false;
+      this.$emit("close");
       this.clearForm();
     },
     clearForm() {

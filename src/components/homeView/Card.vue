@@ -20,15 +20,22 @@
         </p>
       </div>
       <div>
-        <router-link to="/restaurant">
-          <button class="btn btn-outline-success">Register a visit</button>
-        </router-link>
+        <button class="btn btn-outline-success" @click="showFeedbackForm">
+          Register a visit
+        </button>
       </div>
     </div>
     <div v-else>
       <!-- Render a placeholder or loading indicator -->
       <span>Loading...</span>
     </div>
+
+    <!-- Feedback form modal -->
+    <RegisterVisitForm
+      v-if="showForm"
+      @close="hideFeedbackForm"
+      :showForm="showForm"
+    />
   </div>
 </template>
 
@@ -36,6 +43,7 @@
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue";
 import { formatRestaurantName } from "@/components/homeView/script/home.utility";
+import RegisterVisitForm from "@/components/form/Form.vue";
 
 export default {
   props: {
@@ -44,12 +52,23 @@ export default {
       required: true,
     },
   },
-  computed: {
-    //TODO méthode format name of restaurants
+  data() {
+    return {
+      showForm: false,
+    };
   },
   methods: {
     formatGenres,
     formatRestaurantName,
+    showFeedbackForm() {
+      this.showForm = true;
+    },
+    hideFeedbackForm() {
+      this.showForm = false;
+    },
+  },
+  components: {
+    RegisterVisitForm,
   },
 };
 </script>
