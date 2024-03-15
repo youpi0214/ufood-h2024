@@ -20,7 +20,7 @@
         </p>
       </div>
       <div>
-        <button class="btn btn-outline-success" @click="showFeedbackForm">
+        <button class="btn btn-outline-success" @click="showFeedbackForm" :disabled="registerDisable">
           Register a visit
         </button>
       </div>
@@ -51,6 +51,10 @@ export default {
     restaurant: {
       type: Restaurant,
       required: true,
+    },
+    registerDisable: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

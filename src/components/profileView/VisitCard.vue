@@ -1,6 +1,6 @@
 <template>
   <div class="visit-card">
-    <Card :restaurant="restaurant" />
+    <Card :restaurant="restaurant" :registerDisable="true" />
     <div>
       {{ total }}
     </div>
@@ -41,4 +41,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
