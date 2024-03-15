@@ -25,6 +25,7 @@
 
 <script>
 import mapboxgl from "!mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/mapUtils.js";
 
 export default {

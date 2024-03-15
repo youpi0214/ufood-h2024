@@ -34,6 +34,7 @@
     <RegisterVisitForm
       v-if="showForm"
       @close="hideFeedbackForm"
+      :restaurant="restaurant"
       :showForm="showForm"
     />
   </div>
@@ -43,7 +44,7 @@
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue";
 import { formatRestaurantName } from "@/components/homeView/script/home.utility";
-import RegisterVisitForm from "@/components/form/Form.vue";
+import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 
 export default {
   props: {

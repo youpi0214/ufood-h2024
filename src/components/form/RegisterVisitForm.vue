@@ -3,14 +3,15 @@
     <!-- Feedback form (will be displayed as a modal when showForm is true) -->
     <div v-if="showForm" class="modal-background">
       <div class="modal-content">
-        <button class="close-btn" @click="cancelForm">X</button>
-        <h2>Feedback Form</h2>
+        <button class="close-btn" @click="cancelForm">×</button>
+        <span>Restaurant : </span>
+        <span><input disabled :placeholder="restaurant.name" /></span>
         <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="comment">Comment :</label><br />
             <textarea
               id="comment"
-              v-model="comment"
+              v-model="userComment"
               rows="2"
               cols="30"
             ></textarea>
@@ -19,11 +20,11 @@
             >
           </div>
           <div class="form-group">
-            <label for="rating">Rating (1.0-5.0) :</label><br />
+            <label for="rating">Rating (0.0-5.0) :</label><br />
             <input
               type="number"
               id="rating"
-              v-model.number="rating"
+              v-model.number="userRating"
               min="1"
               max="5"
               step="0.1"
@@ -34,12 +35,12 @@
           </div>
           <div class="form-group">
             <label for="date">Date of Visit :</label><br />
-            <input type="date" id="date" v-model="date" :max="maxDate" />
+            <input type="date" id="date" v-model="userDate" :max="maxDate" />
             <span v-if="!dateValid && formSubmitted" class="error"
               >Please select a valid date (not in the future).</span
             >
           </div>
-          <div class="button-group">
+          <div class="button-group" style="display: flex;justify-content: center; align-items: center">
             <button
               type="submit"
               class="btn btn-primary"
@@ -59,15 +60,16 @@
 </template>
 
 <script>
+import { Restaurant } from "@/components/homeView/script/card.utility";
 export default {
   props: {
     userID: {
       type: String,
       default: "60765a3d505e68000443c7bb",
     },
-    restaurantId: {
-      type: String,
-      default: "5f31fc8f55d7790550c08b09",
+    restaurant: {
+      type: Restaurant,
+      default: null,
     },
     showForm: {
       type: Boolean,
@@ -76,9 +78,9 @@ export default {
   },
   data() {
     return {
-      comment: "",
-      rating: null,
-      date: "",
+      userComment: "",
+      userRating: null,
+      userDate: "",
       commentValid: true,
       ratingValid: true,
       dateValid: true,
@@ -92,19 +94,29 @@ export default {
         this.commentValid &&
         this.ratingValid &&
         this.dateValid &&
-        this.date.trim() !== ""
+        this.userDate.trim() !== ""
       );
     },
     maxDate() {
       return new Date().toISOString().split("T")[0];
     },
+    dateTime() {
+      return this.userDate + "T" + new Date().getTime().toString() + "Z";
+    },
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.formSubmitted = true;
       if (this.formValid) {
         console.log("Form submitted!");
         // Form submission logic here
+        const visitData = {
+          restaurant_id: this.restaurant.id,
+          comment: this.userComment,
+          rating: this.userRating,
+          date: this.dateTime,
+        };
+        console.log(visitData.date);
         this.formSubmitted = false;
         this.closeForm();
       } else {
@@ -122,9 +134,9 @@ export default {
       this.clearForm();
     },
     clearForm() {
-      this.comment = "";
-      this.rating = null;
-      this.date = "";
+      this.userComment = "";
+      this.userRating = null;
+      this.userDate = "";
       this.commentValid = true;
       this.ratingValid = true;
       this.dateValid = true;
@@ -133,13 +145,13 @@ export default {
     },
   },
   watch: {
-    comment(value) {
-      this.commentValid = value.trim().length > 0 && typeof value === "string";
+    userComment(value) {
+      this.commentValid = value.trim().length > 0;
     },
-    rating(value) {
-      this.ratingValid = typeof value === "number" && value >= 1 && value <= 5;
+    userRating(value) {
+      this.ratingValid = typeof value === "number" && value >= 0 && value <= 5;
     },
-    date(value) {
+    userDate(value) {
       const selectedDate = new Date(value);
       const today = new Date();
       this.dateValid = value.trim().length > 0 && selectedDate <= today;
@@ -148,7 +160,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .modal-background {
   position: fixed;
   top: 0;

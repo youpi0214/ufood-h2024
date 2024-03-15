@@ -42,21 +42,6 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
       </button>
     </div>
-    <div style="display: flex; width: 100%">
-      <button
-        style="flex: 1; border-radius: 0px"
-        class="btn btn-primary btn-lg"
-      >
-        Register a visit
-      </button>
-      <button
-        style="flex: 1; border-radius: 0px"
-        id="loveButton"
-        class="btn btn-primary btn-lg"
-      >
-        ♥ Add to favourites
-      </button>
-    </div>
   </div>
 </template>
 
@@ -104,14 +89,5 @@ export default {
 #buttonSlide {
   background: transparent;
   border: none;
-}
-#loveButton {
-  background-color: crimson;
-  color: white;
-  border: none;
-  border-radius: 7px;
-}
-#loveButton:hover {
-  background-color: #ac0a29;
 }
 </style>

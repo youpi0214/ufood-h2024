@@ -12,15 +12,35 @@
           :genres="restaurant.genres"
         ></PageHeaderInfos>
       </div>
-      <div style="display: flex; flex-wrap: wrap">
-        <div style="flex: 2; margin: 1rem">
+      <div id="sliderMapContainer" style="display: flex; flex-wrap: wrap">
+        <div style="flex: 2; margin-top: 1rem">
           <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
+          <div style="display: flex">
+            <button
+              style="flex: 1; border-radius: 0px"
+              class="btn btn-primary btn-lg"
+              @click="showFeedbackForm"
+            >
+              Register Visit
+            </button>
+            <button
+              style="flex: 1; border-radius: 0px"
+              id="loveButton"
+              class="btn btn-primary btn-lg"
+            >
+              ♥ Add to favourites
+            </button>
+          </div>
         </div>
         <div style="flex: 1; margin: 1rem">
           <MapView
             :restaurant-location="restaurant.location.coordinates"
           ></MapView>
         </div>
+      </div>
+      <div v-if="showForm">
+        <RegisterVisitForm :show-form="showForm" @close="hideFeedbackForm" :restaurant="restaurant">
+        </RegisterVisitForm>
       </div>
       <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
     </div>
@@ -36,22 +56,29 @@
   </div>
 </template>
 
-<style></style>
 <script>
 import PageHeaderInfos from "@/components/restaurantView/PageHeaderInfos.vue";
 import ImageSlider from "@/components/restaurantView/ImageSlider.vue";
 import OpenHours from "@/components/restaurantView/OpenHours.vue";
 import MapView from "@/components/restaurantView/MapView.vue";
 import { getRestaurantById } from "@/api/restaurant";
+import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 
-const key = "AIzaSyC-TIo4u7jtVVu0yLHFe5hIdh3xICwIMmk";
 export default {
   name: "Restaurant",
-  // eslint-disable-next-line vue/no-unused-components
-  components: { PageHeaderInfos, ImageSlider, OpenHours, MapView },
+  components: {
+    RegisterVisitForm,
+    PageHeaderInfos,
+    ImageSlider,
+    OpenHours,
+    MapView,
+  },
   data() {
     return {
+      isVisible: false,
       restaurant: null,
+      showPopup: false,
+      showForm: false,
     };
   },
   computed: {
@@ -68,11 +95,19 @@ export default {
       console.error("Error getting restaurant...");
     }
   },
+  methods: {
+    showFeedbackForm() {
+      this.showForm = true;
+    },
+    hideFeedbackForm() {
+      this.showForm = false;
+    },
+  },
 };
 </script>
 
 <style scoped>
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1500px) {
   .container {
     flex-direction: column;
     align-items: center;
@@ -84,5 +119,17 @@ export default {
   div[style="display: flex; width: 100%"] {
     flex-direction: column;
   }
+  #sliderMapContainer {
+    margin-top: 5rem;
+  }
+}
+#loveButton {
+  background-color: crimson;
+  color: white;
+  border: none;
+  border-radius: 7px;
+}
+#loveButton:hover {
+  background-color: #ac0a29;
 }
 </style>
