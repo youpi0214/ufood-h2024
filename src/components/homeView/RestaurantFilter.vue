@@ -49,8 +49,6 @@
 </template>
 
 <script>
-
-
 export default {
   props: {
     filterGenres: Array,
@@ -68,11 +66,11 @@ export default {
   },
   computed: {
     selectedCategories() {
-      return this.selectedCategory.split(',');
+      return this.selectedCategory.split(",");
     },
     selectedPrices() {
-      return this.selectedPrice.split(',');
-    }
+      return this.selectedPrice.split(",");
+    },
   },
   methods: {
     updateSelectedPrice(value) {
@@ -85,16 +83,24 @@ export default {
         selectedPrices.push(value);
       }
 
-      this.$emit("apply-filters", selectedPrices.join(','), this.selectedCategory);
+      this.$emit(
+        "apply-filters",
+        selectedPrices.join(","),
+        this.selectedCategory,
+      );
     },
     updateSelectedCategory(value) {
       let selectedCategories = this.selectedCategories;
       if (selectedCategories.includes(value)) {
-        selectedCategories = selectedCategories.filter(cat => cat !== value);
+        selectedCategories = selectedCategories.filter((cat) => cat !== value);
       } else {
         selectedCategories.push(value);
       }
-      this.$emit("apply-filters", this.selectedPrice, selectedCategories.join(','));
+      this.$emit(
+        "apply-filters",
+        this.selectedPrice,
+        selectedCategories.join(","),
+      );
     },
     resetFilters() {
       this.$emit("reset-filters");

@@ -10,23 +10,49 @@
         <h2>Feedback Form</h2>
         <form @submit.prevent="submitForm">
           <div class="form-group">
-            <label for="comment">Comment :</label><br>
-            <textarea id="comment" v-model="comment" rows="2" cols="30"></textarea>
-            <span v-if="!commentValid && formSubmitted" class="error">Please enter a valid comment.</span>
+            <label for="comment">Comment :</label><br />
+            <textarea
+              id="comment"
+              v-model="comment"
+              rows="2"
+              cols="30"
+            ></textarea>
+            <span v-if="!commentValid && formSubmitted" class="error"
+              >Please enter a valid comment.</span
+            >
           </div>
           <div class="form-group">
-            <label for="rating">Rating (1.0-5.0) :</label><br>
-            <input type="number" id="rating" v-model.number="rating" min="1" max="5" step="0.1" />
-            <span v-if="!ratingValid && formSubmitted" class="error">Please enter a valid rating (1.0-5.0).</span>
+            <label for="rating">Rating (1.0-5.0) :</label><br />
+            <input
+              type="number"
+              id="rating"
+              v-model.number="rating"
+              min="1"
+              max="5"
+              step="0.1"
+            />
+            <span v-if="!ratingValid && formSubmitted" class="error"
+              >Please enter a valid rating (1.0-5.0).</span
+            >
           </div>
           <div class="form-group">
-            <label for="date">Date of Visit :</label><br>
+            <label for="date">Date of Visit :</label><br />
             <input type="date" id="date" v-model="date" :max="maxDate" />
-            <span v-if="!dateValid && formSubmitted" class="error">Please select a valid date (not in the future).</span>
+            <span v-if="!dateValid && formSubmitted" class="error"
+              >Please select a valid date (not in the future).</span
+            >
           </div>
           <div class="button-group">
-            <button type="submit" class="btn btn-primary" :disabled="!formValid">Submit</button>
-            <button type="button" class="btn btn-secondary" @click="cancelForm">Cancel</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              :disabled="!formValid"
+            >
+              Submit
+            </button>
+            <button type="button" class="btn btn-secondary" @click="cancelForm">
+              Cancel
+            </button>
           </div>
           <span v-if="errorMessage">{{ errorMessage }}</span>
         </form>
@@ -57,12 +83,17 @@ export default {
       dateValid: true,
       showForm: false,
       formSubmitted: false,
-      errorMessage: ""
+      errorMessage: "",
     };
   },
   computed: {
     formValid() {
-      return this.commentValid && this.ratingValid && this.dateValid && this.date.trim() !== "";
+      return (
+        this.commentValid &&
+        this.ratingValid &&
+        this.dateValid &&
+        this.date.trim() !== ""
+      );
     },
     maxDate() {
       return new Date().toISOString().split("T")[0];
@@ -77,7 +108,9 @@ export default {
         this.formSubmitted = false;
         this.closeForm();
       } else {
-        console.log("Form not submitted. Please fill out all fields correctly.");
+        console.log(
+          "Form not submitted. Please fill out all fields correctly.",
+        );
         this.errorMessage = "Please fill out all fields correctly.";
       }
     },

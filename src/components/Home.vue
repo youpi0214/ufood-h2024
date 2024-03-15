@@ -83,16 +83,18 @@ export default {
     },
     applyFilters(price, category) {
       // Remove any trailing commas
-      const selectedPrice = price.endsWith(',') ? price.slice(0, -1) : price;
-      const selectedCategory = category.endsWith(',') ? category.slice(0, -1) : category;
+      const selectedPrice = price.endsWith(",") ? price.slice(0, -1) : price;
+      const selectedCategory = category.endsWith(",")
+        ? category.slice(0, -1)
+        : category;
 
-      this.setSelectedFilters({ price: selectedPrice, category: selectedCategory });
+      this.setSelectedFilters({
+        price: selectedPrice,
+        category: selectedCategory,
+      });
       this.filtersApplied = true;
       this.fetchRestaurants();
-      console.log(
-        "Category: " + selectedCategory,
-        "Price: " + selectedPrice,
-      );
+      console.log("Category: " + selectedCategory, "Price: " + selectedPrice);
     },
     resetFilters() {
       this.setSelectedFilters({ price: "", category: "" });
@@ -139,13 +141,10 @@ export default {
 
         this.restaurants = [
           ...this.restaurants,
-          ...newRestaurants.map(
-            (restaurant) => new Restaurant(restaurant),
-          ),
+          ...newRestaurants.map((restaurant) => new Restaurant(restaurant)),
         ];
-        console.log("la page downloaded: "+ this.currentPage)
+        console.log("la page downloaded: " + this.currentPage);
         this.currentPage++;
-
 
         this.$store.commit("updateRestaurant", this.restaurants);
       } catch (error) {
