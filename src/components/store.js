@@ -3,8 +3,8 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     selectedFilters: {
-      price: "All",
-      category: "All",
+      price: "",
+      category: "",
     },
     isSidebarOpen: false,
     restaurants: [],
@@ -32,16 +32,6 @@ export default createStore({
     },
   },
   getters: {
-    filteredRestaurants: (state) => {
-      const { price, category } = state.selectedFilters;
-      return state.restaurants.filter((restaurant) => {
-        const matchesPrice =
-          price === "All" || restaurant.selectedPrice === price;
-        const matchesCategory =
-          category === "All" || restaurant.selectedCategory === category;
-        return matchesPrice && matchesCategory;
-      });
-    },
     selectedFilters: (state) => state.selectedFilters,
     isSidebarOpen: (state) => state.isSidebarOpen,
   },

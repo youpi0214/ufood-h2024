@@ -12,7 +12,7 @@
         :alt="restaurant.name"
       />
       <div class="card-body">
-        <h5 class="card-title">{{ restaurant.name }}</h5>
+        <h5 class="card-title">{{ formatRestaurantName(restaurant.name) }}</h5>
         <p class="card-text">{{ formatGenres(restaurant.genres) }}</p>
         <p class="card-text">{{ "★ " + restaurant.rating.toFixed(2) }}</p>
         <p class="card-text">
@@ -35,6 +35,7 @@
 <script>
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue";
+import { formatRestaurantName } from "@/components/homeView/script/home.utility";
 
 export default {
   props: {
@@ -48,6 +49,7 @@ export default {
   },
   methods: {
     formatGenres,
+    formatRestaurantName,
   },
 };
 </script>

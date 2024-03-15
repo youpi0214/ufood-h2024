@@ -82,16 +82,20 @@ export default {
       this.$store.dispatch("closeSidebar");
     },
     applyFilters(price, category) {
-      this.setSelectedFilters({ price, category });
+      // Remove any trailing commas
+      const selectedPrice = price.endsWith(',') ? price.slice(0, -1) : price;
+      const selectedCategory = category.endsWith(',') ? category.slice(0, -1) : category;
+
+      this.setSelectedFilters({ price: selectedPrice, category: selectedCategory });
       this.filtersApplied = true;
       this.fetchRestaurants();
       console.log(
-        "Category: " + this.selectedCategory,
-        "Price: " + this.selectedPrice,
+        "Category: " + selectedCategory,
+        "Price: " + selectedPrice,
       );
     },
     resetFilters() {
-      this.setSelectedFilters({ price: "All", category: "All" });
+      this.setSelectedFilters({ price: "", category: "" });
       this.filtersApplied = false;
     },
     async fetchRestaurants() {
@@ -170,7 +174,7 @@ export default {
     },
   },
   async created() {
-    this.setSelectedFilters({ price: "All", category: "All" });
+    this.setSelectedFilters({ price: "", category: "" });
     await this.loadMoreRestaurants();
     console.log(this.restaurants);
     this.$store.commit("updateRestaurant", this.restaurants);

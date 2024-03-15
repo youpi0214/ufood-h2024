@@ -1,6 +1,10 @@
 import { RestaurantQueryOptions } from "@/api/api.utility";
 
-export function generateRestaurantFetchOptions(selectedCategory, selectedPrice, currentPage) {
+export function generateRestaurantFetchOptions(
+  selectedCategory,
+  selectedPrice,
+  currentPage,
+) {
   const priceMapping = {
     $: 1,
     $$: 2,
@@ -10,26 +14,24 @@ export function generateRestaurantFetchOptions(selectedCategory, selectedPrice, 
 
   options.push([RestaurantQueryOptions.PAGE, currentPage]);
 
-  // Check if selectedCategory is not "All"
-  if (selectedCategory !== "All") {
+  // Check if selectedCategory is not empty
+  if (selectedCategory !== "") {
     // Split the selectedCategory string into an array of categories
-    const categories = selectedCategory.split(',').map(category => category.trim());
-    // Filter out the "All" category and push the remaining categories into the options array
-    const filteredCategories = categories.filter(category => category !== "All");
-    if (filteredCategories.length > 0) {
-      options.push([RestaurantQueryOptions.GENRES, filteredCategories]);
+    const categories = selectedCategory
+      .split(",")
+      .map((category) => category.trim());
+    if (categories.length > 0) {
+      options.push([RestaurantQueryOptions.GENRES, categories]);
     }
   }
 
-  // Check if selectedPrice is not "All"
-  if (selectedPrice !== "All") {
+  // Check if selectedPrice is not empty
+  if (selectedPrice !== "") {
     // Split the selectedPrice string into an array of prices
-    const prices = selectedPrice.split(',').map(price => price.trim());
-    // Filter out the "All" price and push the remaining prices into the options array
-    const filteredPrices = prices.filter(price => price !== "All");
-    if (filteredPrices.length > 0) {
+    const prices = selectedPrice.split(",").map((price) => price.trim());
+    if (prices.length > 0) {
       // Map the filtered prices to their corresponding numeric values using the priceMapping object
-      const priceValues = filteredPrices.map(price => priceMapping[price]);
+      const priceValues = prices.map((price) => priceMapping[price]);
       options.push([RestaurantQueryOptions.PRICE_RANGE, priceValues]);
     }
   }
@@ -39,4 +41,16 @@ export function generateRestaurantFetchOptions(selectedCategory, selectedPrice, 
     return [];
   }
   return options;
+}
+
+export function formatRestaurantName(name) {
+  if (name.length > 47) {
+    const trimmedName = name.substring(0, 47);
+    const lastDashIndex = trimmedName.lastIndexOf(" -");
+    return lastDashIndex !== -1
+      ? trimmedName.substring(0, lastDashIndex)
+      : trimmedName;
+  } else {
+    return name;
+  }
 }
