@@ -58,7 +58,16 @@ export default {
   },
   async created() {
     const [visits, total] = await getUserRestaurantVisits(this.id);
-    this.visits = visits;
+    this.visits = visits.reduce((accumulator, currator) => {
+      const existing = accumulator.find(
+        (visitInAccumulator) =>
+          visitInAccumulator.restaurant_id === currator.restaurant_id,
+      );
+      if (!existing) {
+        accumulator.push(currator);
+      }
+      return accumulator;
+    }, []);
   },
 };
 </script>

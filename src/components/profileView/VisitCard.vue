@@ -1,12 +1,13 @@
 <template>
   <div class="visit-card">
     <Card :restaurant="restaurant" />
-    <Visit />
+    <div>
+      {{ total }}
+    </div>
   </div>
 </template>
 
 <script>
-import Visit from "@/components/profileView/Visit.vue";
 import Card from "@/components/homeView/Card.vue";
 import { getRestaurantVisitsByUserAndRestaurant } from "@/api/restaurant.visits";
 import { Restaurant } from "@/components/homeView/script/card.utility";
@@ -14,7 +15,7 @@ import { getRestaurantById } from "@/api/restaurant";
 
 export default {
   name: "VisitCard",
-  components: { Visit, Card },
+  components: { Card },
   props: {
     restaurantId: { type: String, required: true },
     userId: { type: String, required: true },
@@ -36,7 +37,6 @@ export default {
     const result = await getRestaurantById(this.restaurantId);
 
     this.restaurant = new Restaurant(result);
-    console.log(this.restaurant.pictures);
   },
 };
 </script>

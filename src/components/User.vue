@@ -5,7 +5,7 @@
     </div>
     <div class="accordion" id="accordionExample">
       <RecentlyVisitedRestaurants :id="id" />
-      <FavoritesContainer />
+      <FavoritesContainer :owner="Owner" />
     </div>
   </div>
 </template>
@@ -14,8 +14,14 @@
 import UserHeader from "@/components/profileView/UserHeader.vue";
 import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
 import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
+import { Owner } from "@/components/profileView/Owner";
 
 export default {
+  computed: {
+    Owner() {
+      return new Owner({ email: this.email, id: this.id, name: this.userName });
+    },
+  },
   components: {
     RecentlyVisitedRestaurants,
     UserHeader,

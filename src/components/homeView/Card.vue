@@ -1,10 +1,6 @@
 <template>
   <div class="restaurant-card">
-    <router-link
-      :to="`/restaurants/${restaurant.id}`"
-      class="router-link"
-      v-if="restaurant.id"
-    >
+    <div class="router-link" v-if="restaurant.id">
       <img
         v-if="restaurant.pictures && restaurant.pictures.length > 0"
         :src="restaurant.pictures[0]"
@@ -12,7 +8,11 @@
         :alt="restaurant.name"
       />
       <div class="card-body">
-        <h5 class="card-title">{{ formatRestaurantName(restaurant.name) }}</h5>
+        <router-link :to="`/restaurants/${restaurant.id}`">
+          <h5 class="card-title">
+            {{ formatRestaurantName(restaurant.name) }}
+          </h5>
+        </router-link>
         <p class="card-text">{{ formatGenres(restaurant.genres) }}</p>
         <p class="card-text">{{ "★ " + restaurant.rating.toFixed(2) }}</p>
         <p class="card-text">
@@ -24,7 +24,7 @@
           <button class="btn btn-outline-success">Register a visit</button>
         </router-link>
       </div>
-    </router-link>
+    </div>
     <div v-else>
       <!-- Render a placeholder or loading indicator -->
       <span>Loading...</span>
@@ -87,6 +87,7 @@ export default {
   margin: 0;
   font-size: 13px;
   font-weight: bold;
+  color: #000000;
 }
 
 .card-title:hover {
