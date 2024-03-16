@@ -31,7 +31,7 @@
       <div
         class="sidebar"
         :class="{ 'sidebar-open': isSidebarOpen }"
-        @click="closeSidebar"
+        @click="closeSidebar($event)"
       >
         <SideBar
           :isSidebarOpen="isSidebarOpen"
@@ -79,7 +79,9 @@ export default {
       this.$store.dispatch("changeSideBarState");
     },
     closeSidebar() {
-      this.$store.dispatch("closeSidebar");
+      if (!event.target.closest('.sidebar')) {
+        this.$store.dispatch("changeSideBarState");
+      }
     },
     applyFilters(price, category) {
       // Remove any trailing commas
@@ -190,15 +192,16 @@ export default {
   },
   watch: {
     "$store.state.isSidebarOpen"(newValue) {
+      console.log("Sidebar state changed:", newValue);
       this.isSidebarOpen = newValue;
       if (newValue) {
-        document.body.style.overflow = "hidden";
+        document.body.classList.add('allow-scrolling');
       } else {
-        document.body.style.overflow = "";
+        document.body.classList.remove('allow-scrolling');
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -209,6 +212,10 @@ export default {
 
 .row {
   display: flow;
+}
+
+.allow-scrolling {
+  overflow: auto;
 }
 
 @media (max-width: 600px) {

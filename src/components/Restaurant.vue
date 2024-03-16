@@ -40,7 +40,9 @@
           ></addToFavoriteList>
         </div>
         <div style="flex: 1; margin: 1rem">
-          <MapView :restaurant-location="restaurant.location.coordinates"></MapView>
+          <MapView
+            :restaurant-location="restaurant.location.coordinates"
+          ></MapView>
         </div>
       </div>
       <div v-if="showForm">
@@ -53,7 +55,10 @@
       <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
     </div>
     <div v-else>
-      <div class="center-header" style="display: flex; justify-content: center; align-items: center">
+      <div
+        class="center-header"
+        style="display: flex; justify-content: center; align-items: center"
+      >
         <div class="spinner-border" role="status"></div>
         <div>Loading...</div>
       </div>

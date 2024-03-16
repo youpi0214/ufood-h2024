@@ -17,7 +17,7 @@ import Visit from "@/components/profileView/Visit.vue";
 
 export default {
   name: "VisitCard",
-  components: {Visit, Card },
+  components: { Visit, Card },
   props: {
     restaurantId: { type: String, required: true },
     userId: { type: String, required: true },

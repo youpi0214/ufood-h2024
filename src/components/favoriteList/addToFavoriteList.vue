@@ -73,7 +73,8 @@ export default {
   width: 300px;
 }
 
-.close-btn, .cancel-btn {
+.close-btn,
+.cancel-btn {
   background-color: #f44336;
   color: white;
   border: none;
@@ -88,7 +89,7 @@ export default {
   width: 100%;
   padding: 10px;
   margin: 5px 0;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   text-align: left;
@@ -99,4 +100,3 @@ export default {
   background-color: #45a049;
 }
 </style>
-

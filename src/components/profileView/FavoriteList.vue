@@ -1,17 +1,23 @@
 <template>
   <div class="favorite-list">
-
     <div class="favorite-list-header">
-      <input v-if="editMode"
-             class="form-control me-2 w-50 p-3"
-             aria-label="edit name"
-             v-model="newName"
+      <input
+        v-if="editMode"
+        class="form-control me-2 w-50 p-3"
+        aria-label="edit name"
+        v-model="newName"
       />
       <h3 v-else>{{ name }}</h3>
-      <button class="btn btn-primary" @click="editName">{{ editBtnText }}</button>
+      <button class="btn btn-primary" @click="editName">
+        {{ editBtnText }}
+      </button>
       <button class="btn btn-danger" @click="deleteList">delete list</button>
     </div>
-    <SearchBar :isFavoriteSearchBar="true" :favouriteListID="id" :update="updateFavoriteList"></SearchBar>
+    <SearchBar
+      :isFavoriteSearchBar="true"
+      :favouriteListID="id"
+      :update="updateFavoriteList"
+    ></SearchBar>
     <div class="favorite-list-body">
       <FavoriteCard
         v-for="restaurantId in restaurantIds"
@@ -27,8 +33,9 @@
 <script>
 import {
   deleteFavoriteList,
-  getaSpecificFavoriteList, removeRestaurantFromFavoriteList,
-  renameFavoriteList
+  getaSpecificFavoriteList,
+  removeRestaurantFromFavoriteList,
+  renameFavoriteList,
 } from "@/api/favorites.lists";
 import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
 import SearchBar from "@/components/homeView/SearchBar.vue";
@@ -39,12 +46,12 @@ export default {
   components: { SearchBar, FavoriteCard },
   props: {
     id: { type: String, required: true },
-    update: { type: Function, required: true }
+    update: { type: Function, required: true },
   },
   computed: {
     editBtnText() {
       return this.editMode ? "Save" : "Edit";
-    }
+    },
   },
   data() {
     return {
@@ -52,17 +59,15 @@ export default {
       newName: "",
       restaurantIds: [],
       owner: Owner,
-      editMode: false
+      editMode: false,
     };
   },
   methods: {
     async removeFromList(restaurant_id) {
-      await removeRestaurantFromFavoriteList(
-        this.id,
-        restaurant_id
-      ).then(() => {
+      await removeRestaurantFromFavoriteList(this.id, restaurant_id).then(
+        () => {
           this.updateFavoriteList();
-        }
+        },
       );
     },
     async updateFavoriteList() {
@@ -71,18 +76,18 @@ export default {
       this.newName = this.name;
     },
     async editName() {
-
       if (
         this.newName !== null &&
         this.newName !== "" &&
-        this.newName !== this.name && this.editMode
+        this.newName !== this.name &&
+        this.editMode
       ) {
         await renameFavoriteList(this.id, this.newName, this.owner.email).then(
           async () => {
             await this.updateFavoriteList().then(() => {
               this.editMode = false;
             });
-          }
+          },
         );
       } else if (this.editMode) {
         this.editMode = false;
@@ -95,11 +100,11 @@ export default {
         await deleteFavoriteList(this.id);
         this.update();
       }
-    }
+    },
   },
   async created() {
     await this.updateFavoriteList();
-  }
+  },
 };
 </script>
 

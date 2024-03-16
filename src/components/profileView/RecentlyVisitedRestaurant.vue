@@ -46,7 +46,7 @@ import VisitCard from "@/components/profileView/VisitCard.vue";
 import { getUserRestaurantVisits } from "@/api/restaurant.visits";
 import { RestaurantQueryOptions } from "@/api/api.utility";
 import { getAllFavoriteLists } from "@/api/favorites.lists";
-import {filterUniqueRestaurantIds} from "@/components/profileView/script/profile.utility";
+import { filterUniqueRestaurantIds } from "@/components/profileView/script/profile.utility";
 
 export default {
   name: "RecentlyVisitedRestaurants",
