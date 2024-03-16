@@ -56,7 +56,7 @@
               Submit
             </button>
           </div>
-          <span v-if="errorMessage">{{ errorMessage }}</span>
+          <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
         </form>
       </div>
     </div>
@@ -238,6 +238,8 @@ export default {
 
 .error {
   color: red;
+  display: block;
+  margin-top: 5px;
 }
 
 .form-group {
