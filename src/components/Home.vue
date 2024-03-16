@@ -79,7 +79,7 @@ export default {
       this.$store.dispatch("changeSideBarState");
     },
     closeSidebar() {
-      if (!event.target.closest('.sidebar')) {
+      if (!event.target.closest(".sidebar")) {
         this.$store.dispatch("changeSideBarState");
       }
     },
@@ -96,6 +96,7 @@ export default {
       });
       this.filtersApplied = true;
       this.fetchRestaurants();
+      this.currentPage = 0;
       console.log("Category: " + selectedCategory, "Price: " + selectedPrice);
     },
     resetFilters() {
@@ -146,6 +147,7 @@ export default {
           ...newRestaurants.map((restaurant) => new Restaurant(restaurant)),
         ];
         console.log("la page downloaded: " + this.currentPage);
+        console.log("nombre de resto: " + this.restaurants.length);
         this.currentPage++;
 
         this.$store.commit("updateRestaurant", this.restaurants);
@@ -195,13 +197,13 @@ export default {
       console.log("Sidebar state changed:", newValue);
       this.isSidebarOpen = newValue;
       if (newValue) {
-        document.body.classList.add('allow-scrolling');
+        document.body.classList.add("allow-scrolling");
       } else {
-        document.body.classList.remove('allow-scrolling');
+        document.body.classList.remove("allow-scrolling");
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>
