@@ -26,16 +26,21 @@
             <button
               style="flex: 1; border-radius: 0px"
               id="loveButton"
-              class="btn btn-primary btn-lg"
+              class="btn btn-danger btn-lg"
+              @click="showAddToFavoriteList"
             >
               ♥ Add to favourites
             </button>
           </div>
+          <!-- AddToFavoritesModal -->
+          <addToFavoriteList
+            v-if="showAddToFavoritesModal"
+            @close-modal="handleCloseAddToFavoriteList"
+            :restaurant-id="restaurant.id"
+          ></addToFavoriteList>
         </div>
         <div style="flex: 1; margin: 1rem">
-          <MapView
-            :restaurant-location="restaurant.location.coordinates"
-          ></MapView>
+          <MapView :restaurant-location="restaurant.location.coordinates"></MapView>
         </div>
       </div>
       <div v-if="showForm">
@@ -43,16 +48,12 @@
           :show-form="showForm"
           @close="hideFeedbackForm"
           :restaurant="restaurant"
-        >
-        </RegisterVisitForm>
+        ></RegisterVisitForm>
       </div>
       <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
     </div>
     <div v-else>
-      <div
-        class="center-header"
-        style="display: flex; justify-content: center; align-items: center"
-      >
+      <div class="center-header" style="display: flex; justify-content: center; align-items: center">
         <div class="spinner-border" role="status"></div>
         <div>Loading...</div>
       </div>
@@ -67,6 +68,7 @@ import OpenHours from "@/components/restaurantView/OpenHours.vue";
 import MapView from "@/components/restaurantView/MapView.vue";
 import { getRestaurantById } from "@/api/restaurant";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
+import addToFavoriteList from "@/components/favoriteList/addToFavoriteList.vue";
 
 export default {
   name: "Restaurant",
@@ -76,6 +78,7 @@ export default {
     ImageSlider,
     OpenHours,
     MapView,
+    addToFavoriteList,
   },
   data() {
     return {
@@ -83,6 +86,7 @@ export default {
       restaurant: null,
       showPopup: false,
       showForm: false,
+      showAddToFavoritesModal: false,
     };
   },
   computed: {
@@ -105,6 +109,12 @@ export default {
     },
     hideFeedbackForm() {
       this.showForm = false;
+    },
+    showAddToFavoriteList() {
+      this.showAddToFavoritesModal = true;
+    },
+    handleCloseAddToFavoriteList() {
+      this.showAddToFavoritesModal = false;
     },
   },
 };
