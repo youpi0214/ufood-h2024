@@ -1,10 +1,12 @@
 <template>
   <div class="favorite-list">
+
     <div class="favorite-list-header">
       <h3>{{ name }}</h3>
       <button class="btn btn-primary" @click="editName">edit name</button>
       <button class="btn btn-danger" @click="deleteList">delete list</button>
     </div>
+    <SearchBar :isFavoriteSearchBar="true" :favouriteListID="id" :update="updateFavoriteList"></SearchBar>
     <div class="favorite-list-body">
       <FavoriteCard
         v-for="restaurantId in restaurantIds"
@@ -19,23 +21,24 @@
 import {
   deleteFavoriteList,
   getaSpecificFavoriteList,
-  renameFavoriteList,
+  renameFavoriteList
 } from "@/api/favorites.lists";
 import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
 import { Owner } from "@/components/profileView/Owner";
+import SearchBar from "@/components/homeView/SearchBar.vue";
 
 export default {
   name: "FavoriteList",
-  components: { FavoriteCard },
+  components: { SearchBar, FavoriteCard },
   props: {
     id: { type: String, required: true },
-    update: { type: Function, required: true },
+    update: { type: Function, required: true }
   },
   data() {
     return {
       name: "",
       restaurantIds: [],
-      owner: Owner,
+      owner: Owner
     };
   },
   methods: {
@@ -54,11 +57,11 @@ export default {
         await deleteFavoriteList(this.id);
         this.update();
       }
-    },
+    }
   },
   async created() {
     await this.updateFavoriteList();
-  },
+  }
 };
 </script>
 

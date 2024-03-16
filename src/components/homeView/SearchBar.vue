@@ -12,6 +12,7 @@
       </form>
     </div>
 
+    <!--  Search results  -->
     <ul
       v-if="restaurants.length > 0"
       class="search-result list-group mt-3 dropdown-menu"
@@ -21,22 +22,24 @@
         :key="restaurant.id"
         class="list-group-item"
       >
-        <router-link :to="`/restaurants/${restaurant.id}`">
-          <div>
+
+        <div>
+          <router-link :to="`/restaurants/${restaurant.id}`" v-bind:class="{ disabled: isFavoriteSearchBar }">
             {{ restaurant.name }}
-            <div v-if="isFavoriteSearchBar">
-              <button class="btn btn-primary" @click="addFavorite(restaurant.id)">
-                Add to favorites
-              </button>
-              <button
-                class="btn btn-danger"
-                @click="removeFavorite(restaurant.id)"
-              >
-                Remove from favorites
-              </button>
-            </div>
+          </router-link>
+          <div v-if=" isFavoriteSearchBar">
+            <button class="btn btn-primary" @click="addFavorite(restaurant.id)">
+              Add to favorites
+            </button>
+            <button
+              class="btn btn-danger"
+              @click="removeFavorite(restaurant.id)"
+            >
+              Remove from favorites
+            </button>
           </div>
-        </router-link>
+        </div>
+
 
       </li>
     </ul>
@@ -65,6 +68,9 @@ export default {
     favouriteListID: {
       type: String,
       default: ""
+    },
+    update: {
+      type: Function
     }
   },
   data() {
@@ -83,13 +89,22 @@ export default {
       [this.restaurants, total] = await getRestaurants(queryOption);
     },
     async addFavorite(restaurantId) {
-      await addRestaurantToFavoriteList(this.favouriteListID, restaurantId);
+      await addRestaurantToFavoriteList(this.favouriteListID, restaurantId).then(() => {
+        this.update();
+        this.clearSearch();
+      });
     },
     async removeFavorite(restaurantId) {
       await removeRestaurantFromFavoriteList(
         this.favouriteListID,
         restaurantId
-      );
+      ).then(() => {
+        this.update();
+        this.clearSearch();
+      });
+    }, clearSearch() {
+      this.search = "";
+      this.restaurants = [];
     }
   },
   watch: {
@@ -110,5 +125,9 @@ export default {
   max-height: 30rem;
   overflow-y: auto;
   width: 40rem;
+}
+
+.disabled {
+  pointer-events: none;
 }
 </style>
