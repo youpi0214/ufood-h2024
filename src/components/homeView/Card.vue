@@ -23,7 +23,7 @@
         <button
           class="btn btn-outline-success"
           @click="showFeedbackForm"
-          :disabled="registerDisable"
+          :hidden="registerDisable"
         >
           Register a visit
         </button>

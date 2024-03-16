@@ -14,6 +14,7 @@
               v-model="userComment"
               rows="2"
               cols="30"
+              :disabled="disabledInput"
             ></textarea>
             <span v-if="!commentValid && formSubmitted" class="error"
               >Please enter a valid comment.</span
@@ -28,6 +29,7 @@
               min="1"
               max="5"
               step="0.1"
+              :disabled="disabledInput"
             />
             <span v-if="!ratingValid && formSubmitted" class="error"
               >Please enter a valid rating (1.0-5.0).</span
@@ -35,7 +37,7 @@
           </div>
           <div class="form-group">
             <label for="date">Date of Visit :</label><br />
-            <input type="date" id="date" v-model="userDate" :max="maxDate" />
+            <input type="date" id="date" v-model="userDate" :max="maxDate" :disabled="disabledInput"/>
             <span v-if="!dateValid && formSubmitted" class="error"
               >Please select a valid date (not in the future).</span
             >
@@ -44,7 +46,8 @@
             <button
               type="submit"
               class="btn btn-success"
-              :disabled="!formValid"
+              :disabled="!formValid "
+              :hidden="disabledInput"
               style="width: 100%"
             >
               Submit
@@ -61,6 +64,7 @@
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { createRestaurantVisit } from "@/api/restaurant.visits";
 export default {
+  name: "RegisterVisitForm",
   props: {
     userID: {
       type: String,
@@ -74,6 +78,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    visit: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
@@ -85,6 +93,7 @@ export default {
       dateValid: true,
       formSubmitted: false,
       errorMessage: "",
+      disabledInput: false,
     };
   },
   computed: {
@@ -160,6 +169,14 @@ export default {
       this.dateValid = value.trim().length > 0 && selectedDate <= today;
     },
   },
+    mounted() {
+    if (this.visit) {
+      this.userComment = this.visit.comment;
+      this.userRating = this.visit.rating;
+      this.userDate = this.visit.date.match(/\d{4}-\d{2}-\d{2}/)[0];
+      this.disabledInput = true;
+    }
+  }
 };
 </script>
 

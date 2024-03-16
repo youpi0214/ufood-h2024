@@ -22,7 +22,7 @@ import {
   renameFavoriteList,
 } from "@/api/favorites.lists";
 import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
-import { Owner } from "@/components/profileView/Owner";
+import { Owner } from "@/components/profileView/script/profile.utility";
 
 export default {
   name: "FavoriteList",
@@ -81,7 +81,7 @@ export default {
 .favorite-list-body {
   display: flex;
   flex-wrap: wrap;
-  justify-content: stretch;
+  justify-content: space-evenly;
   align-items: center;
 }
 </style>

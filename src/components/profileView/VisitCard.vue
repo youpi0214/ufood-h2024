@@ -4,6 +4,7 @@
     <div>
       {{ total }}
     </div>
+    <Visit v-for="visit in visits" :key="visit._id" :visit="visit" />
   </div>
 </template>
 
@@ -12,10 +13,11 @@ import Card from "@/components/homeView/Card.vue";
 import { getRestaurantVisitsByUserAndRestaurant } from "@/api/restaurant.visits";
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { getRestaurantById } from "@/api/restaurant";
+import Visit from "@/components/profileView/Visit.vue";
 
 export default {
   name: "VisitCard",
-  components: { Card },
+  components: {Visit, Card },
   props: {
     restaurantId: { type: String, required: true },
     userId: { type: String, required: true },
@@ -35,7 +37,6 @@ export default {
     this.total = total;
     this.visits = visits;
     const result = await getRestaurantById(this.restaurantId);
-
     this.restaurant = new Restaurant(result);
   },
 };

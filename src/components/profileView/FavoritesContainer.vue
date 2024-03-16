@@ -39,7 +39,7 @@
 <script>
 import FavoriteList from "@/components/profileView/FavoriteList.vue";
 import { createFavoriteList, getAllFavoriteLists } from "@/api/favorites.lists";
-import { Owner } from "@/components/profileView/Owner";
+import { Owner } from "@/components/profileView/script/profile.utility";
 import { RestaurantQueryOptions } from "@/api/api.utility";
 
 export default {

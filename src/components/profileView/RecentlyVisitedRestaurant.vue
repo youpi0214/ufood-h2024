@@ -27,7 +27,7 @@
               <button class="btn btn-outline-success">Return Home</button>
             </router-link>
           </div>
-          <div v-else>
+          <div class="recently-visited-restaurants-container" v-else>
             <VisitCard
               v-for="visit in visits"
               :restaurantId="visit.restaurant_id"
@@ -46,6 +46,7 @@ import VisitCard from "@/components/profileView/VisitCard.vue";
 import { getUserRestaurantVisits } from "@/api/restaurant.visits";
 import { RestaurantQueryOptions } from "@/api/api.utility";
 import { getAllFavoriteLists } from "@/api/favorites.lists";
+import {filterUniqueRestaurantIds} from "@/components/profileView/script/profile.utility";
 
 export default {
   name: "RecentlyVisitedRestaurants",
@@ -75,19 +76,7 @@ export default {
           recentlyVisited.push(visit);
         }
       }
-      this.visits = this.filterUniqueRestaurantIds(recentlyVisited);
-    },
-    filterUniqueRestaurantIds(visitList) {
-      return visitList.reduce((accumulator, currator) => {
-        const existing = accumulator.find(
-          (visitInAccumulator) =>
-            visitInAccumulator.restaurant_id === currator.restaurant_id,
-        );
-        if (!existing) {
-          accumulator.push(currator);
-        }
-        return accumulator;
-      }, []);
+      this.visits = filterUniqueRestaurantIds(recentlyVisited);
     },
     async getTotal() {
       const [_, total] = await getUserRestaurantVisits(this.id);
@@ -95,7 +84,7 @@ export default {
     },
   },
   async created() {
-    this.updateVisits();
+    await this.updateVisits();
   },
 };
 </script>
@@ -104,5 +93,12 @@ export default {
 #empty-recently-visited-restaurants {
   margin-top: 2rem;
   text-align: center;
+}
+
+.recently-visited-restaurants-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 </style>

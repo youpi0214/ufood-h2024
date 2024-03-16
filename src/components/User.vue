@@ -14,7 +14,7 @@
 import UserHeader from "@/components/profileView/UserHeader.vue";
 import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
 import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
-import { Owner } from "@/components/profileView/Owner";
+import { Owner } from "@/components/profileView/script/profile.utility";
 
 export default {
   computed: {
