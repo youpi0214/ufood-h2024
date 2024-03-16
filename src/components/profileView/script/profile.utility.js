@@ -17,4 +17,4 @@ export const filterUniqueRestaurantIds = (visitList) => {
     }
     return accumulator;
   }, []);
-}
+};

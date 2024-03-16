@@ -31,7 +31,7 @@
       <div
         class="sidebar"
         :class="{ 'sidebar-open': isSidebarOpen }"
-        @click="closeSidebar"
+        @click="closeSidebar($event)"
       >
         <SideBar
           :isSidebarOpen="isSidebarOpen"
@@ -79,7 +79,9 @@ export default {
       this.$store.dispatch("changeSideBarState");
     },
     closeSidebar() {
-      this.$store.dispatch("closeSidebar");
+      if (!event.target.closest(".sidebar")) {
+        this.$store.dispatch("changeSideBarState");
+      }
     },
     applyFilters(price, category) {
       // Remove any trailing commas
@@ -94,6 +96,7 @@ export default {
       });
       this.filtersApplied = true;
       this.fetchRestaurants();
+      this.currentPage = 0;
       console.log("Category: " + selectedCategory, "Price: " + selectedPrice);
     },
     resetFilters() {
@@ -144,6 +147,7 @@ export default {
           ...newRestaurants.map((restaurant) => new Restaurant(restaurant)),
         ];
         console.log("la page downloaded: " + this.currentPage);
+        console.log("nombre de resto: " + this.restaurants.length);
         this.currentPage++;
 
         this.$store.commit("updateRestaurant", this.restaurants);
@@ -190,11 +194,12 @@ export default {
   },
   watch: {
     "$store.state.isSidebarOpen"(newValue) {
+      console.log("Sidebar state changed:", newValue);
       this.isSidebarOpen = newValue;
       if (newValue) {
-        document.body.style.overflow = "hidden";
+        document.body.classList.add("allow-scrolling");
       } else {
-        document.body.style.overflow = "";
+        document.body.classList.remove("allow-scrolling");
       }
     },
   },
@@ -209,6 +214,10 @@ export default {
 
 .row {
   display: flow;
+}
+
+.allow-scrolling {
+  overflow: auto;
 }
 
 @media (max-width: 600px) {

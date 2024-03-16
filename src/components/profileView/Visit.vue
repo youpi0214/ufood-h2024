@@ -1,6 +1,6 @@
 <template>
   <div class="visit">
-    <button @click="showFeedbackForm"> {{ visit.date }}</button>
+    <button @click="showFeedbackForm">{{ visit.date }}</button>
     <div v-if="showForm">
       <RegisterVisitForm
         :show-form="showForm"
@@ -12,41 +12,42 @@
       </RegisterVisitForm>
     </div>
   </div>
-
 </template>
 
 <script>
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
-import {Restaurant} from "@/components/homeView/script/card.utility";
-import {getRestaurantById} from "@/api/restaurant";
-
+import { Restaurant } from "@/components/homeView/script/card.utility";
+import { getRestaurantById } from "@/api/restaurant";
 
 export default {
   name: "Visit",
-  components: {RegisterVisitForm},
+  components: { RegisterVisitForm },
   props: {
     visit: {
       type: Object,
       required: true,
     },
-  }, data() {
+  },
+  data() {
     return {
       showForm: false,
       restaurant: Restaurant,
     };
-  }, methods: {
+  },
+  methods: {
     showFeedbackForm() {
       this.showForm = true;
     },
     hideFeedbackForm() {
       this.showForm = false;
     },
-  }, async created() {
-    this.restaurant = new Restaurant(await getRestaurantById(this.visit.restaurant_id));
   },
-}
+  async created() {
+    this.restaurant = new Restaurant(
+      await getRestaurantById(this.visit.restaurant_id),
+    );
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -22,12 +22,14 @@
         :key="restaurant.id"
         class="list-group-item"
       >
-
         <div>
-          <router-link :to="`/restaurants/${restaurant.id}`" v-bind:class="{ disabled: isFavoriteSearchBar }">
+          <router-link
+            :to="`/restaurants/${restaurant.id}`"
+            v-bind:class="{ disabled: isFavoriteSearchBar }"
+          >
             {{ restaurant.name }}
           </router-link>
-          <div v-if=" isFavoriteSearchBar">
+          <div v-if="isFavoriteSearchBar">
             <button class="btn btn-primary" @click="addFavorite(restaurant.id)">
               Add to favorites
             </button>
@@ -39,8 +41,6 @@
             </button>
           </div>
         </div>
-
-
       </li>
     </ul>
   </div>
@@ -51,7 +51,7 @@ import { RestaurantQueryOptions } from "@/api/api.utility";
 import { getRestaurants } from "@/api/restaurant";
 import {
   addRestaurantToFavoriteList,
-  removeRestaurantFromFavoriteList
+  removeRestaurantFromFavoriteList,
 } from "@/api/favorites.lists";
 
 export default {
@@ -59,37 +59,40 @@ export default {
   props: {
     visible: {
       type: Boolean,
-      default: true
+      default: true,
     },
     isFavoriteSearchBar: {
       type: Boolean,
-      default: false
+      default: false,
     },
     favouriteListID: {
       type: String,
-      default: ""
+      default: "",
     },
     update: {
-      type: Function
-    }
+      type: Function,
+    },
   },
   data() {
     return {
       search: undefined,
-      restaurants: []
+      restaurants: [],
     };
   },
   methods: {
     async searchRestaurants() {
       const queryOption = [
         [RestaurantQueryOptions.Q, this.search],
-        [RestaurantQueryOptions.LIMIT, 12]
+        [RestaurantQueryOptions.LIMIT, 12],
       ];
       let total = 0;
       [this.restaurants, total] = await getRestaurants(queryOption);
     },
     async addFavorite(restaurantId) {
-      await addRestaurantToFavoriteList(this.favouriteListID, restaurantId).then(() => {
+      await addRestaurantToFavoriteList(
+        this.favouriteListID,
+        restaurantId,
+      ).then(() => {
         this.update();
         this.clearSearch();
       });
@@ -97,15 +100,16 @@ export default {
     async removeFavorite(restaurantId) {
       await removeRestaurantFromFavoriteList(
         this.favouriteListID,
-        restaurantId
+        restaurantId,
       ).then(() => {
         this.update();
         this.clearSearch();
       });
-    }, clearSearch() {
+    },
+    clearSearch() {
       this.search = "";
       this.restaurants = [];
-    }
+    },
   },
   watch: {
     search() {
@@ -115,8 +119,8 @@ export default {
       } else {
         this.restaurants = [];
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

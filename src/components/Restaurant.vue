@@ -32,28 +32,32 @@
               ♥ Add to favourites
             </button>
           </div>
-          <!-- AddToFavoritesModal -->
-          <addToFavoriteList
-            v-if="showAddToFavoritesModal"
-            @close-modal="handleCloseAddToFavoriteList"
-            :restaurant-id="restaurant.id"
-          ></addToFavoriteList>
         </div>
         <div style="flex: 1; margin: 1rem">
-          <MapView :restaurant-location="restaurant.location.coordinates"></MapView>
+          <MapView
+            :restaurant-location="restaurant.location.coordinates"
+          ></MapView>
         </div>
       </div>
       <div v-if="showForm">
         <RegisterVisitForm
-          :show-form="showForm"
           @close="hideFeedbackForm"
           :restaurant="restaurant"
         ></RegisterVisitForm>
       </div>
+      <div v-if="showAddToFavoritesModal">
+        <AddToFavoritesModal
+          @close-modal="handleCloseAddToFavoriteList"
+          :restaurant-id="restaurant.id"
+        ></AddToFavoritesModal>
+      </div>
       <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
     </div>
     <div v-else>
-      <div class="center-header" style="display: flex; justify-content: center; align-items: center">
+      <div
+        class="center-header"
+        style="display: flex; justify-content: center; align-items: center"
+      >
         <div class="spinner-border" role="status"></div>
         <div>Loading...</div>
       </div>
@@ -68,17 +72,17 @@ import OpenHours from "@/components/restaurantView/OpenHours.vue";
 import MapView from "@/components/restaurantView/MapView.vue";
 import { getRestaurantById } from "@/api/restaurant";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
-import addToFavoriteList from "@/components/favoriteList/addToFavoriteList.vue";
+import AddToFavoritesModal from "@/components/form/AddFavoritesForm.vue";
 
 export default {
   name: "Restaurant",
   components: {
+    AddToFavoritesModal,
     RegisterVisitForm,
     PageHeaderInfos,
     ImageSlider,
     OpenHours,
     MapView,
-    addToFavoriteList,
   },
   data() {
     return {

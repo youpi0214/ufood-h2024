@@ -1,6 +1,8 @@
 <template>
   <div
-    class="offcanvas-lg offcanvas-start"
+    class="offcanvas offcanvas-start"
+    data-bs-scroll="true"
+    data-bs-backdrop="false"
     tabindex="-1"
     id="offcanvasExample"
     aria-labelledby="offcanvasExampleLabel"

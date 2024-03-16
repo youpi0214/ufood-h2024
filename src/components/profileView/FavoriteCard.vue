@@ -1,6 +1,11 @@
 <template>
   <div class="favorite-card">
-    <Card :restaurant="restaurant" :registerDisable="true" :removeRestaurant="removeFromList" :activeRemoveBtn="true" />
+    <Card
+      :restaurant="restaurant"
+      :registerDisable="true"
+      :removeRestaurant="removeFromList"
+      :activeRemoveBtn="true"
+    />
   </div>
 </template>
 
@@ -16,24 +21,24 @@ export default {
   props: {
     restaurantId: {
       type: String,
-      required: true
+      required: true,
     },
     update: {
-      type: Function
+      type: Function,
     },
     removeFromList: {
-      type: Function
+      type: Function,
     },
   },
   data() {
     return {
-      restaurant: Restaurant
+      restaurant: Restaurant,
     };
   },
   async created() {
     const restaurant = await getRestaurantById(this.restaurantId);
     this.restaurant = new Restaurant(restaurant);
-  }
+  },
 };
 </script>
 

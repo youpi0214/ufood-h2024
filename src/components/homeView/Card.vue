@@ -27,8 +27,12 @@
         >
           Register a visit
         </button>
-        <button class="btn btn-danger" @click="removeFromlist(restaurant.id)" :hidden="!activeRemoveBtn">remove from
-          list
+        <button
+          class="btn btn-danger"
+          @click="removeFromlist(restaurant.id)"
+          :hidden="!activeRemoveBtn"
+        >
+          remove from list
         </button>
       </div>
     </div>
@@ -58,23 +62,23 @@ export default {
   props: {
     restaurant: {
       type: Restaurant,
-      required: true
+      required: true,
     },
     registerDisable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     removeRestaurant: {
-      type: Function
+      type: Function,
     },
     activeRemoveBtn: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      showForm: false
+      showForm: false,
     };
   },
   methods: {
@@ -88,11 +92,11 @@ export default {
     },
     removeFromlist(restaurant_id) {
       this.removeRestaurant(restaurant_id);
-    }
+    },
   },
   components: {
-    RegisterVisitForm
-  }
+    RegisterVisitForm,
+  },
 };
 </script>
 
