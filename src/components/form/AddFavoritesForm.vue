@@ -1,19 +1,40 @@
 <template>
-  <div v-if="showModal" class="modal-background">
+  <div class="modal-background">
     <div class="modal-content">
       <button class="close-btn" @click="closeModal">×</button>
-      <h2>Select a Favorite List</h2>
-      <div class="favorite-list-container">
-        <button
-          v-for="list in favoriteLists"
-          :key="list.id"
-          class="favorite-list-btn"
-          @click="addRestaurantToList(list.id)"
-        >
-          {{ list.name }}
-        </button>
+      <span>Create a new favorite list : </span>
+      <span><input placeholder="Ex: Youpi" style="width: 100%" /></span>
+      <div style="display: flex; justify-content: center; align-items: center">
+        - OR -
       </div>
-      <button class="cancel-btn" @click="closeModal">Cancel</button>
+      <div>Choose an existing list :</div>
+      <div class="favorite-list-container">
+        <select style="width: 100%" v-model="selectedList">
+          <option
+            v-for="list in favoriteLists"
+            :key="list.id"
+            style="padding: 1rem"
+          >
+            {{ list.name }}
+          </option>
+        </select>
+        <!-- Hiba's Code -->
+        <!--        <div-->
+        <!--          v-for="list in favoriteLists"-->
+        <!--          :key="list.id"-->
+        <!--          style="padding: 1rem"-->
+        <!--          @click="addRestaurantToList(list.id)"-->
+        <!--        >-->
+        <!--          {{ list.name }}-->
+        <!--        </div>-->
+      </div>
+      <button
+        style="margin-top: 1rem"
+        class="btn btn-success"
+        @click="closeModal"
+      >
+        Add
+      </button>
     </div>
   </div>
 </template>
@@ -33,6 +54,7 @@ export default {
   data() {
     return {
       favoriteLists: [],
+      selectedList: null,
     };
   },
   async created() {
@@ -73,30 +95,13 @@ export default {
   width: 300px;
 }
 
-.close-btn,
-.cancel-btn {
-  background-color: #f44336;
-  color: white;
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
   border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
+  font-size: 20px;
   cursor: pointer;
-}
-
-.favorite-list-btn {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-}
-
-.favorite-list-btn:hover {
-  background-color: #45a049;
 }
 </style>
