@@ -25,14 +25,14 @@ import {
 } from "@/api/favorites.lists";
 import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
 import SearchBar from "@/components/homeView/SearchBar.vue";
-import { Owner } from "@/components/profileView/script/profile.utility";
+import {Owner} from "@/components/profileView/script/profile.utility";
 
 export default {
   name: "FavoriteList",
-  components: { SearchBar, FavoriteCard },
+  components: {SearchBar, FavoriteCard},
   props: {
-    id: { type: String, required: true },
-    update: { type: Function, required: true }
+    id: {type: String, required: true},
+    update: {type: Function, required: true}
   },
   data() {
     return {
@@ -48,8 +48,12 @@ export default {
     },
     async editName() {
       const newName = prompt("Please enter the new name of the list");
-      if (await renameFavoriteList(this.id, newName, this.owner.email)) {
-        await this.updateFavoriteList();
+      if (newName !== null && newName !== "" && newName !== this.name) {
+        await renameFavoriteList(this.id, newName, this.owner.email).then(
+          async () => {
+            await this.updateFavoriteList()
+          }
+        )
       }
     },
     async deleteList() {
