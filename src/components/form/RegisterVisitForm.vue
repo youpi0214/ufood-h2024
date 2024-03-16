@@ -40,19 +40,14 @@
               >Please select a valid date (not in the future).</span
             >
           </div>
-          <div
-            class="button-group"
-            style="display: flex; justify-content: center; align-items: center"
-          >
+          <div class="button-group" style="display: flex">
             <button
               type="submit"
-              class="btn btn-primary"
+              class="btn btn-success"
               :disabled="!formValid"
+              style="width: 100%"
             >
               Submit
-            </button>
-            <button type="button" class="btn btn-secondary" @click="cancelForm">
-              Cancel
             </button>
           </div>
           <span v-if="errorMessage">{{ errorMessage }}</span>
@@ -114,7 +109,6 @@ export default {
       this.formSubmitted = true;
       if (this.formValid) {
         console.log("Form submitted!");
-        // Form submission logic here
         const visitData = {
           restaurant_id: this.restaurant.id,
           comment: this.userComment,
@@ -124,7 +118,7 @@ export default {
         if (await createRestaurantVisit(this.userID, visitData)) {
           console.log("Visit is created");
         } else {
-          alert("Visit is not created");
+          console.error("Visit is not created");
         }
         this.formSubmitted = false;
         this.closeForm();
@@ -210,15 +204,5 @@ export default {
 
 .button-group button {
   margin-right: 10px;
-}
-
-.btn-primary {
-  background-color: green;
-  color: white;
-}
-
-.btn-secondary {
-  background-color: red;
-  color: white;
 }
 </style>

@@ -43,15 +43,15 @@
 
 <script>
 import VisitCard from "@/components/profileView/VisitCard.vue";
-import {getUserRestaurantVisits} from "@/api/restaurant.visits";
-import {RestaurantQueryOptions} from "@/api/api.utility";
-import {getAllFavoriteLists} from "@/api/favorites.lists";
+import { getUserRestaurantVisits } from "@/api/restaurant.visits";
+import { RestaurantQueryOptions } from "@/api/api.utility";
+import { getAllFavoriteLists } from "@/api/favorites.lists";
 
 export default {
   name: "RecentlyVisitedRestaurants",
-  components: {VisitCard},
+  components: { VisitCard },
   props: {
-    id: {type: String, required: true},
+    id: { type: String, required: true },
   },
   data() {
     return {
@@ -76,7 +76,6 @@ export default {
         }
       }
       this.visits = this.filterUniqueRestaurantIds(recentlyVisited);
-
     },
     filterUniqueRestaurantIds(visitList) {
       return visitList.reduce((accumulator, currator) => {
@@ -89,15 +88,12 @@ export default {
         }
         return accumulator;
       }, []);
-
-    }
-    ,
+    },
     async getTotal() {
       const [_, total] = await getUserRestaurantVisits(this.id);
       return total;
     },
-  }
-  ,
+  },
   async created() {
     this.updateVisits();
   },
