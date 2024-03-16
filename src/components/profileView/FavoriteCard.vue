@@ -1,7 +1,6 @@
 <template>
   <div class="favorite-card">
-    <Card :restaurant="restaurant" :registerDisable="true" />
-    <button class="btn btn-danger">remove from list</button>
+    <Card :restaurant="restaurant" :registerDisable="true" :removeRestaurant="removeFromList" :activeRemoveBtn="true" />
   </div>
 </template>
 
@@ -9,6 +8,7 @@
 import { getRestaurantById } from "@/api/restaurant";
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import Card from "@/components/homeView/Card.vue";
+import { removeRestaurantFromFavoriteList } from "@/api/favorites.lists";
 
 export default {
   name: "FavoriteCard",
@@ -16,18 +16,24 @@ export default {
   props: {
     restaurantId: {
       type: String,
-      required: true,
+      required: true
+    },
+    update: {
+      type: Function
+    },
+    removeFromList: {
+      type: Function
     },
   },
   data() {
     return {
-      restaurant: Restaurant,
+      restaurant: Restaurant
     };
   },
   async created() {
     const restaurant = await getRestaurantById(this.restaurantId);
     this.restaurant = new Restaurant(restaurant);
-  },
+  }
 };
 </script>
 

@@ -27,6 +27,9 @@
         >
           Register a visit
         </button>
+        <button class="btn btn-danger" @click="removeFromlist(restaurant.id)" :hidden="!activeRemoveBtn">remove from
+          list
+        </button>
       </div>
     </div>
     <div v-else>
@@ -49,21 +52,29 @@ import { Restaurant } from "@/components/homeView/script/card.utility";
 import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue";
 import { formatRestaurantName } from "@/components/homeView/script/home.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
+import { removeRestaurantFromFavoriteList } from "@/api/favorites.lists";
 
 export default {
   props: {
     restaurant: {
       type: Restaurant,
-      required: true,
+      required: true
     },
     registerDisable: {
       type: Boolean,
-      default: false,
+      default: false
     },
+    removeRestaurant: {
+      type: Function
+    },
+    activeRemoveBtn: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
-      showForm: false,
+      showForm: false
     };
   },
   methods: {
@@ -75,10 +86,13 @@ export default {
     hideFeedbackForm() {
       this.showForm = false;
     },
+    removeFromlist(restaurant_id) {
+      this.removeRestaurant(restaurant_id);
+    }
   },
   components: {
-    RegisterVisitForm,
-  },
+    RegisterVisitForm
+  }
 };
 </script>
 

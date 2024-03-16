@@ -12,6 +12,8 @@
         v-for="restaurantId in restaurantIds"
         :restaurantId="restaurantId.id"
         :key="restaurantId.id"
+        :update="updateFavoriteList"
+        :removeFromList="removeFromList"
       />
     </div>
   </div>
@@ -20,19 +22,19 @@
 <script>
 import {
   deleteFavoriteList,
-  getaSpecificFavoriteList,
+  getaSpecificFavoriteList, removeRestaurantFromFavoriteList,
   renameFavoriteList
 } from "@/api/favorites.lists";
 import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
 import SearchBar from "@/components/homeView/SearchBar.vue";
-import {Owner} from "@/components/profileView/script/profile.utility";
+import { Owner } from "@/components/profileView/script/profile.utility";
 
 export default {
   name: "FavoriteList",
-  components: {SearchBar, FavoriteCard},
+  components: { SearchBar, FavoriteCard },
   props: {
-    id: {type: String, required: true},
-    update: {type: Function, required: true}
+    id: { type: String, required: true },
+    update: { type: Function, required: true }
   },
   data() {
     return {
@@ -42,6 +44,15 @@ export default {
     };
   },
   methods: {
+    async removeFromList(restaurant_id) {
+      await removeRestaurantFromFavoriteList(
+        this.id,
+        restaurant_id
+      ).then(() => {
+          this.updateFavoriteList();
+        }
+      );
+    },
     async updateFavoriteList() {
       [, this.name, this.restaurantIds, this.owner] =
         await getaSpecificFavoriteList(this.id);
@@ -51,9 +62,9 @@ export default {
       if (newName !== null && newName !== "" && newName !== this.name) {
         await renameFavoriteList(this.id, newName, this.owner.email).then(
           async () => {
-            await this.updateFavoriteList()
+            await this.updateFavoriteList();
           }
-        )
+        );
       }
     },
     async deleteList() {
