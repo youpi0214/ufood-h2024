@@ -2,8 +2,13 @@
   <div class="favorite-list">
 
     <div class="favorite-list-header">
-      <h3>{{ name }}</h3>
-      <button class="btn btn-primary" @click="editName">edit name</button>
+      <input v-if="editMode"
+             class="form-control me-2 w-50 p-3"
+             aria-label="edit name"
+             v-model="newName"
+      />
+      <h3 v-else>{{ name }}</h3>
+      <button class="btn btn-primary" @click="editName">{{ editBtnText }}</button>
       <button class="btn btn-danger" @click="deleteList">delete list</button>
     </div>
     <SearchBar :isFavoriteSearchBar="true" :favouriteListID="id" :update="updateFavoriteList"></SearchBar>
@@ -36,11 +41,18 @@ export default {
     id: { type: String, required: true },
     update: { type: Function, required: true }
   },
+  computed: {
+    editBtnText() {
+      return this.editMode ? "Save" : "Edit";
+    }
+  },
   data() {
     return {
       name: "",
+      newName: "",
       restaurantIds: [],
-      owner: Owner
+      owner: Owner,
+      editMode: false
     };
   },
   methods: {
@@ -56,15 +68,26 @@ export default {
     async updateFavoriteList() {
       [, this.name, this.restaurantIds, this.owner] =
         await getaSpecificFavoriteList(this.id);
+      this.newName = this.name;
     },
     async editName() {
-      const newName = prompt("Please enter the new name of the list");
-      if (newName !== null && newName !== "" && newName !== this.name) {
-        await renameFavoriteList(this.id, newName, this.owner.email).then(
+
+      if (
+        this.newName !== null &&
+        this.newName !== "" &&
+        this.newName !== this.name && this.editMode
+      ) {
+        await renameFavoriteList(this.id, this.newName, this.owner.email).then(
           async () => {
-            await this.updateFavoriteList();
+            await this.updateFavoriteList().then(() => {
+              this.editMode = false;
+            });
           }
         );
+      } else if (this.editMode) {
+        this.editMode = false;
+      } else {
+        this.editMode = true;
       }
     },
     async deleteList() {
