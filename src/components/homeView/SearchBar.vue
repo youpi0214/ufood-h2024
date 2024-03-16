@@ -5,7 +5,7 @@
         <input
           class="form-control me-2"
           type="search"
-          placeholder="Search..."
+          placeholder="Search Restaurants..."
           aria-label="Search"
           v-model="search"
         />
@@ -21,20 +21,23 @@
         :key="restaurant.id"
         class="list-group-item"
       >
-        <div>
-          {{ restaurant.name }}
-          <div v-if="isFavoriteSearchBar">
-            <button class="btn btn-primary" @click="addFavorite(restaurant.id)">
-              Add to favorites
-            </button>
-            <button
-              class="btn btn-danger"
-              @click="removeFavorite(restaurant.id)"
-            >
-              Remove from favorites
-            </button>
+        <router-link :to="`/restaurants/${restaurant.id}`">
+          <div>
+            {{ restaurant.name }}
+            <div v-if="isFavoriteSearchBar">
+              <button class="btn btn-primary" @click="addFavorite(restaurant.id)">
+                Add to favorites
+              </button>
+              <button
+                class="btn btn-danger"
+                @click="removeFavorite(restaurant.id)"
+              >
+                Remove from favorites
+              </button>
+            </div>
           </div>
-        </div>
+        </router-link>
+
       </li>
     </ul>
   </div>
@@ -45,7 +48,7 @@ import { RestaurantQueryOptions } from "@/api/api.utility";
 import { getRestaurants } from "@/api/restaurant";
 import {
   addRestaurantToFavoriteList,
-  removeRestaurantFromFavoriteList,
+  removeRestaurantFromFavoriteList
 } from "@/api/favorites.lists";
 
 export default {
@@ -53,28 +56,28 @@ export default {
   props: {
     visible: {
       type: Boolean,
-      default: true,
+      default: true
     },
     isFavoriteSearchBar: {
       type: Boolean,
-      default: false,
+      default: false
     },
     favouriteListID: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
   data() {
     return {
       search: undefined,
-      restaurants: [],
+      restaurants: []
     };
   },
   methods: {
     async searchRestaurants() {
       const queryOption = [
         [RestaurantQueryOptions.Q, this.search],
-        [RestaurantQueryOptions.LIMIT, 12],
+        [RestaurantQueryOptions.LIMIT, 12]
       ];
       let total = 0;
       [this.restaurants, total] = await getRestaurants(queryOption);
@@ -85,9 +88,9 @@ export default {
     async removeFavorite(restaurantId) {
       await removeRestaurantFromFavoriteList(
         this.favouriteListID,
-        restaurantId,
+        restaurantId
       );
-    },
+    }
   },
   watch: {
     search() {
@@ -97,8 +100,8 @@ export default {
       } else {
         this.restaurants = [];
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
