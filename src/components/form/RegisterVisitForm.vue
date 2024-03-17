@@ -65,8 +65,7 @@
 </template>
 
 <script>
-import confetti from "canvas-confetti";
-import { Restaurant } from "@/components/homeView/script/card.utility";
+import { triggerConfetti } from "@/components/form/script/form.utility";
 import { createRestaurantVisit } from "@/api/restaurant.visits";
 
 export default {
@@ -77,7 +76,7 @@ export default {
       default: "619a82f824b6ec0004c9f035",
     },
     restaurant: {
-      type: Restaurant,
+      type: Object,
       default: null,
     },
     visit: {
@@ -119,7 +118,6 @@ export default {
     async submitForm() {
       this.formSubmitted = true;
       if (this.formValid) {
-        console.log("Form submitted!");
         const visitData = {
           restaurant_id: this.restaurant.id,
           comment: this.userComment,
@@ -127,10 +125,9 @@ export default {
           date: this.formattedDate,
         };
         if (await createRestaurantVisit(this.userID, visitData)) {
-          console.log("Visit is created");
-          this.triggerConfetti(); // Trigger confetti effect
+          triggerConfetti();
         } else {
-          console.error("Visit is not created");
+          alert("Visit is not registered");
         }
         this.formSubmitted = false;
         this.closeForm();
@@ -157,13 +154,6 @@ export default {
       this.dateValid = true;
       this.formSubmitted = false;
       this.errorMessage = "";
-    },
-    triggerConfetti() {
-      confetti({
-        particleCount: 100,
-        spread: 90,
-        origin: { y: 0.6 },
-      });
     },
   },
   watch: {

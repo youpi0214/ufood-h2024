@@ -1,6 +1,6 @@
 <template>
   <div class="visit">
-    <button @click="showFeedbackForm">{{ visit.date }}</button>
+    <div id="visitDate" @click="showFeedbackForm">{{ visit.date }}</div>
     <div v-if="showForm">
       <RegisterVisitForm
         :show-form="showForm"
@@ -50,4 +50,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#visitDate {
+  cursor: pointer;
+}
+
+#visitDate:hover {
+  background-color: lightgrey;
+}
+</style>

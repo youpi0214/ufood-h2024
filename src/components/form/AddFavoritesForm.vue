@@ -53,6 +53,7 @@ import {
 } from "@/api/favorites.lists";
 import { RestaurantQueryOptions } from "@/api/api.utility";
 import { Owner } from "@/components/profileView/script/profile.utility";
+import { triggerConfetti } from "@/components/form/script/form.utility";
 
 export default {
   name: "AddToFavoritesModal",
@@ -94,20 +95,18 @@ export default {
     async handleFavorite() {
       if (this.selectedList) {
         await this.addRestaurantToExistingList(this.selectedList);
-        console.log("Restaurant added to List");
+        triggerConfetti();
+        this.closeModal();
       } else if (this.newListName !== "") {
         await this.createFavListAndAddRestaurant(this.newListName);
-        console.log("Restaurant added to List");
+        triggerConfetti();
+        this.closeModal();
       } else {
-        console.error("Cannot add restaurant to a fav list");
+        alert("Cannot add restaurant to a fav list");
       }
-      this.closeModal();
     },
     async createFavListAndAddRestaurant(listName) {
-      const [id, name, restaurants] = await createFavoriteList(
-        this.owner.email,
-        listName,
-      );
+      const [id, _, __] = await createFavoriteList(this.owner.email, listName);
       await this.addRestaurantToExistingList(id);
     },
 

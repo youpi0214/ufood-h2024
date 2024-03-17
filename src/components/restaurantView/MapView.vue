@@ -26,7 +26,7 @@
 <script>
 import mapboxgl from "!mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/mapUtils.js";
+import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/map.utility.js";
 
 export default {
   props: {

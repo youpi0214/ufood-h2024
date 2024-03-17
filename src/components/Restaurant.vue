@@ -169,17 +169,3 @@ export default {
   }
 }
 </style>
-
-<!--@media only screen and (max-width: 1500px) {-->
-<!--.container {-->
-<!--flex-direction: column;-->
-<!--align-items: center;-->
-<!--}-->
-<!--.center-header {-->
-<!--margin-top: 1rem;-->
-<!--margin-bottom: 1rem;-->
-<!--}-->
-<!--div[style="display: flex; width: 100%"] {-->
-<!--flex-direction: column;-->
-<!--}-->
-<!--}-->

@@ -7,7 +7,6 @@ export const MAPBOX_API_KEY =
 async function getRoute(currentPosition, restaurantLocation, map) {
   const [originLong, originLat] = currentPosition;
   const [destinationLong, destinationLat] = restaurantLocation;
-  console.log(currentPosition);
   markerCurrentPosition = new mapboxgl.Marker()
     .setLngLat(currentPosition)
     .setPopup(new mapboxgl.Popup().setHTML(`<h5>Your Location</h5>`))

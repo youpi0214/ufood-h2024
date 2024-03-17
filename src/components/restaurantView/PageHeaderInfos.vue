@@ -1,5 +1,5 @@
 <script>
-import { formatGenres } from "@/components/restaurantView/script/utils";
+import { formatGenres } from "@/components/restaurantView/script/restaurant.utility";
 
 export default {
   name: "PageHeaderInfos",
