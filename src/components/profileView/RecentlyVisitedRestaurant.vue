@@ -1,16 +1,27 @@
 <template>
   <div class="accordion-item">
     <h2 class="accordion-header">
-      <button
+      <div
+        id="visitsMenu"
+        style="
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+        "
         class="accordion-button collapsed"
-        type="button"
         data-bs-toggle="collapse"
         data-bs-target="#collapseTwo"
         aria-expanded="false"
         aria-controls="collapseTwo"
+        @click="toggleArrowRotation"
       >
-        Recently Visited
-      </button>
+        <div type="button" style="background: transparent; border: none">
+          Recently Visited
+        </div>
+        <div :class="{ rotateF: isArrowRotated, rotateB: !isArrowRotated }">
+          <i class="bi bi-caret-right-fill"></i>
+        </div>
+      </div>
     </h2>
     <div
       id="collapseTwo"
@@ -57,8 +68,14 @@ export default {
   },
   data() {
     return {
+      isArrowRotated: false,
       visits: [],
     };
+  },
+  methods: {
+    toggleArrowRotation() {
+      this.isArrowRotated = !this.isArrowRotated;
+    },
   },
   async created() {
     const [result, _] = await getAllAvailableDataWithQueryFunction(
@@ -78,6 +95,11 @@ export default {
 #empty-recently-visited-restaurants {
   margin-top: 2rem;
   text-align: center;
+}
+
+#visitsMenu:hover {
+  background-color: #e8e8e8;
+  cursor: pointer;
 }
 
 .recently-visited-restaurants-container {

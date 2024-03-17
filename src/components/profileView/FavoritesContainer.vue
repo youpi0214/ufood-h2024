@@ -1,15 +1,27 @@
 <template>
   <div class="accordion-item">
     <h2 class="accordion-header">
-      <button
-        type="button"
+      <div
+        id="favoritesMenu"
+        style="
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+        "
         data-bs-toggle="collapse"
         data-bs-target="#collapseThree"
         aria-expanded="false"
         aria-controls="collapseThree"
+        @click="toggleArrowRotation"
       >
-        Favorites
-      </button>
+        <div type="button" style="background: transparent; border: none">
+          Favorites
+        </div>
+        <!-- TODO Handle : when opening a fav list while visited is already opened, visited is hidden (Normally) but the arrow doesnt return to its first position -->
+        <div :class="{ rotateF: isArrowRotated, rotateB: !isArrowRotated }">
+          <i class="bi bi-caret-right-fill"></i>
+        </div>
+      </div>
     </h2>
     <div
       id="collapseThree"
@@ -66,46 +78,6 @@
                 </div>
               </div>
             </div>
-
-            <!--            <div-->
-            <!--              class="d-flex justify-content-center"-->
-            <!--              style="color: dodgerblue; cursor: pointer"-->
-            <!--            >-->
-            <!--              <form-->
-            <!--                v-if="addingNewList"-->
-            <!--                class="w-75 p-3 create-fav-input"-->
-            <!--                role="search"-->
-            <!--              >-->
-            <!--                <input-->
-            <!--                  ref="searchInput"-->
-            <!--                  class="form-control me-2 favorite-container-footer"-->
-            <!--                  type="search"-->
-            <!--                  placeholder="Search Restaurants..."-->
-            <!--                  aria-label="Search"-->
-            <!--                  v-model="newListName"-->
-            <!--                />-->
-            <!--              </form>-->
-            <!--              <div class="row favorite-handle-buttons">-->
-            <!--                <div class="col-md">-->
-            <!--                  <i-->
-            <!--                    :class="btnLogo"-->
-            <!--                    class="favorite-container-footer"-->
-            <!--                    @click="addFavouriteList"-->
-            <!--                  >-->
-            <!--                    {{ btnText }}-->
-            <!--                  </i>-->
-            <!--                </div>-->
-            <!--                <div v-if="addingNewList" class="col-md">-->
-            <!--                  <i-->
-            <!--                    class="bi bi-x-lg favorite-container-footer"-->
-            <!--                    style="color: red"-->
-            <!--                    @click="cancelAddFavouriteList"-->
-            <!--                  >-->
-            <!--                    Cancel-->
-            <!--                  </i>-->
-            <!--                </div>-->
-            <!--              </div>-->
-            <!--            </div>-->
           </div>
 
           <FavoriteList
@@ -154,6 +126,7 @@ export default {
     return {
       userFavoriteLists: [],
       newListName: null,
+      isArrowRotated: false,
       addingNewList: false,
     };
   },
@@ -161,6 +134,9 @@ export default {
     cancelAddFavouriteList() {
       this.addingNewList = false;
       this.newListName = null;
+    },
+    toggleArrowRotation() {
+      this.isArrowRotated = !this.isArrowRotated;
     },
     async addFavouriteList() {
       if (
@@ -188,10 +164,24 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .accordion-item {
   margin-top: 1rem;
   margin-bottom: 2rem;
+}
+
+#favoritesMenu:hover {
+  background-color: #e8e8e8;
+  cursor: pointer;
+}
+
+.rotateF {
+  transition: transform 0.25s ease-in-out;
+  transform: rotate(90deg);
+}
+
+.rotateB {
+  transition: transform 0.25s ease-in-out;
 }
 
 .favorite-container-footer:hover {
