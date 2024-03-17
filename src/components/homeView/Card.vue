@@ -27,13 +27,11 @@
         >
           Register a visit
         </button>
-        <button
-          class="btn btn-danger"
-          @click="removeFromlist(restaurant.id)"
-          :hidden="!activeRemoveBtn"
-        >
-          Remove from list
-        </button>
+        <div :hidden="!activeRemoveBtn" class="removeButton">
+          <i class="bi bi-trash3-fill" @click="removeFromList(restaurant.id)"
+            >Remove from list
+          </i>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -90,7 +88,7 @@ export default {
     hideFeedbackForm() {
       this.showForm = false;
     },
-    removeFromlist(restaurant_id) {
+    removeFromList(restaurant_id) {
       this.removeRestaurant(restaurant_id);
     },
   },
@@ -121,7 +119,7 @@ export default {
 .card-body {
   position: relative;
   padding: 15px;
-  margin: 0rem;
+  margin: 0;
   display: flow;
   flex-direction: column;
   justify-content: space-between;
@@ -144,7 +142,7 @@ export default {
   font-size: 11px;
   color: #666;
   flex-grow: 1;
-  margin-bottom: 0rem;
+  margin-bottom: 0;
 }
 
 .btn {
@@ -154,6 +152,18 @@ export default {
   transform: translateX(-50%);
   width: 150px;
   text-align: center;
+}
+
+.removeButton {
+  cursor: pointer;
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.removeButton:hover {
+  text-decoration-line: underline;
 }
 
 .router-link {
