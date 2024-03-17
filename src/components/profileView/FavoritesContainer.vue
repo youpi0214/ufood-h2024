@@ -18,38 +18,55 @@
     >
       <div class="accordion-body container">
         <div class="favorite-container">
-          <div id="box" style="display: flex; flex-direction: column; justify-items: center; align-items: center">
-            <input
-              v-if="addingNewList"
-              ref="searchInput"
-              class="form-control me-2"
-              style="width: 60%"
-              type="search"
-              placeholder="Ex: My New Favorite List"
-              aria-label="Search"
-              v-model="newListName"
-            />
-            <div style="width:60%; flex-direction: row; justify-content: space-around; display: flex">
-              <div id="create">
-                <i
-                  :class="btnLogo"
-                  class="favorite-container-footer"
-                  style="color: dodgerblue"
-                  @click="addFavouriteList"
-                >
-                  {{ btnText }}
-                </i>
-              </div>
-              <div id="cancel" v-if="addingNewList">
-                <i
-                  class="bi bi-x-lg favorite-container-footer"
-                  style="color: red"
-                  @click="cancelAddFavouriteList"
-                >
-                  Cancel
-                </i>
+          <div
+            id="box"
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-items: center;
+              align-items: center;
+              width: 100%;
+            "
+          >
+            <div style="width: 50%">
+              <input
+                v-if="addingNewList"
+                ref="searchInput"
+                class="form-control me-2"
+                type="search"
+                placeholder="Ex: My New Favorite List"
+                aria-label="Search"
+                v-model="newListName"
+              />
+              <div
+                style="
+                  flex-direction: row;
+                  justify-content: space-around;
+                  display: flex;
+                "
+              >
+                <div id="create" style="cursor: pointer">
+                  <i
+                    :class="btnLogo"
+                    class="favorite-container-footer"
+                    style="color: dodgerblue"
+                    @click="addFavouriteList"
+                  >
+                    {{ btnText }}
+                  </i>
+                </div>
+                <div id="cancel" v-if="addingNewList" style="cursor: pointer">
+                  <i
+                    class="bi bi-x-lg favorite-container-footer"
+                    style="color: red"
+                    @click="cancelAddFavouriteList"
+                  >
+                    Cancel
+                  </i>
+                </div>
               </div>
             </div>
+
             <!--            <div-->
             <!--              class="d-flex justify-content-center"-->
             <!--              style="color: dodgerblue; cursor: pointer"-->
@@ -108,7 +125,7 @@ import FavoriteList from "@/components/profileView/FavoriteList.vue";
 import { createFavoriteList } from "@/api/favorites.lists";
 import {
   getAllAvailableDataWithQueryFunction,
-  Owner
+  Owner,
 } from "@/components/profileView/script/profile.utility";
 import { getUserFavoriteLists } from "@/api/user";
 
@@ -116,7 +133,7 @@ export default {
   name: "FavoritesContainer",
   components: { FavoriteList },
   props: {
-    owner: { type: Owner, required: true }
+    owner: { type: Owner, required: true },
   },
   computed: {
     btnLogo() {
@@ -126,14 +143,18 @@ export default {
       return !this.addingNewList ? "Add new list" : " Create";
     },
     validListName() {
-      return this.newListName !== null && this.newListName !== undefined && this.newListName !== "";
-    }
+      return (
+        this.newListName !== null &&
+        this.newListName !== undefined &&
+        this.newListName !== ""
+      );
+    },
   },
   data() {
     return {
       userFavoriteLists: [],
       newListName: null,
-      addingNewList: false
+      addingNewList: false,
     };
   },
   methods: {
@@ -143,7 +164,8 @@ export default {
     },
     async addFavouriteList() {
       if (
-        this.addingNewList && this.validListName &&
+        this.addingNewList &&
+        this.validListName &&
         (await createFavoriteList(this.owner.email, this.newListName))
       ) {
         await this.updateFavoriteList().then(() => {
@@ -157,13 +179,13 @@ export default {
       [this.userFavoriteLists] = await getAllAvailableDataWithQueryFunction(
         getUserFavoriteLists,
         [this.owner.id],
-        10
+        10,
       );
-    }
+    },
   },
   async created() {
     await this.updateFavoriteList();
-  }
+  },
 };
 </script>
 <style scoped>
@@ -174,14 +196,5 @@ export default {
 
 .favorite-container-footer:hover {
   text-decoration-line: underline;
-}
-
-.create-fav-input {
-  width: 50rem;
-  border-radius: 0.25rem;
-}
-
-.favorite-handle-buttons {
-  width: 10rem;
 }
 </style>
