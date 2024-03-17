@@ -15,7 +15,7 @@
               :disabled="disabledInput"
             ></textarea>
             <span v-if="!commentValid" class="error"
-            >Please enter a valid comment.</span
+              >Please enter a valid comment.</span
             >
           </div>
           <div class="form-group">
@@ -30,7 +30,7 @@
               :disabled="disabledInput"
             />
             <span v-if="!ratingValid" class="error"
-            >Please enter a valid rating (1.0-5.0).</span
+              >Please enter a valid rating (1.0-5.0).</span
             >
           </div>
           <div class="form-group">
@@ -43,7 +43,7 @@
               :disabled="disabledInput"
             />
             <span v-if="!dateValid" class="error"
-            >Please select a valid date.</span
+              >Please select a valid date.</span
             >
           </div>
           <div class="button-group" style="display: flex">
@@ -73,16 +73,16 @@ export default {
   props: {
     userID: {
       type: String,
-      default: "619a82f824b6ec0004c9f035"
+      default: "619a82f824b6ec0004c9f035",
     },
     restaurant: {
       type: Restaurant,
-      default: null
+      default: null,
     },
     visit: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -94,7 +94,7 @@ export default {
       dateValid: true,
       formSubmitted: false,
       errorMessage: "",
-      disabledInput: false
+      disabledInput: false,
     };
   },
   computed: {
@@ -112,7 +112,7 @@ export default {
 
     formattedDate() {
       return new Date(this.userDate).toISOString();
-    }
+    },
   },
   methods: {
     async submitForm() {
@@ -123,7 +123,7 @@ export default {
           restaurant_id: this.restaurant.id,
           comment: this.userComment,
           rating: this.userRating,
-          date: this.formattedDate
+          date: this.formattedDate,
         };
         if (await createRestaurantVisit(this.userID, visitData)) {
           console.log("Visit is created");
@@ -135,7 +135,7 @@ export default {
         this.closeForm();
       } else {
         console.log(
-          "Form not submitted. Please fill out all fields correctly."
+          "Form not submitted. Please fill out all fields correctly.",
         );
         this.errorMessage = "Please fill out all fields correctly.";
       }
@@ -161,9 +161,9 @@ export default {
       confetti({
         particleCount: 100,
         spread: 90,
-        origin: { y: 0.6 }
+        origin: { y: 0.6 },
       });
-    }
+    },
   },
   watch: {
     userComment(value) {
@@ -183,7 +183,7 @@ export default {
         const today = new Date();
         this.dateValid = value.trim().length > 0 && selectedDate <= today;
       }
-    }
+    },
   },
   mounted() {
     if (this.visit) {
@@ -192,7 +192,7 @@ export default {
       this.userDate = this.visit.date.match(/\d{4}-\d{2}-\d{2}/)[0];
       this.disabledInput = true;
     }
-  }
+  },
 };
 </script>
 

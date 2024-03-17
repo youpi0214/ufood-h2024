@@ -32,7 +32,7 @@
           @click="removeFromlist(restaurant.id)"
           :hidden="!activeRemoveBtn"
         >
-          remove from list
+          Remove from list
         </button>
       </div>
     </div>

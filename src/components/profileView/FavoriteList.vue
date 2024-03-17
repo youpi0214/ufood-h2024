@@ -8,10 +8,8 @@
         v-model="newName"
       />
       <h3 v-else>{{ name }}</h3>
-      <button class="btn btn-primary" @click="editName">
-        {{ editBtnText }}
-      </button>
-      <button class="btn btn-danger" @click="deleteList">delete list</button>
+      <i style="color: dodgerblue; cursor: pointer; font-size: 1.3rem" :class="editBtnText" @click="editName"></i>
+      <i style="color: red; cursor: pointer; font-size: 1.3rem" class="bi bi-trash3-fill" @click="deleteList"></i>
     </div>
     <SearchBar
       :isFavoriteSearchBar="true"
@@ -51,7 +49,7 @@ export default {
   },
   computed: {
     editBtnText() {
-      return this.editMode ? "Save" : "Edit";
+      return this.editMode ? "bi bi-floppy-fill" : "bi bi-pencil-fill";
     }
   },
   data() {

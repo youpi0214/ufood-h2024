@@ -21,6 +21,7 @@
         <li
           v-for="restaurant in restaurants"
           :key="restaurant.id"
+          style="display: flex; justify-content: space-between"
           class="list-group-item"
         >
           <div>
@@ -30,16 +31,14 @@
             >
               {{ restaurant.name }}
             </router-link>
-            <div v-if="isFavoriteSearchBar">
-              <button class="btn btn-primary" :hidden="isPresentInFavouriteList(restaurant.id)"
-                      @click="addFavorite(restaurant.id)">
-                Add to favorites
-              </button>
-              <button class="btn btn-danger" :hidden="!isPresentInFavouriteList(restaurant.id)"
-                      @click="removeFavorite(restaurant.id)">
-                Remove from favorites
-              </button>
-            </div>
+          </div>
+          <div v-if="isFavoriteSearchBar" style="cursor: pointer">
+            <i class="bi bi-plus-circle-fill" style="color: dodgerblue;" :hidden="isPresentInFavouriteList(restaurant.id)"
+               @click="addFavorite(restaurant.id)">
+            </i>
+            <i class="bi bi-trash3-fill" style="color: red;" :hidden="!isPresentInFavouriteList(restaurant.id)"
+               @click="removeFavorite(restaurant.id)">
+            </i>
           </div>
         </li>
       </ul>

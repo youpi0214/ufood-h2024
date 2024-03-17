@@ -25,10 +25,10 @@
             :key="list.id"
           />
 
-          <div class="favorite-container-footer">
-            <button class="btn btn-primary" @click="addFavouriteList">
-              add new list
-            </button>
+          <div class="favorite-container-footer" style="color: dodgerblue; cursor: pointer">
+            <i class="bi bi-plus-circle" @click="addFavouriteList">
+              Add new list
+            </i>
           </div>
         </div>
       </div>
@@ -95,5 +95,8 @@ export default {
 <style scoped>
 .accordion-item {
   margin-top: 1rem;
+}
+.favorite-container-footer:hover {
+  text-decoration-line: underline;
 }
 </style>
