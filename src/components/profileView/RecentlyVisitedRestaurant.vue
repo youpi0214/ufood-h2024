@@ -43,17 +43,17 @@
 
 <script>
 import VisitCard from "@/components/profileView/VisitCard.vue";
-import {getUserRestaurantVisits} from "@/api/restaurant.visits";
+import { getUserRestaurantVisits } from "@/api/restaurant.visits";
 import {
   extractUniqueAttributeListFromExistingList,
-  getAllAvailableDataWithQueryFunction
+  getAllAvailableDataWithQueryFunction,
 } from "@/components/profileView/script/profile.utility";
 
 export default {
   name: "RecentlyVisitedRestaurants",
-  components: {VisitCard},
+  components: { VisitCard },
   props: {
-    id: {type: String, required: true},
+    id: { type: String, required: true },
   },
   data() {
     return {
@@ -61,9 +61,15 @@ export default {
     };
   },
   async created() {
-    const [result,_] = await getAllAvailableDataWithQueryFunction(getUserRestaurantVisits, [this.id], 10)
-    this.visits = extractUniqueAttributeListFromExistingList(result, "restaurant_id")
-
+    const [result, _] = await getAllAvailableDataWithQueryFunction(
+      getUserRestaurantVisits,
+      [this.id],
+      10,
+    );
+    this.visits = extractUniqueAttributeListFromExistingList(
+      result,
+      "restaurant_id",
+    );
   },
 };
 </script>

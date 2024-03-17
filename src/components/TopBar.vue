@@ -33,7 +33,13 @@
             placeholder="Search..."
             aria-label="Search"
           />
-          <button style="outline: none; border: none" class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+          <button
+            style="outline: none; border: none"
+            class="btn btn-outline-success"
+            type="submit"
+          >
+            <i class="bi bi-search"></i>
+          </button>
         </form>
         <div v-if="userName" class="user-info">
           <span class="user-name">{{ userName }}</span>

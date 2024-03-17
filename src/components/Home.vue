@@ -32,6 +32,7 @@
         class="sidebar"
         :class="{ 'sidebar-open': isSidebarOpen }"
         @click="closeSidebar($event)"
+        ref="sidebar"
       >
         <SideBar
           :isSidebarOpen="isSidebarOpen"
@@ -97,7 +98,6 @@ export default {
       this.filtersApplied = true;
       this.fetchRestaurants();
       this.currentPage = 0;
-      console.log("Category: " + selectedCategory, "Price: " + selectedPrice);
     },
     resetFilters() {
       this.setSelectedFilters({ price: "", category: "" });
@@ -114,7 +114,6 @@ export default {
         this.restaurants = restaurants.map(
           (restaurant) => new Restaurant(restaurant),
         );
-        console.log("Fetched restaurants:", restaurants);
       } catch (error) {
         console.error("Error fetching restaurants:", error);
       }
@@ -146,8 +145,6 @@ export default {
           ...this.restaurants,
           ...newRestaurants.map((restaurant) => new Restaurant(restaurant)),
         ];
-        console.log("la page downloaded: " + this.currentPage);
-        console.log("nombre de resto: " + this.restaurants.length);
         this.currentPage++;
 
         this.$store.commit("updateRestaurant", this.restaurants);
@@ -171,8 +168,6 @@ export default {
         bottomOfWindow = true;
       }
 
-      console.log(bottomOfWindow);
-
       if (bottomOfWindow) {
         if (!this.filtersApplied || this.restaurants.length % 10 === 0) {
           this.loadMoreRestaurants();
@@ -183,7 +178,6 @@ export default {
   async created() {
     this.setSelectedFilters({ price: "", category: "" });
     await this.loadMoreRestaurants();
-    console.log(this.restaurants);
     this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {
@@ -194,12 +188,11 @@ export default {
   },
   watch: {
     "$store.state.isSidebarOpen"(newValue) {
-      console.log("Sidebar state changed:", newValue);
       this.isSidebarOpen = newValue;
       if (newValue) {
-        document.body.classList.add("allow-scrolling");
+        document.body.style.overflow = "hidden";
       } else {
-        document.body.classList.remove("allow-scrolling");
+        document.body.style.overflow = "";
       }
     },
   },
@@ -214,10 +207,6 @@ export default {
 
 .row {
   display: flow;
-}
-
-.allow-scrolling {
-  overflow: auto;
 }
 
 @media (max-width: 600px) {

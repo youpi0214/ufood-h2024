@@ -4,15 +4,24 @@
       <button class="close-btn" @click="closeModal">×</button>
       <span>Create a new favorite list : </span>
       <div style="display: flex; flex-direction: row">
-        <input placeholder="Ex: My Burgers' List" v-model="newListName" :disabled="selectedList !== null"  style="width: 100%" />
-        <div class="resetButton"  @click="resetTextField">×</div>
+        <input
+          placeholder="Ex: My Burgers' List"
+          v-model="newListName"
+          :disabled="selectedList !== null"
+          style="width: 100%"
+        />
+        <div class="resetButton" @click="resetTextField">×</div>
       </div>
       <div style="display: flex; justify-content: center; align-items: center">
         - OR -
       </div>
       <div>Choose an existing list :</div>
       <div class="favorite-list-container" style="display: flex">
-        <select style="width:95%" v-model="selectedList" :disabled="newListName !== ''">
+        <select
+          style="width: 95%"
+          v-model="selectedList"
+          :disabled="newListName !== ''"
+        >
           <option
             v-for="list in userFavoriteLists"
             :key="list.id"
@@ -22,7 +31,7 @@
             {{ list.name }}
           </option>
         </select>
-        <div class="resetButton"  @click="resetSelectList">×</div>
+        <div class="resetButton" @click="resetSelectList">×</div>
       </div>
       <button
         style="margin-top: 1rem"
@@ -39,7 +48,8 @@
 <script>
 import {
   getAllFavoriteLists,
-  addRestaurantToFavoriteList, createFavoriteList
+  addRestaurantToFavoriteList,
+  createFavoriteList,
 } from "@/api/favorites.lists";
 import { RestaurantQueryOptions } from "@/api/api.utility";
 import { Owner } from "@/components/profileView/script/profile.utility";
@@ -84,12 +94,12 @@ export default {
     async handleFavorite() {
       if (this.selectedList) {
         await this.addRestaurantToExistingList(this.selectedList);
-        console.log("Restaurant added to List")
-      } else if (this.newListName !== '') {
+        console.log("Restaurant added to List");
+      } else if (this.newListName !== "") {
         await this.createFavListAndAddRestaurant(this.newListName);
-        console.log("Restaurant added to List")
+        console.log("Restaurant added to List");
       } else {
-        console.error("Cannot add restaurant to a fav list")
+        console.error("Cannot add restaurant to a fav list");
       }
       this.closeModal();
     },
@@ -111,8 +121,8 @@ export default {
       this.selectedList = null;
     },
     resetTextField() {
-      this.newListName = '';
-    }
+      this.newListName = "";
+    },
   },
   async created() {
     await this.updateFavoriteList();

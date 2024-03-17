@@ -25,7 +25,10 @@
             :key="list.id"
           />
 
-          <div class="favorite-container-footer" style="color: dodgerblue; cursor: pointer">
+          <div
+            class="favorite-container-footer"
+            style="color: dodgerblue; cursor: pointer"
+          >
             <i class="bi bi-plus-circle" @click="addFavouriteList">
               Add new list
             </i>
@@ -39,9 +42,11 @@
 <script>
 import FavoriteList from "@/components/profileView/FavoriteList.vue";
 import { createFavoriteList } from "@/api/favorites.lists";
-import {getAllAvailableDataWithQueryFunction, Owner} from "@/components/profileView/script/profile.utility";
-import {getUserFavoriteLists} from "@/api/user";
-
+import {
+  getAllAvailableDataWithQueryFunction,
+  Owner,
+} from "@/components/profileView/script/profile.utility";
+import { getUserFavoriteLists } from "@/api/user";
 
 export default {
   name: "FavoritesContainer",
@@ -65,7 +70,11 @@ export default {
       }
     },
     async updateFavoriteList() {
-      [this.userFavoriteLists,] = await getAllAvailableDataWithQueryFunction(getUserFavoriteLists,[this.owner.id],10)
+      [this.userFavoriteLists] = await getAllAvailableDataWithQueryFunction(
+        getUserFavoriteLists,
+        [this.owner.id],
+        10,
+      );
     },
   },
   async created() {

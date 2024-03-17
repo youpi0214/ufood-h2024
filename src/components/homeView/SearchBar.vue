@@ -1,5 +1,8 @@
 <template>
-  <div class="col d-flex justify-content-center position-relative" @click="handleClickOutside">
+  <div
+    class="col d-flex justify-content-center position-relative"
+    @click="handleClickOutside"
+  >
     <div class="col d-flex justify-content-center position-relative">
       <form class="d-flex w-75 p-3" role="search">
         <input
@@ -15,7 +18,11 @@
       <ul
         v-if="restaurants.length > 0"
         class="search-result list-group mt-3 dropdown-menu position-absolute"
-        :style="{ width: $refs.searchInput.offsetWidth + 'px', left: $refs.searchInput.offsetLeft + 'px', top: $refs.searchInput.offsetHeight + 'px' }"
+        :style="{
+          width: $refs.searchInput.offsetWidth + 'px',
+          left: $refs.searchInput.offsetLeft + 'px',
+          top: $refs.searchInput.offsetHeight + 'px',
+        }"
         @click="handleClickInside"
       >
         <li
@@ -33,11 +40,19 @@
             </router-link>
           </div>
           <div v-if="isFavoriteSearchBar" style="cursor: pointer">
-            <i class="bi bi-plus-circle-fill" style="color: dodgerblue;" :hidden="isPresentInFavouriteList(restaurant.id)"
-               @click="addFavorite(restaurant.id)">
+            <i
+              class="bi bi-plus-circle-fill"
+              style="color: dodgerblue"
+              :hidden="isPresentInFavouriteList(restaurant.id)"
+              @click="addFavorite(restaurant.id)"
+            >
             </i>
-            <i class="bi bi-trash3-fill" style="color: red;" :hidden="!isPresentInFavouriteList(restaurant.id)"
-               @click="removeFavorite(restaurant.id)">
+            <i
+              class="bi bi-trash3-fill"
+              style="color: red"
+              :hidden="!isPresentInFavouriteList(restaurant.id)"
+              @click="removeFavorite(restaurant.id)"
+            >
             </i>
           </div>
         </li>
@@ -51,7 +66,7 @@ import { RestaurantQueryOptions } from "@/api/api.utility";
 import { getRestaurants } from "@/api/restaurant";
 import {
   addRestaurantToFavoriteList,
-  removeRestaurantFromFavoriteList
+  removeRestaurantFromFavoriteList,
 } from "@/api/favorites.lists";
 
 export default {
@@ -59,40 +74,40 @@ export default {
   props: {
     visible: {
       type: Boolean,
-      default: true
+      default: true,
     },
     isFavoriteSearchBar: {
       type: Boolean,
-      default: false
+      default: false,
     },
     favouriteListID: {
       type: String,
-      default: ""
+      default: "",
     },
     update: {
-      type: Function
+      type: Function,
     },
     restaurantsInFavouriteList: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
       search: undefined,
-      restaurants: []
+      restaurants: [],
     };
   },
   methods: {
     isPresentInFavouriteList(restaurantId) {
       return this.restaurantsInFavouriteList.some(
-        (favoriteRestaurantID) => favoriteRestaurantID.id === restaurantId
+        (favoriteRestaurantID) => favoriteRestaurantID.id === restaurantId,
       );
     },
     async searchRestaurants() {
       const queryOption = [
         [RestaurantQueryOptions.Q, this.search],
-        [RestaurantQueryOptions.LIMIT, 12]
+        [RestaurantQueryOptions.LIMIT, 12],
       ];
       let total = 0;
       [this.restaurants, total] = await getRestaurants(queryOption);
@@ -100,7 +115,7 @@ export default {
     async addFavorite(restaurantId) {
       await addRestaurantToFavoriteList(
         this.favouriteListID,
-        restaurantId
+        restaurantId,
       ).then(() => {
         this.update();
         this.clearSearch();
@@ -109,7 +124,7 @@ export default {
     async removeFavorite(restaurantId) {
       await removeRestaurantFromFavoriteList(
         this.favouriteListID,
-        restaurantId
+        restaurantId,
       ).then(() => {
         this.update();
         this.clearSearch();
@@ -119,14 +134,15 @@ export default {
       console.log("clearing search");
       this.search = "";
       this.restaurants = [];
-    }, handleClickOutside(event) {
+    },
+    handleClickOutside(event) {
       if (!this.$refs.searchInput.contains(event.target)) {
         this.clearSearch();
       }
     },
     handleClickInside(event) {
       event.stopPropagation();
-    }
+    },
   },
   watch: {
     search() {
@@ -136,7 +152,7 @@ export default {
       } else {
         this.restaurants = [];
       }
-    }
+    },
   },
 };
 </script>

@@ -97,7 +97,11 @@ export default {
   },
   computed: {
     User() {
-      return new Owner({ email: '"villiam1@gmail.com"', id: "619a82f824b6ec0004c9f035", name: "William" });
+      return new Owner({
+        email: '"villiam1@gmail.com"',
+        id: "619a82f824b6ec0004c9f035",
+        name: "William",
+      });
     },
     restaurantRating() {
       return Math.round(this.restaurant.rating * 100) / 100;
