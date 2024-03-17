@@ -3,11 +3,6 @@ import { formatGenres } from "@/components/restaurantView/script/utils";
 
 export default {
   name: "PageHeaderInfos",
-  data() {
-    return {
-      isMobile: false,
-    };
-  },
   props: {
     name: {
       type: String,
@@ -62,27 +57,14 @@ export default {
       }
       return { grade, color };
     },
-    handleResize() {
-      this.isMobile = window.innerWidth <= 1000;
-    },
-  },
-  mounted() {
-    window.addEventListener("resize", this.handleResize);
-    this.handleResize();
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.handleResize);
   },
 };
 </script>
 
 <template>
-  <div class="container" style="margin-top: 6rem">
-    <div
-      class="content"
-      :style="{ flexDirection: isMobile ? 'column' : 'row' }"
-    >
-      <div class="info" :style="{ flex: isMobile ? 'auto' : 2 }">
+  <div class="container">
+    <div class="content">
+      <div class="info1">
         <div>
           <span id="title">{{ name }}</span>
           <span id="rating" :style="{ color: ratingColor(this.rating).color }"
@@ -91,14 +73,8 @@ export default {
         </div>
         <div>{{ "⚲" }} {{ address }}</div>
       </div>
-      <div
-        class="info"
-        :style="{
-          flex: isMobile ? 'auto' : 1,
-          textAlign: isMobile ? 'center' : 'right',
-        }"
-      >
-        <div style="justify-content: flex-end">
+      <div class="info2">
+        <div>
           <span
             ><i
               class="bi bi-telephone-fill"
@@ -120,23 +96,27 @@ export default {
 .container {
   display: flex;
   width: 100%;
-  height: 5rem;
 }
 
 .content {
   display: flex;
+  flex-direction: row;
   width: 100%;
 }
 
-.info {
+.info1 {
   display: flex;
+  flex: 2;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
 }
 
-.info:last-child {
-  align-items: flex-end;
+.info2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
 }
 
 #title {
@@ -153,19 +133,20 @@ export default {
   color: #ffffff;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 800px) {
   /* Media query for mobile screens */
   .content {
     flex-direction: column;
-    align-items: center;
   }
-
-  .info {
-    width: 100%;
+  .info1 {
     height: auto;
     display: flex;
+    flex: 2;
     flex-direction: column;
     justify-content: flex-start;
+  }
+  .info2 {
+    text-align: left;
   }
 }
 </style>

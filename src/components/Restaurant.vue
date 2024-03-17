@@ -10,6 +10,7 @@
           :tel="restaurant.tel"
           :price_range="restaurant.price_range"
           :genres="restaurant.genres"
+          style="margin-top: 7rem"
         ></PageHeaderInfos>
       </div>
       <div id="sliderMapContainer" style="display: flex; flex-wrap: wrap">
@@ -17,14 +18,14 @@
           <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
           <div style="display: flex">
             <button
-              style="flex: 1; border-radius: 0px"
+              style="flex: 1; border-radius: 0"
               class="btn btn-primary btn-lg"
               @click="showFeedbackForm"
             >
               Register Visit
             </button>
             <button
-              style="flex: 1; border-radius: 0px"
+              style="flex: 1; border-radius: 0"
               id="loveButton"
               class="btn btn-danger btn-lg"
               @click="showAddToFavoriteList"
@@ -134,22 +135,6 @@ export default {
 </script>
 
 <style scoped>
-@media only screen and (max-width: 1500px) {
-  .container {
-    flex-direction: column;
-    align-items: center;
-  }
-  .center-header {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  div[style="display: flex; width: 100%"] {
-    flex-direction: column;
-  }
-  #sliderMapContainer {
-    margin-top: 5rem;
-  }
-}
 #loveButton {
   background-color: crimson;
   color: white;
@@ -160,3 +145,17 @@ export default {
   background-color: #ac0a29;
 }
 </style>
+
+<!--@media only screen and (max-width: 1500px) {-->
+<!--.container {-->
+<!--flex-direction: column;-->
+<!--align-items: center;-->
+<!--}-->
+<!--.center-header {-->
+<!--margin-top: 1rem;-->
+<!--margin-bottom: 1rem;-->
+<!--}-->
+<!--div[style="display: flex; width: 100%"] {-->
+<!--flex-direction: column;-->
+<!--}-->
+<!--}-->
