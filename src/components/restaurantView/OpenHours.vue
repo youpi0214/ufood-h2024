@@ -1,5 +1,6 @@
 <script>
-import { formatString } from "@/components/restaurantView/PageHeaderInfos.vue";
+
+import { formatString } from "@/components/restaurantView/script/utils";
 
 export default {
   name: "OpenHours",

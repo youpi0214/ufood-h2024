@@ -50,6 +50,7 @@
             <button
               type="submit"
               class="btn btn-success"
+              :disabled="!formValid"
               :hidden="disabledInput"
               style="width: 100%"
             >

@@ -53,10 +53,10 @@
 
 <script>
 import { Restaurant } from "@/components/homeView/script/card.utility";
-import { formatGenres } from "@/components/restaurantView/PageHeaderInfos.vue";
 import { formatRestaurantName } from "@/components/homeView/script/home.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 import { removeRestaurantFromFavoriteList } from "@/api/favorites.lists";
+import { formatGenres } from "@/components/restaurantView/script/utils";
 
 export default {
   props: {
