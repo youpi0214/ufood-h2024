@@ -8,8 +8,16 @@
         v-model="newName"
       />
       <h3 v-else>{{ name }}</h3>
-      <i style="color: dodgerblue; cursor: pointer; font-size: 1.3rem" :class="editBtnText" @click="editName"></i>
-      <i style="color: red; cursor: pointer; font-size: 1.3rem" class="bi bi-trash3-fill" @click="deleteList"></i>
+      <i
+        style="color: dodgerblue; cursor: pointer; font-size: 1.3rem"
+        :class="editBtnText"
+        @click="editName"
+      ></i>
+      <i
+        style="color: red; cursor: pointer; font-size: 1.3rem"
+        class="bi bi-trash3-fill"
+        @click="deleteList"
+      ></i>
     </div>
     <SearchBar
       :isFavoriteSearchBar="true"
@@ -34,7 +42,7 @@ import {
   deleteFavoriteList,
   getaSpecificFavoriteList,
   removeRestaurantFromFavoriteList,
-  renameFavoriteList
+  renameFavoriteList,
 } from "@/api/favorites.lists";
 import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
 import SearchBar from "@/components/homeView/SearchBar.vue";
@@ -45,12 +53,12 @@ export default {
   components: { SearchBar, FavoriteCard },
   props: {
     id: { type: String, required: true },
-    update: { type: Function, required: true }
+    update: { type: Function, required: true },
   },
   computed: {
     editBtnText() {
       return this.editMode ? "bi bi-floppy-fill" : "bi bi-pencil-fill";
-    }
+    },
   },
   data() {
     return {
@@ -58,7 +66,7 @@ export default {
       newName: "",
       restaurantIds: [],
       owner: Owner,
-      editMode: false
+      editMode: false,
     };
   },
   methods: {
@@ -66,7 +74,7 @@ export default {
       await removeRestaurantFromFavoriteList(this.id, restaurant_id).then(
         () => {
           this.updateFavoriteList();
-        }
+        },
       );
     },
     async updateFavoriteList() {
@@ -86,7 +94,7 @@ export default {
             await this.updateFavoriteList().then(() => {
               this.editMode = false;
             });
-          }
+          },
         );
       } else if (this.editMode) {
         this.editMode = false;
@@ -99,11 +107,11 @@ export default {
         await deleteFavoriteList(this.id);
         this.update();
       }
-    }
+    },
   },
   async created() {
     await this.updateFavoriteList();
-  }
+  },
 };
 </script>
 

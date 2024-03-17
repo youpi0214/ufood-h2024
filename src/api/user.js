@@ -29,7 +29,7 @@ export const getUserById = async (token, userId) => {
   return await response.json();
 };
 
-export const getUserFavoriteLists = async ( userId, options  =[]) => {
+export const getUserFavoriteLists = async (userId, options = []) => {
   const queryString = convertQueryOptionsToString(options);
   return fetch(`${BASE_URL}/users/${userId}/favorites${queryString}`, {
     method: "GET",
@@ -44,7 +44,7 @@ export const getUserFavoriteLists = async ( userId, options  =[]) => {
       return response.json();
     })
     .then((favorites) => {
-      return [favorites.items,favorites.total]
+      return [favorites.items, favorites.total];
     })
     .catch((error) => console.error("Request failed:", error));
 };

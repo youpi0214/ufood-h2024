@@ -28,7 +28,7 @@
       </div>
       <div>
         <h6>Category:</h6>
-        <ul class="list-unstyled">
+        <ul class="list-unstyled" id="category">
           <li v-for="genre in filterGenres" :key="genre">
             <input
               type="checkbox"
@@ -114,5 +114,10 @@ export default {
 <style scoped>
 .list-unstyled {
   margin-left: 2rem;
+}
+
+#category {
+  overflow: auto;
+  max-height: 200px;
 }
 </style>
