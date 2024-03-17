@@ -32,6 +32,7 @@ export default {
 
 <style scoped>
 .open-hours {
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
 }

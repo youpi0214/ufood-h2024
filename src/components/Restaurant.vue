@@ -13,8 +13,8 @@
           style="margin-top: 7rem"
         ></PageHeaderInfos>
       </div>
-      <div id="sliderMapContainer" style="display: flex; flex-wrap: wrap">
-        <div style="flex: 2; margin-top: 1rem">
+      <div id="sliderMapContainer">
+        <div class="imagesWithButtons">
           <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
           <div style="display: flex">
             <button
@@ -34,7 +34,7 @@
             </button>
           </div>
         </div>
-        <div style="flex: 1; margin: 1rem">
+        <div class="map">
           <MapView
             :restaurant-location="restaurant.location.coordinates"
           ></MapView>
@@ -135,6 +135,19 @@ export default {
 </script>
 
 <style scoped>
+#sliderMapContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+}
+.imagesWithButtons {
+  flex: 2;
+}
+
+.map {
+  flex: 1;
+  margin-left: 1rem;
+}
 #loveButton {
   background-color: crimson;
   color: white;
@@ -143,6 +156,17 @@ export default {
 }
 #loveButton:hover {
   background-color: #ac0a29;
+}
+
+@media only screen and (max-width: 1000px) {
+  #sliderMapContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .map {
+    margin-top: 1rem;
+    margin-left: 0;
+  }
 }
 </style>
 
