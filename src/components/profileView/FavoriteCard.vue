@@ -1,7 +1,8 @@
 <template>
   <div class="favorite-card">
     <Card
-      :restaurant="restaurant"
+      v-for="resto in restaurant" :key="resto.id"
+      :restaurant="resto"
       :registerDisable="true"
       :removeRestaurant="removeFromList"
       :activeRemoveBtn="true"
@@ -13,7 +14,6 @@
 import { getRestaurantById } from "@/api/restaurant";
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import Card from "@/components/homeView/Card.vue";
-import { removeRestaurantFromFavoriteList } from "@/api/favorites.lists";
 
 export default {
   name: "FavoriteCard",
@@ -32,12 +32,14 @@ export default {
   },
   data() {
     return {
-      restaurant: Restaurant,
+      restaurant: [],
     };
   },
   async created() {
-    const restaurant = await getRestaurantById(this.restaurantId);
-    this.restaurant = new Restaurant(restaurant);
+    const result =[ await getRestaurantById(this.restaurantId)];
+    this.restaurant = result.map(
+      (restaurant) => new Restaurant(restaurant),
+    );
   },
 };
 </script>

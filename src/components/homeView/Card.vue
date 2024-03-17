@@ -53,7 +53,6 @@
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { formatRestaurantName } from "@/components/homeView/script/home.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
-import { removeRestaurantFromFavoriteList } from "@/api/favorites.lists";
 import { formatGenres } from "@/components/restaurantView/script/restaurant.utility";
 
 export default {
