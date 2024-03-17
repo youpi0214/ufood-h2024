@@ -43,48 +43,27 @@
 
 <script>
 import VisitCard from "@/components/profileView/VisitCard.vue";
-import { getUserRestaurantVisits } from "@/api/restaurant.visits";
-import { RestaurantQueryOptions } from "@/api/api.utility";
-import { getAllFavoriteLists } from "@/api/favorites.lists";
-import { filterUniqueRestaurantIds } from "@/components/profileView/script/profile.utility";
+import {getUserRestaurantVisits} from "@/api/restaurant.visits";
+import {
+  extractUniqueAttributeListFromExistingList,
+  getAllAvailableDataWithQueryFunction
+} from "@/components/profileView/script/profile.utility";
 
 export default {
   name: "RecentlyVisitedRestaurants",
-  components: { VisitCard },
+  components: {VisitCard},
   props: {
-    id: { type: String, required: true },
+    id: {type: String, required: true},
   },
   data() {
     return {
       visits: [],
     };
   },
-  methods: {
-    async updateVisits() {
-      this.visits = [];
-      let queryQuantity = 10;
-      let totalQueries = (await this.getTotal()) / queryQuantity;
-      let recentlyVisited = [];
-
-      for (let i = 0; i < totalQueries; i++) {
-        const options = [
-          [RestaurantQueryOptions.LIMIT, queryQuantity],
-          [RestaurantQueryOptions.PAGE, i],
-        ];
-        const [visits, _] = await getUserRestaurantVisits(this.id, options);
-        for (let visit of visits) {
-          recentlyVisited.push(visit);
-        }
-      }
-      this.visits = filterUniqueRestaurantIds(recentlyVisited);
-    },
-    async getTotal() {
-      const [_, total] = await getUserRestaurantVisits(this.id);
-      return total;
-    },
-  },
   async created() {
-    await this.updateVisits();
+    const [result,_] = await getAllAvailableDataWithQueryFunction(getUserRestaurantVisits, [this.id], 10)
+    this.visits = extractUniqueAttributeListFromExistingList(result, "restaurant_id")
+
   },
 };
 </script>

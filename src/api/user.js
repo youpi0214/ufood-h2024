@@ -29,18 +29,24 @@ export const getUserById = async (token, userId) => {
   return await response.json();
 };
 
-export const getUserFavoriteLists = async (token, userId, options = {}) => {
-  const { limit = 10, page = 0 } = options;
-  const queryString = `?limit=${limit}&page=${page}`;
-  const response = await fetch(
-    `${BASE_URL}/users/${userId}/favorites${queryString}`,
-    {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
+export const getUserFavoriteLists = async ( userId, options  =[]) => {
+  const queryString = convertQueryOptionsToString(options);
+  return fetch(`${BASE_URL}/users/${userId}/favorites${queryString}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
-  return await response.json();
+  })
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(`Failed to fetch restaurant with id:${id}`);
+
+      return response.json();
+    })
+    .then((favorites) => {
+      return [favorites.items,favorites.total]
+    })
+    .catch((error) => console.error("Request failed:", error));
 };
 
 export const followUser = async (token, userIdToFollow) => {

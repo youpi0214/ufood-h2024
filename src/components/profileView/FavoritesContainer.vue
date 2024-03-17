@@ -38,9 +38,10 @@
 
 <script>
 import FavoriteList from "@/components/profileView/FavoriteList.vue";
-import { createFavoriteList, getAllFavoriteLists } from "@/api/favorites.lists";
-import { Owner } from "@/components/profileView/script/profile.utility";
-import { RestaurantQueryOptions } from "@/api/api.utility";
+import { createFavoriteList } from "@/api/favorites.lists";
+import {getAllAvailableDataWithQueryFunction, Owner} from "@/components/profileView/script/profile.utility";
+import {getUserFavoriteLists} from "@/api/user";
+
 
 export default {
   name: "FavoritesContainer",
@@ -54,10 +55,6 @@ export default {
     };
   },
   methods: {
-    async getTotal() {
-      const [_, total] = await getAllFavoriteLists();
-      return total;
-    },
     async addFavouriteList() {
       const listName = prompt(
         "Please enter the name of the list",
@@ -68,23 +65,7 @@ export default {
       }
     },
     async updateFavoriteList() {
-      this.userFavoriteLists = [];
-
-      let queryQuantity = 1000;
-      let totalQueries = (await this.getTotal()) / queryQuantity;
-
-      for (let i = 0; i < totalQueries; i++) {
-        const options = [
-          [RestaurantQueryOptions.LIMIT, queryQuantity],
-          [RestaurantQueryOptions.PAGE, i],
-        ];
-        const [favoriteLists, _] = await getAllFavoriteLists(options);
-        for (let j = 0; j < favoriteLists.length; j++) {
-          if (favoriteLists[j].owner.id === this.owner.id) {
-            this.userFavoriteLists.push(favoriteLists[j]);
-          }
-        }
-      }
+      [this.userFavoriteLists,] = await getAllAvailableDataWithQueryFunction(getUserFavoriteLists,[this.owner.id],10)
     },
   },
   async created() {
