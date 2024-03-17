@@ -47,6 +47,7 @@
       </div>
       <div v-if="showAddToFavoritesModal">
         <AddToFavoritesModal
+          :owner="this.User"
           @close-modal="handleCloseAddToFavoriteList"
           :restaurant-id="restaurant.id"
         ></AddToFavoritesModal>
@@ -73,6 +74,7 @@ import MapView from "@/components/restaurantView/MapView.vue";
 import { getRestaurantById } from "@/api/restaurant";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 import AddToFavoritesModal from "@/components/form/AddFavoritesForm.vue";
+import { Owner } from "@/components/profileView/script/profile.utility";
 
 export default {
   name: "Restaurant",
@@ -94,6 +96,9 @@ export default {
     };
   },
   computed: {
+    User() {
+      return new Owner({ email: '"villiam1@gmail.com"', id: "619a82f824b6ec0004c9f035", name: "William" });
+    },
     restaurantRating() {
       return Math.round(this.restaurant.rating * 100) / 100;
     },

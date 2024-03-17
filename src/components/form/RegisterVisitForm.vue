@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Feedback form (will be displayed as a modal when showForm is true) -->
-    <div v-if="showForm" class="modal-background">
+    <div class="modal-background">
       <div class="modal-content">
         <button class="close-btn" @click="cancelForm">×</button>
         <span>Restaurant : </span>
@@ -78,10 +78,6 @@ export default {
     restaurant: {
       type: Restaurant,
       default: null
-    },
-    showForm: {
-      type: Boolean,
-      required: true
     },
     visit: {
       type: Object,
