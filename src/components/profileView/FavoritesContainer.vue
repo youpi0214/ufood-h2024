@@ -18,33 +18,77 @@
     >
       <div class="accordion-body container">
         <div class="favorite-container">
-          <div class="d-flex justify-content-center">
-            <div class="d-flex justify-content-center"
-                 style="color: dodgerblue; cursor: pointer">
-              <form v-if="addingNewList" class="w-75 p-3 create-fav-input" role="search">
-                <input
-                  ref="searchInput"
-                  class="form-control me-2 favorite-container-footer"
-                  type="search"
-                  placeholder="Search Restaurants..."
-                  aria-label="Search"
-                  v-model="newListName"
-                />
-              </form>
-              <div class="row favorite-handle-buttons">
-                <div class="col-md">
-                  <i :class="btnLogo" class="favorite-container-footer" @click="addFavouriteList">
-                    {{ btnText }}
-                  </i>
-                </div>
-                <div v-if="addingNewList" class="col-md">
-                  <i class="bi bi-x-lg favorite-container-footer" style="color:red"
-                     @click="cancelAddFavouriteList">
-                    Cancel
-                  </i>
-                </div>
+          <div id="box" style="display: flex; flex-direction: column; justify-items: center; align-items: center">
+            <input
+              v-if="addingNewList"
+              ref="searchInput"
+              class="form-control me-2"
+              style="width: 60%"
+              type="search"
+              placeholder="Ex: My New Favorite List"
+              aria-label="Search"
+              v-model="newListName"
+            />
+            <div style="width:60%; flex-direction: row; justify-content: space-around; display: flex">
+              <div id="create">
+                <i
+                  :class="btnLogo"
+                  class="favorite-container-footer"
+                  style="color: dodgerblue"
+                  @click="addFavouriteList"
+                >
+                  {{ btnText }}
+                </i>
+              </div>
+              <div id="cancel" v-if="addingNewList">
+                <i
+                  class="bi bi-x-lg favorite-container-footer"
+                  style="color: red"
+                  @click="cancelAddFavouriteList"
+                >
+                  Cancel
+                </i>
               </div>
             </div>
+            <!--            <div-->
+            <!--              class="d-flex justify-content-center"-->
+            <!--              style="color: dodgerblue; cursor: pointer"-->
+            <!--            >-->
+            <!--              <form-->
+            <!--                v-if="addingNewList"-->
+            <!--                class="w-75 p-3 create-fav-input"-->
+            <!--                role="search"-->
+            <!--              >-->
+            <!--                <input-->
+            <!--                  ref="searchInput"-->
+            <!--                  class="form-control me-2 favorite-container-footer"-->
+            <!--                  type="search"-->
+            <!--                  placeholder="Search Restaurants..."-->
+            <!--                  aria-label="Search"-->
+            <!--                  v-model="newListName"-->
+            <!--                />-->
+            <!--              </form>-->
+            <!--              <div class="row favorite-handle-buttons">-->
+            <!--                <div class="col-md">-->
+            <!--                  <i-->
+            <!--                    :class="btnLogo"-->
+            <!--                    class="favorite-container-footer"-->
+            <!--                    @click="addFavouriteList"-->
+            <!--                  >-->
+            <!--                    {{ btnText }}-->
+            <!--                  </i>-->
+            <!--                </div>-->
+            <!--                <div v-if="addingNewList" class="col-md">-->
+            <!--                  <i-->
+            <!--                    class="bi bi-x-lg favorite-container-footer"-->
+            <!--                    style="color: red"-->
+            <!--                    @click="cancelAddFavouriteList"-->
+            <!--                  >-->
+            <!--                    Cancel-->
+            <!--                  </i>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
           </div>
 
           <FavoriteList
@@ -62,15 +106,17 @@
 <script>
 import FavoriteList from "@/components/profileView/FavoriteList.vue";
 import { createFavoriteList } from "@/api/favorites.lists";
-import { getAllAvailableDataWithQueryFunction, Owner } from "@/components/profileView/script/profile.utility";
+import {
+  getAllAvailableDataWithQueryFunction,
+  Owner,
+} from "@/components/profileView/script/profile.utility";
 import { getUserFavoriteLists } from "@/api/user";
-
 
 export default {
   name: "FavoritesContainer",
   components: { FavoriteList },
   props: {
-    owner: { type: Owner, required: true }
+    owner: { type: Owner, required: true },
   },
   computed: {
     btnLogo() {
@@ -78,23 +124,26 @@ export default {
     },
     btnText() {
       return !this.addingNewList ? "Add new list" : " Create";
-    }
+    },
   },
   data() {
     return {
       userFavoriteLists: [],
-      newListName: "My New Favourite List",
-      addingNewList: false
+      newListName: null,
+      addingNewList: false,
     };
   },
   methods: {
     cancelAddFavouriteList() {
       this.addingNewList = false;
-      this.newListName = "My New Favourite List";
+      this.newListName = null;
     },
+    // TODO Validation listName not null not undefined and not empty
     async addFavouriteList() {
-
-      if (this.addingNewList && await createFavoriteList(this.owner.email, this.newListName)) {
+      if (
+        this.addingNewList &&
+        (await createFavoriteList(this.owner.email, this.newListName))
+      ) {
         await this.updateFavoriteList().then(() => {
           this.addingNewList = false;
         });
@@ -103,12 +152,16 @@ export default {
       }
     },
     async updateFavoriteList() {
-      [this.userFavoriteLists] = await getAllAvailableDataWithQueryFunction(getUserFavoriteLists, [this.owner.id], 10);
-    }
+      [this.userFavoriteLists] = await getAllAvailableDataWithQueryFunction(
+        getUserFavoriteLists,
+        [this.owner.id],
+        10,
+      );
+    },
   },
   async created() {
     await this.updateFavoriteList();
-  }
+  },
 };
 </script>
 <style scoped>
@@ -122,9 +175,9 @@ export default {
 }
 .create-fav-input {
   width: 50rem;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
 }
-.favorite-handle-buttons{
+.favorite-handle-buttons {
   width: 10rem;
 }
 </style>
