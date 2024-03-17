@@ -108,7 +108,7 @@ import FavoriteList from "@/components/profileView/FavoriteList.vue";
 import { createFavoriteList } from "@/api/favorites.lists";
 import {
   getAllAvailableDataWithQueryFunction,
-  Owner,
+  Owner
 } from "@/components/profileView/script/profile.utility";
 import { getUserFavoriteLists } from "@/api/user";
 
@@ -116,7 +116,7 @@ export default {
   name: "FavoritesContainer",
   components: { FavoriteList },
   props: {
-    owner: { type: Owner, required: true },
+    owner: { type: Owner, required: true }
   },
   computed: {
     btnLogo() {
@@ -125,12 +125,15 @@ export default {
     btnText() {
       return !this.addingNewList ? "Add new list" : " Create";
     },
+    validListName() {
+      return this.newListName !== null && this.newListName !== undefined && this.newListName !== "";
+    }
   },
   data() {
     return {
       userFavoriteLists: [],
       newListName: null,
-      addingNewList: false,
+      addingNewList: false
     };
   },
   methods: {
@@ -138,10 +141,9 @@ export default {
       this.addingNewList = false;
       this.newListName = null;
     },
-    // TODO Validation listName not null not undefined and not empty
     async addFavouriteList() {
       if (
-        this.addingNewList &&
+        this.addingNewList && this.validListName &&
         (await createFavoriteList(this.owner.email, this.newListName))
       ) {
         await this.updateFavoriteList().then(() => {
@@ -155,13 +157,13 @@ export default {
       [this.userFavoriteLists] = await getAllAvailableDataWithQueryFunction(
         getUserFavoriteLists,
         [this.owner.id],
-        10,
+        10
       );
-    },
+    }
   },
   async created() {
     await this.updateFavoriteList();
-  },
+  }
 };
 </script>
 <style scoped>
@@ -173,10 +175,12 @@ export default {
 .favorite-container-footer:hover {
   text-decoration-line: underline;
 }
+
 .create-fav-input {
   width: 50rem;
   border-radius: 0.25rem;
 }
+
 .favorite-handle-buttons {
   width: 10rem;
 }
