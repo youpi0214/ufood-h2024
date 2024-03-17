@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       map: null,
-      currentPosition: [-71.17, 46.782878601986255],
+      currentPosition: null,
       getDirectionsIsClicked: false,
     };
   },
@@ -75,15 +75,19 @@ export default {
       }
     },
     async showRoute() {
-      this.getDirectionsIsClicked = true;
-      await getRoute(this.currentPosition, this.restaurantLocation, this.map);
-      const bounds = new mapboxgl.LngLatBounds(
-        this.currentPosition,
-        this.restaurantLocation,
-      );
-      const markers = [this.restaurantLocation, this.currentPosition];
-      markers.forEach((marker) => bounds.extend(marker.coordinates));
-      this.map.fitBounds(bounds, { padding: 40, duration: 2000 });
+      if (this.currentPosition) {
+        this.getDirectionsIsClicked = true;
+        await getRoute(this.currentPosition, this.restaurantLocation, this.map);
+        const bounds = new mapboxgl.LngLatBounds(
+          this.currentPosition,
+          this.restaurantLocation,
+        );
+        const markers = [this.restaurantLocation, this.currentPosition];
+        markers.forEach((marker) => bounds.extend(marker.coordinates));
+        this.map.fitBounds(bounds, { padding: 40, duration: 2000 });
+      } else {
+        alert("You must allow browser to use location");
+      }
     },
     async hideRoute() {
       this.getDirectionsIsClicked = false;
