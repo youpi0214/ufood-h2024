@@ -1,5 +1,4 @@
 <script>
-
 import { formatString } from "@/components/restaurantView/script/utils";
 
 export default {
@@ -7,7 +6,6 @@ export default {
   props: {
     openingHours: {
       type: Object,
-      default: () => {},
       required: true,
     },
   },
@@ -18,12 +16,10 @@ export default {
 </script>
 
 <template>
-  <div class="open-hours" style="margin: 15px">
-    <div style="color: black; font-weight: bold">
+  <div class="open-hours">
+    <div>
       <i class="bi bi-clock"> </i>
-      <span style="margin-left: 5px; text-decoration-line: underline"
-        >Opening Hours :</span
-      >
+      <span class="title">Opening Hours :</span>
     </div>
     <ul>
       <li v-for="(hours, day) in openingHours" :key="day">
@@ -35,11 +31,14 @@ export default {
 </template>
 
 <style scoped>
-@media (max-width: 600px) {
-  .open-hours {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.open-hours {
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  color: black;
+  font-weight: bold;
+  margin-left: 5px;
+  text-decoration-line: underline;
 }
 </style>

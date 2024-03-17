@@ -1,4 +1,4 @@
-export const formatString = function(day) {
+export const formatString = function (day) {
   return day.charAt(0).toUpperCase() + day.slice(1);
 };
 
