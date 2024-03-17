@@ -62,40 +62,35 @@ export default {
 </script>
 
 <template>
-  <div class="container">
-    <div class="content">
-      <div class="info1">
-        <div>
-          <span id="title">{{ name }}</span>
-          <span id="rating" :style="{ color: ratingColor(this.rating).color }"
-            >{{ "★" }} {{ rating }} {{ ratingColor(this.rating).grade }}</span
-          >
+  <div class="content">
+    <div class="info1">
+      <div id="nameAndRating">
+        <div id="title">{{ name }}</div>
+        <div id="rating" :style="{ color: ratingColor(this.rating).color }">
+          {{ "★" }} {{ rating }} {{ ratingColor(this.rating).grade }}
         </div>
-        <div>{{ "⚲" }} {{ address }}</div>
       </div>
-      <div class="info2">
-        <div>
-          <span
-            ><i
-              class="bi bi-telephone-fill"
-              style="margin-right: 5px"
-            ></i></span
-          >{{ tel }}
-        </div>
-        <div>
-          <span><i class="bi bi-funnel-fill"></i></span>
-          {{ formatGenres(genres) }} {{ "•" }}
-          {{ "$".repeat(this.price_range) }}
-        </div>
+      <div>{{ "⚲" }} {{ address }}</div>
+    </div>
+    <div class="info2">
+      <div>
+        <span
+          ><i class="bi bi-telephone-fill" style="margin-right: 5px"></i></span
+        >{{ tel }}
+      </div>
+      <div>
+        <span><i class="bi bi-funnel-fill"></i></span>
+        {{ formatGenres(genres) }} {{ "•" }}
+        {{ "$".repeat(this.price_range) }}
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.container {
+#nameAndRating {
   display: flex;
-  width: 100%;
+  flex-direction: row;
 }
 
 .content {
@@ -125,10 +120,11 @@ export default {
 }
 
 #rating {
-  font-size: 1rem;
-  padding: 3px;
+  font-size: 1.1rem;
+  display: flex;
+  justify-items: center;
+  align-items: end;
   font-weight: bold;
-  border-radius: 20px;
   margin-left: 10px;
   color: #ffffff;
 }
@@ -147,6 +143,12 @@ export default {
   }
   .info2 {
     text-align: left;
+  }
+  #nameAndRating {
+    flex-direction: column;
+  }
+  #rating {
+    margin-left: 0;
   }
 }
 </style>
