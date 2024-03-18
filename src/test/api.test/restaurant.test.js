@@ -12,6 +12,7 @@ describe("getRestaurants", () => {
     const options = [[RestaurantQueryOptions.LIMIT, maxNumberOfRestaurants]];
 
     const [restaurants, _] = await getRestaurants(options);
+    console.log(restaurants);
 
     expect(restaurants).toBeDefined();
     expect(restaurants.length).toBeGreaterThan(0);
@@ -43,6 +44,7 @@ describe("getRestaurants", () => {
       const options = [[RestaurantQueryOptions.Q, restaurantName]];
 
       const [restaurants, _] = await getRestaurants(options);
+      console.log(restaurants);
 
       expect(restaurants).toBeDefined();
       expect(restaurants.length).toBeGreaterThan(0);
@@ -104,6 +106,7 @@ describe("getRestaurantById", () => {
     const id = "5f31fc7155d7790550c08b02";
 
     const restaurant = await getRestaurantById(id);
+    console.log(restaurant);
 
     expect(restaurant).toBeDefined();
     expect(restaurant.id).toBe(id);

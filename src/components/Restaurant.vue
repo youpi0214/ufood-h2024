@@ -1,65 +1,171 @@
 <template>
-  <div class="container">
-    <div class="center-header">
-      <PageHeaderInfos></PageHeaderInfos>
-    </div>
-    <div id="photoMapContainer" class="container">
-      <div class="row">
-        <div class="col-8">
-          <ImageSlider></ImageSlider>
+  <div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <div v-if="restaurant" class="container">
+      <div class="center-header">
+        <PageHeaderInfos
+          :name="restaurant.name"
+          :address="restaurant.address"
+          :rating="restaurantRating"
+          :tel="restaurant.tel"
+          :price_range="restaurant.price_range"
+          :genres="restaurant.genres"
+          style="margin-top: 7rem"
+        ></PageHeaderInfos>
+      </div>
+      <div id="sliderMapContainer">
+        <div class="imagesWithButtons">
+          <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
+          <div style="display: flex">
+            <button
+              style="flex: 1; border-radius: 0"
+              class="btn btn-primary btn-lg"
+              @click="showFeedbackForm"
+            >
+              Register Visit
+            </button>
+            <button
+              style="flex: 1; border-radius: 0"
+              id="loveButton"
+              class="btn btn-danger btn-lg"
+              @click="showAddToFavoriteList"
+            >
+              ♥ Add to favourites
+            </button>
+          </div>
         </div>
-        <div class="col-4">
-          <MapView></MapView>
+        <div class="map">
+          <MapView
+            :restaurant-location="restaurant.location.coordinates"
+          ></MapView>
         </div>
       </div>
+      <div v-if="showForm">
+        <RegisterVisitForm
+          @close="hideFeedbackForm"
+          :restaurant="restaurant"
+        ></RegisterVisitForm>
+      </div>
+      <div v-if="showAddToFavoritesModal">
+        <AddToFavoritesModal
+          :owner="this.User"
+          @close-modal="handleCloseAddToFavoriteList"
+          :restaurant-id="restaurant.id"
+        ></AddToFavoritesModal>
+      </div>
+      <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
     </div>
-    <OpenHours></OpenHours>
+    <div v-else>
+      <div
+        class="center-header"
+        style="display: flex; justify-content: center; align-items: center"
+      >
+        <div class="spinner-border" role="status"></div>
+        <div>Loading...</div>
+      </div>
+    </div>
   </div>
 </template>
 
-<style></style>
 <script>
 import PageHeaderInfos from "@/components/restaurantView/PageHeaderInfos.vue";
 import ImageSlider from "@/components/restaurantView/ImageSlider.vue";
 import OpenHours from "@/components/restaurantView/OpenHours.vue";
 import MapView from "@/components/restaurantView/MapView.vue";
+import { getRestaurantById } from "@/api/restaurant";
+import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
+import AddToFavoritesModal from "@/components/form/AddFavoritesForm.vue";
+import { Owner } from "@/components/profileView/script/profile.utility";
 
-const key = "AIzaSyC-TIo4u7jtVVu0yLHFe5hIdh3xICwIMmk";
 export default {
   name: "Restaurant",
-  // eslint-disable-next-line vue/no-unused-components
-  components: { PageHeaderInfos, ImageSlider, OpenHours, MapView },
+  components: {
+    AddToFavoritesModal,
+    RegisterVisitForm,
+    PageHeaderInfos,
+    ImageSlider,
+    OpenHours,
+    MapView,
+  },
   data() {
     return {
-      restaurantLocation: { lat: 46.782878601986255, lng: -71.28690361946938 },
-      name: "McDonald's",
-      rate: "★ 4.8",
-      location: "⚲ 2520 Chem. des Quatre-Bourgeois, QC, G1V 4R2",
+      isVisible: false,
+      restaurant: null,
+      showPopup: false,
+      showForm: false,
+      showAddToFavoritesModal: false,
     };
+  },
+  computed: {
+    User() {
+      return new Owner({
+        email: '"villiam1@gmail.com"',
+        id: "619a82f824b6ec0004c9f035",
+        name: "William",
+      });
+    },
+    restaurantRating() {
+      return Math.round(this.restaurant.rating * 100) / 100;
+    },
+  },
+  async created() {
+    try {
+      this.restaurant = await getRestaurantById(
+        this.$route.params.restaurantId,
+      );
+    } catch (error) {
+      console.error("Error getting restaurant...");
+    }
+  },
+  methods: {
+    showFeedbackForm() {
+      this.showForm = true;
+    },
+    hideFeedbackForm() {
+      this.showForm = false;
+    },
+    showAddToFavoriteList() {
+      this.showAddToFavoritesModal = true;
+    },
+    handleCloseAddToFavoriteList() {
+      this.showAddToFavoritesModal = false;
+    },
   },
 };
 </script>
 
 <style scoped>
-@media (max-width: 600px) {
-  /* Media query for mobile screens */
-  .container {
+#sliderMapContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+}
+.imagesWithButtons {
+  flex: 2;
+}
+
+.map {
+  flex: 1;
+  margin-left: 1rem;
+}
+#loveButton {
+  background-color: crimson;
+  color: white;
+  border: none;
+  border-radius: 7px;
+}
+#loveButton:hover {
+  background-color: #ac0a29;
+}
+
+@media only screen and (max-width: 1000px) {
+  #sliderMapContainer {
+    display: flex;
     flex-direction: column;
-    align-items: center;
   }
-  .center-header {
+  .map {
     margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  .row {
-    flex-direction: column;
-    align-items: center;
-  }
-  .col-4 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    display: block;
-    width: 100%;
+    margin-left: 0;
   }
 }
 </style>

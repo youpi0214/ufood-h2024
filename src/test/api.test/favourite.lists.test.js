@@ -30,7 +30,7 @@ describe("getAllFavoriteLists", () => {
 describe("getaSpecificFavoriteList", () => {
   test("get a specific favorite list", async () => {
     // const listID = "607b9f6f1fa5370004c71036"; // dot not delete or change this id!!!!
-    const listID = "65f0a655836bc6ed9ccc54e8";
+    const listID = "65f330178df31618b63cad7f";
 
     const [id, name, restaurants, owner] =
       await getaSpecificFavoriteList(listID);

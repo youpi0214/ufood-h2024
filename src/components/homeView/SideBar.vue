@@ -4,6 +4,7 @@
       <RestaurantFilter
         :selectedPrice="selectedPrice"
         :selectedCategory="selectedCategory"
+        :filterGenres="filterGenres"
         @apply-filters="handleApplyFilters"
         @reset-filters="resetFilters"
       />
@@ -20,6 +21,7 @@ export default {
     RestaurantFilter,
   },
   props: {
+    filterGenres: Array,
     isSidebarOpen: Boolean,
   },
   computed: {
@@ -43,12 +45,10 @@ export default {
   },
   methods: {
     handleApplyFilters(price, category) {
-      this.selectedPrice = price;
-      this.selectedCategory = category;
+      this.$emit("apply-filters", price, category);
     },
     resetFilters() {
-      this.selectedPrice = "All";
-      this.selectedCategory = "All";
+      this.$emit("apply-filters", "", "");
       this.$emit("reset-filters");
     },
   },

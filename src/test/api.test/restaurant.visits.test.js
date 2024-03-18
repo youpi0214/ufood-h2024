@@ -31,6 +31,7 @@ describe("getUserRestaurantVisitById", () => {
     const [visits, total] = await getUserRestaurantVisitById(userId, visitId);
 
     console.log(visits);
+    console.log(total);
 
     expect(visits).toBeDefined();
   });

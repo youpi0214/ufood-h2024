@@ -1,4 +1,4 @@
-import { getUsers } from "src/api/user.js";
+import { getUserFavoriteLists, getUsers } from "src/api/user.js";
 import { RestaurantQueryOptions } from "src/api/api.utility.js";
 import { test, describe, expect } from "vitest";
 
@@ -32,5 +32,17 @@ describe("getUsers", () => {
         user.name.toLowerCase().includes(userName.toLowerCase()),
       ),
     ).toBe(true);
+  });
+});
+
+describe("getUserFavoriteLists", () => {
+  test("get user favorite lists", async () => {
+    const userId = "619a82f824b6ec0004c9f035";
+    const [favorites, _] = await getUserFavoriteLists(userId);
+    console.log(favorites, _);
+
+    expect(favorites).toBeDefined();
+    expect(favorites.length).toBeGreaterThan(0);
+    expect(Array.isArray(favorites)).toBe(true);
   });
 });

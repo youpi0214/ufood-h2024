@@ -1,6 +1,8 @@
 <template>
   <div
-    class="offcanvas-lg offcanvas-start"
+    class="offcanvas offcanvas-start"
+    data-bs-scroll="true"
+    data-bs-backdrop="false"
     tabindex="-1"
     id="offcanvasExample"
     aria-labelledby="offcanvasExampleLabel"
@@ -14,11 +16,11 @@
         <ul class="list-unstyled">
           <li v-for="price in prices" :key="price.value">
             <input
-              type="radio"
+              type="checkbox"
               :id="`price-${price.value}`"
               :value="price.value"
-              :checked="selectedPrice === price.value"
-              @change="updateSelectedPrice(price.value)"
+              :checked="selectedPrices.includes(price.value)"
+              @change="updateSelectedPrice($event.target.value)"
             />
             <label :for="`price-${price.value}`">{{ price.label }}</label>
           </li>
@@ -26,25 +28,21 @@
       </div>
       <div>
         <h6>Category:</h6>
-        <ul class="list-unstyled">
-          <li v-for="category in categories" :key="category.value">
+        <ul class="list-unstyled" id="category">
+          <li v-for="genre in filterGenres" :key="genre">
             <input
-              type="radio"
-              :id="`category-${category.value}`"
-              :value="category.value"
-              :checked="selectedCategory === category.value"
-              @change="updateSelectedCategory(category.value)"
+              type="checkbox"
+              :id="`category-${genre}`"
+              :value="genre"
+              :checked="selectedCategories.includes(genre)"
+              @change="updateSelectedCategory($event.target.value)"
             />
-            <label :for="`category-${category.value}`">{{
-              category.label
-            }}</label>
+            <label :for="`category-${genre}`">{{ genre }}</label>
           </li>
         </ul>
       </div>
       <div class="button-reset">
-        <button class="btn btn-secondary mt-3" @click="resetFilters">
-          Reset
-        </button>
+        <button class="btn btn-success" @click="resetFilters">Reset</button>
       </div>
     </div>
   </div>
@@ -53,34 +51,58 @@
 <script>
 export default {
   props: {
+    filterGenres: Array,
     selectedPrice: String,
     selectedCategory: String,
   },
   data() {
     return {
       prices: [
-        { value: "All", label: "All" },
         { value: "$", label: "$" },
         { value: "$$", label: "$$" },
         { value: "$$$", label: "$$$" },
-      ],
-      categories: [
-        { value: "All", label: "All" },
-        { value: "Asian Cuisine", label: "Asian Cuisine" },
-        { value: "Italian", label: "Italian Cuisine" },
-        { value: "Fine Dinning", label: "Fine Dinning" },
-        { value: "Dessert", label: "Dessert" },
-        { value: "Mediterranean Cuisine", label: "Mediterranean Cuisine" },
-        { value: "Breakfast", label: "Breakfast" },
+        { value: "$$$$", label: "$$$$" },
+        { value: "$$$$$", label: "$$$$$" },
       ],
     };
   },
+  computed: {
+    selectedCategories() {
+      return this.selectedCategory.split(",");
+    },
+    selectedPrices() {
+      return this.selectedPrice.split(",");
+    },
+  },
   methods: {
     updateSelectedPrice(value) {
-      this.$emit("apply-filters", value, this.selectedCategory);
+      let selectedPrices = this.selectedPrices;
+      const index = selectedPrices.indexOf(value);
+
+      if (index !== -1) {
+        selectedPrices.splice(index, 1);
+      } else {
+        selectedPrices.push(value);
+      }
+
+      this.$emit(
+        "apply-filters",
+        selectedPrices.join(","),
+        this.selectedCategory,
+      );
     },
     updateSelectedCategory(value) {
-      this.$emit("apply-filters", this.selectedPrice, value);
+      let selectedCategories = this.selectedCategories;
+      if (selectedCategories.includes(value)) {
+        selectedCategories = selectedCategories.filter((cat) => cat !== value);
+      } else {
+        selectedCategories.push(value);
+      }
+      this.$emit(
+        "apply-filters",
+        this.selectedPrice,
+        selectedCategories.join(","),
+      );
     },
     resetFilters() {
       this.$emit("reset-filters");
@@ -92,5 +114,14 @@ export default {
 <style scoped>
 .list-unstyled {
   margin-left: 2rem;
+}
+
+#category {
+  overflow: auto;
+  max-height: 200px;
+}
+
+.button-reset {
+  margin-top: 1rem;
 }
 </style>

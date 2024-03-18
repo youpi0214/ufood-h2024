@@ -5,45 +5,53 @@
       rel="stylesheet"
     />
     <div ref="mapElement" style="height: 400px"></div>
-    <button class="btn btn-outline-success" @click="getRoute">
+    <button
+      class="btn btn-primary btn-lg btn-block"
+      v-if="!getDirectionsIsClicked"
+      @click="showRoute"
+    >
       Get Directions
+    </button>
+    <button
+      id="hideButton"
+      class="btn btn-primary btn-lg btn-block"
+      v-if="getDirectionsIsClicked"
+      @click="hideRoute"
+    >
+      Hide Directions
     </button>
   </div>
 </template>
 
 <script>
 import mapboxgl from "!mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/map.utility.js";
 
 export default {
   props: {
-    mapBoxApiKey: {
-      type: String,
-      default: () =>
-        "pk.eyJ1IjoieW91cGkwMjE0IiwiYSI6ImNsc2kxZWkxNjFhdHoydnFwbWtvemFrOHIifQ.Pil0AJAwK_TVItQJAWkb9g",
+    restaurantLocation: {
+      type: Array,
+      default: () => [-71.28690361946938, 46.782878601986255],
     },
   },
   data() {
     return {
       map: null,
-      currentPosition: [-71.1755, 46.8049],
-      restaurantLocation: [-71.28690361946938, 46.782878601986255],
+      currentPosition: null,
+      getDirectionsIsClicked: false,
     };
-  },
-  created() {
-    this.getLocation();
-  },
-  mounted() {
-    this.initMap();
   },
   methods: {
     initMap() {
-      mapboxgl.accessToken = this.mapBoxApiKey;
+      mapboxgl.accessToken = MAPBOX_API_KEY;
       this.map = new mapboxgl.Map({
         container: this.$refs.mapElement,
         center: this.restaurantLocation,
+        style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
         zoom: 15,
       });
-      const marker1 = new mapboxgl.Marker({ color: "red" })
+      new mapboxgl.Marker({ color: "red" })
         .setLngLat(this.restaurantLocation)
         .setPopup(new mapboxgl.Popup().setHTML(`<h5>McDonald's</h5>`))
         .addTo(this.map);
@@ -66,53 +74,38 @@ export default {
         alert("Geolocation is not supported by this browser.");
       }
     },
-    async getRoute() {
-      const [originLong, originLat] = this.currentPosition;
-      const [destinationLong, destinationLat] = this.restaurantLocation;
-      const marker2 = new mapboxgl.Marker()
-        .setLngLat(this.currentPosition)
-        .setPopup(new mapboxgl.Popup().setHTML(`<h5>Your Location</h5>`))
-        .addTo(this.map);
-      const query = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/${originLong},${originLat};
-        ${destinationLong},${destinationLat}?steps=true&geometries=geojson&access_token=${this.mapBoxApiKey}`,
-        { method: "GET" },
-      );
-      const json = await query.json();
-      const data = json.routes[0];
-      const route = data.geometry.coordinates;
-      const geojson = {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: `LineString`,
-          coordinates: route,
-        },
-      };
-      if (this.map.getSource(`route`)) {
-        this.map.getSource(`route`).setData(geojson);
+    async showRoute() {
+      if (this.currentPosition) {
+        this.getDirectionsIsClicked = true;
+        await getRoute(this.currentPosition, this.restaurantLocation, this.map);
+        const bounds = new mapboxgl.LngLatBounds(
+          this.currentPosition,
+          this.restaurantLocation,
+        );
+        const markers = [this.restaurantLocation, this.currentPosition];
+        markers.forEach((marker) => bounds.extend(marker.coordinates));
+        this.map.fitBounds(bounds, { padding: 40, duration: 2000 });
       } else {
-        this.map.addLayer({
-          id: "route",
-          type: "line",
-          source: {
-            type: "geojson",
-            data: geojson,
-          },
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": "#d73636",
-            "line-width": 5,
-            "line-opacity": 0.75,
-          },
-        });
+        alert("You must allow browser to use location");
       }
     },
+    async hideRoute() {
+      this.getDirectionsIsClicked = false;
+      await removeRoute(this.restaurantLocation, this.map);
+    },
+  },
+  created() {
+    this.getLocation();
+  },
+  mounted() {
+    this.initMap();
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#hideButton {
+  background-color: white;
+  color: dodgerblue;
+}
+</style>

@@ -1,105 +1,154 @@
 <script>
+import { formatGenres } from "@/components/restaurantView/script/restaurant.utility";
+
 export default {
   name: "PageHeaderInfos",
   props: {
     name: {
       type: String,
-      default: "McDonald's",
+      default: "",
     },
     rating: {
       type: Number,
-      default: 4.8,
+      default: 0,
     },
     address: {
       type: String,
-      default: "⚲ 2520 Chem. des Quatre-Bourgeois, QC, G1V 4R2",
+      default: "",
     },
     tel: {
       type: String,
-      default: "(418) 651-5085",
+      default: "",
     },
     genres: {
-      type: String,
-      default: "Fast-Food",
+      type: Array,
+      default: () => [],
     },
     price_range: {
-      type: String,
-      default: "$$",
+      type: Number,
+      default: 0,
+    },
+  },
+  methods: {
+    formatGenres,
+    ratingColor(rating) {
+      let color = "";
+      let grade = "";
+      switch (rating != null) {
+        case rating >= 4.5:
+          grade = "Excellent";
+          color = "forestgreen";
+          break;
+        case rating >= 4.0:
+          grade = "Very Good";
+          color = "yellowgreen";
+          break;
+        case rating >= 3.0:
+          grade = "Good";
+          color = "orange";
+          break;
+        case rating >= 2.0:
+          grade = "Ok";
+          color = "orangered";
+          break;
+        default:
+          grade = "Poor";
+          color = "firebrick";
+      }
+      return { grade, color };
     },
   },
 };
 </script>
 
 <template>
-  <div class="container">
-    <div class="left-half">
-      <div>
-        <span id="title">{{ name }}</span>
-        <span id="rating">{{ "★" }} {{ rating }}</span>
+  <div class="content">
+    <div class="info1">
+      <div id="nameAndRating">
+        <div id="title">{{ name }}</div>
+        <div id="rating" :style="{ color: ratingColor(this.rating).color }">
+          {{ "★" }} {{ rating }} {{ ratingColor(this.rating).grade }}
+        </div>
       </div>
-      <div>{{ address }}</div>
+      <div>{{ "⚲" }} {{ address }}</div>
     </div>
-    <div class="right-half">
-      <div>{{ tel }}</div>
-      <div>{{ genres }} {{ "•" }} {{ price_range }}</div>
+    <div class="info2">
+      <div>
+        <span
+          ><i class="bi bi-telephone-fill" style="margin-right: 5px"></i></span
+        >{{ tel }}
+      </div>
+      <div>
+        <span><i class="bi bi-funnel-fill"></i></span>
+        {{ formatGenres(genres) }} {{ "•" }}
+        {{ "$".repeat(this.price_range) }}
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.container {
+#nameAndRating {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 200px;
+  flex-direction: row;
 }
 
-.left-half,
-.right-half {
-  width: calc(50% - 5px);
-  height: 100%;
+.content {
   display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.info1 {
+  display: flex;
+  flex: 2;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 10px;
 }
 
-.right-half {
-  align-items: flex-end;
+.info2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
 }
 
 #title {
-  font-size: 2rem;
-  margin-top: 15px;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 #rating {
-  font-size: 1rem;
-  padding: 5px;
-  border-radius: 20px;
+  font-size: 1.1rem;
+  display: flex;
+  justify-items: center;
+  align-items: end;
+  font-weight: bold;
   margin-left: 10px;
-  color: #000000;
+  color: #ffffff;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   /* Media query for mobile screens */
-  .container {
+  .content {
     flex-direction: column;
-    align-items: center;
   }
-
-  .left-half,
-  .right-half {
-    width: 100%;
+  .info1 {
     height: auto;
     display: flex;
+    flex: 2;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    justify-content: flex-start;
+  }
+  .info2 {
+    text-align: left;
+  }
+  #nameAndRating {
+    flex-direction: column;
+  }
+  #rating {
+    margin-left: 0;
   }
 }
 </style>

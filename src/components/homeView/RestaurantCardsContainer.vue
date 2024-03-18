@@ -1,7 +1,7 @@
 <template>
   <div class="restaurant-cards">
     <Card
-      v-for="restaurant in filteredRestaurants"
+      v-for="restaurant in restaurants"
       :key="restaurant.id"
       :restaurant="restaurant"
     />
@@ -16,7 +16,7 @@ export default {
     Card,
   },
   props: {
-    filteredRestaurants: {
+    restaurants: {
       type: Array,
       required: true,
     },

@@ -1,38 +1,45 @@
 <script>
+import { formatString } from "@/components/restaurantView/script/restaurant.utility";
+
 export default {
   name: "OpenHours",
-  //TODO The data must be dynamically from the restaurant
-  data() {
-    return {
-      openingHours: [
-        "Monday: 07:20 - 21:30",
-        "Tuesday: 07:20 - 21:30",
-        "Wednesday: 07:20 - 21:30",
-        "Thursday: 07:20 - 21:30",
-        "Friday: 07:20 - 21:30",
-        "Saturday: 07:20 - 21:30",
-        "Sunday: 07:20 - 21:30",
-      ],
-    };
+  props: {
+    openingHours: {
+      type: Object,
+      required: true,
+    },
+  },
+  methods: {
+    formatString,
   },
 };
 </script>
 
 <template>
   <div class="open-hours">
-    <h1 style="font-weight: bold">Hours :</h1>
+    <div>
+      <i class="bi bi-clock"> </i>
+      <span class="title">Opening Hours :</span>
+    </div>
     <ul>
-      <li v-for="(hour, index) in openingHours" :key="index">{{ hour }}</li>
+      <li v-for="(hours, day) in openingHours" :key="day">
+        <span style="font-weight: bold">{{ formatString(day) + ":" }} </span>
+        {{ hours || "Closed" }}
+      </li>
     </ul>
   </div>
 </template>
 
 <style scoped>
-@media (max-width: 600px) {
-  .open-hours {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.open-hours {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  color: black;
+  font-weight: bold;
+  margin-left: 5px;
+  text-decoration-line: underline;
 }
 </style>

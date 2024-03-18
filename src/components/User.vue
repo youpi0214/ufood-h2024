@@ -1,66 +1,51 @@
 <template>
-  <div>
-    <UserHeader :user-name="userName" />
-    <!-- START  TODO this will disappear when adding api handling -->
-    <div class="form-check form-switch">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        role="switch"
-        id="flexSwitchCheckDefault"
-        v-model="isSwitched"
-      />
-      <label class="form-check-label" for="flexSwitchCheckDefault"
-        >No visits</label
-      >
-      <!--      END-->
+  <div class="container-xl main-content">
+    <div class="col-md-auto">
+      <UserHeader :userName="userName" :rating="rating" :id="id" />
     </div>
-    <div v-if="!isSwitched">
-      <RecentlyVisited></RecentlyVisited>
-    </div>
-    <div
-      v-else
-      class="container-fluid d-flex justify-content-center align-items-center"
-      style="height: 20rem"
-    >
-      <router-link to="/" class="nav-link">
-        <button type="button" class="btn btn-outline-success">
-          Return to Home
-        </button>
-      </router-link>
+    <div class="accordion" id="accordionExample">
+      <RecentlyVisitedRestaurants :id="id" />
+      <FavoritesContainer :owner="Owner" />
     </div>
   </div>
 </template>
 
 <script>
 import UserHeader from "@/components/profileView/UserHeader.vue";
-import RecentlyVisited from "@/components/profileView/RecentlyVisited.vue";
+import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
+import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
+import { Owner } from "@/components/profileView/script/profile.utility";
 
 export default {
+  computed: {
+    Owner() {
+      return new Owner({ email: this.email, id: this.id, name: this.userName });
+    },
+  },
   components: {
-    RecentlyVisited,
+    RecentlyVisitedRestaurants,
     UserHeader,
+    FavoritesContainer,
   },
   data() {
     return {
-      userName: localStorage.getItem("userName") || "",
+      userName: "William",
+      email: '"villiam1@gmail.com"',
+      id: "619a82f824b6ec0004c9f035",
+      rating: 330,
       isSwitched: false,
     };
-  },
-  mounted() {
-    window.addEventListener("storage", this.updateUserNameFromStorage);
-  },
-  unmounted() {
-    window.removeEventListener("storage", this.updateUserNameFromStorage);
-  },
-  methods: {
-    updateUserNameFromStorage(event) {
-      if (event.key === "userName") {
-        this.userName = event.newValue;
-      }
-    },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.main-content {
+  margin-top: 6rem;
+  position: relative;
+}
+
+.accordion {
+  margin-top: 1rem;
+}
+</style>
