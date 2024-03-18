@@ -1,6 +1,8 @@
 <template>
   <div class="visit">
-    <div id="visitDate" @click="showFeedbackForm">{{ visit.date }}</div>
+    <div id="visitDate" @click="showFeedbackForm">
+      {{ visit.date.slice(0, 10) }}
+    </div>
     <div v-if="showForm">
       <RegisterVisitForm
         :show-form="showForm"

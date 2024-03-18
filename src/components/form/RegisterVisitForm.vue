@@ -12,9 +12,10 @@
             <textarea
               id="comment"
               v-model="userComment"
+              placeholder="Please leave a comment"
               :disabled="disabledInput"
             ></textarea>
-            <span v-if="!commentValid" class="error"
+            <span v-if="!commentValid && !initialValidation" class="error"
               >Please enter a valid comment.</span
             >
           </div>
@@ -29,7 +30,7 @@
               step="0.1"
               :disabled="disabledInput"
             />
-            <span v-if="!ratingValid" class="error"
+            <span v-if="!ratingValid && !initialValidation" class="error"
               >Please enter a valid rating (1.0-5.0).</span
             >
           </div>
@@ -42,7 +43,7 @@
               :max="maxDate"
               :disabled="disabledInput"
             />
-            <span v-if="!dateValid" class="error"
+            <span v-if="!dateValid && !initialValidation" class="error"
               >Please select a valid date.</span
             >
           </div>
@@ -89,12 +90,13 @@ export default {
       userComment: "",
       userRating: null,
       userDate: "",
-      commentValid: true,
-      ratingValid: true,
-      dateValid: true,
+      commentValid: false,
+      ratingValid: false,
+      dateValid: false,
       formSubmitted: false,
       errorMessage: "",
       disabledInput: false,
+      initialValidation: true,
     };
   },
   computed: {
@@ -116,8 +118,8 @@ export default {
   },
   methods: {
     async submitForm() {
-      this.formSubmitted = true;
       if (this.formValid) {
+        this.formSubmitted = true;
         const visitData = {
           restaurant_id: this.restaurant.id,
           comment: this.userComment,
@@ -132,9 +134,6 @@ export default {
         this.formSubmitted = false;
         this.closeForm();
       } else {
-        console.log(
-          "Form not submitted. Please fill out all fields correctly.",
-        );
         this.errorMessage = "Please fill out all fields correctly.";
       }
     },
@@ -158,22 +157,15 @@ export default {
   },
   watch: {
     userComment(value) {
-      if (this.formSubmitted) {
-        this.commentValid = value.trim().length > 0;
-      }
+      this.commentValid = value.trim().length > 0;
     },
     userRating(value) {
-      if (this.formSubmitted) {
-        this.ratingValid =
-          typeof value === "number" && value >= 1 && value <= 5;
-      }
+      this.ratingValid = typeof value === "number" && value >= 1 && value <= 5;
     },
     userDate(value) {
-      if (this.formSubmitted) {
-        const selectedDate = new Date(value);
-        const today = new Date();
-        this.dateValid = value.trim().length > 0 && selectedDate <= today;
-      }
+      const selectedDate = new Date(value);
+      const today = new Date();
+      this.dateValid = value.trim().length > 0 && selectedDate <= today;
     },
   },
   mounted() {

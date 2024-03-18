@@ -121,7 +121,7 @@ export default {
   max-height: 200px;
 }
 
-.button-reset{
+.button-reset {
   margin-top: 1rem;
 }
 </style>

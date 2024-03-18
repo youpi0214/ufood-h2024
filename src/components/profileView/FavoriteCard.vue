@@ -1,7 +1,8 @@
 <template>
   <div class="favorite-card">
     <Card
-      v-for="resto in restaurant" :key="resto.id"
+      v-for="resto in restaurant"
+      :key="resto.id"
       :restaurant="resto"
       :registerDisable="true"
       :removeRestaurant="removeFromList"
@@ -36,10 +37,8 @@ export default {
     };
   },
   async created() {
-    const result =[ await getRestaurantById(this.restaurantId)];
-    this.restaurant = result.map(
-      (restaurant) => new Restaurant(restaurant),
-    );
+    const result = [await getRestaurantById(this.restaurantId)];
+    this.restaurant = result.map((restaurant) => new Restaurant(restaurant));
   },
 };
 </script>

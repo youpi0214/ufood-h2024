@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
     };
   },
   methods: {
@@ -40,8 +40,8 @@ export default {
     },
     close() {
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 

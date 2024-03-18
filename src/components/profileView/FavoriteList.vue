@@ -7,7 +7,7 @@
         aria-label="edit name"
         v-model="newName"
       />
-      <h3 v-else>{{ name }}</h3>
+      <div style="font-size: 1.5em; font-weight: bold" v-else>{{ name }}</div>
       <i
         style="color: dodgerblue; cursor: pointer; font-size: 1.3rem"
         :class="editBtnText"

@@ -19,7 +19,11 @@
           </a>
         </router-link>
 
-        <form class="d-flex w-50 p-3" role="search" @submit.prevent="search">
+        <form
+          style="display: flex; flex-direction: row"
+          role="search"
+          @submit.prevent="search"
+        >
           <button
             @click="toggleSidebar"
             class="filter-btn btn btn-outline-success"
@@ -36,7 +40,6 @@
           <button
             style="outline: none; border: none"
             class="btn btn-outline-success search-btn"
-            @click="toggleSearchInput"
           >
             <i class="bi bi-search"></i>
           </button>
@@ -84,14 +87,16 @@ export default {
   components: { AccountPopUp },
   data() {
     return {
-      toggledShownInput: true
+      toggledShownInput: true,
     };
   },
   methods: {
     toggleSearchInput() {
       this.toggledShownInput = !this.toggledShownInput;
-      this.$refs.searchInput.style.display = this.toggledShownInput ? "" : "none";
-    }
+      this.$refs.searchInput.style.display = this.toggledShownInput
+        ? ""
+        : "none";
+    },
   },
   setup() {
     const userName = ref(localStorage.getItem("userName") || "");
@@ -165,9 +170,9 @@ export default {
       toggleDropdown,
       toggleSidebar,
       // Expose the isTransparent variable
-      isTransparent
+      isTransparent,
     };
-  }
+  },
 };
 </script>
 
@@ -200,12 +205,18 @@ export default {
   max-width: 100%;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 601px) {
   .filter-btn {
     display: none;
   }
 
   .search-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-input {
     display: none;
   }
 }
