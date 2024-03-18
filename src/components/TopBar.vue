@@ -27,16 +27,16 @@
             <i class="bi bi-filter-square-fill"></i>
           </button>
           <input
-            v-model="searchQuery"
-            class="form-control me-2"
+            ref="searchInput"
+            class="form-control me-2 search-input"
             type="search"
             placeholder="Search..."
             aria-label="Search"
           />
           <button
             style="outline: none; border: none"
-            class="btn btn-outline-success"
-            type="submit"
+            class="btn btn-outline-success search-btn"
+            @click="toggleSearchInput"
           >
             <i class="bi bi-search"></i>
           </button>
@@ -82,12 +82,22 @@ import AccountPopUp from "@/components/loginView/AccountPopUp.vue";
 export default {
   name: "TopBar",
   components: { AccountPopUp },
+  data() {
+    return {
+      toggledShownInput: true
+    };
+  },
+  methods: {
+    toggleSearchInput() {
+      this.toggledShownInput = !this.toggledShownInput;
+      this.$refs.searchInput.style.display = this.toggledShownInput ? "" : "none";
+    }
+  },
   setup() {
     const userName = ref(localStorage.getItem("userName") || "");
     const showPopup = ref(false);
     const showDropdown = ref(false);
     const showLogoutConfirmation = ref(false);
-    const searchQuery = ref("");
     const router = useRouter();
     const store = useStore();
 
@@ -121,10 +131,6 @@ export default {
       showLogoutConfirmation.value = false;
     };
 
-    const search = () => {
-      console.log(`Searching for: ${searchQuery.value}`);
-    };
-
     const toggleDropdown = () => {
       showDropdown.value = !showDropdown.value;
     };
@@ -150,20 +156,18 @@ export default {
       userName,
       showDropdown,
       showPopup,
-      searchQuery,
       showLogoutConfirmation,
       isSidebarOpen,
       handleUserUpdate,
       confirmLogout,
       logout,
       cancelLogout,
-      search,
       toggleDropdown,
       toggleSidebar,
       // Expose the isTransparent variable
-      isTransparent,
+      isTransparent
     };
-  },
+  }
 };
 </script>
 
@@ -198,6 +202,10 @@ export default {
 
 @media (min-width: 600px) {
   .filter-btn {
+    display: none;
+  }
+
+  .search-btn {
     display: none;
   }
 }
