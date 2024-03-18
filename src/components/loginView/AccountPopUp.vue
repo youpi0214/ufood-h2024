@@ -7,7 +7,7 @@
         <button @click="login">Login</button>
         <p>
           Don't have an account?
-          <router-link to="/signup">Sign up</router-link>
+          <span>Sign up</span>
         </p>
       </div>
       <div v-else>
@@ -26,11 +26,12 @@ export default {
   data() {
     return {
       username: "",
-      password: "",
+      password: ""
     };
   },
   methods: {
     login() {
+      this.username = "William";
       this.$emit("update:user", this.username);
       this.close();
     },
@@ -39,8 +40,8 @@ export default {
     },
     close() {
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 
