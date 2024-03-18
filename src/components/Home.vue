@@ -190,9 +190,9 @@ export default {
     "$store.state.isSidebarOpen"(newValue) {
       this.isSidebarOpen = newValue;
       if (newValue) {
-        document.body.style.overflow = "hidden";
+        document.body.classList.add("allow-scrolling");
       } else {
-        document.body.style.overflow = "";
+        document.body.classList.remove("allow-scrolling");
       }
     },
   },
@@ -207,6 +207,10 @@ export default {
 
 .row {
   display: flow;
+}
+
+.allow-scrolling {
+  overflow: auto;
 }
 
 @media (max-width: 600px) {

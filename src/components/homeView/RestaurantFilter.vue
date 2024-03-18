@@ -120,4 +120,8 @@ export default {
   overflow: auto;
   max-height: 200px;
 }
+
+.button-reset{
+  margin-top: 1rem;
+}
 </style>
