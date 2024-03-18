@@ -131,7 +131,6 @@ export default {
       });
     },
     clearSearch() {
-      console.log("clearing search");
       this.search = "";
       this.restaurants = [];
     },
