@@ -1,54 +1,51 @@
 <template>
-  <div>
-    <h1>{{ userName }}</h1>
-    <div>Rating: 4.5 &star;</div>
-    <div class="form-check form-switch">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        role="switch"
-        id="flexSwitchCheckDefault"
-        v-model="isSwitched"
-      />
-      <label class="form-check-label" for="flexSwitchCheckDefault"
-        >No visits</label
-      >
+  <div class="container-xl main-content">
+    <div class="col-md-auto">
+      <UserHeader :userName="userName" :rating="rating" :id="id" />
     </div>
-    <div v-if="!isSwitched">
-      <RecentlyVisited> </RecentlyVisited>
-    </div>
-    <div
-      v-else
-      class="container-fluid d-flex justify-content-center align-items-center"
-      style="height: 20rem"
-    >
-      <button type="button" class="btn btn-outline-success">
-        <router-link to="/" class="nav-link">Return to Home</router-link>
-      </button>
+    <div class="accordion" id="accordionExample">
+      <RecentlyVisitedRestaurants :id="id" />
+      <FavoritesContainer :owner="Owner" />
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, onUnmounted } from "vue";
-import RecentlyVisited from "@/components/RecentlyVisited.vue";
+<script>
+import UserHeader from "@/components/profileView/UserHeader.vue";
+import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
+import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
+import { Owner } from "@/components/profileView/script/profile.utility";
 
-const userName = ref(localStorage.getItem("userName") || "");
-const isSwitched = ref(false);
-
-function updateUserNameFromStorage(event) {
-  if (event.key === "userName") {
-    userName.value = event.newValue;
-  }
-}
-
-onMounted(() => {
-  window.addEventListener("storage", updateUserNameFromStorage);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("storage", updateUserNameFromStorage);
-});
+export default {
+  computed: {
+    Owner() {
+      return new Owner({ email: this.email, id: this.id, name: this.userName });
+    },
+  },
+  components: {
+    RecentlyVisitedRestaurants,
+    UserHeader,
+    FavoritesContainer,
+  },
+  data() {
+    return {
+      userName: "William",
+      email: '"villiam1@gmail.com"',
+      id: "619a82f824b6ec0004c9f035",
+      rating: 330,
+      isSwitched: false,
+    };
+  },
+};
 </script>
 
-<style></style>
+<style scoped>
+.main-content {
+  margin-top: 6rem;
+  position: relative;
+}
+
+.accordion {
+  margin-top: 1rem;
+}
+</style>

@@ -1,11 +1,17 @@
 <template>
   <div class="sticky-top">
-    <nav class="resto-nav navbar bg-body-tertiary">
+    <nav
+      :class="{
+        'resto-nav-transparent': isTransparent,
+        'resto-nav-solid': !isTransparent,
+      }"
+      class="resto-nav navbar bg-body-tertiary"
+    >
       <div class="container-fluid">
         <router-link to="/" class="nav-link logo">
           <a class="navbar-brand">
             <img
-              :src="require('/src/images/UFoodLogo.png')"
+              :src="require('/src/assets/logo/UFoodLogo.png')"
               alt="Bootstrap"
               width="60rem"
               height="60rem"
@@ -13,7 +19,11 @@
           </a>
         </router-link>
 
-        <form class="d-flex w-50 p-3" role="search">
+        <form
+          style="display: flex; flex-direction: row"
+          role="search"
+          @submit.prevent="search"
+        >
           <button
             @click="toggleSidebar"
             class="filter-btn btn btn-outline-success"
@@ -21,12 +31,18 @@
             <i class="bi bi-filter-square-fill"></i>
           </button>
           <input
-            class="form-control me-2"
+            ref="searchInput"
+            class="form-control me-2 search-input"
             type="search"
             placeholder="Search..."
             aria-label="Search"
           />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <button
+            style="outline: none; border: none"
+            class="btn btn-outline-success search-btn"
+          >
+            <i class="bi bi-search"></i>
+          </button>
         </form>
         <div v-if="userName" class="user-info">
           <span class="user-name">{{ userName }}</span>
@@ -64,94 +80,97 @@
 import { ref, onUnmounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import AccountPopUp from "@/components/NavigationOrg/AccountPopUp.vue";
+import AccountPopUp from "@/components/loginView/AccountPopUp.vue";
+
 export default {
   name: "TopBar",
   components: { AccountPopUp },
   data() {
     return {
-      // Your existing data properties
-      selectedPrice: "All",
-      selectedCategory: "All",
-      isFilterOpen: false,
+      toggledShownInput: true,
     };
+  },
+  methods: {
+    toggleSearchInput() {
+      this.toggledShownInput = !this.toggledShownInput;
+      this.$refs.searchInput.style.display = this.toggledShownInput
+        ? ""
+        : "none";
+    },
   },
   setup() {
     const userName = ref(localStorage.getItem("userName") || "");
     const showPopup = ref(false);
     const showDropdown = ref(false);
     const showLogoutConfirmation = ref(false);
-    const searchQuery = ref("");
     const router = useRouter();
-    const isMobile = ref(window.innerWidth <= 600);
-    const isMobileLayout = ref(false);
     const store = useStore();
 
-    // Create a computed property to observe changes to the boolean value
+    // New data property to track scroll position
+    const isTransparent = ref(true);
+
     const isSidebarOpen = computed(() => store.state.isSidebarOpen);
 
-    // Method to toggle the boolean value
     const toggleSidebar = () => {
       store.dispatch("changeSideBarState");
     };
 
-    function handleUserUpdate(newUserName) {
+    const handleUserUpdate = (newUserName) => {
       userName.value = newUserName;
       localStorage.setItem("userName", newUserName || "");
       showPopup.value = false;
-    }
+    };
 
-    function confirmLogout() {
+    const confirmLogout = () => {
       showLogoutConfirmation.value = true;
-    }
+    };
 
-    function logout() {
+    const logout = () => {
       userName.value = "";
       localStorage.removeItem("userName");
       showLogoutConfirmation.value = false;
       router.push("/");
-    }
+    };
 
-    function cancelLogout() {
+    const cancelLogout = () => {
       showLogoutConfirmation.value = false;
-    }
+    };
 
-    function search() {
-      console.log(`Searching for: ${searchQuery.value}`);
-    }
-
-    function toggleDropdown() {
+    const toggleDropdown = () => {
       showDropdown.value = !showDropdown.value;
-    }
+    };
 
     const handleResize = () => {
-      isMobile.value = window.innerWidth <= 600;
-      isMobileLayout.value = window.innerWidth <= 768;
+      // Handle window resize
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize();
 
-    const cleanup = () => {
+    onUnmounted(() => {
       window.removeEventListener("resize", handleResize);
+    });
+
+    // Event listener for scroll
+    const handleScroll = () => {
+      isTransparent.value = window.scrollY === 0;
     };
 
-    onUnmounted(() => cleanup());
+    window.addEventListener("scroll", handleScroll);
 
     return {
       userName,
       showDropdown,
       showPopup,
-      searchQuery,
       showLogoutConfirmation,
       isSidebarOpen,
       handleUserUpdate,
       confirmLogout,
       logout,
       cancelLogout,
-      search,
       toggleDropdown,
       toggleSidebar,
+      // Expose the isTransparent variable
+      isTransparent,
     };
   },
 };
@@ -159,13 +178,45 @@ export default {
 
 <style scoped>
 .resto-nav {
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 1rem;
+  transition: background-color 0.3s;
 }
 
-@media (min-width: 600px) {
+.resto-nav-transparent {
+  background-color: transparent !important;
+}
+
+.resto-nav-solid {
+  background-color: #f8f9fa !important;
+}
+
+.resto-nav {
+  transition: background-color 0.3s;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+
+@media (min-width: 601px) {
   .filter-btn {
+    display: none;
+  }
+
+  .search-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-input {
     display: none;
   }
 }
@@ -195,7 +246,7 @@ export default {
 }
 
 .logout-confirmation button:first-child {
-  background-color: #00897b;
+  background-color: green;
   color: white;
 }
 
@@ -203,6 +254,7 @@ export default {
   background-color: #ccc;
   color: #333;
 }
+
 .icon-button {
   background-color: transparent;
   border: none;
@@ -251,7 +303,7 @@ export default {
 .dropdown-item {
   display: block;
   padding: 10px;
-  color: #005a4c;
+  color: green;
   text-decoration: none;
 }
 
