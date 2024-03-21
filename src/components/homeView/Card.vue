@@ -40,9 +40,9 @@
           <strong> Register Visit</strong>
         </div>
         <div :hidden="!activeRemoveBtn" class="positioned removeButton">
-          <i class="bi bi-trash3-fill" @click="removeFromList(restaurant.id)"
-            >Remove
+          <i class="bi bi-trash3-fill" @click="removeFromList(restaurant.id)">
           </i>
+          Remove from list
         </div>
       </div>
     </div>
@@ -179,7 +179,8 @@ export default {
   padding: 8px;
   position: absolute;
   bottom: 30%;
-  left: 35%;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 .positioned:hover {
   background-color: #ff3434;

@@ -57,7 +57,7 @@ export default {
         >{{ tel }}
       </div>
       <div>
-        <span><i class="bi bi-funnel-fill"></i></span>
+        <span><i class="fa-solid fa-utensils"></i></span>
         {{ formatGenres(genres) }} {{ "•" }}
         {{ "$".repeat(this.price_range) }}
       </div>
@@ -101,7 +101,7 @@ export default {
   font-size: 1.1rem;
   display: flex;
   justify-items: center;
-  align-items: end;
+  align-items: center;
   font-weight: bold;
   margin-left: 10px;
   color: #ffffff;
