@@ -18,9 +18,6 @@
         <div type="button" style="background: transparent; border: none">
           Recently Visited
         </div>
-        <div :class="{ rotateF: isArrowRotated, rotateB: !isArrowRotated }">
-          <i class="bi bi-caret-right-fill"></i>
-        </div>
       </div>
     </h2>
     <div
