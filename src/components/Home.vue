@@ -27,20 +27,6 @@
               <div style="display: flex; flex-direction: row">
                 <button
                   class="btn btn-danger"
-                  :style="{
-                    backgroundColor: showMap ? '#ff3434' : '#ffffff',
-                  }"
-                  style="border: none"
-                  type="button"
-                  @click="showMap = !showMap"
-                >
-                  <i
-                    class="bi bi-map-fill"
-                    :style="{ color: showMap ? '#ffffff' : '#ff3434' }"
-                  ></i>
-                </button>
-                <button
-                  class="btn btn-danger"
                   type="button"
                   style="border: none"
                   :style="{
@@ -51,6 +37,20 @@
                   <i
                     class="bi bi-grid"
                     :style="{ color: showMap ? '#ff3434' : '#ffffff' }"
+                  ></i>
+                </button>
+                <button
+                  class="btn btn-danger"
+                  :style="{
+                    backgroundColor: showMap ? '#ff3434' : '#ffffff',
+                  }"
+                  style="border: none"
+                  type="button"
+                  @click="showMap = !showMap"
+                >
+                  <i
+                    class="bi bi-map-fill"
+                    :style="{ color: showMap ? '#ffffff' : '#ff3434' }"
                   ></i>
                 </button>
               </div>

@@ -48,7 +48,9 @@ export default {
           {{ "★" }} {{ rating }} {{ ratingColor(this.rating).grade }}
         </div>
       </div>
-      <div>{{ "⚲" }} {{ address }}</div>
+      <div>
+        <i class="fa-solid fa-map-pin" style="color: #ff3434"></i> {{ address }}
+      </div>
     </div>
     <div class="info2">
       <div>
@@ -96,12 +98,13 @@ export default {
 }
 
 #title {
-  font-size: 1.5rem;
+  font-size: 2.25rem;
   font-weight: bold;
 }
 
 #rating {
-  font-size: 1.1rem;
+  margin-top: 10px;
+  font-size: 1.2rem;
   display: flex;
   justify-items: center;
   align-items: center;

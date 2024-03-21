@@ -31,7 +31,7 @@
 
       <div>
         <div
-          class="positioned"
+          class="registerVisitButton"
           style="display: flex; flex-direction: row"
           @click="showFeedbackForm"
           :hidden="registerDisable"
@@ -41,7 +41,7 @@
         </div>
         <div
           :hidden="!activeRemoveBtn"
-          class="positioned removeButton"
+          class="registerVisitButton removeButton"
           @click="removeFromList(restaurant.id)"
         >
           <i class="bi bi-trash3-fill"> </i>
@@ -173,7 +173,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.positioned {
+.registerVisitButton {
   transition: ease-in-out 0.25s;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
@@ -185,14 +185,14 @@ export default {
   left: 50%;
   transform: translate(-50%, 0);
 }
-.positioned:hover {
+.registerVisitButton:hover {
   background-color: #ff3434;
   transition: ease-in-out 0.25s;
   color: white;
   cursor: pointer;
 }
-.positioned.removeButton:hover {
-  background-color: red;
+.registerVisitButton.removeButton:hover {
+  background-color: #ff3434;
 }
 div {
   font-family: "Calibri Light", serif;

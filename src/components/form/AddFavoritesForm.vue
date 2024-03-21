@@ -51,7 +51,9 @@
         style="margin-top: 1rem"
         class="btn btn-danger"
         @click="handleFavorite"
-        :disabled="newListName === '' && selectedList === null"
+        :disabled="
+          newListName.toString().trim().length < 1 && selectedList === null
+        "
       >
         Add
       </button>

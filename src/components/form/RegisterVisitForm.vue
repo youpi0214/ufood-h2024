@@ -56,7 +56,12 @@
                 >Please select a valid date.</span
               >
             </div>
-            <div style="font-size: 0.75rem; color: gray">* Required fields</div>
+            <div
+              style="font-size: 0.75rem; color: gray"
+              :hidden="disabledInput"
+            >
+              * Required fields
+            </div>
             <div class="button-group" style="display: flex">
               <button
                 type="submit"
