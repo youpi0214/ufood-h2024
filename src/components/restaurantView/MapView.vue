@@ -35,7 +35,7 @@ import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/map.utility.js";
 
 export default {
   props: {
-    restaurantLocation: {
+    centeredPosition: {
       type: Array,
     },
     homePage: {
@@ -59,7 +59,7 @@ export default {
       mapboxgl.accessToken = MAPBOX_API_KEY;
       this.map = new mapboxgl.Map({
         container: this.$refs.mapElement,
-        center: this.restaurantLocation,
+        center: this.centeredPosition,
         style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
         zoom: this.homePage ? 8 : 15,
       });
@@ -72,7 +72,7 @@ export default {
         this.map.addControl(new mapboxgl.NavigationControl());
       } else {
         new mapboxgl.Marker({ color: "red" })
-          .setLngLat(this.restaurantLocation)
+          .setLngLat(this.centeredPosition)
           .addTo(this.map);
       }
     },
@@ -97,12 +97,12 @@ export default {
     async showRoute() {
       if (this.currentPosition) {
         this.getDirectionsIsClicked = true;
-        await getRoute(this.currentPosition, this.restaurantLocation, this.map);
+        await getRoute(this.currentPosition, this.centeredPosition, this.map);
         const bounds = new mapboxgl.LngLatBounds(
           this.currentPosition,
-          this.restaurantLocation,
+          this.centeredPosition,
         );
-        const markers = [this.restaurantLocation, this.currentPosition];
+        const markers = [this.centeredPosition, this.currentPosition];
         markers.forEach((marker) => bounds.extend(marker.coordinates));
         this.map.fitBounds(bounds, { padding: 40, duration: 2000 });
       } else {
@@ -111,7 +111,7 @@ export default {
     },
     async hideRoute() {
       this.getDirectionsIsClicked = false;
-      await removeRoute(this.restaurantLocation, this.map);
+      await removeRoute(this.centeredPosition, this.map);
     },
   },
   created() {

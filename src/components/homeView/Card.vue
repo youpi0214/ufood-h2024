@@ -1,35 +1,47 @@
 <template>
   <div class="restaurant-card">
-    <div class="router-link" v-if="restaurant.id">
-      <img
-        v-if="restaurant.pictures && restaurant.pictures.length > 0"
-        :src="restaurant.pictures[0]"
-        class="card-img-top"
-        :alt="restaurant.name"
-      />
-      <div class="card-body">
-        <router-link :to="`/restaurants/${restaurant.id}`">
-          <h5 class="card-title">
+    <div v-if="restaurant.id">
+      <router-link
+        style="text-decoration-line: none"
+        :to="`/restaurants/${restaurant.id}`"
+      >
+        <img
+          v-if="restaurant.pictures && restaurant.pictures.length > 0"
+          :src="restaurant.pictures[0]"
+          :alt="restaurant.name"
+        />
+        <div class="card-body">
+          <div class="single-line card-title">
             {{ formatRestaurantName(restaurant.name) }}
-          </h5>
-        </router-link>
-        <p class="card-text">{{ formatGenres(restaurant.genres) }}</p>
-        <p class="card-text">{{ "★ " + restaurant.rating.toFixed(2) }}</p>
-        <p class="card-text">
-          {{ "price: " + "$".repeat(restaurant.price_range) }}
-        </p>
-      </div>
+          </div>
+          <div class="card-text">
+            <span
+              :style="{
+                color: ratingColor(restaurant.rating).color,
+                fontWeight: 'bold',
+              }"
+              >{{ "★ " + restaurant.rating.toFixed(2) }}
+              {{ ratingColor(restaurant.rating).grade }}</span
+            >
+            {{ "•" }} {{ "$".repeat(restaurant.price_range) }}
+          </div>
+          <div class="card-text">{{ formatGenres(restaurant.genres) }}</div>
+        </div>
+      </router-link>
+
       <div>
-        <button
-          class="btn btn-outline-success"
+        <div
+          class="positioned"
+          style="display: flex; flex-direction: row"
           @click="showFeedbackForm"
           :hidden="registerDisable"
         >
-          Register a visit
-        </button>
-        <div :hidden="!activeRemoveBtn" class="removeButton">
+          <i class="bi bi-plus-lg"> </i>
+          <strong> Register Visit</strong>
+        </div>
+        <div :hidden="!activeRemoveBtn" class="positioned removeButton">
           <i class="bi bi-trash3-fill" @click="removeFromList(restaurant.id)"
-            >Remove from list
+            >Remove
           </i>
         </div>
       </div>
@@ -53,7 +65,10 @@
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { formatRestaurantName } from "@/components/homeView/script/home.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
-import { formatGenres } from "@/components/restaurantView/script/restaurant.utility";
+import {
+  formatGenres,
+  ratingColor,
+} from "@/components/restaurantView/script/restaurant.utility";
 
 export default {
   props: {
@@ -79,6 +94,7 @@ export default {
     };
   },
   methods: {
+    ratingColor,
     formatGenres,
     formatRestaurantName,
     showFeedbackForm() {
@@ -100,26 +116,25 @@ export default {
 <style scoped>
 .restaurant-card {
   position: relative;
-  width: 250px;
-  height: 320px;
+  width: 23rem;
+  height: 20rem;
   margin: 20px;
-  padding: 20px;
-  background-color: #f4f4f4;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .restaurant-card img {
   width: 100%;
-  height: 150px;
-  border-radius: 5px;
+  height: 13rem;
+  object-fit: fill;
 }
 
 .card-body {
   position: relative;
-  padding: 15px;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   margin: 0;
-  display: flow;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
@@ -127,30 +142,15 @@ export default {
 }
 
 .card-title {
-  margin: 0;
-  font-size: 13px;
+  font-size: 1.25rem;
   font-weight: bold;
   color: #000000;
 }
 
-.card-title:hover {
-  text-decoration: underline;
-}
-
 .card-text {
-  font-size: 11px;
+  font-size: 1rem;
   color: #666;
   flex-grow: 1;
-  margin-bottom: 0;
-}
-
-.btn {
-  position: absolute;
-  bottom: 0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  text-align: center;
 }
 
 .removeButton {
@@ -165,8 +165,32 @@ export default {
   text-decoration-line: underline;
 }
 
-.router-link {
-  text-decoration: none;
-  color: inherit;
+.single-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.positioned {
+  transition: ease-in-out 0.25s;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  padding: 8px;
+  position: absolute;
+  bottom: 30%;
+  left: 35%;
+}
+.positioned:hover {
+  background-color: #ff3434;
+  transition: ease-in-out 0.25s;
+  color: white;
+  cursor: pointer;
+}
+.positioned.removeButton:hover {
+  background-color: red;
+}
+div {
+  font-family: "Calibri Light", serif;
 }
 </style>

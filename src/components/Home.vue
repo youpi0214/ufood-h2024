@@ -14,7 +14,7 @@
               "
             >
               <button
-                class="filter btn btn-success"
+                class="filter btn btn-danger"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasExample"
@@ -24,35 +24,53 @@
                 <i class="bi bi-filter-square-fill"></i>
                 Filters
               </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-                v-if="!showMap"
-                @click="showMap = !showMap"
-              >
-                Show Map
-              </button>
-              <button
-                class="btn btn-primary"
-                id="hideButton"
-                type="button"
-                v-if="showMap"
-                @click="showMap = !showMap"
-              >
-                Hide Map
-              </button>
+              <div style="display: flex; flex-direction: row">
+                <button
+                  class="btn btn-primary"
+                  :style="{
+                    backgroundColor: showMap ? '#ff3434ff' : '#ffffff',
+                  }"
+                  style="border: none"
+                  type="button"
+                  @click="showMap = !showMap"
+                >
+                  <i
+                    class="bi bi-map-fill"
+                    :style="{ color: showMap ? '#ffffff' : '#ff3434ff' }"
+                  ></i>
+                </button>
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  style="border: none"
+                  :style="{
+                    backgroundColor: showMap ? '#ffffff' : '#ff3434ff',
+                  }"
+                  @click="showMap = !showMap"
+                >
+                  <i
+                    class="bi bi-grid"
+                    :style="{ color: showMap ? '#ff3434ff' : '#ffffff' }"
+                  ></i>
+                </button>
+              </div>
             </div>
             <SearchBar />
           </div>
         </div>
         <MapView
+          id="mapHomePage"
           v-if="showMap"
           :home-page="true"
           :restaurants="allRestaurants"
-          :restaurant-location="allRestaurants[0].location.coordinates"
+          :centered-position="allRestaurants[0].location.coordinates"
         ></MapView>
         <!--FilterBtn and SearchBar end-->
-        <RestaurantCards v-if="!showMap" :restaurants="restaurants" />
+        <RestaurantCards
+          id="restaurantCards"
+          v-if="!showMap"
+          :restaurants="restaurants"
+        />
       </div>
       <!--Content end-->
 
@@ -113,8 +131,11 @@ export default {
     getAllAvailableDataWithQueryFunction,
     ...mapActions(["setSelectedFilters"]),
     async getAllRestaurants() {
-      const [allRestaurants, total] =
-        await getAllAvailableDataWithQueryFunction(getRestaurants, [], 130);
+      const [allRestaurants, _] = await getAllAvailableDataWithQueryFunction(
+        getRestaurants,
+        [],
+        130,
+      );
       this.allRestaurants = allRestaurants;
     },
     toggleSidebar() {
@@ -155,6 +176,7 @@ export default {
         this.restaurants = restaurants.map(
           (restaurant) => new Restaurant(restaurant),
         );
+        this.allRestaurants = this.restaurants;
       } catch (error) {
         console.error("Error fetching restaurants:", error);
       }
@@ -255,9 +277,8 @@ export default {
   overflow: auto;
 }
 
-#hideButton {
-  background-color: white;
-  color: dodgerblue;
+button:focus {
+  outline: 0;
 }
 
 @media (max-width: 600px) {
@@ -266,3 +287,24 @@ export default {
   }
 }
 </style>
+<!--TODO (OPTIONAL) Animation Style-->
+<!--#mapHomePage {-->
+<!--overflow: hidden;-->
+<!--animation: slideDown 0.5s ease forwards;-->
+<!--}-->
+
+<!--@keyframes slideDown {-->
+<!--from {-->
+<!--transform: translateY(100%); /* Start from top */-->
+<!--opacity: 0;-->
+<!--}-->
+<!--to {-->
+<!--transform: translateY(0); /* Move to original position */-->
+<!--opacity: 1;-->
+<!--}-->
+<!--}-->
+
+<!--#restaurantCards {-->
+<!--overflow: hidden;-->
+<!--animation: slideDown 0.5s ease forwards;-->
+<!--}-->
