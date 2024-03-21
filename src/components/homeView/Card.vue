@@ -39,9 +39,12 @@
           <i class="bi bi-plus-lg"> </i>
           <strong> Register Visit</strong>
         </div>
-        <div :hidden="!activeRemoveBtn" class="positioned removeButton">
-          <i class="bi bi-trash3-fill" @click="removeFromList(restaurant.id)">
-          </i>
+        <div
+          :hidden="!activeRemoveBtn"
+          class="positioned removeButton"
+          @click="removeFromList(restaurant.id)"
+        >
+          <i class="bi bi-trash3-fill"> </i>
           Remove from list
         </div>
       </div>

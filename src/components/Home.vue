@@ -26,7 +26,7 @@
               </button>
               <div style="display: flex; flex-direction: row">
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-danger"
                   :style="{
                     backgroundColor: showMap ? '#ff3434' : '#ffffff',
                   }"
@@ -40,7 +40,7 @@
                   ></i>
                 </button>
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-danger"
                   type="button"
                   style="border: none"
                   :style="{

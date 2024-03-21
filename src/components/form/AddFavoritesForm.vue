@@ -1,7 +1,9 @@
 <template>
   <div class="modal-background">
     <div class="modal-content">
-      <button class="close-btn" @click="closeModal">×</button>
+      <div style="width: 100%; height: 0.5rem">
+        <button class="close-btn" @click="closeModal">×</button>
+      </div>
       <span>Create a new favorite list : </span>
       <div style="display: flex; flex-direction: row">
         <input
@@ -10,10 +12,20 @@
           :disabled="selectedList !== null"
           style="width: 100%"
         />
-        <div class="resetButton" @click="resetTextField">×</div>
+        <div class="resetButton">
+          <i class="bi bi-arrow-counterclockwise" @click="resetTextField"></i>
+        </div>
       </div>
-      <div style="display: flex; justify-content: center; align-items: center">
-        - OR -
+      <div
+        style="
+          display: flex;
+          color: darkgrey;
+          justify-content: center;
+          align-items: center;
+          margin: 0.5rem;
+        "
+      >
+        ━━━━━ Or ━━━━━
       </div>
       <div>Choose an existing list :</div>
       <div class="favorite-list-container" style="display: flex">
@@ -31,11 +43,13 @@
             {{ list.name }}
           </option>
         </select>
-        <div class="resetButton" @click="resetSelectList">×</div>
+        <div class="resetButton">
+          <i class="bi bi-arrow-counterclockwise" @click="resetSelectList"></i>
+        </div>
       </div>
       <button
         style="margin-top: 1rem"
-        class="btn btn-success"
+        class="btn btn-danger"
         @click="handleFavorite"
         :disabled="newListName === '' && selectedList === null"
       >
@@ -150,10 +164,34 @@ export default {
   width: 300px;
 }
 
+div {
+  font-weight: bold;
+  color: #ff3434;
+  font-family: "Calibri Light", sans-serif;
+}
+
+input {
+  border-width: 1px;
+  border-radius: 20px;
+  height: 2rem;
+  padding-left: 10px;
+  outline: none;
+  margin-right: 0.5rem;
+}
+
+select {
+  border-radius: 20px;
+  border-style: inset;
+  height: 2rem;
+  padding-left: 10px;
+  outline: none;
+  margin-right: 0.5rem;
+}
+
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   background: none;
   border: none;
   font-size: 20px;

@@ -101,6 +101,7 @@ export default {
   components: { AccountPopUp },
   data() {
     return {
+      imageSource: "/src/assets/logo/ufood-white-mobile.png",
       toggledShownInput: true,
     };
   },
