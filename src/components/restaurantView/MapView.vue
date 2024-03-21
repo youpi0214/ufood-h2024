@@ -4,22 +4,27 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
-    <div ref="mapElement" style="height: 400px"></div>
-    <button
-      class="btn btn-primary btn-lg btn-block"
-      v-if="!getDirectionsIsClicked"
-      @click="showRoute"
-    >
-      Get Directions
-    </button>
-    <button
-      id="hideButton"
-      class="btn btn-primary btn-lg btn-block"
-      v-if="getDirectionsIsClicked"
-      @click="hideRoute"
-    >
-      Hide Directions
-    </button>
+    <div
+      ref="mapElement"
+      :style="{ height: homePage ? '600px' : '400px' }"
+    ></div>
+    <div v-if="!homePage">
+      <button
+        class="btn btn-primary btn-lg btn-block"
+        v-if="!getDirectionsIsClicked"
+        @click="showRoute"
+      >
+        Get Directions
+      </button>
+      <button
+        id="hideButton"
+        class="btn btn-primary btn-lg btn-block"
+        v-if="getDirectionsIsClicked"
+        @click="hideRoute"
+      >
+        Hide Directions
+      </button>
+    </div>
   </div>
 </template>
 
@@ -32,7 +37,14 @@ export default {
   props: {
     restaurantLocation: {
       type: Array,
-      default: () => [-71.28690361946938, 46.782878601986255],
+    },
+    homePage: {
+      type: Boolean,
+      required: true,
+    },
+    restaurants: {
+      type: Array,
+      default: null,
     },
   },
   data() {
@@ -49,14 +61,22 @@ export default {
         container: this.$refs.mapElement,
         center: this.restaurantLocation,
         style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
-        zoom: 15,
+        zoom: this.homePage ? 8 : 15,
       });
-      new mapboxgl.Marker({ color: "red" })
-        .setLngLat(this.restaurantLocation)
-        .setPopup(new mapboxgl.Popup().setHTML(`<h5>McDonald's</h5>`))
-        .addTo(this.map);
+      if (this.restaurants) {
+        this.restaurants.forEach((restaurant) =>
+          new mapboxgl.Marker({ color: "red" })
+            .setLngLat(restaurant.location.coordinates)
+            .addTo(this.map),
+        );
+        this.map.addControl(new mapboxgl.NavigationControl());
+      } else {
+        new mapboxgl.Marker({ color: "red" })
+          .setLngLat(this.restaurantLocation)
+          .addTo(this.map);
+      }
     },
-    getLocation() {
+    async getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {

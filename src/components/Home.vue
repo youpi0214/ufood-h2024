@@ -6,9 +6,15 @@
         <!--FilterBtn and SearchBar begin-->
         <div class="d-flex justify-content-center">
           <div class="col">
-            <div class="row d-flex justify-content-center">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+              "
+            >
               <button
-                class="btn btn-success"
+                class="filter btn btn-success"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasExample"
@@ -18,12 +24,35 @@
                 <i class="bi bi-filter-square-fill"></i>
                 Filters
               </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                v-if="!showMap"
+                @click="showMap = !showMap"
+              >
+                Show Map
+              </button>
+              <button
+                class="btn btn-primary"
+                id="hideButton"
+                type="button"
+                v-if="showMap"
+                @click="showMap = !showMap"
+              >
+                Hide Map
+              </button>
             </div>
             <SearchBar />
           </div>
         </div>
+        <MapView
+          v-if="showMap"
+          :home-page="true"
+          :restaurants="allRestaurants"
+          :restaurant-location="allRestaurants[0].location.coordinates"
+        ></MapView>
         <!--FilterBtn and SearchBar end-->
-        <RestaurantCards :restaurants="restaurants" />
+        <RestaurantCards v-if="!showMap" :restaurants="restaurants" />
       </div>
       <!--Content end-->
 
@@ -54,17 +83,22 @@ import { getRestaurants } from "@/api/restaurant";
 import SearchBar from "@/components/homeView/SearchBar.vue";
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { generateRestaurantFetchOptions } from "@/components/homeView/script/home.utility";
+import MapView from "@/components/restaurantView/MapView.vue";
+import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 export default {
   components: {
+    MapView,
     SearchBar,
     RestaurantCards,
     SideBar,
   },
   data() {
     return {
+      showMap: false,
       isSidebarOpen: false,
       isBackgroundVisible: true,
       restaurants: [],
+      allRestaurants: [],
       filterGenres: [],
       currentPage: 0,
       isLoading: false,
@@ -75,7 +109,14 @@ export default {
     ...mapState(["selectedPrice", "selectedCategory"]),
   },
   methods: {
+    getRestaurants,
+    getAllAvailableDataWithQueryFunction,
     ...mapActions(["setSelectedFilters"]),
+    async getAllRestaurants() {
+      const [allRestaurants, total] =
+        await getAllAvailableDataWithQueryFunction(getRestaurants, [], 130);
+      this.allRestaurants = allRestaurants;
+    },
     toggleSidebar() {
       this.$store.dispatch("changeSideBarState");
     },
@@ -176,8 +217,9 @@ export default {
     },
   },
   async created() {
-    this.setSelectedFilters({ price: "", category: "" });
+    await this.setSelectedFilters({ price: "", category: "" });
     await this.loadMoreRestaurants();
+    console.log(this.getAllRestaurants());
     this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {
@@ -213,8 +255,13 @@ export default {
   overflow: auto;
 }
 
+#hideButton {
+  background-color: white;
+  color: dodgerblue;
+}
+
 @media (max-width: 600px) {
-  .btn {
+  .filter {
     display: none;
   }
 }

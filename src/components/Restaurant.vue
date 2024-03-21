@@ -36,6 +36,7 @@
         </div>
         <div class="map">
           <MapView
+            :home-page="false"
             :restaurant-location="restaurant.location.coordinates"
           ></MapView>
         </div>
