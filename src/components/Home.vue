@@ -28,7 +28,7 @@
                 <button
                   class="btn btn-primary"
                   :style="{
-                    backgroundColor: showMap ? '#ff3434ff' : '#ffffff',
+                    backgroundColor: showMap ? '#ff3434' : '#ffffff',
                   }"
                   style="border: none"
                   type="button"
@@ -36,7 +36,7 @@
                 >
                   <i
                     class="bi bi-map-fill"
-                    :style="{ color: showMap ? '#ffffff' : '#ff3434ff' }"
+                    :style="{ color: showMap ? '#ffffff' : '#ff3434' }"
                   ></i>
                 </button>
                 <button
@@ -44,13 +44,13 @@
                   type="button"
                   style="border: none"
                   :style="{
-                    backgroundColor: showMap ? '#ffffff' : '#ff3434ff',
+                    backgroundColor: showMap ? '#ffffff' : '#ff3434',
                   }"
                   @click="showMap = !showMap"
                 >
                   <i
                     class="bi bi-grid"
-                    :style="{ color: showMap ? '#ff3434ff' : '#ffffff' }"
+                    :style="{ color: showMap ? '#ff3434' : '#ffffff' }"
                   ></i>
                 </button>
               </div>

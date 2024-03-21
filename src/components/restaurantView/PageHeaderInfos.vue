@@ -53,11 +53,14 @@ export default {
     <div class="info2">
       <div>
         <span
-          ><i class="bi bi-telephone-fill" style="margin-right: 5px"></i></span
+          ><i
+            class="bi bi-telephone-fill"
+            style="margin-right: 5px; color: #ff3434"
+          ></i></span
         >{{ tel }}
       </div>
       <div>
-        <span><i class="fa-solid fa-utensils"></i></span>
+        <span><i class="fa-solid fa-utensils" style="color: #ff3434"></i></span>
         {{ formatGenres(genres) }} {{ "•" }}
         {{ "$".repeat(this.price_range) }}
       </div>
@@ -105,6 +108,9 @@ export default {
   font-weight: bold;
   margin-left: 10px;
   color: #ffffff;
+}
+div {
+  font-family: "Calibri", sans-serif;
 }
 
 @media (max-width: 800px) {

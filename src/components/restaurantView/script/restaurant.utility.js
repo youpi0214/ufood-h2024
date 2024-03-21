@@ -17,7 +17,7 @@ export function ratingColor(rating) {
       break;
     case rating >= 4.0:
       grade = "Very Good";
-      color = "yellowgreen";
+      color = "mediumseagreen";
       break;
     case rating >= 3.0:
       grade = "Good";

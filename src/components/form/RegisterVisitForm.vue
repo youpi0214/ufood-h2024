@@ -63,7 +63,7 @@
                 class="btn btn-success"
                 :disabled="!formValid"
                 :hidden="disabledInput"
-                style="width: 100%; background-color: #ff3434ff; border: none"
+                style="width: 100%; background-color: #ff3434; border: none"
               >
                 Submit
               </button>
@@ -200,7 +200,7 @@ span {
 }
 
 .title {
-  color: #ff3434ff;
+  color: #ff3434;
   font-weight: bold;
   font-family: "Calibri Light", sans-serif;
 }

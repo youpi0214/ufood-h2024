@@ -10,7 +10,7 @@
     ></div>
     <div v-if="!homePage">
       <button
-        class="btn btn-primary btn-lg btn-block"
+        class="btn btn-danger btn-lg btn-block"
         v-if="!getDirectionsIsClicked"
         @click="showRoute"
       >
@@ -124,8 +124,12 @@ export default {
 </script>
 
 <style scoped>
+.btn {
+  background-color: #ff3434;
+}
 #hideButton {
   background-color: white;
-  color: dodgerblue;
+  color: #ff3434;
+  border-color: #ff3434;
 }
 </style>
