@@ -31,9 +31,13 @@ export default {
 </template>
 
 <style scoped>
+div span {
+  font-family: "Calibri", sans-serif;
+}
 .open-hours {
   margin-top: 1rem;
   display: flex;
+  font-size: 1.25rem;
   flex-direction: column;
 }
 .title {

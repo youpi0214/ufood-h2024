@@ -8,59 +8,73 @@
       class="resto-nav navbar bg-body-tertiary"
     >
       <div class="container-fluid">
-        <router-link to="/" class="nav-link logo">
-          <a class="navbar-brand">
-            <img
-              :src="require('/src/assets/logo/UFoodLogo.png')"
-              alt="Bootstrap"
-              width="60rem"
-              height="60rem"
-            />
-          </a>
-        </router-link>
-
-        <form
-          style="display: flex; flex-direction: row"
-          role="search"
-          @submit.prevent="search"
-        >
-          <button
-            @click="toggleSidebar"
-            class="filter-btn btn btn-outline-success"
-          >
-            <i class="bi bi-filter-square-fill"></i>
-          </button>
-          <input
-            ref="searchInput"
-            class="form-control me-2 search-input"
-            type="search"
-            placeholder="Search..."
-            aria-label="Search"
-          />
-          <button
-            style="outline: none; border: none"
-            class="btn btn-outline-success search-btn"
-          >
-            <i class="bi bi-search"></i>
-          </button>
-        </form>
-        <div v-if="userName" class="user-info">
-          <span class="user-name">{{ userName }}</span>
-          <button @click="toggleDropdown" class="icon-button">
-            <i class="fas fa-user"></i>
-          </button>
-          <div
-            v-show="showDropdown"
-            class="dropdown-menu"
-            @click="showDropdown = false"
-          >
-            <router-link to="/user" class="dropdown-item">Profile</router-link>
-            <a @click.prevent="confirmLogout" class="dropdown-item">Log out</a>
-          </div>
+        <div id="Logo" style="flex: 1; display: flex; justify-content: left">
+          <router-link to="/" class="nav-link logo">
+            <a class="navbar-brand">
+              <img
+                :src="getImage()"
+                alt="Bootstrap"
+                width="100%"
+                style="object-fit: contain"
+                height="60rem"
+              />
+            </a>
+          </router-link>
         </div>
-        <button v-else @click="showPopup = true" class="icon-button">
-          <i class="fas fa-user"></i>
-        </button>
+        <div id="searchBar" style="flex: 3">
+          <form
+            style="display: flex; flex-direction: row"
+            role="search"
+            @submit.prevent="search"
+          >
+            <button
+              @click="toggleSidebar"
+              class="filter-btn btn btn-outline-success"
+            >
+              <i class="bi bi-filter-square-fill"></i>
+            </button>
+            <input
+              ref="searchInput"
+              class="form-control me-2 search-input"
+              style="border-radius: 1rem; outline-color: white"
+              type="search"
+              placeholder="Search..."
+              aria-label="Search"
+            />
+            <button
+              style="outline: none; border: none"
+              class="btn btn-outline-success search-btn"
+            >
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
+        </div>
+        <div
+          id="profile"
+          style="flex: 1; display: flex; justify-content: right"
+        >
+          <div v-if="userName" class="user-info">
+            <span class="user-name">{{ userName }}</span>
+            <button @click="toggleDropdown" class="icon-button">
+              <i class="fas fa-user text-white"></i>
+            </button>
+            <div
+              v-show="showDropdown"
+              class="dropdown-menu"
+              @click="showDropdown = false"
+            >
+              <router-link to="/user" class="dropdown-item"
+                >Profile</router-link
+              >
+              <a @click.prevent="confirmLogout" class="dropdown-item"
+                >Log out</a
+              >
+            </div>
+          </div>
+          <button v-else @click="showPopup = true" class="icon-button">
+            <i class="fas fa-user text-white"></i>
+          </button>
+        </div>
       </div>
     </nav>
     <AccountPopUp
@@ -87,6 +101,7 @@ export default {
   components: { AccountPopUp },
   data() {
     return {
+      imageSource: "/src/assets/logo/ufood-white-mobile.png",
       toggledShownInput: true,
     };
   },
@@ -96,6 +111,13 @@ export default {
       this.$refs.searchInput.style.display = this.toggledShownInput
         ? ""
         : "none";
+    },
+    getImage() {
+      if (window.innerWidth < 800) {
+        return require("/src/assets/logo/ufood-white-mobile.png");
+      } else {
+        return require("/src/assets/logo/ufood-white.png");
+      }
     },
   },
   setup() {
@@ -182,11 +204,11 @@ export default {
 }
 
 .resto-nav-transparent {
-  background-color: transparent !important;
+  background-color: #ff3434 !important;
 }
 
 .resto-nav-solid {
-  background-color: #f8f9fa !important;
+  background-color: #ff3434 !important;
 }
 
 .resto-nav {
@@ -198,11 +220,11 @@ export default {
 }
 
 .container-fluid {
-  padding-left: 0;
-  padding-right: 0;
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
 @media (min-width: 601px) {
@@ -279,7 +301,7 @@ export default {
 }
 
 .user-name {
-  color: #28a644;
+  color: #ffffff;
   font-weight: bold;
   margin-right: 10px;
 }

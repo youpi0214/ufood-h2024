@@ -6,9 +6,15 @@
         <!--FilterBtn and SearchBar begin-->
         <div class="d-flex justify-content-center">
           <div class="col">
-            <div class="row d-flex justify-content-center">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+              "
+            >
               <button
-                class="btn btn-success"
+                class="filter btn btn-danger"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasExample"
@@ -18,12 +24,53 @@
                 <i class="bi bi-filter-square-fill"></i>
                 Filters
               </button>
+              <div style="display: flex; flex-direction: row">
+                <button
+                  class="btn btn-danger"
+                  type="button"
+                  style="border: none"
+                  :style="{
+                    backgroundColor: showMap ? '#ffffff' : '#ff3434',
+                  }"
+                  @click="showMap = !showMap"
+                >
+                  <i
+                    class="bi bi-grid"
+                    :style="{ color: showMap ? '#ff3434' : '#ffffff' }"
+                  ></i>
+                </button>
+                <button
+                  class="btn btn-danger"
+                  :style="{
+                    backgroundColor: showMap ? '#ff3434' : '#ffffff',
+                  }"
+                  style="border: none"
+                  type="button"
+                  @click="showMap = !showMap"
+                >
+                  <i
+                    class="bi bi-map-fill"
+                    :style="{ color: showMap ? '#ffffff' : '#ff3434' }"
+                  ></i>
+                </button>
+              </div>
             </div>
             <SearchBar />
           </div>
         </div>
+        <MapView
+          id="mapHomePage"
+          v-if="showMap"
+          :home-page="true"
+          :restaurants="allRestaurants"
+          :centered-position="allRestaurants[0].location.coordinates"
+        ></MapView>
         <!--FilterBtn and SearchBar end-->
-        <RestaurantCards :restaurants="restaurants" />
+        <RestaurantCards
+          id="restaurantCards"
+          v-if="!showMap"
+          :restaurants="restaurants"
+        />
       </div>
       <!--Content end-->
 
@@ -54,17 +101,22 @@ import { getRestaurants } from "@/api/restaurant";
 import SearchBar from "@/components/homeView/SearchBar.vue";
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { generateRestaurantFetchOptions } from "@/components/homeView/script/home.utility";
+import MapView from "@/components/restaurantView/MapView.vue";
+import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 export default {
   components: {
+    MapView,
     SearchBar,
     RestaurantCards,
     SideBar,
   },
   data() {
     return {
+      showMap: false,
       isSidebarOpen: false,
       isBackgroundVisible: true,
       restaurants: [],
+      allRestaurants: [],
       filterGenres: [],
       currentPage: 0,
       isLoading: false,
@@ -75,7 +127,17 @@ export default {
     ...mapState(["selectedPrice", "selectedCategory"]),
   },
   methods: {
+    getRestaurants,
+    getAllAvailableDataWithQueryFunction,
     ...mapActions(["setSelectedFilters"]),
+    async getAllRestaurants() {
+      const [allRestaurants, _] = await getAllAvailableDataWithQueryFunction(
+        getRestaurants,
+        [],
+        130,
+      );
+      this.allRestaurants = allRestaurants;
+    },
     toggleSidebar() {
       this.$store.dispatch("changeSideBarState");
     },
@@ -114,6 +176,7 @@ export default {
         this.restaurants = restaurants.map(
           (restaurant) => new Restaurant(restaurant),
         );
+        this.allRestaurants = this.restaurants;
       } catch (error) {
         console.error("Error fetching restaurants:", error);
       }
@@ -176,8 +239,9 @@ export default {
     },
   },
   async created() {
-    this.setSelectedFilters({ price: "", category: "" });
+    await this.setSelectedFilters({ price: "", category: "" });
     await this.loadMoreRestaurants();
+    console.log(this.getAllRestaurants());
     this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {
@@ -213,9 +277,34 @@ export default {
   overflow: auto;
 }
 
+button:focus {
+  outline: 0;
+}
+
 @media (max-width: 600px) {
-  .btn {
+  .filter {
     display: none;
   }
 }
 </style>
+<!--TODO (OPTIONAL) Animation Style-->
+<!--#mapHomePage {-->
+<!--overflow: hidden;-->
+<!--animation: slideDown 0.5s ease forwards;-->
+<!--}-->
+
+<!--@keyframes slideDown {-->
+<!--from {-->
+<!--transform: translateY(100%); /* Start from top */-->
+<!--opacity: 0;-->
+<!--}-->
+<!--to {-->
+<!--transform: translateY(0); /* Move to original position */-->
+<!--opacity: 1;-->
+<!--}-->
+<!--}-->
+
+<!--#restaurantCards {-->
+<!--overflow: hidden;-->
+<!--animation: slideDown 0.5s ease forwards;-->
+<!--}-->
