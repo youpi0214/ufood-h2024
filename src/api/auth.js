@@ -1,22 +1,24 @@
-import { BASE_URL } from "./api.utility.js";
+// TODO remove this line and change all END_POINT to BASE_URL from api.utility.js when secure handling is implemented throughout the app
+const END_POINT = "https://ufoodapi.herokuapp.com";
 
 export const login = async (email, password) => {
-  return fetch(`${BASE_URL}/login`, {
+  return fetch(`${END_POINT}/login`, {
     method: "POST",
-    body: new URLSearchParams({ email: email, password: password }),
+    body: new URLSearchParams({ email: email, password: password })
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to login");
+      else if (response.status === 401)
+        throw new Error("Invalid email or password");
 
       return response.json();
     })
     .then((user) => user) // attributes: email, name, token, id, followers [], following [], rating
-    .catch((error) => console.error(error));
+    .catch((error) => error);
 };
-
 export const logout = async () => {
-  return fetch(`${BASE_URL}/logout`, {
-    method: "POST",
+  return fetch(`${END_POINT}/logout`, {
+    method: "POST"
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to logout");
@@ -26,9 +28,9 @@ export const logout = async () => {
 };
 
 export const signup = async (name, email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
+  return fetch(`${END_POINT}/signup`, {
     method: "POST",
-    body: new URLSearchParams({ name: name, email: email, password: password }),
+    body: new URLSearchParams({ name: name, email: email, password: password })
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to signup");
@@ -40,9 +42,9 @@ export const signup = async (name, email, password) => {
 };
 
 export const getTokenInfo = async (token) => {
-  return fetch(`${BASE_URL}/tokenInfo`, {
+  return fetch(`${END_POINT}/tokenInfo`, {
     method: "GET",
-    headers: { Authorization: token },
+    headers: { Authorization: token }
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to get token info");

@@ -1,5 +1,5 @@
-const useSecureEndpoints = false;
-export const BASE_URL = "https://ufoodapi.herokuapp.com" ;
+const useUnsecureEndpoint = true;
+export const BASE_URL = "https://ufoodapi.herokuapp.com" + (useUnsecureEndpoint ? "/unsecure" : "");
 
 export const RestaurantQueryOptions = {
   LIMIT: "limit",

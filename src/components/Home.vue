@@ -19,11 +19,12 @@
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasExample"
                 aria-controls="offcanvasExample"
-                @click="toggleSidebar"
               >
                 <i class="bi bi-filter-square-fill"></i>
                 Filters
               </button>
+
+              <!--    Map/List mode switch buttons-->
               <div style="display: flex; flex-direction: row">
                 <button
                   class="btn btn-danger"
@@ -58,6 +59,8 @@
             <SearchBar />
           </div>
         </div>
+        <!--FilterBtn and SearchBar end-->
+
         <MapView
           id="mapHomePage"
           v-if="showMap"
@@ -65,7 +68,6 @@
           :restaurants="allRestaurants"
           :centered-position="allRestaurants[0].location.coordinates"
         ></MapView>
-        <!--FilterBtn and SearchBar end-->
         <RestaurantCards
           id="restaurantCards"
           v-if="!showMap"
@@ -75,19 +77,15 @@
       <!--Content end-->
 
       <!--SideBar begin-->
-      <div
+      <RestaurantFilter
         class="sidebar"
-        :class="{ 'sidebar-open': isSidebarOpen }"
-        @click="closeSidebar($event)"
         ref="sidebar"
-      >
-        <SideBar
-          :isSidebarOpen="isSidebarOpen"
-          :filterGenres="filterGenres"
-          @apply-filters="applyFilters"
-          @reset-filters="resetFilters"
-        />
-      </div>
+        :selectedPrice="selectedPrice"
+        :selectedCategory="selectedCategory"
+        :filterGenres="filterGenres"
+        @apply-filters="applyFilters"
+        @reset-filters="resetFilters"
+      />
       <!--SideBar end-->
     </div>
   </div>
@@ -95,7 +93,6 @@
 
 <script>
 import RestaurantCards from "@/components/homeView/RestaurantCardsContainer.vue";
-import SideBar from "@/components/homeView/SideBar.vue";
 import { mapState, mapActions } from "vuex";
 import { getRestaurants } from "@/api/restaurant";
 import SearchBar from "@/components/homeView/SearchBar.vue";
@@ -103,28 +100,28 @@ import { Restaurant } from "@/components/homeView/script/card.utility";
 import { generateRestaurantFetchOptions } from "@/components/homeView/script/home.utility";
 import MapView from "@/components/restaurantView/MapView.vue";
 import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
+import RestaurantFilter from "@/components/homeView/RestaurantFilter.vue";
+
 export default {
   components: {
+    RestaurantFilter,
     MapView,
     SearchBar,
-    RestaurantCards,
-    SideBar,
+    RestaurantCards
   },
   data() {
     return {
       showMap: false,
-      isSidebarOpen: false,
-      isBackgroundVisible: true,
       restaurants: [],
       allRestaurants: [],
       filterGenres: [],
       currentPage: 0,
       isLoading: false,
-      filtersApplied: false,
+      filtersApplied: false
     };
   },
   computed: {
-    ...mapState(["selectedPrice", "selectedCategory"]),
+    ...mapState(["selectedPrice", "selectedCategory"])
   },
   methods: {
     getRestaurants,
@@ -134,17 +131,9 @@ export default {
       const [allRestaurants, _] = await getAllAvailableDataWithQueryFunction(
         getRestaurants,
         [],
-        130,
+        130
       );
       this.allRestaurants = allRestaurants;
-    },
-    toggleSidebar() {
-      this.$store.dispatch("changeSideBarState");
-    },
-    closeSidebar() {
-      if (!event.target.closest(".sidebar")) {
-        this.$store.dispatch("changeSideBarState");
-      }
     },
     applyFilters(price, category) {
       // Remove any trailing commas
@@ -155,7 +144,7 @@ export default {
 
       this.setSelectedFilters({
         price: selectedPrice,
-        category: selectedCategory,
+        category: selectedCategory
       });
       this.filtersApplied = true;
       this.fetchRestaurants();
@@ -168,13 +157,13 @@ export default {
     async fetchRestaurants() {
       let options = generateRestaurantFetchOptions(
         this.selectedCategory,
-        this.selectedPrice,
+        this.selectedPrice
       );
 
       try {
         const [restaurants, _] = await getRestaurants(options);
         this.restaurants = restaurants.map(
-          (restaurant) => new Restaurant(restaurant),
+          (restaurant) => new Restaurant(restaurant)
         );
         this.allRestaurants = this.restaurants;
       } catch (error) {
@@ -189,14 +178,14 @@ export default {
       const options = generateRestaurantFetchOptions(
         this.selectedCategory,
         this.selectedPrice,
-        this.currentPage,
+        this.currentPage
       );
 
       try {
         const [newRestaurants, _] = await getRestaurants(options);
 
         const newGenres = newRestaurants.flatMap(
-          (restaurant) => restaurant.genres,
+          (restaurant) => restaurant.genres
         );
         newGenres.forEach((genre) => {
           if (!this.filterGenres.includes(genre)) {
@@ -206,7 +195,7 @@ export default {
 
         this.restaurants = [
           ...this.restaurants,
-          ...newRestaurants.map((restaurant) => new Restaurant(restaurant)),
+          ...newRestaurants.map((restaurant) => new Restaurant(restaurant))
         ];
         this.currentPage++;
 
@@ -236,7 +225,7 @@ export default {
           this.loadMoreRestaurants();
         }
       }
-    },
+    }
   },
   async created() {
     await this.setSelectedFilters({ price: "", category: "" });
@@ -249,17 +238,7 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
-  },
-  watch: {
-    "$store.state.isSidebarOpen"(newValue) {
-      this.isSidebarOpen = newValue;
-      if (newValue) {
-        document.body.classList.add("allow-scrolling");
-      } else {
-        document.body.classList.remove("allow-scrolling");
-      }
-    },
-  },
+  }
 };
 </script>
 
@@ -271,10 +250,6 @@ export default {
 
 .row {
   display: flow;
-}
-
-.allow-scrolling {
-  overflow: auto;
 }
 
 button:focus {
