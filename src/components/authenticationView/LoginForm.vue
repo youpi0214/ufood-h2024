@@ -8,13 +8,23 @@
 
     <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="email" id="emailInput" class="form-control" v-model="email" />
+      <input
+        type="email"
+        id="emailInput"
+        class="form-control"
+        v-model="email"
+      />
       <label class="form-label" for="emailInput">Email address</label>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="passwordInput" class="form-control" v-model="password" />
+      <input
+        type="password"
+        id="passwordInput"
+        class="form-control"
+        v-model="password"
+      />
       <label class="form-label" for="passwordInput">Password</label>
     </div>
 
@@ -23,22 +33,30 @@
       <div class="col d-flex justify-content-center">
         <!-- Checkbox -->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="rememberMeCheckBox" checked />
-          <label class="form-check-label" for="rememberMeCheckBox"> Remember me </label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="rememberMeCheckBox"
+            checked
+          />
+          <label class="form-check-label" for="rememberMeCheckBox">
+            Remember me
+          </label>
         </div>
       </div>
     </div>
 
     <!-- Submit button -->
-    <button type="button" class="btn btn-primary btn-block mb-4" @click="login">Sign in</button>
+    <button type="button" class="btn btn-primary btn-block mb-4" @click="login">
+      Sign in
+    </button>
 
     <!-- Register buttons -->
     <div class="text-center">
       <p>{{ customMessage }}</p>
     </div>
-
   </form>
-
 </template>
 <script>
 // import { router } from "src/router/router.js";
@@ -49,27 +67,39 @@ export default {
   props: {
     registerForm: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     customMessage() {
-      return this.registering ? "Already have an account? Login" : "Not a member? Register";
-    }
+      return this.registering
+        ? "Already have an account? Login"
+        : "Not a member? Register";
+    },
   },
   data() {
     return {
       name: "",
       email: "",
       password: "",
-      registering: this.registerForm
+      registering: this.registerForm,
     };
   },
   methods: {
     login() {
       if (!this.registering) {
-        console.log("Logging in with email: " + this.email + " and password: " + this.password);
-        alert("Logging in with email: " + this.email + " and password: " + this.password);
+        console.log(
+          "Logging in with email: " +
+            this.email +
+            " and password: " +
+            this.password,
+        );
+        alert(
+          "Logging in with email: " +
+            this.email +
+            " and password: " +
+            this.password,
+        );
       } else {
         this.registering = false;
       }
@@ -81,14 +111,9 @@ export default {
         this.registering = true;
       }
     },
-    logout() {
-
-    }
-  }
+    logout() {},
+  },
 };
 </script>
 
-
-<style scoped>
-
-</style>
+<style scoped></style>

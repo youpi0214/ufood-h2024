@@ -4,7 +4,7 @@ const END_POINT = "https://ufoodapi.herokuapp.com";
 export const login = async (email, password) => {
   return fetch(`${END_POINT}/login`, {
     method: "POST",
-    body: new URLSearchParams({ email: email, password: password })
+    body: new URLSearchParams({ email: email, password: password }),
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to login");
@@ -18,7 +18,7 @@ export const login = async (email, password) => {
 };
 export const logout = async () => {
   return fetch(`${END_POINT}/logout`, {
-    method: "POST"
+    method: "POST",
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to logout");
@@ -30,7 +30,7 @@ export const logout = async () => {
 export const signup = async (name, email, password) => {
   return fetch(`${END_POINT}/signup`, {
     method: "POST",
-    body: new URLSearchParams({ name: name, email: email, password: password })
+    body: new URLSearchParams({ name: name, email: email, password: password }),
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to signup");
@@ -44,7 +44,7 @@ export const signup = async (name, email, password) => {
 export const getTokenInfo = async (token) => {
   return fetch(`${END_POINT}/tokenInfo`, {
     method: "GET",
-    headers: { Authorization: token }
+    headers: { Authorization: token },
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to get token info");

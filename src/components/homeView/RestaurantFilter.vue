@@ -65,7 +65,7 @@ export default {
   props: {
     filterGenres: Array,
     selectedPrice: String,
-    selectedCategory: String
+    selectedCategory: String,
   },
   data() {
     return {
@@ -74,8 +74,8 @@ export default {
         { value: "$$", label: "$$" },
         { value: "$$$", label: "$$$" },
         { value: "$$$$", label: "$$$$" },
-        { value: "$$$$$", label: "$$$$$" }
-      ]
+        { value: "$$$$$", label: "$$$$$" },
+      ],
     };
   },
   computed: {
@@ -85,7 +85,7 @@ export default {
     },
     selectedPrices() {
       return this.selectedPrice.split(",");
-    }
+    },
   },
   methods: {
     updateSelectedPrice(value) {
@@ -101,7 +101,7 @@ export default {
       this.$emit(
         "apply-filters",
         selectedPrices.join(","),
-        this.selectedCategory
+        this.selectedCategory,
       );
     },
     updateSelectedCategory(value) {
@@ -114,19 +114,18 @@ export default {
       this.$emit(
         "apply-filters",
         this.selectedPrice,
-        selectedCategories.join(",")
+        selectedCategories.join(","),
       );
     },
     resetFilters() {
       this.$emit("apply-filters", "", "");
       this.$emit("reset-filters");
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 @media only screen and (max-width: 600px) {
   .offcanvas {
     width: 100% !important;

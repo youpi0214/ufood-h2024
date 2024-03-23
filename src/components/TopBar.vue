@@ -66,7 +66,7 @@
               @click="showDropdown = false"
             >
               <router-link to="/user" class="dropdown-item"
-              >Profile
+                >Profile
               </router-link>
               <a class="dropdown-item">Log out</a>
             </div>
@@ -91,16 +91,17 @@ export default {
   computed: {
     isSidebarOpen() {
       return store.state.isSidebarOpen;
-    }
+    },
   },
   data() {
     return {
       imageSource: "/src/assets/logo/ufood-white-mobile.png",
-      showDropdown: false
+      showDropdown: false,
     };
   },
   methods: {
-    getImage() { //  TODO call this method in a `watch` everytime the screen size changes, this way it will actively update the logo button
+    getImage() {
+      //  TODO call this method in a `watch` everytime the screen size changes, this way it will actively update the logo button
       if (window.innerWidth < 800) {
         return require("/src/assets/logo/ufood-white-mobile.png");
       } else {
@@ -109,8 +110,8 @@ export default {
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
-    }
-  }
+    },
+  },
 };
 </script>
 
