@@ -107,7 +107,7 @@ export default {
     RestaurantFilter,
     MapView,
     SearchBar,
-    RestaurantCards
+    RestaurantCards,
   },
   data() {
     return {
@@ -117,11 +117,11 @@ export default {
       filterGenres: [],
       currentPage: 0,
       isLoading: false,
-      filtersApplied: false
+      filtersApplied: false,
     };
   },
   computed: {
-    ...mapState(["selectedPrice", "selectedCategory"])
+    ...mapState(["selectedPrice", "selectedCategory"]),
   },
   methods: {
     getRestaurants,
@@ -131,7 +131,7 @@ export default {
       const [allRestaurants, _] = await getAllAvailableDataWithQueryFunction(
         getRestaurants,
         [],
-        130
+        130,
       );
       this.allRestaurants = allRestaurants;
     },
@@ -144,7 +144,7 @@ export default {
 
       this.setSelectedFilters({
         price: selectedPrice,
-        category: selectedCategory
+        category: selectedCategory,
       });
       this.filtersApplied = true;
       this.fetchRestaurants();
@@ -157,13 +157,13 @@ export default {
     async fetchRestaurants() {
       let options = generateRestaurantFetchOptions(
         this.selectedCategory,
-        this.selectedPrice
+        this.selectedPrice,
       );
 
       try {
         const [restaurants, _] = await getRestaurants(options);
         this.restaurants = restaurants.map(
-          (restaurant) => new Restaurant(restaurant)
+          (restaurant) => new Restaurant(restaurant),
         );
         this.allRestaurants = this.restaurants;
       } catch (error) {
@@ -178,14 +178,14 @@ export default {
       const options = generateRestaurantFetchOptions(
         this.selectedCategory,
         this.selectedPrice,
-        this.currentPage
+        this.currentPage,
       );
 
       try {
         const [newRestaurants, _] = await getRestaurants(options);
 
         const newGenres = newRestaurants.flatMap(
-          (restaurant) => restaurant.genres
+          (restaurant) => restaurant.genres,
         );
         newGenres.forEach((genre) => {
           if (!this.filterGenres.includes(genre)) {
@@ -195,7 +195,7 @@ export default {
 
         this.restaurants = [
           ...this.restaurants,
-          ...newRestaurants.map((restaurant) => new Restaurant(restaurant))
+          ...newRestaurants.map((restaurant) => new Restaurant(restaurant)),
         ];
         this.currentPage++;
 
@@ -225,7 +225,7 @@ export default {
           this.loadMoreRestaurants();
         }
       }
-    }
+    },
   },
   async created() {
     await this.setSelectedFilters({ price: "", category: "" });
@@ -238,7 +238,7 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 

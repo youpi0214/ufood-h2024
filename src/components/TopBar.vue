@@ -67,7 +67,7 @@
               @click="showDropdown = false"
             >
               <router-link to="/user" class="dropdown-item"
-              >Profile
+                >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
             </div>
@@ -94,12 +94,12 @@ export default {
   computed: {
     isSidebarOpen() {
       return store.state.isSidebarOpen;
-    }
+    },
   },
   data() {
     return {
       imageSource: "/src/assets/logo/ufood-white-mobile.png",
-      showDropdown: false
+      showDropdown: false,
     };
   },
   methods: {
@@ -117,8 +117,8 @@ export default {
     logout() {
       //TODO (for Hiba) add the logout logic here
       router.push("/auth");
-    }
-  }
+    },
+  },
 };
 </script>
 
