@@ -54,9 +54,10 @@
           id="profile"
           style="flex: 1; display: flex; justify-content: right"
         >
+          <!--    TODO V-if connected (token exist)      -->
           <div class="user-info">
+            <!-- TODO  display User name     -->
             <span class="user-name"></span>
-            <!-- TODO  User name     -->
             <button @click="toggleDropdown" class="icon-button">
               <i class="fas fa-user text-white"></i>
             </button>
@@ -68,15 +69,16 @@
               <router-link to="/user" class="dropdown-item"
               >Profile
               </router-link>
-              <a class="dropdown-item">Log out</a>
+              <a class="dropdown-item" @click="logout">Log out</a>
             </div>
           </div>
 
-          <!--          <router-link to="/auth">-->
-          <!--            <button class="icon-button">-->
-          <!--              <i class="fas fa-user text-white"></i>-->
-          <!--            </button>-->
-          <!--          </router-link>-->
+          <!--    TODO V-else not connected (token does not exist)      -->
+          <router-link to="/auth">
+            <button class="icon-button">
+              <i class="fas fa-user text-white"></i>
+            </button>
+          </router-link>
         </div>
       </div>
     </nav>
@@ -85,6 +87,7 @@
 
 <script>
 import { store } from "./store.js";
+import { router } from "@/router/router";
 
 export default {
   name: "TopBar",
@@ -100,7 +103,8 @@ export default {
     };
   },
   methods: {
-    getImage() { //  TODO call this method in a `watch` everytime the screen size changes, this way it will actively update the logo button
+    getImage() {
+      //  TODO call this method in a `watch` everytime the screen size changes, this way it will actively update the logo button
       if (window.innerWidth < 800) {
         return require("/src/assets/logo/ufood-white-mobile.png");
       } else {
@@ -109,6 +113,10 @@ export default {
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
+    },
+    logout() {
+      //TODO (for Hiba) add the logout logic here
+      router.push("/auth");
     }
   }
 };
