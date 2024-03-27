@@ -124,9 +124,11 @@
   </section>
 </template>
 <script>
-// import { router } from "src/router/router.js";
+import { router } from "@/router/router";
 //TODO (for Hiba) use this router to programmatically redirect the user to the home page after successful login
 
+import Cookies from "js-cookie";
+import { login as apiLogin, signup as apiSignup } from "@/api/auth.js";
 export default {
   name: "LoginForm",
   props: {
@@ -155,23 +157,48 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       if (!this.registering) {
         this.validateForm();
-        //TODO (for Hiba) check form validity inside here before login (invalidEmail, invalidPassword)
-        //TODO (for Hiba) login logic goes here (if login fails don't forget to set failedLogin to true, there's already a message for that in the template)
-        console.log("Logging in with email: " + this.email);
+        if (this.invalidEmail || this.invalidPassword) {
+          console.log("Form is invalid");
+          return;
+        }
+        try {
+          const user = await apiLogin(this.email, this.password);
+          Cookies.set("token", user.token, { expires: 7 });
+          console.log("Login successful", user);
+          router.push({ name: "Home" }); // Adjust to your home route name
+        } catch (error) {
+          console.error("Login failed:", error);
+          this.failedLogin = true;
+        }
       } else {
         this.registering = false;
         this.resetForm();
       }
     },
-    register() {
+    logout() {
+      Cookies.remove("token");
+      router.push({ name: "Login" });
+      console.log("Logout successful");
+    },
+    async register() {
       if (this.registering) {
         this.validateForm();
-        //TODO (for Hiba) check form inside here validity before signup (invalidEmail, invalidName, invalidPassword)
-        //TODO (for Hiba) registering logic goes here (after registering set registering to false in order to display the login form again)
-        console.log("Registering with name: " + this.name);
+        if (this.invalidEmail || this.invalidName || this.invalidPassword) {
+          console.log("Form is invalid");
+          return;
+        }
+        try {
+          const newUser = await apiSignup(this.name, this.email, this.password);
+          Cookies.set("token", newUser.token, { expires: 7 });
+          console.log("Registration successful", newUser);
+          this.registering = false;
+          await router.push({ path: "/auth" });
+        } catch (error) {
+          console.error("Registration failed:", error);
+        }
       } else {
         this.registering = true;
         this.resetForm();

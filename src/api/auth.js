@@ -1,4 +1,6 @@
 // TODO remove this line and change all END_POINT to BASE_URL from api.utility.js when secure handling is implemented throughout the app
+import Cookies from "js-cookie";
+
 const END_POINT = "https://ufoodapi.herokuapp.com";
 
 export const login = async (email, password) => {
@@ -13,10 +15,14 @@ export const login = async (email, password) => {
 
       return response.json();
     })
-    .then((user) => user) // attributes: email, name, token, id, followers [], following [], rating
+    .then((user) => {
+      Cookies.set("token", user.token, { expires: 7 });
+      return user;
+    })
     .catch((error) => error);
 };
 export const logout = async () => {
+  Cookies.remove('token');
   return fetch(`${END_POINT}/logout`, {
     method: "POST",
   })
