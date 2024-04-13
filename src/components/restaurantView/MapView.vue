@@ -4,22 +4,27 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
-    <div ref="mapElement" style="height: 400px"></div>
-    <button
-      class="btn btn-primary btn-lg btn-block"
-      v-if="!getDirectionsIsClicked"
-      @click="showRoute"
-    >
-      Get Directions
-    </button>
-    <button
-      id="hideButton"
-      class="btn btn-primary btn-lg btn-block"
-      v-if="getDirectionsIsClicked"
-      @click="hideRoute"
-    >
-      Hide Directions
-    </button>
+    <div
+      ref="mapElement"
+      :style="{ height: homePage ? '600px' : '400px' }"
+    ></div>
+    <div v-if="!homePage">
+      <button
+        class="btn btn-danger btn-lg btn-block"
+        v-if="!getDirectionsIsClicked"
+        @click="showRoute"
+      >
+        Get Directions
+      </button>
+      <button
+        id="hideButton"
+        class="btn btn-primary btn-lg btn-block"
+        v-if="getDirectionsIsClicked"
+        @click="hideRoute"
+      >
+        Hide Directions
+      </button>
+    </div>
   </div>
 </template>
 
@@ -30,9 +35,16 @@ import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/map.utility.js";
 
 export default {
   props: {
-    restaurantLocation: {
+    centeredPosition: {
       type: Array,
-      default: () => [-71.28690361946938, 46.782878601986255],
+    },
+    homePage: {
+      type: Boolean,
+      required: true,
+    },
+    restaurants: {
+      type: Array,
+      default: null,
     },
   },
   data() {
@@ -47,16 +59,24 @@ export default {
       mapboxgl.accessToken = MAPBOX_API_KEY;
       this.map = new mapboxgl.Map({
         container: this.$refs.mapElement,
-        center: this.restaurantLocation,
+        center: this.centeredPosition,
         style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
-        zoom: 15,
+        zoom: this.homePage ? 8 : 15,
       });
-      new mapboxgl.Marker({ color: "red" })
-        .setLngLat(this.restaurantLocation)
-        .setPopup(new mapboxgl.Popup().setHTML(`<h5>McDonald's</h5>`))
-        .addTo(this.map);
+      if (this.restaurants) {
+        this.restaurants.forEach((restaurant) =>
+          new mapboxgl.Marker({ color: "red" })
+            .setLngLat(restaurant.location.coordinates)
+            .addTo(this.map),
+        );
+        this.map.addControl(new mapboxgl.NavigationControl());
+      } else {
+        new mapboxgl.Marker({ color: "red" })
+          .setLngLat(this.centeredPosition)
+          .addTo(this.map);
+      }
     },
-    getLocation() {
+    async getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -77,12 +97,12 @@ export default {
     async showRoute() {
       if (this.currentPosition) {
         this.getDirectionsIsClicked = true;
-        await getRoute(this.currentPosition, this.restaurantLocation, this.map);
+        await getRoute(this.currentPosition, this.centeredPosition, this.map);
         const bounds = new mapboxgl.LngLatBounds(
           this.currentPosition,
-          this.restaurantLocation,
+          this.centeredPosition,
         );
-        const markers = [this.restaurantLocation, this.currentPosition];
+        const markers = [this.centeredPosition, this.currentPosition];
         markers.forEach((marker) => bounds.extend(marker.coordinates));
         this.map.fitBounds(bounds, { padding: 40, duration: 2000 });
       } else {
@@ -91,7 +111,7 @@ export default {
     },
     async hideRoute() {
       this.getDirectionsIsClicked = false;
-      await removeRoute(this.restaurantLocation, this.map);
+      await removeRoute(this.centeredPosition, this.map);
     },
   },
   created() {
@@ -104,8 +124,12 @@ export default {
 </script>
 
 <style scoped>
+.btn {
+  background-color: #ff3434;
+}
 #hideButton {
   background-color: white;
-  color: dodgerblue;
+  color: #ff3434;
+  border-color: #ff3434;
 }
 </style>

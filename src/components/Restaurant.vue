@@ -19,24 +19,24 @@
           <div style="display: flex">
             <button
               style="flex: 1; border-radius: 0"
-              class="btn btn-primary btn-lg"
+              class="btn btn-danger btn-lg"
               @click="showFeedbackForm"
             >
-              Register Visit
+              <i class="fa-regular fa-pen-to-square"></i> Register Visit
             </button>
             <button
               style="flex: 1; border-radius: 0"
-              id="loveButton"
               class="btn btn-danger btn-lg"
               @click="showAddToFavoriteList"
             >
-              ♥ Add to favourites
+              <i class="fa-solid fa-heart"></i> Add to favourites
             </button>
           </div>
         </div>
         <div class="map">
           <MapView
-            :restaurant-location="restaurant.location.coordinates"
+            :home-page="false"
+            :centered-position="restaurant.location.coordinates"
           ></MapView>
         </div>
       </div>
@@ -138,24 +138,31 @@ export default {
 #sliderMapContainer {
   display: flex;
   flex-direction: row;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 .imagesWithButtons {
   flex: 2;
+}
+
+.btn {
+  background-color: white;
+  color: #ff3434;
+  border-color: #ff3434;
+}
+
+.btn:active {
+  background-color: #ff3434;
 }
 
 .map {
   flex: 1;
   margin-left: 1rem;
 }
-#loveButton {
-  background-color: crimson;
-  color: white;
-  border: none;
-  border-radius: 7px;
-}
-#loveButton:hover {
-  background-color: #ac0a29;
+
+.btn:hover {
+  background-color: #ff3434;
+  text-decoration-line: underline;
+  border-color: transparent;
 }
 
 @media only screen and (max-width: 1000px) {

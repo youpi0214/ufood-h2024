@@ -6,41 +6,86 @@
         <!--FilterBtn and SearchBar begin-->
         <div class="d-flex justify-content-center">
           <div class="col">
-            <div class="row d-flex justify-content-center">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+              "
+            >
               <button
-                class="btn btn-success"
+                class="filter btn btn-danger"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasExample"
                 aria-controls="offcanvasExample"
-                @click="toggleSidebar"
               >
                 <i class="bi bi-filter-square-fill"></i>
                 Filters
               </button>
+
+              <!--    Map/List mode switch buttons-->
+              <div style="display: flex; flex-direction: row">
+                <button
+                  class="btn btn-danger"
+                  type="button"
+                  style="border: none"
+                  :style="{
+                    backgroundColor: showMap ? '#ffffff' : '#ff3434',
+                  }"
+                  @click="showMap = !showMap"
+                >
+                  <i
+                    class="bi bi-grid"
+                    :style="{ color: showMap ? '#ff3434' : '#ffffff' }"
+                  ></i>
+                </button>
+                <button
+                  class="btn btn-danger"
+                  :style="{
+                    backgroundColor: showMap ? '#ff3434' : '#ffffff',
+                  }"
+                  style="border: none"
+                  type="button"
+                  @click="showMap = !showMap"
+                >
+                  <i
+                    class="bi bi-map-fill"
+                    :style="{ color: showMap ? '#ffffff' : '#ff3434' }"
+                  ></i>
+                </button>
+              </div>
             </div>
             <SearchBar />
           </div>
         </div>
         <!--FilterBtn and SearchBar end-->
-        <RestaurantCards :restaurants="restaurants" />
+
+        <MapView
+          id="mapHomePage"
+          v-if="showMap"
+          :home-page="true"
+          :restaurants="allRestaurants"
+          :centered-position="allRestaurants[0].location.coordinates"
+        ></MapView>
+        <RestaurantCards
+          id="restaurantCards"
+          v-if="!showMap"
+          :restaurants="restaurants"
+        />
       </div>
       <!--Content end-->
 
       <!--SideBar begin-->
-      <div
+      <RestaurantFilter
         class="sidebar"
-        :class="{ 'sidebar-open': isSidebarOpen }"
-        @click="closeSidebar($event)"
         ref="sidebar"
-      >
-        <SideBar
-          :isSidebarOpen="isSidebarOpen"
-          :filterGenres="filterGenres"
-          @apply-filters="applyFilters"
-          @reset-filters="resetFilters"
-        />
-      </div>
+        :selectedPrice="selectedPrice"
+        :selectedCategory="selectedCategory"
+        :filterGenres="filterGenres"
+        @apply-filters="applyFilters"
+        @reset-filters="resetFilters"
+      />
       <!--SideBar end-->
     </div>
   </div>
@@ -48,41 +93,47 @@
 
 <script>
 import RestaurantCards from "@/components/homeView/RestaurantCardsContainer.vue";
-import SideBar from "@/components/homeView/SideBar.vue";
 import { mapState, mapActions } from "vuex";
 import { getRestaurants } from "@/api/restaurant";
 import SearchBar from "@/components/homeView/SearchBar.vue";
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { generateRestaurantFetchOptions } from "@/components/homeView/script/home.utility";
+import MapView from "@/components/restaurantView/MapView.vue";
+import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
+import RestaurantFilter from "@/components/homeView/RestaurantFilter.vue";
+
 export default {
   components: {
+    RestaurantFilter,
+    MapView,
     SearchBar,
-    RestaurantCards,
-    SideBar,
+    RestaurantCards
   },
   data() {
     return {
-      isSidebarOpen: false,
-      isBackgroundVisible: true,
+      showMap: false,
       restaurants: [],
+      allRestaurants: [],
       filterGenres: [],
       currentPage: 0,
       isLoading: false,
-      filtersApplied: false,
+      filtersApplied: false
     };
   },
   computed: {
-    ...mapState(["selectedPrice", "selectedCategory"]),
+    ...mapState(["selectedPrice", "selectedCategory"])
   },
   methods: {
+    getRestaurants,
+    getAllAvailableDataWithQueryFunction,
     ...mapActions(["setSelectedFilters"]),
-    toggleSidebar() {
-      this.$store.dispatch("changeSideBarState");
-    },
-    closeSidebar() {
-      if (!event.target.closest(".sidebar")) {
-        this.$store.dispatch("changeSideBarState");
-      }
+    async getAllRestaurants() {
+      const [allRestaurants, _] = await getAllAvailableDataWithQueryFunction(
+        getRestaurants,
+        [],
+        130
+      );
+      this.allRestaurants = allRestaurants;
     },
     applyFilters(price, category) {
       // Remove any trailing commas
@@ -93,7 +144,7 @@ export default {
 
       this.setSelectedFilters({
         price: selectedPrice,
-        category: selectedCategory,
+        category: selectedCategory
       });
       this.filtersApplied = true;
       this.fetchRestaurants();
@@ -106,14 +157,15 @@ export default {
     async fetchRestaurants() {
       let options = generateRestaurantFetchOptions(
         this.selectedCategory,
-        this.selectedPrice,
+        this.selectedPrice
       );
 
       try {
         const [restaurants, _] = await getRestaurants(options);
         this.restaurants = restaurants.map(
-          (restaurant) => new Restaurant(restaurant),
+          (restaurant) => new Restaurant(restaurant)
         );
+        this.allRestaurants = this.restaurants;
       } catch (error) {
         console.error("Error fetching restaurants:", error);
       }
@@ -126,14 +178,14 @@ export default {
       const options = generateRestaurantFetchOptions(
         this.selectedCategory,
         this.selectedPrice,
-        this.currentPage,
+        this.currentPage
       );
 
       try {
         const [newRestaurants, _] = await getRestaurants(options);
 
         const newGenres = newRestaurants.flatMap(
-          (restaurant) => restaurant.genres,
+          (restaurant) => restaurant.genres
         );
         newGenres.forEach((genre) => {
           if (!this.filterGenres.includes(genre)) {
@@ -143,7 +195,7 @@ export default {
 
         this.restaurants = [
           ...this.restaurants,
-          ...newRestaurants.map((restaurant) => new Restaurant(restaurant)),
+          ...newRestaurants.map((restaurant) => new Restaurant(restaurant))
         ];
         this.currentPage++;
 
@@ -173,11 +225,12 @@ export default {
           this.loadMoreRestaurants();
         }
       }
-    },
+    }
   },
   async created() {
-    this.setSelectedFilters({ price: "", category: "" });
+    await this.setSelectedFilters({ price: "", category: "" });
     await this.loadMoreRestaurants();
+    console.log(this.getAllRestaurants());
     this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {
@@ -185,17 +238,7 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
-  },
-  watch: {
-    "$store.state.isSidebarOpen"(newValue) {
-      this.isSidebarOpen = newValue;
-      if (newValue) {
-        document.body.classList.add("allow-scrolling");
-      } else {
-        document.body.classList.remove("allow-scrolling");
-      }
-    },
-  },
+  }
 };
 </script>
 
@@ -209,13 +252,34 @@ export default {
   display: flow;
 }
 
-.allow-scrolling {
-  overflow: auto;
+button:focus {
+  outline: 0;
 }
 
 @media (max-width: 600px) {
-  .btn {
+  .filter {
     display: none;
   }
 }
 </style>
+<!--TODO (OPTIONAL) Animation Style-->
+<!--#mapHomePage {-->
+<!--overflow: hidden;-->
+<!--animation: slideDown 0.5s ease forwards;-->
+<!--}-->
+
+<!--@keyframes slideDown {-->
+<!--from {-->
+<!--transform: translateY(100%); /* Start from top */-->
+<!--opacity: 0;-->
+<!--}-->
+<!--to {-->
+<!--transform: translateY(0); /* Move to original position */-->
+<!--opacity: 1;-->
+<!--}-->
+<!--}-->
+
+<!--#restaurantCards {-->
+<!--overflow: hidden;-->
+<!--animation: slideDown 0.5s ease forwards;-->
+<!--}-->

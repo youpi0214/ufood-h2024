@@ -1,13 +1,13 @@
 import { createStore } from "vuex";
 
-export default createStore({
+const store = createStore({
   state: {
     selectedFilters: {
       price: "",
-      category: "",
+      category: ""
     },
     isSidebarOpen: false,
-    restaurants: [],
+    restaurants: []
   },
   mutations: {
     changeSideBarState(state) {
@@ -20,7 +20,7 @@ export default createStore({
     },
     updateRestaurant(state, newRestaurants) {
       state.restaurants = newRestaurants;
-    },
+    }
   },
   actions: {
     // Action to open the sidebar
@@ -29,10 +29,12 @@ export default createStore({
     },
     setSelectedFilters({ commit }, filters) {
       commit("setSelectedFilters", filters);
-    },
+    }
   },
   getters: {
     selectedFilters: (state) => state.selectedFilters,
-    isSidebarOpen: (state) => state.isSidebarOpen,
-  },
+    isSidebarOpen: (state) => state.isSidebarOpen
+  }
 });
+
+export default store;

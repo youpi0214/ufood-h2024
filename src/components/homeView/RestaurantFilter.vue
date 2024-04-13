@@ -2,10 +2,11 @@
   <div
     class="offcanvas offcanvas-start"
     data-bs-scroll="true"
-    data-bs-backdrop="false"
+    data-bs-backdrop="true"
     tabindex="-1"
     id="offcanvasExample"
     aria-labelledby="offcanvasExampleLabel"
+    ref="sidebar"
   >
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filters</h5>
@@ -41,19 +42,30 @@
           </li>
         </ul>
       </div>
-      <div class="button-reset">
-        <button class="btn btn-success" @click="resetFilters">Reset</button>
-      </div>
+    </div>
+    <div class="filter-buttons">
+      <button class="btn btn-danger m-4" @click="resetFilters">Reset</button>
+      <button
+        class="btn btn-danger filter-btn m-4"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasExample"
+        aria-controls="offcanvasExample"
+      >
+        <i class="bi bi-x-square"></i>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   props: {
     filterGenres: Array,
     selectedPrice: String,
-    selectedCategory: String,
+    selectedCategory: String
   },
   data() {
     return {
@@ -62,17 +74,18 @@ export default {
         { value: "$$", label: "$$" },
         { value: "$$$", label: "$$$" },
         { value: "$$$$", label: "$$$$" },
-        { value: "$$$$$", label: "$$$$$" },
-      ],
+        { value: "$$$$$", label: "$$$$$" }
+      ]
     };
   },
   computed: {
+    ...mapGetters(["selectedFilters"]),
     selectedCategories() {
       return this.selectedCategory.split(",");
     },
     selectedPrices() {
       return this.selectedPrice.split(",");
-    },
+    }
   },
   methods: {
     updateSelectedPrice(value) {
@@ -88,7 +101,7 @@ export default {
       this.$emit(
         "apply-filters",
         selectedPrices.join(","),
-        this.selectedCategory,
+        this.selectedCategory
       );
     },
     updateSelectedCategory(value) {
@@ -101,27 +114,35 @@ export default {
       this.$emit(
         "apply-filters",
         this.selectedPrice,
-        selectedCategories.join(","),
+        selectedCategories.join(",")
       );
     },
     resetFilters() {
+      this.$emit("apply-filters", "", "");
       this.$emit("reset-filters");
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
+
+@media only screen and (max-width: 600px) {
+  .offcanvas {
+    width: 100% !important;
+  }
+}
+
 .list-unstyled {
   margin-left: 2rem;
 }
 
 #category {
-  overflow: auto;
   max-height: 200px;
 }
 
-.button-reset {
-  margin-top: 1rem;
+.filter-buttons {
+  display: flex;
+  justify-content: center;
 }
 </style>

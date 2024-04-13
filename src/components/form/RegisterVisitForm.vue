@@ -3,63 +3,79 @@
     <!-- Feedback form (will be displayed as a modal when showForm is true) -->
     <div class="modal-background">
       <div class="modal-content">
-        <button class="close-btn" @click="cancelForm">×</button>
-        <span>Restaurant : </span>
-        <span><input disabled :placeholder="restaurant.name" /></span>
-        <form @submit.prevent="submitForm">
-          <div class="form-group">
-            <label for="comment">Comment :</label><br />
-            <textarea
-              id="comment"
-              v-model="userComment"
-              placeholder="Please leave a comment"
-              :disabled="disabledInput"
-            ></textarea>
-            <span v-if="!commentValid && !initialValidation" class="error"
-              >Please enter a valid comment.</span
-            >
-          </div>
-          <div class="form-group">
-            <label for="rating">Rating (1.0-5.0) :</label><br />
-            <input
-              type="number"
-              id="rating"
-              v-model.number="userRating"
-              min="1"
-              max="5"
-              step="0.1"
-              :disabled="disabledInput"
-            />
-            <span v-if="!ratingValid && !initialValidation" class="error"
-              >Please enter a valid rating (1.0-5.0).</span
-            >
-          </div>
-          <div class="form-group">
-            <label for="date">Date of Visit :</label><br />
-            <input
-              type="date"
-              id="date"
-              v-model="userDate"
-              :max="maxDate"
-              :disabled="disabledInput"
-            />
-            <span v-if="!dateValid && !initialValidation" class="error"
-              >Please select a valid date.</span
-            >
-          </div>
-          <div class="button-group" style="display: flex">
-            <button
-              type="submit"
-              class="btn btn-success"
-              :disabled="!formValid"
+        <div style="width: 100%; height: 0.5rem">
+          <button class="close-btn" @click="cancelForm">×</button>
+        </div>
+        <div class="modal-contents">
+          <span class="title">Restaurant : </span>
+          <span>
+            <strong> {{ restaurant.name }}</strong></span
+          >
+          <form @submit.prevent="submitForm">
+            <div class="form-group">
+              <label for="comment" class="title">Comment : *</label><br />
+              <textarea
+                id="comment"
+                v-model="userComment"
+                placeholder="Please leave a comment"
+                :disabled="disabledInput"
+              ></textarea>
+              <span v-if="!commentValid && !initialValidation" class="error"
+                >Please enter a valid comment.</span
+              >
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: row">
+              <label style="justify-content: center" for="rating" class="title">
+                Rating (1.0-5.0) : *
+              </label>
+              <input
+                type="number"
+                id="rating"
+                v-model.number="userRating"
+                min="1"
+                max="5"
+                step="0.1"
+                :disabled="disabledInput"
+              />
+              <span v-if="!ratingValid && !initialValidation" class="error"
+                >Please enter a valid rating (1.0-5.0).</span
+              >
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: row">
+              <label style="justify-content: center" for="date" class="title">
+                Date of Visit : *
+              </label>
+              <input
+                type="date"
+                id="date"
+                v-model="userDate"
+                :max="maxDate"
+                :disabled="disabledInput"
+              />
+              <span v-if="!dateValid && !initialValidation" class="error"
+                >Please select a valid date.</span
+              >
+            </div>
+            <div
+              style="font-size: 0.75rem; color: gray"
               :hidden="disabledInput"
-              style="width: 100%"
             >
-              Submit
-            </button>
-          </div>
-          <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
-        </form>
+              * Required fields
+            </div>
+            <div class="button-group" style="display: flex">
+              <button
+                type="submit"
+                class="btn btn-success"
+                :disabled="!formValid"
+                :hidden="disabledInput"
+                style="width: 100%; background-color: #ff3434; border: none"
+              >
+                Submit
+              </button>
+            </div>
+            <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -180,6 +196,24 @@ export default {
 </script>
 
 <style scoped>
+#comment {
+  width: 100%;
+}
+
+span {
+  font-family: Calibri, sans-serif;
+}
+
+.title {
+  color: #ff3434;
+  font-weight: bold;
+  font-family: "Calibri Light", sans-serif;
+}
+
+input {
+  margin-left: 1rem;
+}
+
 .modal-background {
   position: fixed;
   top: 0;
@@ -195,9 +229,15 @@ export default {
 
 .modal-content {
   background-color: white;
+  border-radius: 10px;
+  width: 400px;
+}
+
+.modal-contents {
+  background-color: white;
   padding: 20px;
   border-radius: 5px;
-  width: 400px;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
@@ -208,11 +248,10 @@ export default {
 
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  right: 5px;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 

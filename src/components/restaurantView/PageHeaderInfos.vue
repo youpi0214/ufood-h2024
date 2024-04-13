@@ -1,5 +1,8 @@
 <script>
-import { formatGenres } from "@/components/restaurantView/script/restaurant.utility";
+import {
+  formatGenres,
+  ratingColor,
+} from "@/components/restaurantView/script/restaurant.utility";
 
 export default {
   name: "PageHeaderInfos",
@@ -30,33 +33,8 @@ export default {
     },
   },
   methods: {
+    ratingColor,
     formatGenres,
-    ratingColor(rating) {
-      let color = "";
-      let grade = "";
-      switch (rating != null) {
-        case rating >= 4.5:
-          grade = "Excellent";
-          color = "forestgreen";
-          break;
-        case rating >= 4.0:
-          grade = "Very Good";
-          color = "yellowgreen";
-          break;
-        case rating >= 3.0:
-          grade = "Good";
-          color = "orange";
-          break;
-        case rating >= 2.0:
-          grade = "Ok";
-          color = "orangered";
-          break;
-        default:
-          grade = "Poor";
-          color = "firebrick";
-      }
-      return { grade, color };
-    },
   },
 };
 </script>
@@ -70,16 +48,21 @@ export default {
           {{ "★" }} {{ rating }} {{ ratingColor(this.rating).grade }}
         </div>
       </div>
-      <div>{{ "⚲" }} {{ address }}</div>
+      <div>
+        <i class="fa-solid fa-map-pin" style="color: #ff3434"></i> {{ address }}
+      </div>
     </div>
     <div class="info2">
       <div>
         <span
-          ><i class="bi bi-telephone-fill" style="margin-right: 5px"></i></span
+          ><i
+            class="bi bi-telephone-fill"
+            style="margin-right: 5px; color: #ff3434"
+          ></i></span
         >{{ tel }}
       </div>
       <div>
-        <span><i class="bi bi-funnel-fill"></i></span>
+        <span><i class="fa-solid fa-utensils" style="color: #ff3434"></i></span>
         {{ formatGenres(genres) }} {{ "•" }}
         {{ "$".repeat(this.price_range) }}
       </div>
@@ -115,18 +98,22 @@ export default {
 }
 
 #title {
-  font-size: 1.5rem;
+  font-size: 2.25rem;
   font-weight: bold;
 }
 
 #rating {
-  font-size: 1.1rem;
+  margin-top: 10px;
+  font-size: 1.2rem;
   display: flex;
   justify-items: center;
-  align-items: end;
+  align-items: center;
   font-weight: bold;
   margin-left: 10px;
   color: #ffffff;
+}
+div {
+  font-family: "Calibri", sans-serif;
 }
 
 @media (max-width: 800px) {
