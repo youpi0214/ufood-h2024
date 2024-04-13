@@ -86,25 +86,13 @@
 </template>
 
 <script>
-import { store } from "./store.js";
-import { router } from "@/router/router";
+import { mapActions } from "vuex";
 
 export default {
   name: "TopBar",
-  computed: {
-    isSidebarOpen() {
-      return store.state.isSidebarOpen;
-    },
-  },
-  data() {
-    return {
-      imageSource: "/src/assets/logo/ufood-white-mobile.png",
-      showDropdown: false,
-    };
-  },
   methods: {
+    ...mapActions(["logout"]), // Vuex logout action
     getImage() {
-      //  TODO call this method in a `watch` everytime the screen size changes, this way it will actively update the logo button
       if (window.innerWidth < 800) {
         return require("/src/assets/logo/ufood-white-mobile.png");
       } else {
@@ -114,10 +102,19 @@ export default {
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
     },
-    logout() {
-      //TODO (for Hiba) add the logout logic here
-      router.push("/auth");
+    async logout() {
+      try {
+        await this.logout();
+        this.$router.push("/auth");
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
     },
+  },
+  data() {
+    return {
+      showDropdown: false,
+    };
   },
 };
 </script>
