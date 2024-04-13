@@ -54,7 +54,10 @@
         ></AddToFavoritesModal>
       </div>
       <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
-    <RecommendedRestaurants :current-restaurant="restaurant" />
+      <RecommendedRestaurants
+        :current-restaurant="this.restaurant"
+        :genres="this.restaurant.genres"
+      />
     </div>
     <div v-else>
       <div
@@ -78,6 +81,7 @@ import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 import AddToFavoritesModal from "@/components/form/AddFavoritesForm.vue";
 import { Owner } from "@/components/profileView/script/profile.utility";
 import RecommendedRestaurants from "@/components/restaurantView/RecommendedRestaurants.vue";
+import { Restaurant } from "@/components/homeView/script/card.utility";
 
 export default {
   name: "Restaurant",
@@ -100,6 +104,9 @@ export default {
     };
   },
   computed: {
+    Restaurant() {
+      return Restaurant;
+    },
     User() {
       return new Owner({
         email: '"villiam1@gmail.com"',
