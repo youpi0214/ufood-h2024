@@ -67,7 +67,7 @@
               @click="showDropdown = false"
             >
               <router-link to="/user" class="dropdown-item"
-              >Profile
+                >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
             </div>
@@ -95,17 +95,17 @@ export default {
   props: {
     userName: {
       type: String,
-      default: Cookies.get("userName")
+      default: Cookies.get("userName"),
     },
     isLoggedIn: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
     displayedName() {
       return this.name ? this.name : this.userName;
-    }
+    },
   },
   methods: {
     getImage() {
@@ -126,18 +126,18 @@ export default {
       } catch (error) {
         console.error("Logout failed:", error);
       }
-    }
+    },
   },
   data() {
     return {
       showDropdown: false,
-      name: ""
+      name: "",
     };
   },
   mounted() {
     // this helps restore the username when the page is refreshed
     this.name = Cookies.get("userName");
-  }
+  },
 };
 </script>
 

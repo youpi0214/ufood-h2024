@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <TopBar :userName="userName" :isLoggedIn="isLoggedIn" @user-logout="handleUserLogout" />
+    <TopBar
+      :userName="userName"
+      :isLoggedIn="isLoggedIn"
+      @user-logout="handleUserLogout"
+    />
     <router-view @user-login="handleUserLogin"></router-view>
   </div>
 </template>
@@ -12,12 +16,12 @@ import Cookies from "js-cookie";
 export default {
   name: "App",
   components: {
-    TopBar
+    TopBar,
   },
   data() {
     return {
       userName: "",
-      isLoggedIn: !!Cookies.get("token")
+      isLoggedIn: !!Cookies.get("token"),
     };
   },
   methods: {
@@ -28,8 +32,8 @@ export default {
     handleUserLogout() {
       this.userName = "";
       this.isLoggedIn = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
