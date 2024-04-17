@@ -112,6 +112,10 @@
                       <a class="form-link" style="color: #ff3434" @click="login"
                       >Login here</a
                       >
+                      <br /><br />
+                      <a v-if="failedSignup" style="color: #ff3434"
+                      >Sign up failed! Please verify the information entered</a
+                      >
                     </p>
                   </form>
                 </div>
@@ -150,6 +154,7 @@ export default {
       password: "",
       registering: this.registerForm,
       failedLogin: false,
+      failedSignup: false,
       invalidEmail: false,
       invalidName: false,
       invalidPassword: false
@@ -193,7 +198,6 @@ export default {
       if (this.registering) {
         this.validateForm();
         if (this.invalidEmail || this.invalidName || this.invalidPassword) {
-          console.log("Form is invalid");
           return;
         }
         try {
@@ -201,7 +205,7 @@ export default {
           this.registering = false;
           await router.push({ name: "Authentication" });
         } catch (error) {
-          console.error("Registration failed:", error);
+          this.failedSignup = true;
         }
       } else {
         this.registering = true;
@@ -228,6 +232,7 @@ export default {
       this.email = "";
       this.password = "";
       this.failedLogin = false;
+      this.failedSignup = false;
       this.invalidEmail = false;
       this.invalidName = false;
       this.invalidPassword = false;

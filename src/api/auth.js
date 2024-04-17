@@ -53,14 +53,10 @@ export const logout = async () => {
 
 // User registration
 export const signup = async (name, email, password) => {
-  try {
-    return await makeApiRequest("/signup", {
-      method: "POST",
-      body: new URLSearchParams({ name, email, password })
-    });
-  } catch (error) {
-    throw error;
-  }
+  return await makeApiRequest("/signup", {
+    method: "POST",
+    body: new URLSearchParams({ name, email, password })
+  });
 };
 
 //Retrieve token-related user information
