@@ -8,58 +8,70 @@
     aria-labelledby="offcanvasExampleLabel"
     ref="sidebar"
   >
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filters</h5>
+    <div class="offcanvas-header" style="width: 100%; padding-bottom: 0">
+      <h3 class="offcanvas-title" id="offcanvasExampleLabel">Filter by:</h3>
+    </div>
+    <button
+      style="position: absolute; top: 1px; right: 5px"
+      class="btn btn-close filter-btn m-4"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasExample"
+      aria-controls="offcanvasExample"
+    ></button>
+    <div class="offcanvas-header" style="padding-top: 0; padding-bottom: 0; display: flex; justify-content: center; align-items: start">
+      <div style="border-bottom: 1px solid darkgrey; width: 100%;
+    margin-bottom: auto;">
+      </div>
     </div>
     <div class="offcanvas-body">
       <div>
-        <h6>Price:</h6>
+        <h4>Price</h4>
         <ul class="list-unstyled">
           <li v-for="price in prices" :key="price.value">
-            <input
-              type="checkbox"
-              :id="`price-${price.value}`"
-              :value="price.value"
-              :checked="selectedPrices.includes(price.value)"
-              @change="updateSelectedPrice($event.target.value)"
-            />
-            <label :for="`price-${price.value}`">{{ price.label }}</label>
+            <div style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center">
+              <input
+                type="checkbox"
+                :id="`price-${price.value}`"
+                class="checkbox"
+                :value="price.value"
+                :checked="selectedPrices.includes(price.value)"
+                @change="updateSelectedPrice($event.target.value)"
+              />
+              <label :for="`price-${price.value}`">{{ price.label }}</label>
+            </div>
           </li>
         </ul>
       </div>
       <div>
-        <h6>Category:</h6>
+        <h4>Category</h4>
         <ul class="list-unstyled" id="category">
           <li v-for="genre in filterGenres" :key="genre">
-            <input
-              type="checkbox"
-              :id="`category-${genre}`"
-              :value="genre"
-              :checked="selectedCategories.includes(genre)"
-              @change="updateSelectedCategory($event.target.value)"
-            />
-            <label :for="`category-${genre}`">{{ genre }}</label>
+            <div style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center">
+              <input
+                type="checkbox"
+                :id="`category-${genre}`"
+                class="checkbox"
+                :value="genre"
+                :checked="selectedCategories.includes(genre)"
+                @change="updateSelectedCategory($event.target.value)"
+              />
+              <label :for="`category-${genre}`">{{ formatString(genre) }}</label>
+
+            </div>
           </li>
         </ul>
       </div>
     </div>
-    <div class="filter-buttons">
-      <button class="btn btn-danger m-4" @click="resetFilters">Reset</button>
-      <button
-        class="btn btn-danger filter-btn m-4"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasExample"
-        aria-controls="offcanvasExample"
-      >
-        <i class="bi bi-x-square"></i>
-      </button>
+    <div class="filter-buttons" style="margin-bottom: 1rem">
+      <button class="btn btn-danger btn-block" @click="resetFilters">Reset</button>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { formatString } from "../restaurantView/script/restaurant.utility";
 
 export default {
   props: {
@@ -88,6 +100,7 @@ export default {
     },
   },
   methods: {
+    formatString,
     updateSelectedPrice(value) {
       let selectedPrices = this.selectedPrices;
       const index = selectedPrices.indexOf(value);
@@ -128,12 +141,17 @@ export default {
 <style scoped>
 @media only screen and (max-width: 600px) {
   .offcanvas {
-    width: 100% !important;
+    width: 70% !important;
   }
 }
-
-.list-unstyled {
-  margin-left: 2rem;
+input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.75rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  position: relative;
+  accent-color: #ff3434;
 }
 
 #category {
@@ -143,5 +161,12 @@ export default {
 .filter-buttons {
   display: flex;
   justify-content: center;
+}
+
+label {
+  margin: 0;
+}
+li {
+  font-size: 1.25rem;
 }
 </style>
