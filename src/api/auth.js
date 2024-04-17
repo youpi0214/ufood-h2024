@@ -1,56 +1,72 @@
-// TODO remove this line and change all END_POINT to BASE_URL from api.utility.js when secure handling is implemented throughout the app
-const END_POINT = "https://ufoodapi.herokuapp.com";
+import Cookies from "js-cookie";
 
+const BASE_URL = "https://ufoodapi.herokuapp.com";
+
+async function makeApiRequest(path, options) {
+  const url = `${BASE_URL}${path}`;
+  return fetch(url, options)
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(
+          `HTTP status ${response.status}: ${response.statusText}`
+        );
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("API request failed:", error);
+      throw error;
+    });
+}
+
+// User login
 export const login = async (email, password) => {
-  return fetch(`${END_POINT}/login`, {
-    method: "POST",
-    body: new URLSearchParams({ email: email, password: password })
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to login");
-      else if (response.status === 401)
-        throw new Error("Invalid email or password");
+  try {
+    const user = await makeApiRequest("/login", {
+      method: "POST",
+      body: new URLSearchParams({ email, password })
+    });
 
-      return response.json();
-    })
-    .then((user) => user) // attributes: email, name, token, id, followers [], following [], rating
-    .catch((error) => error);
+    return [user.token, { name: user.name, email: user.email, id: user.id }];
+  } catch (error) {
+    throw error;
+  }
 };
+
+//User logout
 export const logout = async () => {
-  return fetch(`${END_POINT}/logout`, {
-    method: "POST"
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to logout");
-      else return "Successfully logged out";
-    })
-    .catch((error) => console.error(error));
-};
-
-export const signup = async (name, email, password) => {
-  return fetch(`${END_POINT}/signup`, {
+  return fetch(`${BASE_URL}/logout`, {
     method: "POST",
-    body: new URLSearchParams({ name: name, email: email, password: password })
+    headers: { Authorization: Cookies.get("token") }
   })
     .then((response) => {
-      if (!response.ok) throw new Error("Failed to signup");
+      if (!response.ok) throw new Error("Failed to log out");
 
-      return response.json();
+      Cookies.remove("token");
+      Cookies.remove("userName");
+      Cookies.remove("userId");
+      return "Logged out successfully";
     })
-    .then((newUser) => newUser) // attributes: email, name, id, followers [], following [], rating
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      throw error;
+    });
 };
 
-export const getTokenInfo = async (token) => {
-  return fetch(`${END_POINT}/tokenInfo`, {
-    method: "GET",
-    headers: { Authorization: token }
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to get token info");
+// User registration
+export const signup = async (name, email, password) => {
+  return await makeApiRequest("/signup", {
+    method: "POST",
+    body: new URLSearchParams({ name, email, password })
+  });
+};
 
-      return response.json();
-    })
-    .then((userLinkedToToken) => userLinkedToToken) // attributes: email, name, token, id, followers [], following [], rating
-    .catch((error) => console.error(error));
+//Retrieve token-related user information
+export const getTokenInfo = async (token) => {
+  try {
+    return await makeApiRequest("/tokenInfo", {
+      method: "GET",
+      headers: { Authorization: token }
+    });
+  } catch (error) {
+    throw error;
+  }
 };

@@ -39,5 +39,3 @@ export const getUserFavoriteLists = async (userId, options = []) => {
     })
     .catch((error) => console.error("Request failed:", error));
 };
-
-
