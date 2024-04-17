@@ -19,17 +19,37 @@
       data-bs-target="#offcanvasExample"
       aria-controls="offcanvasExample"
     ></button>
-    <div class="offcanvas-header" style="padding-top: 0; padding-bottom: 0; display: flex; justify-content: center; align-items: start">
-      <div style="border-bottom: 1px solid darkgrey; width: 100%;
-    margin-bottom: auto;">
-      </div>
+    <div
+      class="offcanvas-header"
+      style="
+        padding-top: 0;
+        padding-bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+      "
+    >
+      <div
+        style="
+          border-bottom: 1px solid darkgrey;
+          width: 100%;
+          margin-bottom: auto;
+        "
+      ></div>
     </div>
     <div class="offcanvas-body">
       <div>
         <h4>Price</h4>
         <ul class="list-unstyled">
           <li v-for="price in prices" :key="price.value">
-            <div style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+              "
+            >
               <input
                 type="checkbox"
                 :id="`price-${price.value}`"
@@ -47,7 +67,14 @@
         <h4>Category</h4>
         <ul class="list-unstyled" id="category">
           <li v-for="genre in filterGenres" :key="genre">
-            <div style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+              "
+            >
               <input
                 type="checkbox"
                 :id="`category-${genre}`"
@@ -56,15 +83,18 @@
                 :checked="selectedCategories.includes(genre)"
                 @change="updateSelectedCategory($event.target.value)"
               />
-              <label :for="`category-${genre}`">{{ formatString(genre) }}</label>
-
+              <label :for="`category-${genre}`">{{
+                formatString(genre)
+              }}</label>
             </div>
           </li>
         </ul>
       </div>
     </div>
     <div class="filter-buttons" style="margin-bottom: 1rem">
-      <button class="btn btn-danger btn-block" @click="resetFilters">Reset</button>
+      <button class="btn btn-danger btn-block" @click="resetFilters">
+        Reset
+      </button>
     </div>
   </div>
 </template>

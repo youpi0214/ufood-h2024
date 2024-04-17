@@ -5,22 +5,27 @@
     >
       <div class="container-fluid">
         <!--  Home button logo      -->
-        <div id="Logo" style="flex: 1; display: flex; justify-content: left">
+        <div
+          id="Logo"
+          style="flex: 1; display: flex; justify-content: left"
+          :class="{ hide: inputFocused }"
+        >
           <router-link to="/" class="nav-link logo">
             <a class="navbar-brand">
               <img
-                :src="getImage()"
+                :src="imageSrc"
                 alt="Bootstrap"
                 width="100%"
                 style="object-fit: contain"
                 height="60rem"
+                @contextmenu.prevent
               />
             </a>
           </router-link>
         </div>
 
         <!--  Search Bar      -->
-        <div id="searchBar" style="flex: 3">
+        <div id="searchBar" style="flex: 3" @click="focusInput">
           <form style="display: flex; flex-direction: row" role="search">
             <button
               class="btn btn-danger filter-btn"
@@ -35,7 +40,11 @@
             <input
               ref="searchInput"
               class="form-control me-2 search-input"
-              style="border-radius: 1rem; outline-color: white"
+              style="
+                border-radius: 1rem;
+                outline-color: white;
+                transition: width 0.5s ease;
+              "
               type="search"
               placeholder="Search..."
               aria-label="Search"
@@ -95,22 +104,31 @@ export default {
   },
   data() {
     return {
-      imageSource: "/src/assets/logo/ufood-white-mobile.png",
       showDropdown: false,
+      inputFocused: false,
+      imageLarge: require("/src/assets/logo/ufood-white.png"),
+      imageSmall: require("/src/assets/logo/ufood-white-mobile.png"),
+      imageSrc: "",
     };
   },
   methods: {
-    getImage() {
-      //  TODO call this method in a `watch` everytime the screen size changes, this way it will actively update the logo button
-      if (window.innerWidth < 800) {
-        return require("/src/assets/logo/ufood-white-mobile.png");
+    setImageSrc() {
+      if (window.innerWidth < 768) {
+        this.imageSrc = this.imageSmall;
       } else {
-        return require("/src/assets/logo/ufood-white.png");
+        this.imageSrc = this.imageLarge;
       }
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
     },
+  },
+  mounted() {
+    this.setImageSrc();
+    window.addEventListener("resize", this.setImageSrc);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.setImageSrc);
   },
 };
 </script>
