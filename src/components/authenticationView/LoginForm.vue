@@ -52,7 +52,7 @@
                         @change="validateEmail"
                       />
                       <label class="form-label" for="floatingEmail"
-                      >Email address</label
+                        >Email address</label
                       >
                     </div>
 
@@ -67,7 +67,7 @@
                         @change="validatePassword"
                       />
                       <label class="form-label" for="floatingPassword"
-                      >Password</label
+                        >Password</label
                       >
                     </div>
 
@@ -100,17 +100,17 @@
                         class="form-link"
                         style="color: #ff3434"
                         @click="register"
-                      >Register here</a
+                        >Register here</a
                       >
                       <br /><br />
                       <a v-if="failedLogin" style="color: #ff3434"
-                      >Email and password combination is invalid!</a
+                        >Email and password combination is invalid!</a
                       >
                     </p>
                     <p v-else class="mb-5 pb-lg-2" style="color: black">
                       Already have an account?
                       <a class="form-link" style="color: #ff3434" @click="login"
-                      >Login here</a
+                        >Login here</a
                       >
                     </p>
                   </form>
@@ -133,15 +133,15 @@ export default {
   props: {
     registerForm: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     formTitle() {
       return this.registering
         ? "Create your account"
         : "Sign into your account";
-    }
+    },
   },
   data() {
     return {
@@ -152,16 +152,19 @@ export default {
       failedLogin: false,
       invalidEmail: false,
       invalidName: false,
-      invalidPassword: false
+      invalidPassword: false,
     };
   },
   methods: {
-    setUserInfo(user) {
+    setUserInfo(user, token) {
       Cookies.set("userName", user.name, {
-        expires: 7
+        expires: 7,
       });
       Cookies.set("userId", user.id, {
-        expires: 7
+        expires: 7,
+      });
+      Cookies.set("token", token, {
+        expires: 7,
       });
     },
     async login() {
@@ -173,10 +176,9 @@ export default {
         try {
           const result = await apiLogin(this.email, this.password);
           const [token, user] = result;
-          Cookies.set("token", token, {
-            expires: 7
-          });
-          this.setUserInfo(user);
+
+          this.setUserInfo(user, token);
+          this.$emit("userLogin", user.name, true);
 
           await router.push({ name: "Home" });
         } catch (error) {
@@ -229,9 +231,8 @@ export default {
       this.invalidEmail = false;
       this.invalidName = false;
       this.invalidPassword = false;
-    }
+    },
   },
-
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <TopBar />
-    <router-view></router-view>
+    <TopBar :userName="userName" :isLoggedIn="isLoggedIn" @user-logout="handleUserLogout" />
+    <router-view @user-login="handleUserLogin"></router-view>
   </div>
 </template>
 
@@ -11,8 +11,24 @@ import TopBar from "@/components/TopBar.vue";
 export default {
   name: "App",
   components: {
-    TopBar,
+    TopBar
   },
+  data() {
+    return {
+      userName: "",
+      isLoggedIn: true
+    };
+  },
+  methods: {
+    handleUserLogin(userName, isLoggedIn) {
+      this.userName = userName;
+      this.isLoggedIn = isLoggedIn;
+    },
+    handleUserLogout() {
+      this.userName = "";
+      this.isLoggedIn = false;
+    }
+  }
 };
 </script>
 

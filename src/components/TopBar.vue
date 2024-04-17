@@ -55,9 +55,9 @@
           style="flex: 1; display: flex; justify-content: right"
         >
           <!--    TODO V-if connected (token exist)      -->
-          <div v-if="isLoggedIn" class="user-info">
+          <div v-if="shown" class="user-info">
             <!-- TODO  display User name     -->
-            <span class="user-name">{{ userName }}</span>
+            <span class="user-name">{{ displayedName }}</span>
             <button @click="toggleDropdown" class="icon-button">
               <i class="fas fa-user text-white"></i>
             </button>
@@ -67,7 +67,7 @@
               @click="showDropdown = false"
             >
               <router-link to="/user" class="dropdown-item"
-                >Profile
+              >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
             </div>
@@ -92,13 +92,24 @@ import Cookies from "js-cookie";
 
 export default {
   name: "TopBar",
+  props: {
+    userName: {
+      type: String,
+      default: Cookies.get("userName")
+    },
+    isLoggedIn: {
+      type: Boolean,
+      default: true
+    }
+  },
   computed: {
-    isLoggedIn() {
-      return !!Cookies.get("token");
+    displayedName() {
+      return this.name ? this.name : this.userName;
     },
-    userName() {
-      return Cookies.get("userName");
-    },
+    shown() {
+      // this is to prevent the username from being displayed when the user is not logged in
+      return this.isLoggedIn && Cookies.get("token");
+    }
   },
   methods: {
     getImage() {
@@ -114,18 +125,23 @@ export default {
     async logout() {
       try {
         await apiLogout();
+        this.$emit("user-logout");
         await router.push({ name: "Authentication" });
       } catch (error) {
         console.error("Logout failed:", error);
       }
-    },
+    }
   },
   data() {
     return {
       showDropdown: false,
+      name: ""
     };
   },
-
+  mounted() {
+    // this helps restore the username when the page is refreshed
+    this.name = Cookies.get("userName");
+  }
 };
 </script>
 

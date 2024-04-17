@@ -7,8 +7,7 @@ const store = createStore({
       category: ""
     },
     isSidebarOpen: false,
-    restaurants: [],
-    user: { name: "", email: "", id: "" }
+    restaurants: []
   },
   mutations: {
     changeSideBarState(state) {
@@ -21,15 +20,6 @@ const store = createStore({
     },
     updateRestaurant(state, newRestaurants) {
       state.restaurants = newRestaurants;
-    },
-    setUser(state, user) {
-      state.user.name = user.name;
-      state.user.email = user.email;
-      state.user.id = user.id;
-      console.log(state.user);
-    },
-    clearAuthState(state) {
-      state.user = { name: "", email: "", id: "" };
     }
   },
   actions: {
@@ -38,18 +28,11 @@ const store = createStore({
     },
     setSelectedFilters({ commit }, filters) {
       commit("setSelectedFilters", filters);
-    },
-    setUser({ commit }, user) {
-      commit("setUser", user);
-    },
-    clearAuthState({ commit }) {
-      commit("clearAuthState");
     }
   },
   getters: {
     selectedFilters: (state) => state.selectedFilters,
-    isSidebarOpen: (state) => state.isSidebarOpen,
-    user: (state) => state.user
+    isSidebarOpen: (state) => state.isSidebarOpen
   }
 });
 

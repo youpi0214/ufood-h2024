@@ -101,6 +101,7 @@ import { generateRestaurantFetchOptions } from "@/components/homeView/script/hom
 import MapView from "@/components/restaurantView/MapView.vue";
 import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import RestaurantFilter from "@/components/homeView/RestaurantFilter.vue";
+import Cookies from "js-cookie";
 
 export default {
   components: {
