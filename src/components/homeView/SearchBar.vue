@@ -33,6 +33,7 @@
         >
           <div>
             <router-link
+              style="text-decoration-line: none; color: black;" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';"
               :to="`/restaurants/${restaurant.id}`"
               v-bind:class="{ disabled: isFavoriteSearchBar }"
             >
