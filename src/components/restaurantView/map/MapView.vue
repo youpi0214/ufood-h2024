@@ -31,7 +31,8 @@
 <script>
 import mapboxgl from "!mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/map.utility.js";
+import { getRoute, removeRoute, MAPBOX_API_KEY } from "./map.utility.js";
+import { getAllRestaurantsByUserLocation } from "./map.utility.js";
 
 export default {
   props: {
@@ -42,10 +43,6 @@ export default {
       type: Boolean,
       required: true,
     },
-    restaurants: {
-      type: Array,
-      default: null,
-    },
   },
   data() {
     return {
@@ -55,21 +52,24 @@ export default {
     };
   },
   methods: {
-    initMap() {
+    async initMap() {
+      if (this.homePage) {
+        var [restaurants, __] = await getAllRestaurantsByUserLocation(
+          await this.getCurrentPositionInHomePage(),
+        );
+      }
       mapboxgl.accessToken = MAPBOX_API_KEY;
       this.map = new mapboxgl.Map({
         container: this.$refs.mapElement,
-        center: this.centeredPosition,
+        center: this.homePage
+          ? await this.currentPosition
+          : this.centeredPosition,
         style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
         zoom: this.homePage ? 8 : 15,
       });
-      if (this.restaurants) {
-        this.restaurants.forEach((restaurant) =>
-          new mapboxgl.Marker({ color: "red" })
-            .setLngLat(restaurant.location.coordinates)
-            .addTo(this.map),
-        );
-        this.map.addControl(new mapboxgl.NavigationControl());
+      if (this.homePage) {
+        this.showRestaurants(restaurants);
+        new mapboxgl.Marker().setLngLat(this.currentPosition).addTo(this.map);
       } else {
         new mapboxgl.Marker({ color: "red" })
           .setLngLat(this.centeredPosition)
@@ -93,6 +93,7 @@ export default {
       } else {
         alert("Geolocation is not supported by this browser.");
       }
+      return this.currentPosition;
     },
     async showRoute() {
       if (this.currentPosition) {
@@ -112,6 +113,24 @@ export default {
     async hideRoute() {
       this.getDirectionsIsClicked = false;
       await removeRoute(this.centeredPosition, this.map);
+    },
+    async getCurrentPositionInHomePage() {
+      while (!this.currentPosition) {
+        this.currentPosition = await this.getLocation();
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+      if (this.currentPosition) {
+        return this.currentPosition;
+      }
+    },
+    showRestaurants(restaurants) {
+      for (let i = 0; i < restaurants.length; i++) {
+        restaurants.forEach((restaurant) =>
+          new mapboxgl.Marker({ color: "red" })
+            .setLngLat(restaurant.location.coordinates)
+            .addTo(this.map),
+        );
+      }
     },
   },
   created() {

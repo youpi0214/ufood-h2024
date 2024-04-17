@@ -75,7 +75,7 @@
 import PageHeaderInfos from "@/components/restaurantView/PageHeaderInfos.vue";
 import ImageSlider from "@/components/restaurantView/ImageSlider.vue";
 import OpenHours from "@/components/restaurantView/OpenHours.vue";
-import MapView from "@/components/restaurantView/MapView.vue";
+import MapView from "@/components/restaurantView/map/MapView.vue";
 import { getRestaurantById } from "@/api/restaurant";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 import AddToFavoritesModal from "@/components/form/AddFavoritesForm.vue";

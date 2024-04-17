@@ -61,13 +61,7 @@
         </div>
         <!--FilterBtn and SearchBar end-->
 
-        <MapView
-          id="mapHomePage"
-          v-if="showMap"
-          :home-page="true"
-          :restaurants="allRestaurants"
-          :centered-position="allRestaurants[0].location.coordinates"
-        ></MapView>
+        <MapView id="mapHomePage" v-if="showMap" :home-page="true"></MapView>
         <RestaurantCards
           id="restaurantCards"
           v-if="!showMap"
@@ -98,7 +92,7 @@ import { getRestaurants } from "@/api/restaurant";
 import SearchBar from "@/components/homeView/SearchBar.vue";
 import { Restaurant } from "@/components/homeView/script/card.utility";
 import { generateRestaurantFetchOptions } from "@/components/homeView/script/home.utility";
-import MapView from "@/components/restaurantView/MapView.vue";
+import MapView from "@/components/restaurantView/map/MapView.vue";
 import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import RestaurantFilter from "@/components/homeView/RestaurantFilter.vue";
 

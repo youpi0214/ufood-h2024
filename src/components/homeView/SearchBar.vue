@@ -21,7 +21,7 @@
         :style="{
           width: $refs.searchInput.offsetWidth + 'px',
           left: $refs.searchInput.offsetLeft + 'px',
-          top: $refs.searchInput.offsetHeight + 'px',
+          top: $refs.searchInput.offsetHeight + 'px'
         }"
         @click="handleClickInside"
       >
@@ -33,7 +33,9 @@
         >
           <div>
             <router-link
-              style="text-decoration-line: none; color: black;" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';"
+              style="text-decoration-line: none; color: black"
+              onmouseover="this.style.textDecoration='underline';"
+              onmouseout="this.style.textDecoration='none';"
               :to="`/restaurants/${restaurant.id}`"
               v-bind:class="{ disabled: isFavoriteSearchBar }"
             >
