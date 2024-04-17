@@ -8,12 +8,14 @@ export const getUsers = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token"),
-    },
+      Authorization: Cookies.get("token")
+    }
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -28,17 +30,87 @@ export const getUserFavoriteLists = async (userId, options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token"),
-    },
+      Authorization: Cookies.get("token")
+    }
   })
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`Failed to fetch restaurant with id:${id}`);
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
 
       return response.json();
     })
     .then((favorites) => {
       return [favorites.items, favorites.total];
+    })
+    .catch((error) => console.error("Request failed:", error));
+};
+
+export const getUserById = async (userId) => {
+  return fetch(`${BASE_URL}/users/${userId}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: Cookies.get("token")
+    }
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+
+      return response.json();
+    })
+    .then((userData) => {
+      return userData; // object { email, id, name, followers, following, rating }
+    })
+    .catch((error) => console.error("Request failed:", error));
+};
+
+export const followUser = async (userId) => {
+  return fetch(`${BASE_URL}/follow`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: Cookies.get("token")
+    },
+    body: JSON.stringify({ id: userId })
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+
+      return response.json();
+    })
+    .then((userData) => {
+      return userData[0]; // object { email, id, name, followers, following, rating }
+    })
+    .catch((error) => console.error("Request failed:", error));
+};
+
+export const unfollowUser = async (userId) => {
+  return fetch(`${BASE_URL}/follow/${userId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: Cookies.get("token")
+    }
+  })
+    .then(async (response) => {
+
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+
+      return response.json();
+    })
+    .then((userData) => {
+
+      return userData[0]; // object { email, id, name, followers, following, rating }
     })
     .catch((error) => console.error("Request failed:", error));
 };

@@ -168,6 +168,9 @@ export default {
       Cookies.set("userId", user.id, {
         expires: 7
       });
+      Cookies.set("userEmail", user.email, {
+        expires: 7
+      });
       Cookies.set("token", token, {
         expires: 7
       });

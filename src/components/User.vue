@@ -15,27 +15,36 @@ import UserHeader from "@/components/profileView/UserHeader.vue";
 import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
 import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
 import { Owner } from "@/components/profileView/script/profile.utility";
+import Cookies from "js-cookie";
+import { getUserById } from "@/api/user";
 
 export default {
   computed: {
     Owner() {
       return new Owner({ email: this.email, id: this.id, name: this.userName });
-    },
+    }
   },
   components: {
     RecentlyVisitedRestaurants,
     UserHeader,
-    FavoritesContainer,
+    FavoritesContainer
   },
   data() {
     return {
-      userName: "William",
-      email: '"villiam1@gmail.com"',
-      id: "619a82f824b6ec0004c9f035",
-      rating: 330,
-      isSwitched: false,
+      userName: Cookies.get("userName"),
+      email: Cookies.get("userEmail"),
+      id: Cookies.get("userId"),
+      rating: 0,
+      isSwitched: false
     };
   },
+  async created() {
+    const userData = await getUserById(Cookies.get("userId"));
+    this.userName = userData.name;
+    this.email = userData.email;
+    this.id = userData.id;
+    this.rating = userData.rating;
+  }
 };
 </script>
 

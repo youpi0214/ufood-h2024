@@ -44,6 +44,7 @@ export const logout = async () => {
       Cookies.remove("token");
       Cookies.remove("userName");
       Cookies.remove("userId");
+      Cookies.remove("userEmail");
       return "Logged out successfully";
     })
     .catch((error) => {
