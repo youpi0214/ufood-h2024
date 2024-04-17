@@ -1,4 +1,5 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
+import Cookies from "js-cookie";
 
 export const getRestaurants = async (options = []) => {
   const queryString = convertQueryOptionsToString(options);
@@ -7,7 +8,8 @@ export const getRestaurants = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    },
+      Authorization: Cookies.get("token")
+    }
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch");
@@ -25,7 +27,8 @@ export const getRestaurantById = async (id) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    },
+      Authorization: Cookies.get("token")
+    }
   })
     .then((response) => {
       if (!response.ok)
@@ -46,7 +49,8 @@ export const getVisitsByRestaurantId = async (id, options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    },
+      Authorization: Cookies.get("token")
+    }
   })
     .then((response) => {
       if (!response.ok)

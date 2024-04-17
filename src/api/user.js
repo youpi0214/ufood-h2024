@@ -1,4 +1,5 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
+import Cookies from "js-cookie";
 
 export const getUsers = async (options = []) => {
   const queryString = convertQueryOptionsToString(options);
@@ -7,6 +8,7 @@ export const getUsers = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
     .then((response) => {
@@ -26,6 +28,7 @@ export const getUserFavoriteLists = async (userId, options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
     .then((response) => {

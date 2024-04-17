@@ -1,4 +1,5 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
+import Cookies from "js-cookie";
 
 export const getUserRestaurantVisits = async (id, options = []) => {
   const queryString = convertQueryOptionsToString(options);
@@ -7,7 +8,8 @@ export const getUserRestaurantVisits = async (id, options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    },
+      Authorization: Cookies.get("token")
+    }
   })
     .then((response) => {
       if (!response.ok)
@@ -27,10 +29,17 @@ export const getUserRestaurantVisitById = async (userId, visitId) => {
   try {
     const response = await fetch(
       `${BASE_URL}/users/${userId}/restaurants/visits/${visitId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Cookies.get("token")
+        }
+      }
     );
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch user restaurant visit with id:${visitId}`,
+        `Failed to fetch user restaurant visit with id:${visitId}`
       );
     }
     const data = await response.json();
@@ -49,9 +58,10 @@ export const createRestaurantVisit = async (userId, visitData) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: Cookies.get("token")
         },
-        body: JSON.stringify(visitData),
-      },
+        body: JSON.stringify(visitData)
+      }
     );
     if (!response.ok) {
       throw new Error("Failed to create restaurant visit");
@@ -65,15 +75,22 @@ export const createRestaurantVisit = async (userId, visitData) => {
 
 export const getRestaurantVisitsByUserAndRestaurant = async (
   userId,
-  restaurantId,
+  restaurantId
 ) => {
   try {
     const response = await fetch(
       `${BASE_URL}/users/${userId}/restaurants/${restaurantId}/visits`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Cookies.get("token")
+        }
+      }
     );
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch restaurant visits for user:${userId} and restaurant:${restaurantId}`,
+        `Failed to fetch restaurant visits for user:${userId} and restaurant:${restaurantId}`
       );
     }
     const data = await response.json();

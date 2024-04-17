@@ -1,17 +1,28 @@
-import {
-  getRestaurantById,
-  getRestaurants,
-  getVisitsByRestaurantId,
-} from "src/api/restaurant.js";
+import { getRestaurantById, getRestaurants } from "src/api/restaurant.js";
 import { RestaurantQueryOptions } from "src/api/api.utility.js";
-import { test, describe, expect } from "vitest";
+import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { login, logout } from "src/api/auth";
+
+const TEST_PASSWORD = "test"; // DON'T Change its value
+const TEST_EMAIL = "testyann@yann.com"; // DON'T Change its value
+const TEST_NAME = "testYann"; // DON'T Change its value
+let token, user;
+
+beforeEach(async () => {
+  [token, user] = await login(TEST_EMAIL, TEST_PASSWORD);
+});
+
+afterEach(async () => {
+  await logout();
+});
 
 describe("getRestaurants", () => {
   test("get restaurants with a limit on the number of restaurant returned ", async () => {
-    const maxNumberOfRestaurants = 130;
+    const maxNumberOfRestaurants = 3;
     const options = [[RestaurantQueryOptions.LIMIT, maxNumberOfRestaurants]];
 
     const [restaurants, _] = await getRestaurants(options);
+    console.log(token, user);
     console.log(restaurants);
 
     expect(restaurants).toBeDefined();
@@ -31,14 +42,14 @@ describe("getRestaurants", () => {
     expect(Array.isArray(restaurants)).toBe(true);
     expect(
       restaurants.every((restaurant) =>
-        restaurantGenre.some((genre) => restaurant.genres.includes(genre)),
-      ),
+        restaurantGenre.some((genre) => restaurant.genres.includes(genre))
+      )
     ).toBe(true);
   });
 
   test(
     "get restaurants with a characters chain query returns only restaurants with that characters chain in their" +
-      " name",
+    " name",
     async () => {
       const restaurantName = "McDonald";
       const options = [[RestaurantQueryOptions.Q, restaurantName]];
@@ -51,10 +62,10 @@ describe("getRestaurants", () => {
       expect(Array.isArray(restaurants)).toBe(true);
       expect(
         restaurants.every((restaurant) =>
-          restaurant.name.includes(restaurantName),
-        ),
+          restaurant.name.includes(restaurantName)
+        )
       ).toBe(true);
-    },
+    }
   );
 
   test("get restaurants with a price range query returns only restaurants with that price range", async () => {
@@ -67,7 +78,7 @@ describe("getRestaurants", () => {
     expect(restaurants.length).toBeGreaterThan(0);
     expect(Array.isArray(restaurants)).toBe(true);
     expect(
-      restaurants.every((restaurant) => restaurant.price_range === priceRange),
+      restaurants.every((restaurant) => restaurant.price_range === priceRange)
     ).toBe(true);
   });
 
@@ -76,7 +87,7 @@ describe("getRestaurants", () => {
     // QC H3N 2B7, Canada
     const options = [
       [RestaurantQueryOptions.LAT, userLocation.lat],
-      [RestaurantQueryOptions.LON, userLocation.lon],
+      [RestaurantQueryOptions.LON, userLocation.lon]
     ];
 
     const [restaurants, _] = await getRestaurants(options);
@@ -89,14 +100,14 @@ describe("getRestaurants", () => {
         return (
           (Math.abs(restaurant.location.coordinates[0] - userLocation.lon) /
             userLocation.lat) *
-            100 <=
-            1 &&
+          100 <=
+          1 &&
           (Math.abs(restaurant.location.coordinates[1] - userLocation.lat) /
             userLocation.lon) *
-            100 <=
-            1
+          100 <=
+          1
         );
-      }),
+      })
     ).toBe(true);
   });
 });

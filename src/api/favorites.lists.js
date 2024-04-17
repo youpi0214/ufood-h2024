@@ -1,4 +1,5 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility";
+import Cookies from "js-cookie";
 
 export const getAllFavoriteLists = async (options = []) => {
   const queryString = convertQueryOptionsToString(options);
@@ -7,7 +8,8 @@ export const getAllFavoriteLists = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    },
+      Authorization: Cookies.get("token")
+    }
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch");
@@ -24,7 +26,8 @@ export const getaSpecificFavoriteList = async (listId) => {
   return await fetch(`${BASE_URL}/favorites/${listId}`, {
     headers: {
       "Content-Type": "application/json",
-    },
+      Authorization: Cookies.get("token")
+    }
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch");
@@ -42,8 +45,9 @@ export const createFavoriteList = async (userEmail, listName) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token")
     },
-    body: JSON.stringify({ name: listName, owner: userEmail }), // in tp3 the owner will be removed
+    body: JSON.stringify({ name: listName })
     //
   })
     .then((response) => {
@@ -58,11 +62,14 @@ export const createFavoriteList = async (userEmail, listName) => {
 };
 
 export const deleteFavoriteList = async (listId) => {
+  console.log("deleteFavoriteList", listId);
+  console.log("Cookies.get(token)", Cookies.get("token"));
   return fetch(`${BASE_URL}/favorites/${listId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-    },
+      Authorization: Cookies.get("token")
+    }
   })
     .then((response) => response.json())
     .catch((error) => console.error("Request failed:", error));
@@ -73,8 +80,9 @@ export const renameFavoriteList = async (listId, newName, userEmail) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token")
     },
-    body: JSON.stringify({ name: newName, owner: userEmail }), // in tp3 the owner will be removed
+    body: JSON.stringify({ name: newName })
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch");
@@ -92,8 +100,9 @@ export const addRestaurantToFavoriteList = async (listId, restaurantId) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token")
     },
-    body: JSON.stringify({ id: restaurantId }),
+    body: JSON.stringify({ id: restaurantId })
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch");
@@ -108,13 +117,14 @@ export const addRestaurantToFavoriteList = async (listId, restaurantId) => {
 
 export const removeRestaurantFromFavoriteList = async (
   listId,
-  restaurantId,
+  restaurantId
 ) => {
   return fetch(`${BASE_URL}/favorites/${listId}/restaurants/${restaurantId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-    },
+      Authorization: Cookies.get("token")
+    }
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch");

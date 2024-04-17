@@ -1,5 +1,5 @@
 import { getTokenInfo, login, logout, signup } from "src/api/auth.js";
-import { test, describe, expect } from "vitest";
+import { describe, expect, test } from "vitest";
 
 const TEST_PASSWORD = "test"; // DON'T Change its value
 const TEST_EMAIL = "testyann@yann.com"; // DON'T Change its value
@@ -7,7 +7,7 @@ const TEST_NAME = "testYann"; // DON'T Change its value
 
 describe("login", () => {
   test("logs in a user", async () => {
-    const user = await login(TEST_EMAIL, TEST_PASSWORD); // attributes: email, name, token, id, followers [], following [], rating
+    const [token, user] = await login(TEST_EMAIL, TEST_PASSWORD); // attributes: email, name, token, id, followers [], following [], rating
 
     console.log(user);
 
