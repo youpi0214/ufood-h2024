@@ -1,5 +1,6 @@
-const useUnsecureEndpoint = true;
-export const BASE_URL = "https://ufoodapi.herokuapp.com" + (useUnsecureEndpoint ? "/unsecure" : "");
+const useUnsecureEndpoint = false;
+export const BASE_URL =
+  "https://ufoodapi.herokuapp.com" + (useUnsecureEndpoint ? "/unsecure" : "");
 
 export const RestaurantQueryOptions = {
   LIMIT: "limit",
@@ -8,13 +9,13 @@ export const RestaurantQueryOptions = {
   GENRES: "genres",
   PRICE_RANGE: "price_range",
   LON: "lon",
-  LAT: "lat"
+  LAT: "lat",
 };
 
 export const KEY = 0,
   VALUE = 1;
 
-export const convertQueryOptionsToString = function(options) {
+export const convertQueryOptionsToString = function (options) {
   let optionsResult = "";
   let index = 0;
 

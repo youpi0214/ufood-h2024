@@ -1,6 +1,6 @@
 <template>
   <div class="placement">
-    <LoginForm />
+    <LoginForm @user-login="handleLogin" />
   </div>
 </template>
 <script>
@@ -8,8 +8,12 @@ import LoginForm from "@/components/authenticationView/LoginForm.vue";
 
 export default {
   name: "Authentication",
-  components: { LoginForm }
-
+  components: { LoginForm },
+  methods: {
+    handleLogin(userName) {
+      this.$emit("user-login", userName);
+    },
+  },
 };
 </script>
 <style scoped>
