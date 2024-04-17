@@ -7,6 +7,7 @@
 
 <script>
 import TopBar from "@/components/TopBar.vue";
+import Cookies from "js-cookie";
 
 export default {
   name: "App",
@@ -16,13 +17,13 @@ export default {
   data() {
     return {
       userName: "",
-      isLoggedIn: true
+      isLoggedIn: !!Cookies.get("token")
     };
   },
   methods: {
-    handleUserLogin(userName, isLoggedIn) {
+    handleUserLogin(userName) {
       this.userName = userName;
-      this.isLoggedIn = isLoggedIn;
+      this.isLoggedIn = !!Cookies.get("token");
     },
     handleUserLogout() {
       this.userName = "";

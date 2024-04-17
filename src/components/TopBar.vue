@@ -55,7 +55,7 @@
           style="flex: 1; display: flex; justify-content: right"
         >
           <!--    TODO V-if connected (token exist)      -->
-          <div v-if="shown" class="user-info">
+          <div v-if="isLoggedIn" class="user-info">
             <!-- TODO  display User name     -->
             <span class="user-name">{{ displayedName }}</span>
             <button @click="toggleDropdown" class="icon-button">
@@ -105,10 +105,6 @@ export default {
   computed: {
     displayedName() {
       return this.name ? this.name : this.userName;
-    },
-    shown() {
-      // this is to prevent the username from being displayed when the user is not logged in
-      return this.isLoggedIn && Cookies.get("token");
     }
   },
   methods: {

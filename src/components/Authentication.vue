@@ -1,6 +1,6 @@
 <template>
   <div class="placement">
-    <LoginForm @userLogin="handleLogin" />
+    <LoginForm @user-login="handleLogin" />
   </div>
 </template>
 <script>
@@ -10,8 +10,8 @@ export default {
   name: "Authentication",
   components: { LoginForm },
   methods: {
-    handleLogin(userName, isLoggedIn) {
-      this.$emit("user-login", userName, isLoggedIn);
+    handleLogin(userName) {
+      this.$emit("user-login", userName);
     },
   },
 };
