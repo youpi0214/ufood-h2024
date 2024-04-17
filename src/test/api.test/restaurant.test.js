@@ -42,14 +42,14 @@ describe("getRestaurants", () => {
     expect(Array.isArray(restaurants)).toBe(true);
     expect(
       restaurants.every((restaurant) =>
-        restaurantGenre.some((genre) => restaurant.genres.includes(genre))
-      )
+        restaurantGenre.some((genre) => restaurant.genres.includes(genre)),
+      ),
     ).toBe(true);
   });
 
   test(
     "get restaurants with a characters chain query returns only restaurants with that characters chain in their" +
-    " name",
+      " name",
     async () => {
       const restaurantName = "McDonald";
       const options = [[RestaurantQueryOptions.Q, restaurantName]];
@@ -62,10 +62,10 @@ describe("getRestaurants", () => {
       expect(Array.isArray(restaurants)).toBe(true);
       expect(
         restaurants.every((restaurant) =>
-          restaurant.name.includes(restaurantName)
-        )
+          restaurant.name.includes(restaurantName),
+        ),
       ).toBe(true);
-    }
+    },
   );
 
   test("get restaurants with a price range query returns only restaurants with that price range", async () => {
@@ -78,7 +78,7 @@ describe("getRestaurants", () => {
     expect(restaurants.length).toBeGreaterThan(0);
     expect(Array.isArray(restaurants)).toBe(true);
     expect(
-      restaurants.every((restaurant) => restaurant.price_range === priceRange)
+      restaurants.every((restaurant) => restaurant.price_range === priceRange),
     ).toBe(true);
   });
 
@@ -87,7 +87,7 @@ describe("getRestaurants", () => {
     // QC H3N 2B7, Canada
     const options = [
       [RestaurantQueryOptions.LAT, userLocation.lat],
-      [RestaurantQueryOptions.LON, userLocation.lon]
+      [RestaurantQueryOptions.LON, userLocation.lon],
     ];
 
     const [restaurants, _] = await getRestaurants(options);
@@ -100,14 +100,14 @@ describe("getRestaurants", () => {
         return (
           (Math.abs(restaurant.location.coordinates[0] - userLocation.lon) /
             userLocation.lat) *
-          100 <=
-          1 &&
+            100 <=
+            1 &&
           (Math.abs(restaurant.location.coordinates[1] - userLocation.lat) /
             userLocation.lon) *
-          100 <=
-          1
+            100 <=
+            1
         );
-      })
+      }),
     ).toBe(true);
   });
 });

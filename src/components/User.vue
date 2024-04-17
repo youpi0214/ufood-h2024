@@ -22,12 +22,12 @@ export default {
   computed: {
     Owner() {
       return new Owner({ email: this.email, id: this.id, name: this.userName });
-    }
+    },
   },
   components: {
     RecentlyVisitedRestaurants,
     UserHeader,
-    FavoritesContainer
+    FavoritesContainer,
   },
   data() {
     return {
@@ -35,7 +35,7 @@ export default {
       email: Cookies.get("userEmail"),
       id: Cookies.get("userId"),
       rating: 0,
-      isSwitched: false
+      isSwitched: false,
     };
   },
   async created() {
@@ -44,7 +44,7 @@ export default {
     this.email = userData.email;
     this.id = userData.id;
     this.rating = userData.rating;
-  }
+  },
 };
 </script>
 

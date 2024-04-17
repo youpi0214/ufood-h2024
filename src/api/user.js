@@ -8,8 +8,8 @@ export const getUsers = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
     .then(async (response) => {
       if (!response.ok) {
@@ -30,8 +30,8 @@ export const getUserFavoriteLists = async (userId, options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
     .then(async (response) => {
       if (!response.ok) {
@@ -51,8 +51,8 @@ export const getUserById = async (userId) => {
   return fetch(`${BASE_URL}/users/${userId}`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
     .then(async (response) => {
       if (!response.ok) {
@@ -73,9 +73,9 @@ export const followUser = async (userId) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
+      Authorization: Cookies.get("token"),
     },
-    body: JSON.stringify({ id: userId })
+    body: JSON.stringify({ id: userId }),
   })
     .then(async (response) => {
       if (!response.ok) {
@@ -96,11 +96,10 @@ export const unfollowUser = async (userId) => {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
     .then(async (response) => {
-
       if (!response.ok) {
         let errorResponse = await response.json();
         throw new Error(errorResponse.message);
@@ -109,7 +108,6 @@ export const unfollowUser = async (userId) => {
       return response.json();
     })
     .then((userData) => {
-
       return userData[0]; // object { email, id, name, followers, following, rating }
     })
     .catch((error) => console.error("Request failed:", error));

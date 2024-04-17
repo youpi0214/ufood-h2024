@@ -8,12 +8,14 @@ export const getUserRestaurantVisits = async (id, options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
-    .then((response) => {
-      if (!response.ok)
-        throw new Error("Failed to fetch user restaurant visits");
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
 
       return response.json();
     })
@@ -33,14 +35,13 @@ export const getUserRestaurantVisitById = async (userId, visitId) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: Cookies.get("token")
-        }
-      }
+          Authorization: Cookies.get("token"),
+        },
+      },
     );
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch user restaurant visit with id:${visitId}`
-      );
+      let errorResponse = await response.json();
+      throw new Error(errorResponse.message);
     }
     const data = await response.json();
     return [data.items, data.total];
@@ -58,13 +59,14 @@ export const createRestaurantVisit = async (userId, visitData) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: Cookies.get("token")
+          Authorization: Cookies.get("token"),
         },
-        body: JSON.stringify(visitData)
-      }
+        body: JSON.stringify(visitData),
+      },
     );
     if (!response.ok) {
-      throw new Error("Failed to create restaurant visit");
+      let errorResponse = await response.json();
+      throw new Error(errorResponse.message);
     }
     return await response.json();
   } catch (error) {
@@ -75,7 +77,7 @@ export const createRestaurantVisit = async (userId, visitData) => {
 
 export const getRestaurantVisitsByUserAndRestaurant = async (
   userId,
-  restaurantId
+  restaurantId,
 ) => {
   try {
     const response = await fetch(
@@ -84,14 +86,13 @@ export const getRestaurantVisitsByUserAndRestaurant = async (
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: Cookies.get("token")
-        }
-      }
+          Authorization: Cookies.get("token"),
+        },
+      },
     );
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch restaurant visits for user:${userId} and restaurant:${restaurantId}`
-      );
+      let errorResponse = await response.json();
+      throw new Error(errorResponse.message);
     }
     const data = await response.json();
     return [data.items, data.total];

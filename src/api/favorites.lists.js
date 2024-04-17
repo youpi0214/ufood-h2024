@@ -8,12 +8,14 @@ export const getAllFavoriteLists = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -26,12 +28,14 @@ export const getaSpecificFavoriteList = async (listId) => {
   return await fetch(`${BASE_URL}/favorites/${listId}`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -45,14 +49,16 @@ export const createFavoriteList = async (userEmail, listName) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
+      Authorization: Cookies.get("token"),
     },
-    body: JSON.stringify({ name: listName })
+    body: JSON.stringify({ name: listName }),
     //
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -62,16 +68,20 @@ export const createFavoriteList = async (userEmail, listName) => {
 };
 
 export const deleteFavoriteList = async (listId) => {
-  console.log("deleteFavoriteList", listId);
-  console.log("Cookies.get(token)", Cookies.get("token"));
   return fetch(`${BASE_URL}/favorites/${listId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
-    .then((response) => response.json())
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+      return response.json();
+    })
     .catch((error) => console.error("Request failed:", error));
 };
 
@@ -80,13 +90,15 @@ export const renameFavoriteList = async (listId, newName, userEmail) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
+      Authorization: Cookies.get("token"),
     },
-    body: JSON.stringify({ name: newName })
+    body: JSON.stringify({ name: newName }),
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -100,13 +112,15 @@ export const addRestaurantToFavoriteList = async (listId, restaurantId) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
+      Authorization: Cookies.get("token"),
     },
-    body: JSON.stringify({ id: restaurantId })
+    body: JSON.stringify({ id: restaurantId }),
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -117,18 +131,20 @@ export const addRestaurantToFavoriteList = async (listId, restaurantId) => {
 
 export const removeRestaurantFromFavoriteList = async (
   listId,
-  restaurantId
+  restaurantId,
 ) => {
   return fetch(`${BASE_URL}/favorites/${listId}/restaurants/${restaurantId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Cookies.get("token")
-    }
+      Authorization: Cookies.get("token"),
+    },
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
