@@ -230,7 +230,6 @@ export default {
   async created() {
     await this.setSelectedFilters({ price: "", category: "" });
     await this.loadMoreRestaurants();
-    console.log(this.getAllRestaurants());
     this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {

@@ -8,7 +8,7 @@ async function makeApiRequest(path, options) {
     .then((response) => {
       if (!response.ok)
         throw new Error(
-          `HTTP status ${response.status}: ${response.statusText}`,
+          `HTTP status ${response.status}: ${response.statusText}`
         );
       return response.json();
     })
@@ -23,31 +23,32 @@ export const login = async (email, password) => {
   try {
     const user = await makeApiRequest("/login", {
       method: "POST",
-      body: new URLSearchParams({ email, password }),
+      body: new URLSearchParams({ email, password })
     });
-    // Setting secure cookie attributes
-    Cookies.set("token", user.token, {
-      expires: 7,
-      secure: true,
-      sameSite: "strict",
-    });
-    return user;
+
+    return [user.token, { name: user.name, email: user.email, id: user.id }];
   } catch (error) {
-    console.error("Login error:", error);
     throw error;
   }
 };
 
 //User logout
 export const logout = async () => {
-  try {
-    await makeApiRequest("/logout", { method: "POST" });
-    Cookies.remove("token", { secure: true, sameSite: "strict" });
-    return "Successfully logged out";
-  } catch (error) {
-    console.error("Logout error:", error);
-    throw error;
-  }
+  return fetch(`${BASE_URL}/logout`, {
+    method: "POST",
+    headers: { Authorization: Cookies.get("token") }
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to log out");
+
+      Cookies.remove("token");
+      Cookies.remove("userName");
+      Cookies.remove("userId");
+      return "Logged out successfully";
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 // User registration
@@ -55,10 +56,9 @@ export const signup = async (name, email, password) => {
   try {
     return await makeApiRequest("/signup", {
       method: "POST",
-      body: new URLSearchParams({ name, email, password }),
+      body: new URLSearchParams({ name, email, password })
     });
   } catch (error) {
-    console.error("Registration error:", error);
     throw error;
   }
 };
@@ -68,10 +68,9 @@ export const getTokenInfo = async (token) => {
   try {
     return await makeApiRequest("/tokenInfo", {
       method: "GET",
-      headers: { Authorization: token },
+      headers: { Authorization: token }
     });
   } catch (error) {
-    console.error("Token info retrieval error:", error);
     throw error;
   }
 };

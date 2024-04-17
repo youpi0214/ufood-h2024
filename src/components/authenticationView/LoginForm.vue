@@ -52,7 +52,7 @@
                         @change="validateEmail"
                       />
                       <label class="form-label" for="floatingEmail"
-                        >Email address</label
+                      >Email address</label
                       >
                     </div>
 
@@ -67,7 +67,7 @@
                         @change="validatePassword"
                       />
                       <label class="form-label" for="floatingPassword"
-                        >Password</label
+                      >Password</label
                       >
                     </div>
 
@@ -100,17 +100,17 @@
                         class="form-link"
                         style="color: #ff3434"
                         @click="register"
-                        >Register here</a
+                      >Register here</a
                       >
                       <br /><br />
                       <a v-if="failedLogin" style="color: #ff3434"
-                        >Email and password combination is invalid!</a
+                      >Email and password combination is invalid!</a
                       >
                     </p>
                     <p v-else class="mb-5 pb-lg-2" style="color: black">
                       Already have an account?
                       <a class="form-link" style="color: #ff3434" @click="login"
-                        >Login here</a
+                      >Login here</a
                       >
                     </p>
                   </form>
@@ -125,24 +125,23 @@
 </template>
 <script>
 import { router } from "@/router/router";
-//TODO (for Hiba) use this router to programmatically redirect the user to the home page after successful login
-
-import Cookies from "js-cookie";
 import { login as apiLogin, signup as apiSignup } from "@/api/auth.js";
+import Cookies from "js-cookie";
+
 export default {
   name: "LoginForm",
   props: {
     registerForm: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   computed: {
     formTitle() {
       return this.registering
         ? "Create your account"
         : "Sign into your account";
-    },
+    }
   },
   data() {
     return {
@@ -153,35 +152,40 @@ export default {
       failedLogin: false,
       invalidEmail: false,
       invalidName: false,
-      invalidPassword: false,
+      invalidPassword: false
     };
   },
   methods: {
+    setUserInfo(user) {
+      Cookies.set("userName", user.name, {
+        expires: 7
+      });
+      Cookies.set("userId", user.id, {
+        expires: 7
+      });
+    },
     async login() {
       if (!this.registering) {
         this.validateForm();
         if (this.invalidEmail || this.invalidPassword) {
-          console.log("Form is invalid");
           return;
         }
         try {
-          const user = await apiLogin(this.email, this.password);
-          Cookies.set("token", user.token, { expires: 7 });
-          console.log("Login successful", user);
-          router.push({ name: "Home" }); // Adjust to your home route name
+          const result = await apiLogin(this.email, this.password);
+          const [token, user] = result;
+          Cookies.set("token", token, {
+            expires: 7
+          });
+          this.setUserInfo(user);
+
+          await router.push({ name: "Home" });
         } catch (error) {
-          console.error("Login failed:", error);
           this.failedLogin = true;
         }
       } else {
         this.registering = false;
         this.resetForm();
       }
-    },
-    logout() {
-      Cookies.remove("token");
-      router.push({ name: "Login" });
-      console.log("Logout successful");
     },
     async register() {
       if (this.registering) {
@@ -192,10 +196,8 @@ export default {
         }
         try {
           const newUser = await apiSignup(this.name, this.email, this.password);
-          Cookies.set("token", newUser.token, { expires: 7 });
-          console.log("Registration successful", newUser);
           this.registering = false;
-          await router.push({ path: "/auth" });
+          await router.push({ name: "Authentication" });
         } catch (error) {
           console.error("Registration failed:", error);
         }
@@ -227,8 +229,9 @@ export default {
       this.invalidEmail = false;
       this.invalidName = false;
       this.invalidPassword = false;
-    },
+    }
   },
+
 };
 </script>
 

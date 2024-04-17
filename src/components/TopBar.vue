@@ -55,9 +55,9 @@
           style="flex: 1; display: flex; justify-content: right"
         >
           <!--    TODO V-if connected (token exist)      -->
-          <div class="user-info">
+          <div v-if="isLoggedIn" class="user-info">
             <!-- TODO  display User name     -->
-            <span class="user-name"></span>
+            <span class="user-name">{{ userName }}</span>
             <button @click="toggleDropdown" class="icon-button">
               <i class="fas fa-user text-white"></i>
             </button>
@@ -74,7 +74,7 @@
           </div>
 
           <!--    TODO V-else not connected (token does not exist)      -->
-          <router-link to="/auth">
+          <router-link v-else to="/auth">
             <button class="icon-button">
               <i class="fas fa-user text-white"></i>
             </button>
@@ -86,12 +86,21 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { router } from "@/router/router";
+import { logout as apiLogout } from "@/api/auth.js";
+import Cookies from "js-cookie";
 
 export default {
   name: "TopBar",
+  computed: {
+    isLoggedIn() {
+      return !!Cookies.get("token");
+    },
+    userName() {
+      return Cookies.get("userName");
+    },
+  },
   methods: {
-    ...mapActions(["logout"]), // Vuex logout action
     getImage() {
       if (window.innerWidth < 800) {
         return require("/src/assets/logo/ufood-white-mobile.png");
@@ -104,8 +113,8 @@ export default {
     },
     async logout() {
       try {
-        await this.logout();
-        this.$router.push("/auth");
+        await apiLogout();
+        await router.push({ name: "Authentication" });
       } catch (error) {
         console.error("Logout failed:", error);
       }
@@ -116,6 +125,7 @@ export default {
       showDropdown: false,
     };
   },
+
 };
 </script>
 
