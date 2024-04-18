@@ -23,7 +23,7 @@ const routes = [
   {
     path: "/auth",
     name: "Authentication",
-    component: Authentication, // TODO add condional rendering, Authentication when not logged in, Home when logged in
+    component: Authentication,
   },
 ];
 

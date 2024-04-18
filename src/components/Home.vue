@@ -95,6 +95,7 @@ import { generateRestaurantFetchOptions } from "@/components/homeView/script/hom
 import MapView from "@/components/restaurantView/map/MapView.vue";
 import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import RestaurantFilter from "@/components/homeView/RestaurantFilter.vue";
+import Cookies from "js-cookie";
 
 export default {
   components: {
@@ -225,7 +226,6 @@ export default {
   async created() {
     await this.setSelectedFilters({ price: "", category: "" });
     await this.loadMoreRestaurants();
-    console.log(this.getAllRestaurants());
     this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {

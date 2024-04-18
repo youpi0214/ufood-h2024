@@ -62,9 +62,10 @@
           id="profile"
           style="flex: 1; display: flex; justify-content: right"
         >
-          <div class="user-info">
-            <span class="user-name"></span>
-            <!-- TODO  User name     -->
+          <!--    TODO V-if connected (token exist)      -->
+          <div v-if="isLoggedIn" class="user-info">
+            <!-- TODO  display User name     -->
+            <span class="user-name">{{ displayedName }}</span>
             <button @click="toggleDropdown" class="icon-button">
               <i class="fas fa-user text-white"></i>
             </button>
@@ -76,15 +77,16 @@
               <router-link to="/user" class="dropdown-item"
                 >Profile
               </router-link>
-              <a class="dropdown-item">Log out</a>
+              <a class="dropdown-item" @click="logout">Log out</a>
             </div>
           </div>
 
-          <!--          <router-link to="/auth">-->
-          <!--            <button class="icon-button">-->
-          <!--              <i class="fas fa-user text-white"></i>-->
-          <!--            </button>-->
-          <!--          </router-link>-->
+          <!--    TODO V-else not connected (token does not exist)      -->
+          <router-link v-else to="/auth">
+            <button class="icon-button">
+              <i class="fas fa-user text-white"></i>
+            </button>
+          </router-link>
         </div>
       </div>
     </nav>
@@ -92,11 +94,26 @@
 </template>
 
 <script>
-import { store } from "./store.js";
+import { router } from "@/router/router";
+import { logout as apiLogout } from "@/api/auth.js";
+import Cookies from "js-cookie";
 
 export default {
   name: "TopBar",
+  props: {
+    userName: {
+      type: String,
+      default: Cookies.get("userName"),
+    },
+    isLoggedIn: {
+      type: Boolean,
+      default: true,
+    },
+  },
   computed: {
+    displayedName() {
+      return this.name ? this.name : this.userName;
+    },
     isSidebarOpen() {
       return store.state.isSidebarOpen;
     },
@@ -108,6 +125,7 @@ export default {
       imageLarge: require("/src/assets/logo/ufood-white.png"),
       imageSmall: require("/src/assets/logo/ufood-white-mobile.png"),
       imageSrc: "",
+      name: "",
     };
   },
   methods: {
@@ -121,8 +139,18 @@ export default {
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
     },
+    async logout() {
+      try {
+        await apiLogout();
+        this.$emit("user-logout");
+        await router.push({ name: "Authentication" });
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    },
   },
   mounted() {
+    // this helps restore the username when the page is refreshed
     this.setImageSrc();
     window.addEventListener("resize", this.setImageSrc);
   },

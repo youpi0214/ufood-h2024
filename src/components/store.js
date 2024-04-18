@@ -23,7 +23,6 @@ const store = createStore({
     },
   },
   actions: {
-    // Action to open the sidebar
     changeSideBarState({ commit }) {
       commit("changeSideBarState");
     },

@@ -1,4 +1,5 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility";
+import Cookies from "js-cookie";
 
 export const getAllFavoriteLists = async (options = []) => {
   const queryString = convertQueryOptionsToString(options);
@@ -7,11 +8,14 @@ export const getAllFavoriteLists = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -24,11 +28,14 @@ export const getaSpecificFavoriteList = async (listId) => {
   return await fetch(`${BASE_URL}/favorites/${listId}`, {
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -42,13 +49,16 @@ export const createFavoriteList = async (userEmail, listName) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
-    body: JSON.stringify({ name: listName, owner: userEmail }), // in tp3 the owner will be removed
+    body: JSON.stringify({ name: listName }),
     //
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -62,9 +72,16 @@ export const deleteFavoriteList = async (listId) => {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => response.json())
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+      return response.json();
+    })
     .catch((error) => console.error("Request failed:", error));
 };
 
@@ -73,12 +90,15 @@ export const renameFavoriteList = async (listId, newName, userEmail) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
-    body: JSON.stringify({ name: newName, owner: userEmail }), // in tp3 the owner will be removed
+    body: JSON.stringify({ name: newName }),
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -92,12 +112,15 @@ export const addRestaurantToFavoriteList = async (listId, restaurantId) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
     body: JSON.stringify({ id: restaurantId }),
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -114,11 +137,14 @@ export const removeRestaurantFromFavoriteList = async (
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
