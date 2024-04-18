@@ -18,7 +18,6 @@
                 width="100%"
                 style="object-fit: contain"
                 height="60rem"
-                @contextmenu.prevent
               />
             </a>
           </router-link>

@@ -61,7 +61,7 @@ export default {
         container: this.$refs.mapElement,
         center: this.homePage ? this.currentPosition : this.centeredPosition,
         style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
-        zoom: this.homePage ? 8 : 15,
+        zoom: this.homePage ? 12 : 15,
       });
       if (this.homePage) {
         this.map.on("idle", async () => {
@@ -70,7 +70,14 @@ export default {
           );
           this.displayRestaurantsMarkers(restaurants);
         });
-        this.map.addControl(new mapboxgl.NavigationControl());
+        this.map
+          .addControl(
+            new mapboxgl.ScaleControl({
+              maxWidth: 80,
+              unit: "metric",
+            }),
+          )
+          .addControl(new mapboxgl.NavigationControl(), 'bottom-right');
       } else {
         new mapboxgl.Marker({ color: "red" })
           .setLngLat(this.centeredPosition)
