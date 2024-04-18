@@ -1,7 +1,4 @@
-import {
-  BASE_URL,
-  convertQueryOptionsToString
-} from "./api.utility.js";
+import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
 
 export const getRestaurants = async (options = []) => {
   const queryString = convertQueryOptionsToString(options);
@@ -9,8 +6,8 @@ export const getRestaurants = async (options = []) => {
   return fetch(`${BASE_URL}/restaurants${queryString}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   })
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch");
@@ -27,8 +24,8 @@ export const getRestaurantById = async (id) => {
   return fetch(`${BASE_URL}/restaurants/${id}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   })
     .then((response) => {
       if (!response.ok)
@@ -48,8 +45,8 @@ export const getVisitsByRestaurantId = async (id, options = []) => {
   return fetch(`${BASE_URL}/restaurants/${id}/visits${queryString}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   })
     .then((response) => {
       if (!response.ok)
@@ -68,8 +65,8 @@ export async function getRestaurantsByUserLocation(options = []) {
   return fetch(`${BASE_URL}/restaurants${queryString}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   })
     .then((response) => {
       if (!response.ok) throw new Error(`Failed to fetch restaurants around `);
@@ -78,7 +75,7 @@ export async function getRestaurantsByUserLocation(options = []) {
     .then((restaurantsAroundUserLocation) => {
       return [
         restaurantsAroundUserLocation.items,
-        restaurantsAroundUserLocation.total
+        restaurantsAroundUserLocation.total,
       ];
     })
     .catch((error) => console.error("Request failed:", error));

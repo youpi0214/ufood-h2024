@@ -21,7 +21,7 @@
         :style="{
           width: $refs.searchInput.offsetWidth + 'px',
           left: $refs.searchInput.offsetLeft + 'px',
-          top: $refs.searchInput.offsetHeight + 'px'
+          top: $refs.searchInput.offsetHeight + 'px',
         }"
         @click="handleClickInside"
       >

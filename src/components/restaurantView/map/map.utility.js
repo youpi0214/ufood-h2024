@@ -64,7 +64,7 @@ async function removeRoute(restaurantLocation, map) {
     center: restaurantLocation,
     zoom: 15,
     essential: true,
-    duration: 2000,
+    duration: 3000,
   });
 }
 
@@ -94,5 +94,24 @@ async function getAllRestaurants(options) {
 
   return [allRestaurantChunks, total];
 }
+
+// function showRestaurants(restaurants, restaurantMarkers = [], map) {
+//   if (restaurantMarkers.length > 0) {
+//     for (let i = restaurantMarkers.length-1; i >= 0; i--) {
+//       restaurantMarkers[i].remove();
+//       restaurantMarkers.shift();
+//     }
+//   }
+//   for (let i = 0; i < restaurants.length; i++) {
+//     let marker;
+//     restaurants.forEach((restaurant) =>
+//       marker = new mapboxgl.Marker({ color: "red" })
+//         .setLngLat(restaurant.location.coordinates)
+//         .addTo(map),
+//     );
+//     restaurantMarkers.push(marker)
+//   }
+//   return [restaurantMarkers, map];
+// }
 
 export { getRoute, removeRoute };
