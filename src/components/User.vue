@@ -2,7 +2,7 @@
   <div class="container-xl main-content">
     <div class="col-md-auto">
       <div class="profile-info">
-        <UserHeader :userName="userName" :rating="rating" :id="id" />
+        <UserHeader v-if="dataRecieved" :userName="userName" :rating="rating" :id="id"/>
         <div class="follow-info">
           <div class="follow-section" @click="showFollowersPopup">
             <h2>Followers</h2>
@@ -14,8 +14,8 @@
       </div>
     </div>
     <div class="accordion" id="accordionExample">
-      <RecentlyVisitedRestaurants :id="id" />
-      <FavoritesContainer :owner="Owner" />
+      <RecentlyVisitedRestaurants v-if="dataRecieved" :id="id"/>
+      <FavoritesContainer v-if="dataRecieved" :userEmail="this.email" :userId="id"/>
     </div>
     <div v-if="showPopup" class="popup">
       <div class="popup-content">
@@ -34,16 +34,12 @@
 import UserHeader from "@/components/profileView/UserHeader.vue";
 import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
 import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
-import { Owner } from "@/components/profileView/script/profile.utility";
 import Cookies from "js-cookie";
-import { getUserById } from "@/api/user";
+import {getUserById} from "@/api/user";
+
 
 export default {
-  computed: {
-    Owner() {
-      return new Owner({ email: this.email, id: this.id, name: this.userName });
-    },
-  },
+  computed: {},
   components: {
     RecentlyVisitedRestaurants,
     UserHeader,
@@ -60,16 +56,9 @@ export default {
       showPopup: false,
       popupTitle: "",
       popupList: [],
+      dataRecieved: false,
+
     };
-  },
-  async created() {
-    try {
-      const userData = await getUserById(Cookies.get("userId"));
-      this.followers = userData.followers;
-      this.following = userData.following;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
   },
   methods: {
     showFollowersPopup() {
@@ -85,7 +74,28 @@ export default {
     hidePopup() {
       this.showPopup = false;
     },
+    async getUserInfo(userId) {
+      try {
+        const userData = await getUserById(userId);
+        this.userName = userData.name;
+        this.email = userData.email;
+        this.id = userData.id;
+        this.rating = userData.rating;
+        this.dataRecieved = true;
+
+      } catch (error) {
+        console.error("Error getting user...");
+      }
+    }
   },
+  created() {
+    this.getUserInfo(this.$route.params.userId)
+  },
+  beforeRouteUpdate(to, from) {
+    this.dataRecieved = false;
+    console.log(to.params.userId)
+    this.getUserInfo(to.params.userId);
+  }
 };
 </script>
 

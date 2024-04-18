@@ -57,16 +57,14 @@
           <!--    TODO V-if connected (token exist)      -->
           <div v-if="isLoggedIn" class="user-info">
             <!-- TODO  display User name     -->
-            <span class="user-name">{{ displayedName }}</span>
-            <button @click="toggleDropdown" class="icon-button">
-              <i class="fas fa-user text-white"></i>
-            </button>
+            <span @click="toggleDropdown" class="user-name">{{ displayedName }}</span>
+
             <div
               v-show="showDropdown"
               class="dropdown-menu"
               @click="showDropdown = false"
             >
-              <router-link to="/user" class="dropdown-item"
+              <router-link :to="`/user/${userId}`"  class="dropdown-item"
                 >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
@@ -132,6 +130,7 @@ export default {
     return {
       showDropdown: false,
       name: "",
+      userId: Cookies.get('userId')
     };
   },
   mounted() {
