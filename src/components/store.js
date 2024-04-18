@@ -4,10 +4,10 @@ const store = createStore({
   state: {
     selectedFilters: {
       price: "",
-      category: ""
+      category: "",
     },
     isSidebarOpen: false,
-    restaurants: []
+    restaurants: [],
   },
   mutations: {
     changeSideBarState(state) {
@@ -20,21 +20,20 @@ const store = createStore({
     },
     updateRestaurant(state, newRestaurants) {
       state.restaurants = newRestaurants;
-    }
+    },
   },
   actions: {
-    // Action to open the sidebar
     changeSideBarState({ commit }) {
       commit("changeSideBarState");
     },
     setSelectedFilters({ commit }, filters) {
       commit("setSelectedFilters", filters);
-    }
+    },
   },
   getters: {
     selectedFilters: (state) => state.selectedFilters,
-    isSidebarOpen: (state) => state.isSidebarOpen
-  }
+    isSidebarOpen: (state) => state.isSidebarOpen,
+  },
 });
 
 export default store;
