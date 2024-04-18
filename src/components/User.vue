@@ -168,14 +168,14 @@ export default {
 
 .popup-content {
   background-color: #fff;
-  padding: 50px;
+  padding: 80px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
 .popup-content h2 {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   color: #ff5555;
 }
 
@@ -226,6 +226,13 @@ export default {
   .follow-section {
     margin-right: 0;
     margin-bottom: 0.5rem;
+  }
+  .popup-content {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
   }
 }
 </style>
