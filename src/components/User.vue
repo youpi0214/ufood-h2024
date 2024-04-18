@@ -1,17 +1,21 @@
 <template>
   <div class="container-xl main-content">
     <div class="col-md-auto">
-      <UserHeader :userName="userName" :rating="rating" :id="id" />
+      <div class="profile-info">
+        <UserHeader :userName="userName" :rating="rating" :id="id" />
+        <div class="follow-info">
+          <div class="follow-section" @click="showFollowersPopup">
+            <h2>Followers</h2>
+          </div>
+          <div class="follow-section" @click="showFollowingPopup">
+            <h2>Following</h2>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="accordion" id="accordionExample">
       <RecentlyVisitedRestaurants :id="id" />
       <FavoritesContainer :owner="Owner" />
-      <div class="section" @click="showFollowersPopup">
-        <h2>Followers</h2>
-      </div>
-      <div class="section" @click="showFollowingPopup">
-        <h2>Following</h2>
-      </div>
     </div>
     <div v-if="showPopup" class="popup">
       <div class="popup-content">
@@ -92,18 +96,32 @@ export default {
   font-family: Arial, sans-serif;
 }
 
+.profile-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.follow-info {
+  display: flex;
+}
+
+.follow-section {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.follow-section h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.follow-section:hover h2 {
+  color: #ff5555;
+}
+
 .accordion {
   margin-top: 1rem;
-}
-
-.section {
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #ddd;
-}
-
-.section:hover {
-  background-color: #f5f5f5;
 }
 
 .popup {
@@ -120,7 +138,7 @@ export default {
 
 .popup-content {
   background-color: #fff;
-  padding: 20px;
+  padding: 50px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -128,6 +146,7 @@ export default {
 
 .popup-content h2 {
   margin-bottom: 10px;
+  color: #ff5555;
 }
 
 .popup ul {
@@ -142,7 +161,7 @@ export default {
   cursor: pointer;
   font-size: 20px;
   color: #888;
-  z-index: 100; /* Ensure the close icon appears on top */
+  z-index: 100;
 }
 
 .close-icon:hover {
