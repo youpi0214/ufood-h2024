@@ -73,45 +73,26 @@ export async function getAllRestaurantsByUserLocation(currentPosition) {
     [RestaurantQueryOptions.LON, currentPosition[0]],
     [RestaurantQueryOptions.LAT, currentPosition[1]],
   ];
-  const [allRestaurants, total] = await getAllRestaurants(options);
+  const [allRestaurants, total] = await fetchRestaurantsByLocation(options);
 
   return [allRestaurants, total];
 }
 
-async function getAllRestaurants(options) {
+async function fetchRestaurantsByLocation(options) {
   const restaurantsPerPage = 10;
   const [_, total] = await getRestaurantsByUserLocation(options);
   const totalPages = Math.ceil(total / restaurantsPerPage);
-  const allRestaurantChunks = [];
+  const listOfRestaurants = [];
 
-  for (let page = 0; page <= totalPages; page++) {
+  for (let page = 0; page < totalPages; page++) {
     const [restaurantsPerPage] = await getRestaurantsByUserLocation([
       ...options,
       ["page", page],
     ]);
-    allRestaurantChunks.push(...restaurantsPerPage);
+    listOfRestaurants.push(...restaurantsPerPage);
   }
 
-  return [allRestaurantChunks, total];
+  return [listOfRestaurants, total];
 }
-
-// function showRestaurants(restaurants, restaurantMarkers = [], map) {
-//   if (restaurantMarkers.length > 0) {
-//     for (let i = restaurantMarkers.length-1; i >= 0; i--) {
-//       restaurantMarkers[i].remove();
-//       restaurantMarkers.shift();
-//     }
-//   }
-//   for (let i = 0; i < restaurants.length; i++) {
-//     let marker;
-//     restaurants.forEach((restaurant) =>
-//       marker = new mapboxgl.Marker({ color: "red" })
-//         .setLngLat(restaurant.location.coordinates)
-//         .addTo(map),
-//     );
-//     restaurantMarkers.push(marker)
-//   }
-//   return [restaurantMarkers, map];
-// }
 
 export { getRoute, removeRoute };

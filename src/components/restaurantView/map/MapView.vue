@@ -68,7 +68,7 @@ export default {
           const [restaurants, _] = await getAllRestaurantsByUserLocation(
             this.map.getCenter().toArray(),
           );
-          this.showRestaurantsMarkers(restaurants);
+          this.displayRestaurantsMarkers(restaurants);
         });
         this.map.addControl(new mapboxgl.NavigationControl());
       } else {
@@ -124,8 +124,7 @@ export default {
         return this.currentPosition;
       }
     },
-    showRestaurantsMarkers(restaurants) {
-      console.log(this.restaurantMarkers.length, this.restaurantMarkers);
+    displayRestaurantsMarkers(restaurants) {
       if (this.restaurantMarkers.length > 0) {
         this.restaurantMarkers.forEach((marker) => marker.remove());
         this.restaurantMarkers = [];
