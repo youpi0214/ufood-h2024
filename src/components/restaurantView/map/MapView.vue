@@ -77,7 +77,7 @@ export default {
               unit: "metric",
             }),
           )
-          .addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+          .addControl(new mapboxgl.NavigationControl(), "bottom-right");
       } else {
         new mapboxgl.Marker({ color: "red" })
           .setLngLat(this.centeredPosition)

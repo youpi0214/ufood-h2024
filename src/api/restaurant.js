@@ -76,6 +76,7 @@ export async function getRestaurantsByUserLocation(options = []) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
     .then((response) => {
