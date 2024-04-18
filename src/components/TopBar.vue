@@ -32,14 +32,7 @@
               <i class="bi bi-filter-square-fill"></i>
             </button>
 
-            <input
-              ref="searchInput"
-              class="form-control me-2 search-input"
-              style="border-radius: 1rem; outline-color: white"
-              type="search"
-              placeholder="Search..."
-              aria-label="Search"
-            />
+            <UserSearchBar></UserSearchBar>
             <button
               style="outline: none; border: none"
               class="btn btn-outline-light search-btn"
@@ -67,7 +60,7 @@
               @click="showDropdown = false"
             >
               <router-link to="/user" class="dropdown-item"
-                >Profile
+              >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
             </div>
@@ -89,23 +82,25 @@
 import { router } from "@/router/router";
 import { logout as apiLogout } from "@/api/auth.js";
 import Cookies from "js-cookie";
+import UserSearchBar from "@/components/topBarView/UserSearchBar.vue";
 
 export default {
   name: "TopBar",
+  components: { UserSearchBar },
   props: {
     userName: {
       type: String,
-      default: Cookies.get("userName"),
+      default: Cookies.get("userName")
     },
     isLoggedIn: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   computed: {
     displayedName() {
       return this.name ? this.name : this.userName;
-    },
+    }
   },
   methods: {
     getImage() {
@@ -126,18 +121,18 @@ export default {
       } catch (error) {
         console.error("Logout failed:", error);
       }
-    },
+    }
   },
   data() {
     return {
       showDropdown: false,
-      name: "",
+      name: ""
     };
   },
   mounted() {
     // this helps restore the username when the page is refreshed
     this.name = Cookies.get("userName");
-  },
+  }
 };
 </script>
 
