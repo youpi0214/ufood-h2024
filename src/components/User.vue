@@ -2,7 +2,17 @@
   <div class="container-xl main-content">
     <div class="col-md-auto">
       <div class="profile-info">
-        <UserHeader v-if="dataRecieved" :userName="userName" :rating="rating" :id="id"/>
+        <div class="avatar-name-container">
+          <div class="gravatar-container">
+            <img :src="gravatarUrl" :alt="userName" class="gravatar" />
+          </div>
+          <UserHeader
+            v-if="dataRecieved"
+            :userName="userName"
+            :rating="rating"
+            :id="id"
+          />
+        </div>
         <div class="follow-info">
           <div class="follow-section" @click="showFollowersPopup">
             <h2>Followers</h2>
@@ -14,8 +24,12 @@
       </div>
     </div>
     <div class="accordion" id="accordionExample">
-      <RecentlyVisitedRestaurants v-if="dataRecieved" :id="id"/>
-      <FavoritesContainer v-if="dataRecieved" :userEmail="this.email" :userId="id"/>
+      <RecentlyVisitedRestaurants v-if="dataRecieved" :id="id" />
+      <FavoritesContainer
+        v-if="dataRecieved"
+        :userEmail="this.email"
+        :userId="id"
+      />
     </div>
     <div v-if="showPopup" class="popup">
       <div class="popup-content">
@@ -31,15 +45,22 @@
 </template>
 
 <script>
+import md5 from "md5";
 import UserHeader from "@/components/profileView/UserHeader.vue";
 import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
 import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
 import Cookies from "js-cookie";
-import {getUserById} from "@/api/user";
-
+import { getUserById } from "@/api/user";
 
 export default {
-  computed: {},
+  computed: {
+    gravatarUrl() {
+      return `https://www.gravatar.com/avatar/${this.md5Email}?s=80&d=identicon`;
+    },
+    md5Email() {
+      return this.email ? md5(this.email.trim().toLowerCase()) : "";
+    },
+  },
   components: {
     RecentlyVisitedRestaurants,
     UserHeader,
@@ -57,7 +78,6 @@ export default {
       popupTitle: "",
       popupList: [],
       dataRecieved: false,
-
     };
   },
   methods: {
@@ -82,20 +102,20 @@ export default {
         this.id = userData.id;
         this.rating = userData.rating;
         this.dataRecieved = true;
-
+        this.following = userData.following;
       } catch (error) {
         console.error("Error getting user...");
       }
-    }
+    },
   },
   created() {
-    this.getUserInfo(this.$route.params.userId)
+    this.getUserInfo(this.$route.params.userId);
   },
   beforeRouteUpdate(to, from) {
     this.dataRecieved = false;
-    console.log(to.params.userId)
+    console.log(to.params.userId);
     this.getUserInfo(to.params.userId);
-  }
+  },
 };
 </script>
 
@@ -176,5 +196,36 @@ export default {
 
 .close-icon:hover {
   color: #555;
+}
+
+.gravatar-container {
+  text-align: center;
+}
+
+.gravatar {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-right: 40px;
+}
+
+.avatar-name-container {
+  display: flex;
+  align-items: center;
+}
+@media screen and (max-width: 768px) {
+  .profile-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .follow-info {
+    margin-top: 1rem;
+  }
+
+  .follow-section {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
 }
 </style>
