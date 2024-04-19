@@ -144,7 +144,4 @@ export default {
   overflow-y: auto;
 }
 
-.disabled {
-  pointer-events: none;
-}
 </style>

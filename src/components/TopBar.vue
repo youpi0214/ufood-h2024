@@ -20,7 +20,7 @@
         </div>
 
         <!--  Search Bar      -->
-        <div id="searchBar" style="flex: 3">
+        <div v-if="isLoggedIn" id="searchBar" style="flex: 3">
           <form style="display: flex; flex-direction: row" role="search">
             <button
               class="btn btn-danger filter-btn"
@@ -59,7 +59,7 @@
               class="dropdown-menu"
               @click="showDropdown = false"
             >
-              <router-link :to="`/user/${userId}`"  class="dropdown-item"
+              <router-link :to="`/user/${userId}`" class="dropdown-item"
                 >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
@@ -90,17 +90,17 @@ export default {
   props: {
     userName: {
       type: String,
-      default: Cookies.get("userName")
+      default: Cookies.get("userName"),
     },
     isLoggedIn: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
     displayedName() {
       return this.name ? this.name : this.userName;
-    }
+    },
   },
   methods: {
     getImage() {
@@ -121,18 +121,23 @@ export default {
       } catch (error) {
         console.error("Logout failed:", error);
       }
-    }
+    },
   },
   data() {
     return {
       showDropdown: false,
       name: "",
-      userId: Cookies.get('userId')
+      userId: Cookies.get("userId"),
     };
   },
   mounted() {
     // this helps restore the username when the page is refreshed
     this.name = Cookies.get("userName");
+  },
+  watch: {
+    userId() {
+      if (this.userId) this.name = Cookies.get("userName");
+    },
   },
 };
 </script>
