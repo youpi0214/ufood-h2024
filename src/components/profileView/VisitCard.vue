@@ -36,7 +36,6 @@
         v-for="resto in restaurant"
         :key="resto.id"
         :show-form="showForm"
-        :UserId="visit.user_id"
         :restaurant="resto"
         :visit="visit"
         @close="hideFeedbackForm"
