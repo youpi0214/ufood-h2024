@@ -101,7 +101,6 @@ export default {
           );
           this.restaurants = restaurants;
           this.filterRestaurants();
-          this.displayRestaurantsMarkers(this.restaurants);
         });
         this.map
           .addControl(
