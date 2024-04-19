@@ -1,48 +1,20 @@
 <template>
   <div>
-    <div>
-      <!-- Button trigger modal -->
-      <div id="follwingbutton" type="button" class="btn" @click="openModal">
-        {{ modalId }}
-      </div>
+    <div data-bs-toggle="modal" :data-bs-target="divModalId">
+      {{ modalId }}
+    </div>
 
-      <!-- Modal -->
-      <div
-        class="modal"
-        :id="modalId"
-        tabindex="-1"
-        :aria-labelledby="`follow/${modalId}`"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" :id="`follow/${modalId}`">
-                {{ modalId }}
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                @click="closeModal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div v-for="follower in this.following" :key="follower.id">
-                <router-link :to="`${follower.id}`"
-                  ><span>{{ follower.name }}</span>
-                </router-link>
-                <span> {{ follower.email }}</span>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                @click="closeModal"
-              >
-                Close
-              </button>
+    <!-- Modal -->
+    <div class="modal modal-dialog-scrollable" :id="modalId" tabindex="-1" :aria-labelledby="`follow/${modalId}`" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" :id="`follow/${modalId}`">{{modalId}}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div  v-for="follower in this.following" :key="follower.id">
+              <div @click="this.$router.push(`/user/${follower.id}`)" data-bs-dismiss="modal"><span>{{ follower.name }}</span> </div>
             </div>
           </div>
         </div>
@@ -52,41 +24,25 @@
 </template>
 
 <script>
-import { Modal } from "bootstrap";
 export default {
-  name: "FollowModal",
+  name: 'FollowModal',
   props: {
     following: {
       type: Array,
-      required: true,
+      required: true
     },
     modalId: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      followModal: null,
-    };
-  },
-  methods: {
-    openModal() {
-      this.followModal.show();
-    },
-    closeModal() {
-      this.followModal.hide();
-    },
-  },
-  mounted() {
-    this.followModal = new Modal(document.getElementById(this.modalId), {});
-  },
-  beforeUnmount() {
-    if (this.followModal._isShown) {
-      this.closeModal();
+      divModalId: "#" + this.modalId,
     }
-  },
-};
+  }
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
