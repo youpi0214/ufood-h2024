@@ -84,14 +84,11 @@
 <script>
 import { triggerConfetti } from "@/components/form/script/form.utility";
 import { createRestaurantVisit } from "@/api/restaurant.visits";
+import Cookies from "js-cookie";
 
 export default {
   name: "RegisterVisitForm",
   props: {
-    userID: {
-      type: String,
-      default: "619a82f824b6ec0004c9f035",
-    },
     restaurant: {
       type: Object,
       default: null,
@@ -103,6 +100,7 @@ export default {
   },
   data() {
     return {
+      userId: Cookies.get("userId"),
       userComment: "",
       userRating: null,
       userDate: "",
@@ -142,7 +140,7 @@ export default {
           rating: this.userRating,
           date: this.formattedDate,
         };
-        if (await createRestaurantVisit(this.userID, visitData)) {
+        if (await createRestaurantVisit(this.userId, visitData)) {
           triggerConfetti();
         } else {
           alert("Visit is not registered");

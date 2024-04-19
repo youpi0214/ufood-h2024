@@ -20,6 +20,7 @@
       ></i>
     </div>
     <SearchBar
+      :map-mode="false"
       :isFavoriteSearchBar="true"
       :favouriteListID="id"
       :update="updateFavoriteList"

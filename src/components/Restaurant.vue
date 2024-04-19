@@ -82,6 +82,7 @@ import AddToFavoritesModal from "@/components/form/AddFavoritesForm.vue";
 import { Owner } from "@/components/profileView/script/profile.utility";
 import RecommendedRestaurants from "@/components/restaurantView/RecommendedRestaurants.vue";
 import { Restaurant } from "@/components/homeView/script/card.utility";
+import Cookies from "js-cookie";
 
 export default {
   name: "Restaurant",
@@ -109,9 +110,9 @@ export default {
     },
     User() {
       return new Owner({
-        email: '"villiam1@gmail.com"',
-        id: "619a82f824b6ec0004c9f035",
-        name: "William",
+        email: Cookies.get("userEmail"),
+        id: Cookies.get("userId"),
+        name: Cookies.get("userName"),
       });
     },
     restaurantRating() {
