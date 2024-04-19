@@ -5,15 +5,11 @@
     >
       <div class="container-fluid">
         <!--  Home button logo      -->
-        <div
-          id="Logo"
-          style="flex: 1; display: flex; justify-content: left"
-          :class="{ hide: inputFocused }"
-        >
+        <div id="Logo" style="flex: 1; display: flex; justify-content: left">
           <router-link to="/" class="nav-link logo">
             <a class="navbar-brand">
               <img
-                :src="imageSrc"
+                :src="getImage()"
                 alt="Bootstrap"
                 width="100%"
                 style="object-fit: contain"
@@ -24,7 +20,7 @@
         </div>
 
         <!--  Search Bar      -->
-        <div id="searchBar" style="flex: 3" @click="focusInput">
+        <div id="searchBar" style="flex: 3">
           <form style="display: flex; flex-direction: row" role="search">
             <button
               class="btn btn-danger filter-btn"
@@ -39,11 +35,7 @@
             <input
               ref="searchInput"
               class="form-control me-2 search-input"
-              style="
-                border-radius: 1rem;
-                outline-color: white;
-                transition: width 0.5s ease;
-              "
+              style="border-radius: 1rem; outline-color: white"
               type="search"
               placeholder="Search..."
               aria-label="Search"
@@ -65,16 +57,14 @@
           <!--    TODO V-if connected (token exist)      -->
           <div v-if="isLoggedIn" class="user-info">
             <!-- TODO  display User name     -->
-            <span class="user-name">{{ displayedName }}</span>
-            <button @click="toggleDropdown" class="icon-button">
-              <i class="fas fa-user text-white"></i>
-            </button>
+            <span @click="toggleDropdown" class="user-name">{{ displayedName }}</span>
+
             <div
               v-show="showDropdown"
               class="dropdown-menu"
               @click="showDropdown = false"
             >
-              <router-link to="/user" class="dropdown-item"
+              <router-link :to="`/user/${userId}`"  class="dropdown-item"
                 >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
@@ -114,26 +104,13 @@ export default {
     displayedName() {
       return this.name ? this.name : this.userName;
     },
-    isSidebarOpen() {
-      return store.state.isSidebarOpen;
-    },
-  },
-  data() {
-    return {
-      showDropdown: false,
-      inputFocused: false,
-      imageLarge: require("/src/assets/logo/ufood-white.png"),
-      imageSmall: require("/src/assets/logo/ufood-white-mobile.png"),
-      imageSrc: "",
-      name: "",
-    };
   },
   methods: {
-    setImageSrc() {
-      if (window.innerWidth < 768) {
-        this.imageSrc = this.imageSmall;
+    getImage() {
+      if (window.innerWidth < 800) {
+        return require("/src/assets/logo/ufood-white-mobile.png");
       } else {
-        this.imageSrc = this.imageLarge;
+        return require("/src/assets/logo/ufood-white.png");
       }
     },
     toggleDropdown() {
@@ -149,12 +126,16 @@ export default {
       }
     },
   },
-  mounted() {
-    this.setImageSrc();
-    window.addEventListener("resize", this.setImageSrc);
+  data() {
+    return {
+      showDropdown: false,
+      name: "",
+      userId: Cookies.get('userId')
+    };
   },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.setImageSrc);
+  mounted() {
+    // this helps restore the username when the page is refreshed
+    this.name = Cookies.get("userName");
   },
 };
 </script>

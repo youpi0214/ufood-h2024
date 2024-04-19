@@ -97,7 +97,6 @@ import FavoriteList from "@/components/profileView/FavoriteList.vue";
 import { createFavoriteList } from "@/api/favorites.lists";
 import {
   getAllAvailableDataWithQueryFunction,
-  Owner,
 } from "@/components/profileView/script/profile.utility";
 import { getUserFavoriteLists } from "@/api/user";
 
@@ -105,7 +104,8 @@ export default {
   name: "FavoritesContainer",
   components: { FavoriteList },
   props: {
-    owner: { type: Owner, required: true },
+    userId: {required: true} ,
+    userEmail: {required: true }
   },
   computed: {
     btnLogo() {
@@ -142,7 +142,7 @@ export default {
       if (
         this.addingNewList &&
         this.validListName &&
-        (await createFavoriteList(this.owner.email, this.newListName))
+        (await createFavoriteList(this.userEmail, this.newListName))
       ) {
         await this.updateFavoriteList().then(() => {
           this.addingNewList = false;
@@ -154,13 +154,14 @@ export default {
     async updateFavoriteList() {
       [this.userFavoriteLists] = await getAllAvailableDataWithQueryFunction(
         getUserFavoriteLists,
-        [this.owner.id],
+        [this.userId],
         10,
       );
     },
   },
-  async created() {
-    await this.updateFavoriteList();
+  mounted() {
+
+     this.updateFavoriteList();
   },
 };
 </script>
