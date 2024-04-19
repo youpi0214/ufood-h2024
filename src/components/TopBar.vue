@@ -59,8 +59,8 @@
               class="dropdown-menu"
               @click="showDropdown = false"
             >
-              <router-link to="/user" class="dropdown-item"
-              >Profile
+              <router-link :to="`/user/${userId}`"  class="dropdown-item"
+                >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
             </div>
@@ -126,13 +126,14 @@ export default {
   data() {
     return {
       showDropdown: false,
-      name: ""
+      name: "",
+      userId: Cookies.get('userId')
     };
   },
   mounted() {
     // this helps restore the username when the page is refreshed
     this.name = Cookies.get("userName");
-  }
+  },
 };
 </script>
 

@@ -1,4 +1,6 @@
 import mapboxgl from "mapbox-gl";
+import { RestaurantQueryOptions } from "@/api/api.utility";
+import { getRestaurantsByUserLocation } from "@/api/restaurant";
 
 let markerCurrentPosition;
 export const MAPBOX_API_KEY =
@@ -62,8 +64,35 @@ async function removeRoute(restaurantLocation, map) {
     center: restaurantLocation,
     zoom: 15,
     essential: true,
-    duration: 2000,
+    duration: 3000,
   });
+}
+
+export async function getAllRestaurantsByUserLocation(currentPosition) {
+  const options = [
+    [RestaurantQueryOptions.LON, currentPosition[0]],
+    [RestaurantQueryOptions.LAT, currentPosition[1]],
+  ];
+  const [allRestaurants, total] = await fetchRestaurantsByLocation(options);
+
+  return [allRestaurants, total];
+}
+
+async function fetchRestaurantsByLocation(options) {
+  const restaurantsPerPage = 10;
+  const [_, total] = await getRestaurantsByUserLocation(options);
+  const totalPages = Math.ceil(total / restaurantsPerPage);
+  const listOfRestaurants = [];
+
+  for (let page = 0; page < totalPages; page++) {
+    const [restaurantsPerPage] = await getRestaurantsByUserLocation([
+      ...options,
+      ["page", page],
+    ]);
+    listOfRestaurants.push(...restaurantsPerPage);
+  }
+
+  return [listOfRestaurants, total];
 }
 
 export { getRoute, removeRoute };

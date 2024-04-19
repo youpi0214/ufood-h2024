@@ -19,20 +19,20 @@ const routes = [
     component: Restaurant
   },
   {
-    path: "/user",
+    path: "/user/:userId",
     name: "User",
-    component: User
+    component: User,
   },
   {
     path: "/auth",
     name: "Authentication",
-    component: Authentication
-  }
+    component: Authentication,
+  },
 ];
 
 export const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
