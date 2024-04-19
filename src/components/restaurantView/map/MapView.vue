@@ -33,6 +33,10 @@ import mapboxgl from "!mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { getRoute, removeRoute, MAPBOX_API_KEY } from "./map.utility.js";
 import { getAllRestaurantsByUserLocation } from "./map.utility.js";
+import {
+  getLocation,
+  getCurrentPositionWithRetry,
+} from "@/components/restaurantView/script/location.utility";
 
 export default {
   props: {
@@ -84,6 +88,7 @@ export default {
           .addTo(this.map);
       }
     },
+    //TODO refactor this method to use getLocation from location.utility.js -- if deemed okay
     async getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
