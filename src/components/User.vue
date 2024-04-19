@@ -14,12 +14,8 @@
           />
         </div>
         <div class="follow-info">
-          <div class="follow-section" @click="showFollowersPopup">
-            <h2>Followers</h2>
-          </div>
-          <div class="follow-section" @click="showFollowingPopup">
-            <h2>Following</h2>
-          </div>
+          <FollowModal :following="this.followers" modalId="followers" v-if="dataRecieved" />
+          <FollowModal :following="this.following" modalId="following" v-if="dataRecieved" />
         </div>
       </div>
     </div>
@@ -30,16 +26,6 @@
         :userEmail="this.email"
         :userId="id"
       />
-    </div>
-    <div v-if="showPopup" class="popup">
-      <div class="popup-content">
-        <h2>{{ popupTitle }}</h2>
-        <ul v-if="popupList.length > 0">
-          <li v-for="item in popupList" :key="item.id">{{ item.name }}</li>
-        </ul>
-        <p v-else>No {{ popupTitle.toLowerCase() }}</p>
-        <span class="close-icon" @click="hidePopup">&#10006;</span>
-      </div>
     </div>
   </div>
 </template>
@@ -52,6 +38,8 @@ import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue"
 import Cookies from "js-cookie";
 import { getUserById } from "@/api/user";
 
+import FollowModal from "@/components/profileView/FollowModal.vue";
+
 export default {
   computed: {
     gravatarUrl() {
@@ -62,6 +50,7 @@ export default {
     },
   },
   components: {
+    FollowModal,
     RecentlyVisitedRestaurants,
     UserHeader,
     FavoritesContainer,
@@ -97,12 +86,15 @@ export default {
     async getUserInfo(userId) {
       try {
         const userData = await getUserById(userId);
+        console.log(userData)
         this.userName = userData.name;
         this.email = userData.email;
         this.id = userData.id;
         this.rating = userData.rating;
-        this.dataRecieved = true;
+        this.followers = userData.followers;
         this.following = userData.following;
+        console.log(this.following)
+        this.dataRecieved = true;
       } catch (error) {
         console.error("Error getting user...");
       }
