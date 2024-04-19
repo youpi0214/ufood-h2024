@@ -7,9 +7,22 @@
       </div>
       <!-- Render the list here -->
       <ul>
-        <li v-for="item in items" :key="item.id" @mouseenter="setHover(item.id)" @mouseleave="resetHover" class="follower-item">
-          <img :src="item.avatarUrl" :alt="item.username" class="avatar" :class="{ 'hover-shadow': hoveredItem === item.id }">
-          <span :class="{ 'hover-shadow': hoveredItem === item.id }">{{ item.username }}</span>
+        <li
+          v-for="item in items"
+          :key="item.id"
+          @mouseenter="setHover(item.id)"
+          @mouseleave="resetHover"
+          class="follower-item"
+        >
+          <img
+            :src="item.avatarUrl"
+            :alt="item.username"
+            class="avatar"
+            :class="{ 'hover-shadow': hoveredItem === item.id }"
+          />
+          <span :class="{ 'hover-shadow': hoveredItem === item.id }">{{
+            item.username
+          }}</span>
         </li>
       </ul>
     </div>
@@ -21,24 +34,24 @@ export default {
   props: {
     visible: Boolean,
     title: String,
-    items: Array
+    items: Array,
   },
   data() {
     return {
-      hoveredItem: null
+      hoveredItem: null,
     };
   },
   methods: {
     closePopup() {
-      this.$emit('close');
+      this.$emit("close");
     },
     setHover(itemId) {
       this.hoveredItem = itemId;
     },
     resetHover() {
       this.hoveredItem = null;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -91,11 +104,15 @@ ul {
   height: 80px;
   border-radius: 50%;
   margin-right: 2rem;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 .hover-shadow {
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 .hover-shadow:hover {

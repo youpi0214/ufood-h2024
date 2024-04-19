@@ -4,7 +4,12 @@
       <div class="profile-info">
         <div class="avatar-name-container">
           <div class="gravatar-container">
-            <img :src="gravatarUrl" :alt="userName" class="gravatar" />
+            <img
+              :src="gravatarUrl"
+              :alt="userName"
+              style="width: 7rem; height: 100%"
+              class="gravatar"
+            />
           </div>
           <UserHeader
             v-if="dataRecieved"
@@ -14,8 +19,16 @@
           />
         </div>
         <div class="follow-info">
-          <FollowModal :following="this.followers" modalId="followers" v-if="dataRecieved" />
-          <FollowModal :following="this.following" modalId="following" v-if="dataRecieved" />
+          <FollowModal
+            :following="this.followers"
+            modalId="followers"
+            v-if="dataRecieved"
+          />
+          <FollowModal
+            :following="this.following"
+            modalId="following"
+            v-if="dataRecieved"
+          />
         </div>
       </div>
     </div>
@@ -113,7 +126,6 @@ export default {
   display: flex;
 }
 
-
 .follow-section h2 {
   margin: 0;
   font-size: 20px;
@@ -127,7 +139,6 @@ export default {
   margin-top: 1rem;
 }
 
-
 .popup-content h2 {
   margin-bottom: 20px;
   color: #ff5555;
@@ -137,7 +148,6 @@ export default {
   list-style: none;
   padding: 0;
 }
-
 
 .gravatar-container {
   text-align: center;
@@ -163,6 +173,5 @@ export default {
   .follow-info {
     margin-top: 1rem;
   }
-
 }
 </style>

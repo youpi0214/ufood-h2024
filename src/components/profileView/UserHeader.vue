@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>{{ userName }}</h1>
+    <div id="userName">{{ userName }}</div>
 
-    <div>Rating: {{ rating }} &star;</div>
+    <div id="rating">★ {{ rating }}</div>
   </div>
 </template>
 
@@ -17,4 +17,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#userName {
+  font-weight: bold;
+  font-size: large;
+}
+#rating {
+  width: max-content;
+  background-color: #f1f1f1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5rem;
+}
+</style>
