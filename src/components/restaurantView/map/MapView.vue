@@ -47,6 +47,14 @@ export default {
       type: Boolean,
       required: true,
     },
+    selectedPrice: {
+      type: String,
+      default: "",
+    },
+    selectedCategory: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
@@ -55,7 +63,23 @@ export default {
       currentPosition: null,
       getDirectionsIsClicked: false,
       restaurantMarkers: [],
+      restaurants: [],
+      filteredRestaurants: [],
     };
+  },
+  watch: {
+    selectedPrice: {
+      handler(newValue, oldValue) {
+        this.filterRestaurants();
+      },
+      immediate: true,
+    },
+    selectedCategory: {
+      handler(newValue, oldValue) {
+        this.filterRestaurants();
+      },
+      immediate: true,
+    },
   },
   methods: {
     async initMap() {
@@ -75,7 +99,9 @@ export default {
           const [restaurants, _] = await getAllRestaurantsByUserLocation(
             this.mapCenter,
           );
-          this.displayRestaurantsMarkers(restaurants);
+          this.restaurants = restaurants;
+          this.filterRestaurants();
+          this.displayRestaurantsMarkers(this.restaurants);
         });
         this.map
           .addControl(
@@ -130,6 +156,50 @@ export default {
           .addTo(this.map);
         this.restaurantMarkers.push(marker);
       }
+    },
+    filterRestaurants() {
+      // Filter restaurants based on selectedPrice and selectedCategory
+      const priceMapping = {
+        $: 1,
+        $$: 2,
+        $$$: 3,
+        $$$$: 4,
+        $$$$$: 5,
+      };
+
+      const selectedPrices = this.selectedPrice
+        ? this.selectedPrice.split(",").map((price) => priceMapping[price])
+        : [];
+      const selectedCategories = this.selectedCategory
+        ? this.selectedCategory.split(",")
+        : [];
+      console.log(selectedPrices);
+      const filteredRestaurants = this.restaurants.filter((restaurant) => {
+        // Check if the restaurant's price range matches any of the selected prices
+        if (selectedPrices.length > 0 && restaurant.price_range) {
+          if (!selectedPrices.includes(restaurant.price_range)) {
+            return false;
+          }
+        }
+
+        // Check if the restaurant's genres include any of the selected categories
+        if (selectedCategories.length > 0 && restaurant.genres) {
+          const restaurantGenres = restaurant.genres.map((genre) =>
+            genre.trim(),
+          );
+          if (
+            !selectedCategories.some((category) =>
+              restaurantGenres.includes(category),
+            )
+          ) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+      this.filteredRestaurants = filteredRestaurants;
+      this.displayRestaurantsMarkers(this.filteredRestaurants);
     },
   },
 

@@ -67,7 +67,13 @@
         </div>
         <!--FilterBtn and SearchBar end-->
 
-        <MapView id="mapHomePage" v-if="showMap" :home-page="true"></MapView>
+        <MapView
+          id="mapHomePage"
+          v-if="showMap"
+          :home-page="true"
+          :selectedPrice="this.selectedPrice"
+          :selectedCategory="this.selectedCategory"
+        ></MapView>
         <RestaurantCards
           id="restaurantCards"
           v-if="!showMap"
@@ -138,11 +144,18 @@ export default {
     },
     applyFilters(price, category) {
       // Remove any trailing commas
-      const selectedPrice = price.endsWith(",") ? price.slice(0, -1) : price;
-      const selectedCategory = category.endsWith(",")
+      let selectedPrice = price.endsWith(",") ? price.slice(0, -1) : price;
+      let selectedCategory = category.endsWith(",")
         ? category.slice(0, -1)
         : category;
 
+      if (selectedPrice.startsWith(",")) {
+        selectedPrice = selectedPrice.slice(1);
+      }
+
+      if (selectedCategory.startsWith(",")) {
+        selectedCategory = selectedCategory.slice(1);
+      }
       this.setSelectedFilters({
         price: selectedPrice,
         category: selectedCategory,
