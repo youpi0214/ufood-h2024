@@ -4,7 +4,12 @@
       <div class="profile-info">
         <div class="avatar-name-container">
           <div class="gravatar-container">
-            <img :src="gravatarUrl" :alt="userName" style="width: 7rem; height: 100%" class="gravatar" />
+            <img
+              :src="gravatarUrl"
+              :alt="userName"
+              style="width: 7rem; height: 100%"
+              class="gravatar"
+            />
           </div>
           <UserHeader
             v-if="dataRecieved"
@@ -14,8 +19,16 @@
           />
         </div>
         <div class="follow-info">
-          <FollowModal :following="this.followers" modalId="followers" v-if="dataRecieved" />
-          <FollowModal :following="this.following" modalId="following" v-if="dataRecieved" />
+          <FollowModal
+            :following="this.followers"
+            modalId="followers"
+            v-if="dataRecieved"
+          />
+          <FollowModal
+            :following="this.following"
+            modalId="following"
+            v-if="dataRecieved"
+          />
         </div>
       </div>
     </div>
