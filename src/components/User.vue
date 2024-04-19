@@ -70,30 +70,15 @@ export default {
     };
   },
   methods: {
-    showFollowersPopup() {
-      this.popupTitle = "Followers";
-      this.popupList = this.followers;
-      this.showPopup = true;
-    },
-    showFollowingPopup() {
-      this.popupTitle = "Following";
-      this.popupList = this.following;
-      this.showPopup = true;
-    },
-    hidePopup() {
-      this.showPopup = false;
-    },
     async getUserInfo(userId) {
       try {
         const userData = await getUserById(userId);
-        console.log(userData)
         this.userName = userData.name;
         this.email = userData.email;
         this.id = userData.id;
         this.rating = userData.rating;
         this.followers = userData.followers;
         this.following = userData.following;
-        console.log(this.following)
         this.dataRecieved = true;
       } catch (error) {
         console.error("Error getting user...");
@@ -128,10 +113,6 @@ export default {
   display: flex;
 }
 
-.follow-section {
-  margin-right: 20px;
-  cursor: pointer;
-}
 
 .follow-section h2 {
   margin: 0;
@@ -146,25 +127,6 @@ export default {
   margin-top: 1rem;
 }
 
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-content {
-  background-color: #fff;
-  padding: 80px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
 
 .popup-content h2 {
   margin-bottom: 20px;
@@ -176,19 +138,6 @@ export default {
   padding: 0;
 }
 
-.close-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 20px;
-  color: #888;
-  z-index: 100;
-}
-
-.close-icon:hover {
-  color: #555;
-}
 
 .gravatar-container {
   text-align: center;
@@ -215,16 +164,5 @@ export default {
     margin-top: 1rem;
   }
 
-  .follow-section {
-    margin-right: 0;
-    margin-bottom: 0.5rem;
-  }
-  .popup-content {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
-  }
 }
 </style>
