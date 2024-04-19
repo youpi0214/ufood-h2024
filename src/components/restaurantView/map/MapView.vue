@@ -4,7 +4,7 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
-    <div ref="mapElement" :style="{ height: homePage ? '600px' : '400px' }">
+    <div ref="mapElement" :style="{ height: homePage ? heightmap : '400px' }">
       <div v-if="homePage && this.map" style="position: relative; z-index: 1">
         <SearchBar :map-mode="true" :map-center="mapCenter" />
       </div>
@@ -40,6 +40,9 @@ import SearchBar from "@/components/homeView/SearchBar.vue";
 export default {
   components: { SearchBar },
   props: {
+    heightmap: {
+      type: String,
+    },
     centeredPosition: {
       type: Array,
     },
@@ -95,6 +98,7 @@ export default {
       this.mapCenter = this.map.getCenter().toArray();
       if (this.homePage) {
         this.map.on("idle", async () => {
+          this.map.resize();
           this.mapCenter = this.map.getCenter().toArray();
           const [restaurants, _] = await getAllRestaurantsByUserLocation(
             this.mapCenter,
@@ -172,7 +176,6 @@ export default {
       const selectedCategories = this.selectedCategory
         ? this.selectedCategory.split(",")
         : [];
-      console.log(selectedPrices);
       const filteredRestaurants = this.restaurants.filter((restaurant) => {
         // Check if the restaurant's price range matches any of the selected prices
         if (selectedPrices.length > 0 && restaurant.price_range) {

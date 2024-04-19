@@ -150,7 +150,6 @@ export default {
     },
   },
   mounted() {
-    // this helps restore the username when the page is refreshed
     this.setImageSrc();
     window.addEventListener("resize", this.setImageSrc);
   },
