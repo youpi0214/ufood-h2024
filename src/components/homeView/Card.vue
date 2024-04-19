@@ -76,7 +76,7 @@ import {
 export default {
   props: {
     restaurant: {
-      type: Restaurant,
+      type: Object,
       required: true,
     },
     registerDisable: {

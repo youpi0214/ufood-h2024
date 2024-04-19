@@ -9,11 +9,12 @@
           <router-link to="/" class="nav-link logo">
             <a class="navbar-brand">
               <img
-                :src="getImage()"
+                :src="imageSrc"
                 alt="Bootstrap"
                 width="100%"
                 style="object-fit: contain"
                 height="60rem"
+                @contextmenu.prevent
               />
             </a>
           </router-link>
@@ -103,11 +104,11 @@ export default {
     },
   },
   methods: {
-    getImage() {
-      if (window.innerWidth < 800) {
-        return require("/src/assets/logo/ufood-white-mobile.png");
+    setImageSrc() {
+      if (window.innerWidth < 768) {
+        this.imageSrc = this.imageSmall;
       } else {
-        return require("/src/assets/logo/ufood-white.png");
+        this.imageSrc = this.imageLarge;
       }
     },
     toggleDropdown() {
@@ -127,12 +128,20 @@ export default {
     return {
       showDropdown: false,
       name: "",
+      imageLarge: require("/src/assets/logo/ufood-white.png"),
+      imageSmall: require("/src/assets/logo/ufood-white-mobile.png"),
+      imageSrc: '',
       userId: Cookies.get("userId"),
     };
   },
   mounted() {
     // this helps restore the username when the page is refreshed
+    this.setImageSrc();
+    window.addEventListener('resize', this.setImageSrc);
     this.name = Cookies.get("userName");
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.setImageSrc);
   },
   watch: {
     userId() {

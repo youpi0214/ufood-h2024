@@ -16,7 +16,7 @@ export default {
   },
   props: {
     currentRestaurant: {
-      type: Restaurant,
+      type: Object,
       required: true,
     },
     genres: {

@@ -8,18 +8,14 @@
           justify-content: space-between;
           flex-direction: row;
         "
+        class="accordion-button collapsed"
         data-bs-toggle="collapse"
         data-bs-target="#collapseThree"
         aria-expanded="false"
         aria-controls="collapseThree"
-        @click="toggleArrowRotation"
       >
         <div type="button" style="background: transparent; border: none">
           Favorites
-        </div>
-        <!-- TODO Handle : when opening a fav list while visited is already opened, visited is hidden (Normally) but the arrow doesnt return to its first position -->
-        <div :class="{ rotateF: isArrowRotated, rotateB: !isArrowRotated }">
-          <i class="bi bi-caret-right-fill"></i>
         </div>
       </div>
     </h2>
@@ -95,17 +91,15 @@
 <script>
 import FavoriteList from "@/components/profileView/FavoriteList.vue";
 import { createFavoriteList } from "@/api/favorites.lists";
-import {
-  getAllAvailableDataWithQueryFunction,
-} from "@/components/profileView/script/profile.utility";
+import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import { getUserFavoriteLists } from "@/api/user";
 
 export default {
   name: "FavoritesContainer",
   components: { FavoriteList },
   props: {
-    userId: {required: true} ,
-    userEmail: {required: true }
+    userId: { required: true },
+    userEmail: { required: true },
   },
   computed: {
     btnLogo() {
@@ -126,7 +120,6 @@ export default {
     return {
       userFavoriteLists: [],
       newListName: null,
-      isArrowRotated: false,
       addingNewList: false,
     };
   },
@@ -134,9 +127,6 @@ export default {
     cancelAddFavouriteList() {
       this.addingNewList = false;
       this.newListName = null;
-    },
-    toggleArrowRotation() {
-      this.isArrowRotated = !this.isArrowRotated;
     },
     async addFavouriteList() {
       if (
@@ -160,8 +150,7 @@ export default {
     },
   },
   mounted() {
-
-     this.updateFavoriteList();
+    this.updateFavoriteList();
   },
 };
 </script>
@@ -174,15 +163,6 @@ export default {
 #favoritesMenu:hover {
   background-color: #e8e8e8;
   cursor: pointer;
-}
-
-.rotateF {
-  transition: transform 0.25s ease-in-out;
-  transform: rotate(90deg);
-}
-
-.rotateB {
-  transition: transform 0.25s ease-in-out;
 }
 
 .favorite-container-footer:hover {
