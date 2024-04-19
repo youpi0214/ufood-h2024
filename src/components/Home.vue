@@ -56,7 +56,13 @@
                 </button>
               </div>
             </div>
-            <SearchBar />
+            <SearchBar
+              :map-mode="false"
+              :style="{
+                visibility: showMap ? 'hidden' : 'visible',
+                display: 'block',
+              }"
+            />
           </div>
         </div>
         <!--FilterBtn and SearchBar end-->

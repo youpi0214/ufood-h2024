@@ -4,10 +4,11 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
-    <div
-      ref="mapElement"
-      :style="{ height: homePage ? '600px' : '400px' }"
-    ></div>
+    <div ref="mapElement" :style="{ height: homePage ? '600px' : '400px' }">
+      <div v-if="homePage && this.map" style="position: relative; z-index: 1">
+        <SearchBar :map-mode="true" :map-center="mapCenter" />
+      </div>
+    </div>
     <div v-if="!homePage">
       <button
         class="btn btn-danger btn-lg btn-block"
@@ -33,12 +34,11 @@ import mapboxgl from "!mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { getRoute, removeRoute, MAPBOX_API_KEY } from "./map.utility.js";
 import { getAllRestaurantsByUserLocation } from "./map.utility.js";
-import {
-  getLocation,
-  getCurrentPositionWithRetry,
-} from "@/components/restaurantView/script/location.utility";
+import { getLocation } from "@/components/restaurantView/script/location.utility";
+import SearchBar from "@/components/homeView/SearchBar.vue";
 
 export default {
+  components: { SearchBar },
   props: {
     centeredPosition: {
       type: Array,
@@ -50,6 +50,7 @@ export default {
   },
   data() {
     return {
+      mapCenter: null,
       map: null,
       currentPosition: null,
       getDirectionsIsClicked: false,
@@ -67,10 +68,12 @@ export default {
         style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
         zoom: this.homePage ? 12 : 15,
       });
+      this.mapCenter = this.map.getCenter().toArray();
       if (this.homePage) {
         this.map.on("idle", async () => {
+          this.mapCenter = this.map.getCenter().toArray();
           const [restaurants, _] = await getAllRestaurantsByUserLocation(
-            this.map.getCenter().toArray(),
+            this.mapCenter,
           );
           this.displayRestaurantsMarkers(restaurants);
         });
@@ -87,26 +90,6 @@ export default {
           .setLngLat(this.centeredPosition)
           .addTo(this.map);
       }
-    },
-    //TODO refactor this method to use getLocation from location.utility.js -- if deemed okay
-    async getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.currentPosition = [
-              position.coords.longitude,
-              position.coords.latitude,
-            ];
-          },
-          (error) => {
-            console.error("Error getting current location:", error);
-          },
-          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
-        );
-      } else {
-        alert("Geolocation is not supported by this browser.");
-      }
-      return this.currentPosition;
     },
     async showRoute() {
       if (this.currentPosition) {
@@ -129,7 +112,7 @@ export default {
     },
     async getCurrentPositionInHomePage() {
       while (!this.currentPosition) {
-        this.currentPosition = await this.getLocation();
+        this.currentPosition = await getLocation();
         await new Promise((resolve) => setTimeout(resolve, 500));
       }
       if (this.currentPosition) {
@@ -151,7 +134,7 @@ export default {
   },
 
   created() {
-    this.getLocation();
+    getLocation();
   },
   mounted() {
     this.initMap();
