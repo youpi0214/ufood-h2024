@@ -10,54 +10,63 @@
     <div></div>
 
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-              aria-expanded="false">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton1"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
         <strong> Number of visits : </strong>{{ total }}
       </button>
-      <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
-        <li class="dropdown-item" v-for="visit in visits" :key="visit.id" @click="showFeedbackForm(visit)">
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li
+          class="dropdown-item"
+          v-for="visit in visits"
+          :key="visit.id"
+          @click="showFeedbackForm(visit)"
+        >
           {{ visit.date.slice(0, 10) }}
         </li>
       </div>
     </div>
 
-    <div v-if="showForm" >
+    <div v-if="showForm">
       <RegisterVisitForm
-        v-for="resto in restaurant" :key="resto.id"
+        v-for="resto in restaurant"
+        :key="resto.id"
         :show-form="showForm"
-        :UserId="visit.user_id"
         :restaurant="resto"
         :visit="visit"
         @close="hideFeedbackForm"
       >
       </RegisterVisitForm>
     </div>
-
   </div>
 </template>
 
 <script>
 import Card from "@/components/homeView/Card.vue";
-import {getRestaurantVisitsByUserAndRestaurant} from "@/api/restaurant.visits";
-import {Restaurant} from "@/components/homeView/script/card.utility";
-import {getRestaurantById} from "@/api/restaurant";
-import {getAllAvailableDataWithQueryFunction} from "@/components/profileView/script/profile.utility";
+import { getRestaurantVisitsByUserAndRestaurant } from "@/api/restaurant.visits";
+import { Restaurant } from "@/components/homeView/script/card.utility";
+import { getRestaurantById } from "@/api/restaurant";
+import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 
 export default {
   name: "VisitCard",
-  components: {RegisterVisitForm,  Card},
+  components: { RegisterVisitForm, Card },
   props: {
-    restaurantId: {type: String, required: true},
-    userId: {type: String, required: true},
+    restaurantId: { type: String, required: true },
+    userId: { type: String, required: true },
   },
   data() {
     return {
       restaurant: [],
       visits: [],
-      total: {type: Number},
+      total: { type: Number },
       showForm: false,
-      visit: {default: null}
+      visit: { default: null },
     };
   },
   methods: {
@@ -86,21 +95,18 @@ export default {
 </script>
 
 <style scoped>
-.dropdown-item:hover{
+.dropdown-item:hover {
   cursor: pointer;
 }
 
-.dropdown{
+.dropdown {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   overflow-y: auto;
   max-height: 10rem;
 }
-
 </style>
-
-

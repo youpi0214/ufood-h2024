@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h1>{{ userName }}
+    <div id="userName">{{ userName }}
       <span v-show="this.id !== this.userId ">
       <button v-show="!isFollowed" class="btn btn-primary" @click="follow">Follow </button>
       <button v-show="isFollowed" class="btn btn-danger" @click="unfollow">Unfollow </button>
 
       </span>
-    </h1>
-    <div>Rating: {{ rating }} &star;</div>
+    </div>
+    <div id="rating">★  {{ rating }} &star;</div>
   </div>
 </template>
 
@@ -46,4 +46,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#userName {
+  font-weight: bold;
+  font-size: large;
+}
+#rating {
+  width: max-content;
+  background-color: #f1f1f1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5rem;
+}
+</style>
