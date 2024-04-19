@@ -4,7 +4,7 @@
       <!--Content begin-->
       <div class="main-content col-auto">
         <!--FilterBtn and SearchBar begin-->
-        <div class="d-flex justify-content-center">
+        <div ref="aboveMap" class="d-flex justify-content-center">
           <div class="col">
             <div
               style="
@@ -56,12 +56,25 @@
                 </button>
               </div>
             </div>
-            <SearchBar />
+            <SearchBar
+              :map-mode="false"
+              :style="{
+                visibility: showMap ? 'hidden' : 'visible',
+                display: 'block',
+              }"
+            />
           </div>
         </div>
         <!--FilterBtn and SearchBar end-->
 
-        <MapView id="mapHomePage" v-if="showMap" :home-page="true"></MapView>
+        <MapView
+          id="mapHomePage"
+          v-if="showMap"
+          :home-page="true"
+          :heightmap="mapHeight"
+          :selectedPrice="this.selectedPrice"
+          :selectedCategory="this.selectedCategory"
+        ></MapView>
         <RestaurantCards
           id="restaurantCards"
           v-if="!showMap"
@@ -87,7 +100,7 @@
 
 <script>
 import RestaurantCards from "@/components/homeView/RestaurantCardsContainer.vue";
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { getRestaurants } from "@/api/restaurant";
 import SearchBar from "@/components/homeView/SearchBar.vue";
 import { Restaurant } from "@/components/homeView/script/card.utility";
@@ -95,7 +108,6 @@ import { generateRestaurantFetchOptions } from "@/components/homeView/script/hom
 import MapView from "@/components/restaurantView/map/MapView.vue";
 import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import RestaurantFilter from "@/components/homeView/RestaurantFilter.vue";
-import Cookies from "js-cookie";
 
 export default {
   components: {
@@ -113,6 +125,7 @@ export default {
       currentPage: 0,
       isLoading: false,
       filtersApplied: false,
+      mapHeight: "",
     };
   },
   computed: {
@@ -132,11 +145,17 @@ export default {
     },
     applyFilters(price, category) {
       // Remove any trailing commas
-      const selectedPrice = price.endsWith(",") ? price.slice(0, -1) : price;
-      const selectedCategory = category.endsWith(",")
+      let selectedPrice = price.endsWith(",") ? price.slice(0, -1) : price;
+      let selectedCategory = category.endsWith(",")
         ? category.slice(0, -1)
         : category;
 
+      if (selectedPrice.startsWith(",")) {
+        selectedPrice = selectedPrice.slice(1);
+      }
+      if (selectedCategory.startsWith(",")) {
+        selectedCategory = selectedCategory.slice(1);
+      }
       this.setSelectedFilters({
         price: selectedPrice,
         category: selectedCategory,
@@ -202,6 +221,14 @@ export default {
 
       this.isLoading = false;
     },
+    handleResize() {
+      const windowInnerHeight = window.innerHeight;
+      const element = this.$refs.aboveMap.getBoundingClientRect();
+      this.setMapHeight(windowInnerHeight, element.y, element.height);
+    },
+    setMapHeight(windowInnerHeight, elementY, elementHeight) {
+      this.mapHeight = windowInnerHeight - (elementY + elementHeight) + "px";
+    },
     handleScroll() {
       const scrollOffset =
         window.pageYOffset || document.documentElement.scrollTop;
@@ -229,10 +256,13 @@ export default {
     this.$store.commit("updateRestaurant", this.restaurants);
   },
   mounted() {
+    this.handleResize();
     window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener("resize", this.handleResize);
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener("resize", this.handleResize);
   },
 };
 </script>

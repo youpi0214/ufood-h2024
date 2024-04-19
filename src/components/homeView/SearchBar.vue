@@ -66,7 +66,7 @@
 
 <script>
 import { RestaurantQueryOptions } from "@/api/api.utility";
-import { getRestaurants } from "@/api/restaurant";
+import { getRestaurants, getRestaurantsByUserLocation } from "@/api/restaurant";
 import {
   addRestaurantToFavoriteList,
   removeRestaurantFromFavoriteList,
@@ -94,6 +94,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    mapMode: {
+      type: Boolean,
+      required: true,
+    },
+    mapCenter: {
+      type: Array,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -113,7 +121,14 @@ export default {
         [RestaurantQueryOptions.LIMIT, 12],
       ];
       let total = 0;
-      [this.restaurants, total] = await getRestaurants(queryOption);
+      if (this.mapMode) {
+        queryOption.push([RestaurantQueryOptions.LON, this.mapCenter[0]]);
+        queryOption.push([RestaurantQueryOptions.LAT, this.mapCenter[1]]);
+        [this.restaurants, total] =
+          await getRestaurantsByUserLocation(queryOption);
+      } else {
+        [this.restaurants, total] = await getRestaurants(queryOption);
+      }
     },
     async addFavorite(restaurantId) {
       await addRestaurantToFavoriteList(
