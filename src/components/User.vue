@@ -11,9 +11,12 @@
             :userName="userName"
             :rating="rating"
             :id="id"
+            :followers="followers"
+            @update="getUserInfo(id)"
           />
         </div>
         <div class="follow-info">
+
           <FollowModal :following="this.followers" modalId="followers" v-if="dataRecieved" />
           <FollowModal :following="this.following" modalId="following" v-if="dataRecieved" />
         </div>
