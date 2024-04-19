@@ -122,6 +122,7 @@ export default {
   width: 23rem;
   height: 20rem;
   margin: 20px;
+  background-color: white;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

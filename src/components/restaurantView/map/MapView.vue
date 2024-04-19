@@ -31,7 +31,12 @@
 <script>
 import mapboxgl from "!mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { getRoute, removeRoute, MAPBOX_API_KEY } from "./script/map.utility.js";
+import { getRoute, removeRoute, MAPBOX_API_KEY } from "./map.utility.js";
+import { getAllRestaurantsByUserLocation } from "./map.utility.js";
+import {
+  getLocation,
+  getCurrentPositionWithRetry,
+} from "@/components/restaurantView/script/location.utility";
 
 export default {
   props: {
@@ -42,40 +47,48 @@ export default {
       type: Boolean,
       required: true,
     },
-    restaurants: {
-      type: Array,
-      default: null,
-    },
   },
   data() {
     return {
       map: null,
       currentPosition: null,
       getDirectionsIsClicked: false,
+      restaurantMarkers: [],
     };
   },
   methods: {
-    initMap() {
+    async initMap() {
+      await this.getCurrentPositionInHomePage();
       mapboxgl.accessToken = MAPBOX_API_KEY;
       this.map = new mapboxgl.Map({
+        attributionControl: false,
         container: this.$refs.mapElement,
-        center: this.centeredPosition,
+        center: this.homePage ? this.currentPosition : this.centeredPosition,
         style: "mapbox://styles/mapbox/outdoors-v11?optimize=true",
-        zoom: this.homePage ? 8 : 15,
+        zoom: this.homePage ? 12 : 15,
       });
-      if (this.restaurants) {
-        this.restaurants.forEach((restaurant) =>
-          new mapboxgl.Marker({ color: "red" })
-            .setLngLat(restaurant.location.coordinates)
-            .addTo(this.map),
-        );
-        this.map.addControl(new mapboxgl.NavigationControl());
+      if (this.homePage) {
+        this.map.on("idle", async () => {
+          const [restaurants, _] = await getAllRestaurantsByUserLocation(
+            this.map.getCenter().toArray(),
+          );
+          this.displayRestaurantsMarkers(restaurants);
+        });
+        this.map
+          .addControl(
+            new mapboxgl.ScaleControl({
+              maxWidth: 80,
+              unit: "metric",
+            }),
+          )
+          .addControl(new mapboxgl.NavigationControl(), "bottom-right");
       } else {
         new mapboxgl.Marker({ color: "red" })
           .setLngLat(this.centeredPosition)
           .addTo(this.map);
       }
     },
+    //TODO refactor this method to use getLocation from location.utility.js -- if deemed okay
     async getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -93,6 +106,7 @@ export default {
       } else {
         alert("Geolocation is not supported by this browser.");
       }
+      return this.currentPosition;
     },
     async showRoute() {
       if (this.currentPosition) {
@@ -113,7 +127,29 @@ export default {
       this.getDirectionsIsClicked = false;
       await removeRoute(this.centeredPosition, this.map);
     },
+    async getCurrentPositionInHomePage() {
+      while (!this.currentPosition) {
+        this.currentPosition = await this.getLocation();
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+      if (this.currentPosition) {
+        return this.currentPosition;
+      }
+    },
+    displayRestaurantsMarkers(restaurants) {
+      if (this.restaurantMarkers.length > 0) {
+        this.restaurantMarkers.forEach((marker) => marker.remove());
+        this.restaurantMarkers = [];
+      }
+      for (const restaurant of restaurants) {
+        const marker = new mapboxgl.Marker({ color: "red" })
+          .setLngLat(restaurant.location.coordinates)
+          .addTo(this.map);
+        this.restaurantMarkers.push(marker);
+      }
+    },
   },
+
   created() {
     this.getLocation();
   },
@@ -127,6 +163,7 @@ export default {
 .btn {
   background-color: #ff3434;
 }
+
 #hideButton {
   background-color: white;
   color: #ff3434;
