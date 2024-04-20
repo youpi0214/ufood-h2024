@@ -11,12 +11,12 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/restaurants/:restaurantId",
     name: "Restaurant",
-    component: Restaurant
+    component: Restaurant,
   },
   {
     path: "/user/:userId",
@@ -37,14 +37,16 @@ export const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.name !== "Authentication" && !Cookies.get("token")) {
-    displayPopup("Please Login", "You need to be authenticated to access this page.");
+    displayPopup(
+      "Please Login",
+      "You need to be authenticated to access this page.",
+    );
 
     next({ name: "Authentication" });
   } else {
     next();
   }
 });
-
 
 function displayPopup(title, message) {
   const modal = document.createElement("div");
@@ -69,4 +71,3 @@ function displayPopup(title, message) {
     document.body.removeChild(modal);
   }, 4000);
 }
-
