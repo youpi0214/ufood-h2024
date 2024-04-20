@@ -1,7 +1,10 @@
 <template>
   <div class="sticky-top">
     <nav
-      :class="{ 'resto-nav-transparent': isTransparent, 'resto-nav-solid': !isTransparent }"
+      :class="{
+        'resto-nav-transparent': isTransparent,
+        'resto-nav-solid': !isTransparent,
+      }"
       class="resto-nav navbar bg-body-tertiary"
     >
       <div class="container-fluid">
@@ -32,9 +35,13 @@
           :class="searchClicked ? 'w-100' : 'w-50'"
           id="searchBar"
         >
-          <form class="justify-content-center position-relative" style="display: flex; flex-direction: row" role="search">
+          <form
+            class="justify-content-center position-relative"
+            style="display: flex; flex-direction: row"
+            role="search"
+          >
             <button
-              v-if="!searchClicked"
+              v-if="!searchClicked && isDisplayed"
               class="btn btn-danger filter-btn"
               type="button"
               data-bs-toggle="offcanvas"
@@ -107,17 +114,17 @@ export default {
   props: {
     userName: {
       type: String,
-      default: Cookies.get("userName"),
+      default: Cookies.get("userName")
     },
     isLoggedIn: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   computed: {
     displayedName() {
       return this.name ? this.name : this.userName;
-    },
+    }
   },
   methods: {
     setImageSrc() {
@@ -147,7 +154,7 @@ export default {
       }
     },
     handleScroll() {
-      const element = document.querySelector('.top-image');
+      const element = document.querySelector(".top-image");
       if (!element) {
         return; // Exit early if the element doesn't exist
       }
@@ -156,7 +163,7 @@ export default {
       const scrollTop = window.scrollY;
 
       this.isTransparent = scrollTop < imageHeight;
-    },
+    }
   },
   data() {
     return {
@@ -169,6 +176,7 @@ export default {
       searchClicked: false,
       isSmallScreen: window.innerWidth < 768,
       isTransparent: true,
+      isDisplayed: true
     };
   },
   mounted() {
@@ -178,21 +186,29 @@ export default {
     // Event listeners
     window.addEventListener("resize", this.setImageSrc);
     window.addEventListener("resize", this.resetSearchSizeOnBigScreen);
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
     this.name = Cookies.get("userName");
   },
   beforeDestroy() {
     // Remove event listeners
     window.removeEventListener("resize", this.setImageSrc);
     window.removeEventListener("resize", this.resetSearchSizeOnBigScreen);
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener("scroll", this.handleScroll);
   },
   watch: {
     isLoggedIn() {
       // Update name if user is logged in
       if (this.isLoggedIn) this.name = Cookies.get("userName");
     },
-  },
+    $route(to, from) {
+      if (to.name === "Home") {
+        this.isDisplayed = true;
+      } else {
+        this.isTransparent = false;
+        this.isDisplayed = false;
+      }
+    }
+  }
 };
 </script>
 

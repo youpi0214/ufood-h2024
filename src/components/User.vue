@@ -108,7 +108,6 @@ export default {
   },
   beforeRouteUpdate(to, from) {
     this.dataRecieved = false;
-    console.log(to.params.userId);
     this.getUserInfo(to.params.userId);
   },
 };

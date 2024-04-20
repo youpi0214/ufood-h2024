@@ -93,10 +93,7 @@ export default {
   },
   async created() {
     await this.getCurrentPositionInHomePage();
-    console.log("my location:" + this.currentPosition);
     await this.getSameGenresRestaurants();
-    console.log(this.recommendedRestaurants);
-    console.log(this.sortedRestaurants);
   },
 };
 </script>
