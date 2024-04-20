@@ -69,19 +69,23 @@
           </div>
           <!-- FilterBtn and SearchBar end -->
 
-          <MapView
-            id="mapHomePage"
-            v-if="showMap"
-            :home-page="true"
-            :heightmap="mapHeight"
-            :selectedPrice="selectedPrice"
-            :selectedCategory="selectedCategory"
-          ></MapView>
-          <RestaurantCards
-            id="restaurantCards"
-            v-if="!showMap"
-            :restaurants="restaurants"
-          />
+          <!-- MapView and RestaurantCards -->
+          <div v-if="showMap">
+            <MapView
+              id="mapHomePage"
+              :home-page="true"
+              :heightmap="mapHeight"
+              :selectedPrice="selectedPrice"
+              :selectedCategory="selectedCategory"
+            />
+          </div>
+          <div v-else>
+            <RestaurantCards
+              id="restaurantCards"
+              :restaurants="restaurants"
+            />
+          </div>
+          <!-- MapView and RestaurantCards end -->
         </div>
         <!-- Content end -->
 
@@ -310,6 +314,7 @@ button:focus {
   }
 }
 </style>
+
 <!--TODO (OPTIONAL) Animation Style-->
 <!--#mapHomePage {-->
 <!--overflow: hidden;-->
