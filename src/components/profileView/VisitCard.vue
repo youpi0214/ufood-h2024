@@ -1,7 +1,7 @@
 <template>
   <div class="visit-card">
-    <div v-for="resto in restaurants" :key="resto.id">
-      {{ resto.id }}
+    <div v-for="(resto, index) in this.restaurants" :key="index">
+      {{ resto.name }}
     </div>
     <div></div>
 
@@ -43,7 +43,6 @@
 
 <script>
 import { getRestaurantVisitsByUserAndRestaurant } from "@/api/restaurant.visits";
-import { Restaurant } from "@/components/homeView/script/card.utility";
 import { getRestaurantById } from "@/api/restaurant";
 import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
@@ -85,7 +84,6 @@ export default {
           this.restaurants.push(restaurant);
         }
       }
-      console.log(this.restaurants);
     },
   },
   async created() {

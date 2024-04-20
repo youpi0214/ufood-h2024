@@ -36,12 +36,10 @@ export const getRestaurantById = async (id) => {
       if (!response.ok) {
         let errorResponse = await response.json();
         throw new Error(errorResponse.message);
-        return null;
       }
       return response.json();
     })
     .then((restaurant) => {
-      console.log("Restaurant", restaurant.name);
       return restaurant;
     })
     .catch((error) => console.error("Request failed:", error));
