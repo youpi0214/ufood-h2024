@@ -16,6 +16,8 @@
             :userName="userName"
             :rating="rating"
             :id="id"
+            :followers="followers"
+            @update="getUserInfo(id)"
           />
         </div>
         <div class="follow-info">
