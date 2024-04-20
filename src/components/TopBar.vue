@@ -4,8 +4,12 @@
       class="resto-nav-transparent resto-nav-solid resto-nav navbar bg-body-tertiary"
     >
       <div class="container-fluid">
-        <!--  Home button logo      -->
-        <div id="Logo" style="flex: 1; display: flex; justify-content: left">
+        <!--  Home button logo  -->
+        <div
+          v-if="!searchClicked"
+          id="Logo"
+          style="flex: 1; display: flex; justify-content: left"
+        >
           <router-link to="/" class="nav-link logo">
             <a class="navbar-brand">
               <img
@@ -21,9 +25,15 @@
         </div>
 
         <!--  Search Bar      -->
-        <div v-if="isLoggedIn" id="searchBar" style="flex: 3">
+        <div
+          v-if="isLoggedIn"
+          :class="searchClicked ? 'w-100' : 'w-50'"
+          id="searchBar"
+          style="flex: 3"
+        >
           <form style="display: flex; flex-direction: row" role="search">
             <button
+              v-if="!searchClicked"
               class="btn btn-danger filter-btn"
               type="button"
               data-bs-toggle="offcanvas"
@@ -33,18 +43,26 @@
               <i class="bi bi-filter-square-fill"></i>
             </button>
 
-            <UserSearchBar></UserSearchBar>
+            <UserSearchBar
+              ref="userSearchBarComponent"
+              v-if="(searchClicked && isSmallScreen) || !isSmallScreen"
+              :class="searchClicked && isSmallScreen ? 'w-100' : 'w-50'"
+            ></UserSearchBar>
             <button
+              v-if="isSmallScreen"
               style="outline: none; border: none"
               class="btn btn-outline-light search-btn"
+              @click="changeSearchClickedSate"
             >
-              <i class="bi bi-search"></i>
+              <i v-if="!searchClicked" class="bi bi-search"></i>
+              <i v-else class="bi bi-x-square"></i>
             </button>
           </form>
         </div>
 
         <!--  User name and Icon button     -->
         <div
+          v-if="!searchClicked"
           id="profile"
           style="flex: 1; display: flex; justify-content: right"
         >
@@ -111,6 +129,13 @@ export default {
         this.imageSrc = this.imageLarge;
       }
     },
+    changeSearchClickedSate() {
+      this.searchClicked = !this.searchClicked;
+    },
+    resetSearchSizeOnBigScreen() {
+      this.isSmallScreen = window.innerWidth < 768;
+      if (window.innerWidth >= 768) this.searchClicked = false;
+    },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
     },
@@ -130,22 +155,27 @@ export default {
       name: "",
       imageLarge: require("/src/assets/logo/ufood-white.png"),
       imageSmall: require("/src/assets/logo/ufood-white-mobile.png"),
-      imageSrc: '',
+      imageSrc: "",
       userId: Cookies.get("userId"),
+      searchClicked: false,
+      isSmallScreen: window.innerWidth < 768,
     };
   },
   mounted() {
     // this helps restore the username when the page is refreshed
     this.setImageSrc();
-    window.addEventListener('resize', this.setImageSrc);
+    window.addEventListener("resize", this.setImageSrc);
+    window.addEventListener("resize", this.resetSearchSizeOnBigScreen);
+
     this.name = Cookies.get("userName");
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.setImageSrc);
+    window.removeEventListener("resize", this.setImageSrc);
+    window.removeEventListener("resize", this.resetSearchSizeOnBigScreen);
   },
   watch: {
-    userId() {
-      if (this.userId) this.name = Cookies.get("userName");
+    isLoggedIn() {
+      if (this.isLoggedIn) this.name = Cookies.get("userName");
     },
   },
 };
@@ -180,18 +210,12 @@ export default {
   flex-direction: row;
 }
 
-@media (min-width: 601px) {
+@media (min-width: 768px) {
   .filter-btn {
     display: none;
   }
 
   .search-btn {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .search-input {
     display: none;
   }
 }

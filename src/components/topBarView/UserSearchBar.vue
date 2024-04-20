@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="col d-flex justify-content-center position-relative"
-    @click="handleClickOutside"
-  >
+  <div class="col d-flex justify-content-center position-relative">
     <div class="col d-flex justify-content-center position-relative">
-      <form class="d-flex w-75 p-3" role="search">
+      <form class="d-flex w-100 p-3" role="search">
         <input
           ref="userSearchInput"
           class="form-control me-2"
@@ -23,7 +20,6 @@
           left: $refs.userSearchInput.offsetLeft + 'px',
           top: $refs.userSearchInput.offsetHeight + 'px',
         }"
-        @click="handleClickInside"
       >
         <li
           v-for="user in users"
@@ -69,7 +65,7 @@ export default {
     return {
       search: undefined,
       users: [],
-      followingList: []
+      followingList: [],
     };
   },
   methods: {
@@ -80,7 +76,8 @@ export default {
         })
         .then(() => {
           this.updateFollowingList();
-        }).catch((error) => {
+        })
+        .catch((error) => {
           displayPopup("Get some friends", error);
         });
     },
@@ -99,19 +96,22 @@ export default {
     },
     async updateFollowingList() {
       this.followingList = await getUserById(Cookies.get("userId")).then(
-        (user) => user.following
+        (user) => user.following,
       );
     },
     async searchUsers() {
       const queryOption = [
         [RestaurantQueryOptions.Q, this.search],
-        [RestaurantQueryOptions.LIMIT, 12]
+        [RestaurantQueryOptions.LIMIT, 12],
       ];
       let total = 0;
       [this.users, total] = await getUsers(queryOption);
     },
     handleClickOutside(event) {
-      if (!this.$refs.userSearchInput.contains(event.target)) {
+      if (
+        this.$refs.userSearchInput &&
+        !this.$refs.userSearchInput.contains(event.target)
+      ) {
         this.clearSearch();
       }
     },
@@ -120,7 +120,15 @@ export default {
     },
     isPresentInFollowingList(idToCheck) {
       return this.followingList.some((user) => user.id === idToCheck);
-    }
+    },
+  },
+  mounted() {
+    document.addEventListener("click", this.handleClickOutside);
+    document.addEventListener("click", this.handleClickInside);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.handleClickOutside);
+    document.removeEventListener("click", this.handleClickInside);
   },
   async created() {
     await this.updateFollowingList();
@@ -133,8 +141,8 @@ export default {
       } else {
         this.users = [];
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -143,5 +151,4 @@ export default {
   max-height: 30rem;
   overflow-y: auto;
 }
-
 </style>
