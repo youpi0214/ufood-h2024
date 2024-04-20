@@ -89,7 +89,7 @@ export default {
 
 <style scoped>
 #empty-recently-visited-restaurants {
-  margin-top: 2rem;
+  padding: 1rem;
   text-align: center;
 }
 

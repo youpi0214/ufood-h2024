@@ -104,7 +104,8 @@ export default {
     },
   },
   mounted() {
-    this.followModal = new Modal(document.getElementById(this.restaurantId),
+    this.followModal = new Modal(
+      document.getElementById(this.restaurantId),
       {},
     );
   },
