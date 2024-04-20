@@ -37,7 +37,6 @@ export const getRestaurantById = async (id) => {
         let errorResponse = await response.json();
         throw new Error(errorResponse.message);
       }
-
       return response.json();
     })
     .then((restaurant) => {

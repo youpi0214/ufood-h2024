@@ -1,12 +1,8 @@
 <template>
   <div class="visit-card">
-    <Card
-      v-for="resto in restaurant"
-      :restaurant="resto"
-      :key="resto.id"
-      :registerDisable="true"
-    >
-    </Card>
+    <div v-for="(resto, index) in this.restaurants" :key="index">
+      {{ resto.name }}
+    </div>
     <div></div>
 
     <div class="dropdown">
@@ -33,7 +29,7 @@
 
     <div v-if="showForm">
       <RegisterVisitForm
-        v-for="resto in restaurant"
+        v-for="resto in restaurants"
         :key="resto.id"
         :show-form="showForm"
         :restaurant="resto"
@@ -46,23 +42,21 @@
 </template>
 
 <script>
-import Card from "@/components/homeView/Card.vue";
 import { getRestaurantVisitsByUserAndRestaurant } from "@/api/restaurant.visits";
-import { Restaurant } from "@/components/homeView/script/card.utility";
 import { getRestaurantById } from "@/api/restaurant";
 import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 
 export default {
   name: "VisitCard",
-  components: { RegisterVisitForm, Card },
+  components: { RegisterVisitForm },
   props: {
     restaurantId: { type: String, required: true },
     userId: { type: String, required: true },
   },
   data() {
     return {
-      restaurant: [],
+      restaurants: [],
       visits: [],
       total: { type: Number },
       showForm: false,
@@ -84,8 +78,12 @@ export default {
         10,
       );
 
-      const result = [await getRestaurantById(this.restaurantId)];
-      this.restaurant = result.map((restaurant) => new Restaurant(restaurant));
+      const res = [await getRestaurantById(this.restaurantId)];
+      for (const restaurant of res) {
+        if (restaurant) {
+          this.restaurants.push(restaurant);
+        }
+      }
     },
   },
   async created() {
