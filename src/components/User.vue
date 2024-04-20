@@ -25,21 +25,24 @@
             :following="this.followers"
             modalId="followers"
             v-if="dataRecieved"
+            @update="getUserInfo(id)"
           />
           <FollowModal
             :following="this.following"
             modalId="following"
             v-if="dataRecieved"
+            @update="getUserInfo(id)"
           />
         </div>
       </div>
     </div>
     <div class="accordion" id="accordionExample">
-      <RecentlyVisitedRestaurants v-if="dataRecieved" :id="id" />
+      <RecentlyVisitedRestaurants v-if="dataRecieved" :id="id"  @click="getUserInfo(id)" />
       <FavoritesContainer
         v-if="dataRecieved"
         :userEmail="this.email"
         :id="id"
+        @click="getUserInfo(id)"
       />
     </div>
   </div>
@@ -51,7 +54,7 @@ import UserHeader from "@/components/profileView/UserHeader.vue";
 import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
 import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
 import Cookies from "js-cookie";
-import { getUserById } from "@/api/user";
+import {getUserById} from "@/api/user";
 
 import FollowModal from "@/components/profileView/FollowModal.vue";
 
@@ -166,6 +169,7 @@ export default {
   display: flex;
   align-items: center;
 }
+
 @media screen and (max-width: 768px) {
   .profile-info {
     flex-direction: column;
@@ -177,3 +181,5 @@ export default {
   }
 }
 </style>
+<script setup>
+</script>
