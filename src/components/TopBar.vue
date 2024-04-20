@@ -75,22 +75,33 @@
           style="flex: 1; display: flex; justify-content: right"
         >
           <!-- Your user info content here -->
-          <div v-if="isLoggedIn" class="user-info">
-            <span class="user-name">{{ displayedName }}</span>
-            <button @click="toggleDropdown" class="icon-button">
+          <div v-if="isLoggedIn" class="dropdown-center" :class="isSmallScreen? 'ps-3': ''">
+            <button
+              class="btn btn-secondary dropdown-toggle btn bg-transparent"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span class="user-name pe-2">{{ displayedName }}</span>
               <i class="fas fa-user text-white"></i>
             </button>
-            <div
-              v-show="showDropdown"
-              class="dropdown-menu"
-              @click="showDropdown = false"
-            >
-              <router-link :to="`/user/${userId}`" class="dropdown-item"
-              >Profile
-              </router-link>
-              <a class="dropdown-item" @click="logout">Log out</a>
-            </div>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li>
+                <router-link
+                  :to="`/user/${userId}`"
+                  class="dropdown-item btn btn-light"
+                >
+                  Profile
+                </router-link>
+              </li>
+              <li>
+                <a class="dropdown-item btn btn-light" @click="logout"
+                  >Log out</a
+                >
+              </li>
+            </ul>
           </div>
+
           <router-link v-else to="/auth">
             <button class="icon-button">
               <i class="fas fa-user text-white"></i>
@@ -114,17 +125,21 @@ export default {
   props: {
     userName: {
       type: String,
-      default: Cookies.get("userName")
+      default: Cookies.get("userName"),
     },
     isLoggedIn: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
     displayedName() {
-      return this.name ? this.name : this.userName;
-    }
+      if (this.isSmallScreen)
+        return this.name
+          ? this.shortenName(this.name)
+          : this.shortenName(this.userName);
+      else return this.name ? this.name : this.userName;
+    },
   },
   methods: {
     setImageSrc() {
@@ -140,9 +155,6 @@ export default {
     resetSearchSizeOnBigScreen() {
       this.isSmallScreen = window.innerWidth < 768;
       if (window.innerWidth >= 768) this.searchClicked = false;
-    },
-    toggleDropdown() {
-      this.showDropdown = !this.showDropdown;
     },
     async logout() {
       try {
@@ -163,11 +175,25 @@ export default {
       const scrollTop = window.scrollY;
 
       this.isTransparent = scrollTop < imageHeight;
-    }
+    },
+    shortenName(fullName) {
+      const parts = fullName.split(" ");
+      if (parts[0].length > 10) {
+        return parts
+          .map((part) => part.charAt(0) + ".")
+          .join(" ")
+          .trim();
+      }
+      if (parts.length > 2) {
+        return (
+          parts[0] + " " + parts[1].charAt(0) + ". " + parts[parts.length - 1]
+        );
+      }
+      return fullName;
+    },
   },
   data() {
     return {
-      showDropdown: false,
       name: "",
       imageLarge: require("/src/assets/logo/ufood-white.png"),
       imageSmall: require("/src/assets/logo/ufood-white-mobile.png"),
@@ -176,7 +202,7 @@ export default {
       searchClicked: false,
       isSmallScreen: window.innerWidth < 768,
       isTransparent: true,
-      isDisplayed: true
+      isDisplayed: true,
     };
   },
   mounted() {
@@ -207,8 +233,8 @@ export default {
         this.isTransparent = false;
         this.isDisplayed = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -227,6 +253,10 @@ export default {
 
 .resto-nav-solid {
   background-color: #ff3434 !important; /* Change to your desired solid color */
+}
+
+.dropdown-toggle::after {
+  display: none;
 }
 
 .container-fluid {
@@ -255,51 +285,5 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.icon-button i {
-  color: #28a644;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-}
-
-.user-name {
-  color: #ffffff;
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: #ffffff;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-}
-
-.dropdown-menu {
-  display: block;
-}
-
-.dropdown-item {
-  display: block;
-  padding: 10px;
-  color: green;
-  text-decoration: none;
-}
-
-.dropdown-item:hover {
-  background-color: #f0f0f0;
 }
 </style>
