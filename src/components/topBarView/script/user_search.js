@@ -1,6 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal } from "bootstrap";
-
 export const displayPopup = (title, message) => {
   const modal = document.createElement("div");
   modal.classList.add("modal", "fade", "show");
@@ -24,4 +21,3 @@ export const displayPopup = (title, message) => {
     document.body.removeChild(modal);
   }, 4000);
 };
-
