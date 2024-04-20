@@ -106,9 +106,11 @@ export default {
     },
     openModal() {
       this.followModal.show();
+      this.$emit("update")
     },
     closeModal() {
       this.followModal.hide();
+      this.$emit("update")
     },
   },
   mounted() {
