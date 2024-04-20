@@ -13,7 +13,6 @@
         data-bs-target="#collapseTwo"
         aria-expanded="false"
         aria-controls="collapseTwo"
-        @click="toggleArrowRotation"
       >
         <div type="button" style="background: transparent; border: none">
           Recently Visited
@@ -70,15 +69,9 @@ export default {
   },
   data() {
     return {
-      isArrowRotated: false,
       visits: [],
       userId: Cookies.get("userId"),
     };
-  },
-  methods: {
-    toggleArrowRotation() {
-      this.isArrowRotated = !this.isArrowRotated;
-    },
   },
   async created() {
     const [result, _] = await getAllAvailableDataWithQueryFunction(

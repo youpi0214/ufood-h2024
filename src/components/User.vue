@@ -12,7 +12,7 @@
             />
           </div>
           <UserHeader
-            v-if="dataRecieved"
+            v-if="dataReceived"
             :userName="userName"
             :rating="rating"
             :id="id"
@@ -24,22 +24,22 @@
           <FollowModal
             :following="this.followers"
             modalId="followers"
-            v-if="dataRecieved"
+            v-if="dataReceived"
             @update="getUserInfo(id)"
           />
           <FollowModal
             :following="this.following"
             modalId="following"
-            v-if="dataRecieved"
+            v-if="dataReceived"
             @update="getUserInfo(id)"
           />
         </div>
       </div>
     </div>
     <div class="accordion" id="accordionExample">
-      <RecentlyVisitedRestaurants v-if="dataRecieved" :id="id"  @click="getUserInfo(id)" />
+      <RecentlyVisitedRestaurants v-if="dataReceived" :id="id" @click="getUserInfo(id)" />
       <FavoritesContainer
-        v-if="dataRecieved"
+        v-if="dataReceived"
         :userEmail="this.email"
         :id="id"
         @click="getUserInfo(id)"
@@ -54,7 +54,7 @@ import UserHeader from "@/components/profileView/UserHeader.vue";
 import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
 import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
 import Cookies from "js-cookie";
-import {getUserById} from "@/api/user";
+import { getUserById } from "@/api/user";
 
 import FollowModal from "@/components/profileView/FollowModal.vue";
 
@@ -84,7 +84,7 @@ export default {
       showPopup: false,
       popupTitle: "",
       popupList: [],
-      dataRecieved: false,
+      dataReceived: false,
     };
   },
   methods: {
@@ -97,7 +97,7 @@ export default {
         this.rating = userData.rating;
         this.followers = userData.followers;
         this.following = userData.following;
-        this.dataRecieved = true;
+        this.dataReceived = true;
       } catch (error) {
         console.error("Error getting user...");
       }
@@ -107,7 +107,7 @@ export default {
     this.getUserInfo(this.$route.params.userId);
   },
   beforeRouteUpdate(to, from) {
-    this.dataRecieved = false;
+    this.dataReceived = false;
     console.log(to.params.userId);
     this.getUserInfo(to.params.userId);
   },

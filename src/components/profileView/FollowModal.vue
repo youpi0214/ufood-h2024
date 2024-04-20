@@ -46,7 +46,7 @@
               <div v-for="follower in this.following" :key="follower.id">
                 <div
                   id="follower"
-                  @click="this.$router.push(`/user/${follower.id}`)"
+                  @click="visitFollower(follower.id)"
                   style="height: 4rem; padding: 0.5rem"
                 >
                   <img
@@ -100,6 +100,9 @@ export default {
     };
   },
   methods: {
+    visitFollower() {
+      this.$router.push(`/user/${follower.id}`);
+    },
     gravatarUrl(email) {
       return `https://www.gravatar.com/avatar/${this.md5Email(email)}?s=80&d=identicon`;
     },
