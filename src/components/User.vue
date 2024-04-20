@@ -97,6 +97,7 @@ export default {
         this.rating = userData.rating;
         this.followers = userData.followers;
         this.following = userData.following;
+        console.log(userData);
         this.dataReceived = true;
       } catch (error) {
         console.error("Error getting user...");

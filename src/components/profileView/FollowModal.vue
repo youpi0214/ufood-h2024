@@ -44,10 +44,10 @@
                 You don't have any {{ modalId }}
               </div>
               <div v-for="follower in this.following" :key="follower.id">
-                <div
+                <router-link
+                  :to="`/user/${follower.id}`"
                   id="follower"
-                  @click="this.$router.push(`/user/${follower.id}`)"
-                  style="height: 4rem; padding: 0.5rem"
+                  class="routerLink"
                 >
                   <img
                     :src="gravatarUrl(follower.email)"
@@ -68,7 +68,7 @@
                   >
                     {{ follower.name }}
                   </div>
-                </div>
+                </router-link>
               </div>
             </div>
           </div>
@@ -107,12 +107,11 @@ export default {
       return md5(email.trim().toLowerCase());
     },
     openModal() {
-      this.followModal.show();
       this.$emit("update")
+      this.followModal.show();
     },
     closeModal() {
       this.followModal.hide();
-      this.$emit("update")
     },
   },
   mounted() {
@@ -150,5 +149,11 @@ export default {
 
 #followingButton:active {
   background-color: #f1f1f1;
+}
+.routerLink {
+  height: 4rem;
+  padding: 0.5rem;
+  color: black;
+  text-decoration-line: none;
 }
 </style>

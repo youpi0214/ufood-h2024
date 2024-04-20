@@ -67,22 +67,27 @@ export default {
       return this.id === this.userId
     }
   },
+  methods: {
+   async fetchUserVisits() {
+      const [result, _] = await getAllAvailableDataWithQueryFunction(
+        getUserRestaurantVisits,
+        [this.id],
+        10,
+      );
+      this.visits = extractUniqueAttributeListFromExistingList(
+        result,
+        "restaurant_id",
+      );
+    }
+  },
   data() {
     return {
       visits: [],
       userId: Cookies.get("userId"),
     };
   },
-  async created() {
-    const [result, _] = await getAllAvailableDataWithQueryFunction(
-      getUserRestaurantVisits,
-      [this.id],
-      10,
-    );
-    this.visits = extractUniqueAttributeListFromExistingList(
-      result,
-      "restaurant_id",
-    );
+  mounted() {
+    this.fetchUserVisits();
   },
 };
 </script>
