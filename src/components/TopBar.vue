@@ -21,7 +21,7 @@
         </div>
 
         <!--  Search Bar      -->
-        <div id="searchBar" style="flex: 3">
+        <div v-if="isLoggedIn" id="searchBar" style="flex: 3">
           <form style="display: flex; flex-direction: row" role="search">
             <button
               class="btn btn-danger filter-btn"
@@ -33,14 +33,7 @@
               <i class="bi bi-filter-square-fill"></i>
             </button>
 
-            <input
-              ref="searchInput"
-              class="form-control me-2 search-input"
-              style="border-radius: 1rem; outline-color: white"
-              type="search"
-              placeholder="Search..."
-              aria-label="Search"
-            />
+            <UserSearchBar></UserSearchBar>
             <button
               style="outline: none; border: none"
               class="btn btn-outline-light search-btn"
@@ -58,10 +51,10 @@
           <!--    TODO V-if connected (token exist)      -->
           <div v-if="isLoggedIn" class="user-info">
             <!-- TODO  display User name     -->
-            <span @click="toggleDropdown" class="user-name">{{
-              displayedName
-            }}</span>
-
+            <span class="user-name">{{ displayedName }}</span>
+            <button @click="toggleDropdown" class="icon-button">
+              <i class="fas fa-user text-white"></i>
+            </button>
             <div
               v-show="showDropdown"
               class="dropdown-menu"
@@ -90,9 +83,11 @@
 import { router } from "@/router/router";
 import { logout as apiLogout } from "@/api/auth.js";
 import Cookies from "js-cookie";
+import UserSearchBar from "@/components/topBarView/UserSearchBar.vue";
 
 export default {
   name: "TopBar",
+  components: { UserSearchBar },
   props: {
     userName: {
       type: String,
@@ -147,6 +142,11 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.setImageSrc);
+  },
+  watch: {
+    userId() {
+      if (this.userId) this.name = Cookies.get("userName");
+    },
   },
 };
 </script>
