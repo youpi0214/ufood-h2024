@@ -221,12 +221,14 @@ export default {
   flex-direction: row;
 }
 
-.filter-btn {
-  display: none;
-}
+@media (min-width: 768px) {
+  .filter-btn {
+    display: none;
+  }
 
-.search-btn {
-  display: none;
+  .search-btn {
+    display: none;
+  }
 }
 
 .icon-button {
