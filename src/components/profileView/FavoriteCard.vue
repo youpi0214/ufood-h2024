@@ -6,7 +6,7 @@
       :restaurant="resto"
       :registerDisable="true"
       :removeRestaurant="removeFromList"
-      :activeRemoveBtn="true"
+      :activeRemoveBtn="isUserOwner"
     />
   </div>
 </template>
@@ -30,6 +30,9 @@ export default {
     removeFromList: {
       type: Function,
     },
+    isUserOwner: {
+      type: Boolean , required: true
+    }
   },
   data() {
     return {

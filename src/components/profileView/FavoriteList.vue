@@ -9,17 +9,20 @@
       />
       <div style="font-size: 1.5em; font-weight: bold" v-else>{{ name }}</div>
       <i
+        v-if="isUserOwner"
         style="color: dodgerblue; cursor: pointer; font-size: 1.3rem"
         :class="editBtnText"
         @click="editName"
       ></i>
       <i
+        v-if="isUserOwner"
         style="color: red; cursor: pointer; font-size: 1.3rem"
         class="bi bi-trash3-fill"
         @click="deleteList"
       ></i>
     </div>
     <SearchBar
+      v-if="isUserOwner"
       :map-mode="false"
       :isFavoriteSearchBar="true"
       :favouriteListID="id"
@@ -33,6 +36,7 @@
         :key="restaurantId.id"
         :update="updateFavoriteList"
         :removeFromList="removeFromList"
+        :isUserOwner="isUserOwner"
       />
     </div>
   </div>
@@ -55,6 +59,7 @@ export default {
   props: {
     id: { type: String, required: true },
     update: { type: Function, required: true },
+    isUserOwner: { type: Boolean, required: true}
   },
   computed: {
     editBtnText() {

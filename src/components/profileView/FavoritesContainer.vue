@@ -55,6 +55,7 @@
               >
                 <div id="create" style="cursor: pointer">
                   <i
+                    v-if="isUserOwner "
                     :class="btnLogo"
                     class="favorite-container-footer"
                     style="color: dodgerblue"
@@ -79,6 +80,7 @@
           <FavoriteList
             v-for="list in userFavoriteLists"
             :id="list.id"
+            :isUserOwner="isUserOwner"
             :update="updateFavoriteList"
             :key="list.id"
           />
@@ -93,12 +95,13 @@ import FavoriteList from "@/components/profileView/FavoriteList.vue";
 import { createFavoriteList } from "@/api/favorites.lists";
 import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
 import { getUserFavoriteLists } from "@/api/user";
+import Cookies from "js-cookie";
 
 export default {
   name: "FavoritesContainer",
   components: { FavoriteList },
   props: {
-    userId: { required: true },
+    id: { required: true },
     userEmail: { required: true },
   },
   computed: {
@@ -115,12 +118,17 @@ export default {
         this.newListName !== ""
       );
     },
+    isUserOwner() {
+      return this.id === this.userId
+    }
+
   },
   data() {
     return {
       userFavoriteLists: [],
       newListName: null,
       addingNewList: false,
+      userId: Cookies.get("userId")
     };
   },
   methods: {
@@ -144,7 +152,7 @@ export default {
     async updateFavoriteList() {
       [this.userFavoriteLists] = await getAllAvailableDataWithQueryFunction(
         getUserFavoriteLists,
-        [this.userId],
+        [this.id],
         10,
       );
     },

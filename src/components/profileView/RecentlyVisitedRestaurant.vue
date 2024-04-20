@@ -33,6 +33,7 @@
           >
             <div>No Visits</div>
             <router-link to="/">
+            <router-link to="/" v-if="isUserOwner">
               <button class="btn btn-outline-success">Return Home</button>
             </router-link>
           </div>
@@ -57,6 +58,7 @@ import {
   extractUniqueAttributeListFromExistingList,
   getAllAvailableDataWithQueryFunction,
 } from "@/components/profileView/script/profile.utility";
+import Cookies from "js-cookie";
 
 export default {
   name: "RecentlyVisitedRestaurants",
@@ -64,10 +66,16 @@ export default {
   props: {
     id: { type: String, required: true },
   },
+  computed:{
+    isUserOwner() {
+      return this.id === this.userId
+    }
+  },
   data() {
     return {
       isArrowRotated: false,
       visits: [],
+      userId: Cookies.get("userId"),
     };
   },
   methods: {
