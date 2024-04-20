@@ -1,99 +1,100 @@
 <template>
-  <div class="container-lg">
-    <div class="row">
-      <!--Content begin-->
-      <div class="main-content col-auto">
-        <!--FilterBtn and SearchBar begin-->
-        <div ref="aboveMap" class="d-flex justify-content-center">
-          <div class="col">
-            <div
-              style="
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-              "
-            >
-              <button
-                class="filter btn btn-danger"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasExample"
-                aria-controls="offcanvasExample"
+  <div>
+    <!-- Top Image Section -->
+    <div class="top-image">
+      <img src="https://images.pexels.com/photos/1639562/pexels-photo-1639562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1%27)" alt="Top Image" />
+    </div>
+
+    <!-- Content Section -->
+    <div class="container-lg">
+      <div class="row">
+        <!-- Content begin -->
+        <div class="main-content col-auto">
+          <!-- FilterBtn and SearchBar begin -->
+          <div ref="aboveMap" class="d-flex justify-content-center">
+            <div class="col">
+              <div
+                style="
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-evenly;
+                "
               >
-                <i class="bi bi-filter-square-fill"></i>
-                Filters
-              </button>
+                <button
+                  class="filter btn btn-danger"
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasExample"
+                  aria-controls="offcanvasExample"
+                >
+                  <i class="bi bi-filter-square-fill"></i>
+                  Filters
+                </button>
 
-              <!--    Map/List mode switch buttons-->
-              <div style="display: flex; flex-direction: row">
-                <button
-                  class="btn btn-danger"
-                  type="button"
-                  style="border: none"
-                  :style="{
-                    backgroundColor: showMap ? '#ffffff' : '#ff3434',
-                  }"
-                  @click="showMap = !showMap"
-                >
-                  <i
-                    class="bi bi-grid"
-                    :style="{ color: showMap ? '#ff3434' : '#ffffff' }"
-                  ></i>
-                </button>
-                <button
-                  class="btn btn-danger"
-                  :style="{
-                    backgroundColor: showMap ? '#ff3434' : '#ffffff',
-                  }"
-                  style="border: none"
-                  type="button"
-                  @click="showMap = !showMap"
-                >
-                  <i
-                    class="bi bi-map-fill"
-                    :style="{ color: showMap ? '#ffffff' : '#ff3434' }"
-                  ></i>
-                </button>
+                <!-- Map/List mode switch buttons -->
+                <div style="display: flex; flex-direction: row">
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    style="border: none"
+                    :style="{ backgroundColor: showMap ? '#ffffff' : '#ff3434' }"
+                    @click="showMap = !showMap"
+                  >
+                    <i
+                      class="bi bi-grid"
+                      :style="{ color: showMap ? '#ff3434' : '#ffffff' }"
+                    ></i>
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    :style="{ backgroundColor: showMap ? '#ff3434' : '#ffffff' }"
+                    style="border: none"
+                    type="button"
+                    @click="showMap = !showMap"
+                  >
+                    <i
+                      class="bi bi-map-fill"
+                      :style="{ color: showMap ? '#ffffff' : '#ff3434' }"
+                    ></i>
+                  </button>
+                </div>
               </div>
+              <SearchBar
+                :map-mode="false"
+                :style="{ visibility: showMap ? 'hidden' : 'visible', display: 'block' }"
+              />
             </div>
-            <SearchBar
-              :map-mode="false"
-              :style="{
-                visibility: showMap ? 'hidden' : 'visible',
-                display: 'block',
-              }"
-            />
           </div>
+          <!-- FilterBtn and SearchBar end -->
+
+          <MapView
+            id="mapHomePage"
+            v-if="showMap"
+            :home-page="true"
+            :heightmap="mapHeight"
+            :selectedPrice="selectedPrice"
+            :selectedCategory="selectedCategory"
+          ></MapView>
+          <RestaurantCards
+            id="restaurantCards"
+            v-if="!showMap"
+            :restaurants="restaurants"
+          />
         </div>
-        <!--FilterBtn and SearchBar end-->
+        <!-- Content end -->
 
-        <MapView
-          id="mapHomePage"
-          v-if="showMap"
-          :home-page="true"
-          :heightmap="mapHeight"
-          :selectedPrice="this.selectedPrice"
-          :selectedCategory="this.selectedCategory"
-        ></MapView>
-        <RestaurantCards
-          id="restaurantCards"
-          v-if="!showMap"
-          :restaurants="restaurants"
+        <!-- SideBar begin -->
+        <RestaurantFilter
+          class="sidebar"
+          ref="sidebar"
+          :selectedPrice="selectedPrice"
+          :selectedCategory="selectedCategory"
+          :filterGenres="filterGenres"
+          @apply-filters="applyFilters"
+          @reset-filters="resetFilters"
         />
+        <!-- SideBar end -->
       </div>
-      <!--Content end-->
-
-      <!--SideBar begin-->
-      <RestaurantFilter
-        class="sidebar"
-        ref="sidebar"
-        :selectedPrice="selectedPrice"
-        :selectedCategory="selectedCategory"
-        :filterGenres="filterGenres"
-        @apply-filters="applyFilters"
-        @reset-filters="resetFilters"
-      />
-      <!--SideBar end-->
     </div>
   </div>
 </template>
@@ -268,6 +269,18 @@ export default {
 </script>
 
 <style scoped>
+.top-image {
+  width: 100%;
+  height: 100vh; /* Adjust height according to your image */
+  overflow: hidden;
+}
+
+.top-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the entire container */
+}
+
 .main-content {
   margin-top: 10rem;
   position: relative;
@@ -279,6 +292,9 @@ export default {
 
 button:focus {
   outline: 0;
+}
+.container-lg {
+  min-height: 100vh; /* Set a minimum height of 100% of the viewport height */
 }
 
 @media (max-width: 600px) {
