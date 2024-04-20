@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="col d-flex justify-content-center position-relative"
-    @click="handleClickOutside"
-  >
+  <div class="col d-flex justify-content-center position-relative">
     <div class="col d-flex justify-content-center position-relative">
-      <form class="d-flex w-75 p-3" role="search">
+      <form class="d-flex w-100 p-3" role="search">
         <input
           ref="userSearchInput"
           class="form-control me-2"
@@ -23,7 +20,6 @@
           left: $refs.userSearchInput.offsetLeft + 'px',
           top: $refs.userSearchInput.offsetHeight + 'px',
         }"
-        @click="handleClickInside"
       >
         <li
           v-for="user in users"
@@ -112,7 +108,10 @@ export default {
       [this.users, total] = await getUsers(queryOption);
     },
     handleClickOutside(event) {
-      if (!this.$refs.userSearchInput.contains(event.target)) {
+      if (
+        this.$refs.userSearchInput &&
+        !this.$refs.userSearchInput.contains(event.target)
+      ) {
         this.clearSearch();
       }
     },
@@ -122,6 +121,14 @@ export default {
     isPresentInFollowingList(idToCheck) {
       return this.followingList.some((user) => user.id === idToCheck);
     },
+  },
+  mounted() {
+    document.addEventListener("click", this.handleClickOutside);
+    document.addEventListener("click", this.handleClickInside);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.handleClickOutside);
+    document.removeEventListener("click", this.handleClickInside);
   },
   async created() {
     await this.updateFollowingList();
