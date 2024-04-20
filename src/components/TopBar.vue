@@ -27,12 +27,12 @@
 
         <!--  Search Bar      -->
         <div
+          class="flex-lg-row justify-content-center position-relative w-50"
           v-if="isLoggedIn"
           :class="searchClicked ? 'w-100' : 'w-50'"
           id="searchBar"
-          style="flex: 3"
         >
-          <form style="display: flex; flex-direction: row" role="search">
+          <form class="justify-content-center position-relative" style="display: flex; flex-direction: row" role="search">
             <button
               v-if="!searchClicked"
               class="btn btn-danger filter-btn"
