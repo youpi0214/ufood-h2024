@@ -5,7 +5,7 @@
       class="resto-nav navbar bg-body-tertiary"
     >
       <div class="container-fluid">
-        <!--  Home button logo  -->
+        <!-- Home button logo -->
         <div
           v-if="!searchClicked"
           id="Logo"
@@ -25,7 +25,7 @@
           </router-link>
         </div>
 
-        <!--  Search Bar      -->
+        <!-- Search Bar -->
         <div
           class="flex-lg-row justify-content-center position-relative w-50"
           v-if="isLoggedIn"
@@ -61,15 +61,14 @@
           </form>
         </div>
 
-        <!--  User name and Icon button     -->
+        <!-- User name and Icon button -->
         <div
           v-if="!searchClicked"
           id="profile"
           style="flex: 1; display: flex; justify-content: right"
         >
-          <!--    TODO V-if connected (token exist)      -->
+          <!-- Your user info content here -->
           <div v-if="isLoggedIn" class="user-info">
-            <!-- TODO  display User name     -->
             <span class="user-name">{{ displayedName }}</span>
             <button @click="toggleDropdown" class="icon-button">
               <i class="fas fa-user text-white"></i>
@@ -85,8 +84,6 @@
               <a class="dropdown-item" @click="logout">Log out</a>
             </div>
           </div>
-
-          <!--    TODO V-else not connected (token does not exist)      -->
           <router-link v-else to="/auth">
             <button class="icon-button">
               <i class="fas fa-user text-white"></i>
@@ -150,14 +147,15 @@ export default {
       }
     },
     handleScroll() {
-      const scrollTop = window.scrollY;
-      const imageHeight = document.querySelector('.top-image').clientHeight;
-
-      if (scrollTop < imageHeight) {
-        this.isTransparent = true;
-      } else {
-        this.isTransparent = false;
+      const element = document.querySelector('.top-image');
+      if (!element) {
+        return; // Exit early if the element doesn't exist
       }
+
+      const imageHeight = element.clientHeight;
+      const scrollTop = window.scrollY;
+
+      this.isTransparent = scrollTop < imageHeight;
     },
   },
   data() {
@@ -171,24 +169,27 @@ export default {
       searchClicked: false,
       isSmallScreen: window.innerWidth < 768,
       isTransparent: true,
-
     };
   },
   mounted() {
-    // this helps restore the username when the page is refreshed
+    // Set initial image source
     this.setImageSrc();
+
+    // Event listeners
     window.addEventListener("resize", this.setImageSrc);
     window.addEventListener("resize", this.resetSearchSizeOnBigScreen);
     window.addEventListener('scroll', this.handleScroll);
     this.name = Cookies.get("userName");
   },
   beforeDestroy() {
+    // Remove event listeners
     window.removeEventListener("resize", this.setImageSrc);
     window.removeEventListener("resize", this.resetSearchSizeOnBigScreen);
     window.removeEventListener('scroll', this.handleScroll);
   },
   watch: {
     isLoggedIn() {
+      // Update name if user is logged in
       if (this.isLoggedIn) this.name = Cookies.get("userName");
     },
   },
@@ -220,14 +221,12 @@ export default {
   flex-direction: row;
 }
 
-@media (min-width: 768px) {
-  .filter-btn {
-    display: none;
-  }
+.filter-btn {
+  display: none;
+}
 
-  .search-btn {
-    display: none;
-  }
+.search-btn {
+  display: none;
 }
 
 .icon-button {
