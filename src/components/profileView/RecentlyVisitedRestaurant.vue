@@ -23,16 +23,13 @@
     <div
       id="collapseTwo"
       class="accordion-collapse collapse"
-      data-bs-parent="#accordionExample"
-    >
+      data-bs-parent="#accordionExample">
       <div class="accordion-body" style="padding: 0">
         <div class="recently-visited-restaurants">
           <div
             v-if="visits.length === 0"
-            id="empty-recently-visited-restaurants"
-          >
+            id="empty-recently-visited-restaurants">
             <div>No Visits</div>
-            <router-link to="/">
             <router-link to="/" v-if="isUserOwner">
               <button class="btn btn-outline-success">Return Home</button>
             </router-link>
