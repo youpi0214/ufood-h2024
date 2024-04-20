@@ -1,7 +1,8 @@
 <template>
   <div class="sticky-top">
     <nav
-      class="resto-nav-transparent resto-nav-solid resto-nav navbar bg-body-tertiary"
+      :class="{ 'resto-nav-transparent': isTransparent, 'resto-nav-solid': !isTransparent }"
+      class="resto-nav navbar bg-body-tertiary"
     >
       <div class="container-fluid">
         <!--  Home button logo      -->
@@ -61,7 +62,7 @@
               @click="showDropdown = false"
             >
               <router-link :to="`/user/${userId}`" class="dropdown-item"
-                >Profile
+              >Profile
               </router-link>
               <a class="dropdown-item" @click="logout">Log out</a>
             </div>
@@ -123,6 +124,16 @@ export default {
         console.error("Logout failed:", error);
       }
     },
+    handleScroll() {
+      const scrollTop = window.scrollY;
+      const imageHeight = document.querySelector('.top-image').clientHeight;
+
+      if (scrollTop < imageHeight) {
+        this.isTransparent = true;
+      } else {
+        this.isTransparent = false;
+      }
+    },
   },
   data() {
     return {
@@ -132,16 +143,20 @@ export default {
       imageSmall: require("/src/assets/logo/ufood-white-mobile.png"),
       imageSrc: '',
       userId: Cookies.get("userId"),
+      isTransparent: true,
+
     };
   },
   mounted() {
     // this helps restore the username when the page is refreshed
     this.setImageSrc();
     window.addEventListener('resize', this.setImageSrc);
+    window.addEventListener('scroll', this.handleScroll);
     this.name = Cookies.get("userName");
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.setImageSrc);
+    window.removeEventListener('scroll', this.handleScroll);
   },
   watch: {
     userId() {
@@ -154,22 +169,18 @@ export default {
 <style scoped>
 .resto-nav {
   transition: background-color 0.3s;
-}
-
-.resto-nav-transparent {
-  background-color: #ff3434 !important;
-}
-
-.resto-nav-solid {
-  background-color: #ff3434 !important;
-}
-
-.resto-nav {
-  transition: background-color 0.3s;
   width: 100%;
   position: fixed;
   top: 0;
   z-index: 1000;
+}
+
+.resto-nav-transparent {
+  background-color: transparent !important;
+}
+
+.resto-nav-solid {
+  background-color: #ff3434 !important; /* Change to your desired solid color */
 }
 
 .container-fluid {
