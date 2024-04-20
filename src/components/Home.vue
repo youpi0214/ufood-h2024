@@ -234,7 +234,7 @@ export default {
       this.setMapHeight(windowInnerHeight, element.y, element.height);
     },
     setMapHeight(windowInnerHeight, elementY, elementHeight) {
-      this.mapHeight = windowInnerHeight - (elementY + elementHeight) + "px";
+      this.mapHeight = windowInnerHeight - (100 + elementHeight) + "px";
     },
     handleScroll() {
       const scrollOffset =
