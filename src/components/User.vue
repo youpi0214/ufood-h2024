@@ -39,7 +39,7 @@
       <FavoritesContainer
         v-if="dataRecieved"
         :userEmail="this.email"
-        :userId="id"
+        :id="id"
       />
     </div>
   </div>
