@@ -6,7 +6,7 @@
 
     <!-- Modal -->
     <div
-      class="modal"
+      class="modal fade"
       :id="modalId"
       tabindex="-1"
       :aria-labelledby="`follow/${modalId}`"
