@@ -59,7 +59,7 @@ export default {
   props: {
     id: { type: String, required: true },
     update: { type: Function, required: true },
-    isUserOwner: { type: Boolean, required: true}
+    isUserOwner: { type: Boolean, required: true },
   },
   computed: {
     editBtnText() {

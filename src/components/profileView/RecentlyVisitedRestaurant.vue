@@ -22,12 +22,14 @@
     <div
       id="collapseTwo"
       class="accordion-collapse collapse"
-      data-bs-parent="#accordionExample">
+      data-bs-parent="#accordionExample"
+    >
       <div class="accordion-body" style="padding: 0">
         <div class="recently-visited-restaurants">
           <div
             v-if="visits.length === 0"
-            id="empty-recently-visited-restaurants">
+            id="empty-recently-visited-restaurants"
+          >
             <div>No Visits</div>
             <router-link to="/" v-if="isUserOwner">
               <button class="btn btn-outline-success">Return Home</button>
@@ -62,13 +64,13 @@ export default {
   props: {
     id: { type: String, required: true },
   },
-  computed:{
+  computed: {
     isUserOwner() {
-      return this.id === this.userId
-    }
+      return this.id === this.userId;
+    },
   },
   methods: {
-   async fetchUserVisits() {
+    async fetchUserVisits() {
       const [result, _] = await getAllAvailableDataWithQueryFunction(
         getUserRestaurantVisits,
         [this.id],
@@ -78,7 +80,7 @@ export default {
         result,
         "restaurant_id",
       );
-    }
+    },
   },
   data() {
     return {

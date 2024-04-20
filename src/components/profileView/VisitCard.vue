@@ -18,10 +18,21 @@
       <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <div v-if="dateClicked" class="modal-title fs-5" :id="`follow/${this.restaurantId}`" @click="dateClicked=false">
+            <div
+              v-if="dateClicked"
+              class="modal-title fs-5"
+              :id="`follow/${this.restaurantId}`"
+              @click="dateClicked = false"
+            >
               <i style="color: #ff3434" class="bi bi-arrow-left">Back</i>
             </div>
-            <div v-else  class="modal-title fs-5" :id="`follow/${this.restaurantId}`">Visit Dates</div>
+            <div
+              v-else
+              class="modal-title fs-5"
+              :id="`follow/${this.restaurantId}`"
+            >
+              Visit Dates
+            </div>
             <div
               type="button"
               class="btn-close"
@@ -36,7 +47,12 @@
               <div>Rating : {{ "★" }} {{ this.visitRating.toFixed(2) }}</div>
             </div>
             <div v-if="!dateClicked">
-              <div id="visit" v-for="visit in visits" :key="visit.id" style="padding: 0.5rem">
+              <div
+                id="visit"
+                v-for="visit in visits"
+                :key="visit.id"
+                style="padding: 0.5rem"
+              >
                 <div
                   @click="showVisitDetails(visit)"
                   id="visit"
@@ -157,5 +173,4 @@ export default {
   transition: ease-in-out 0.25s;
   cursor: pointer;
 }
-
 </style>

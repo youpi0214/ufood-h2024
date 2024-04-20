@@ -31,8 +31,9 @@ export default {
       type: Function,
     },
     isUserOwner: {
-      type: Boolean , required: true
-    }
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {

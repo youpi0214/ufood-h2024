@@ -37,7 +37,11 @@
       </div>
     </div>
     <div class="accordion" id="accordionExample">
-      <RecentlyVisitedRestaurants v-if="dataReceived" :id="id" @click="getUserInfo(id)" />
+      <RecentlyVisitedRestaurants
+        v-if="dataReceived"
+        :id="id"
+        @click="getUserInfo(id)"
+      />
       <FavoritesContainer
         v-if="dataReceived"
         :userEmail="this.email"
@@ -163,7 +167,6 @@ export default {
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  margin-right: 40px;
 }
 
 .avatar-name-container {
@@ -177,10 +180,15 @@ export default {
     align-items: flex-start;
   }
 
+  .avatar-name-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
   .follow-info {
     margin-top: 1rem;
   }
 }
 </style>
-<script setup>
-</script>
+<script setup></script>

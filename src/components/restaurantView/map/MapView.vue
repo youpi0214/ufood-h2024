@@ -7,8 +7,10 @@
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
-    <div ref="mapElement" :style="{ height: homePage ? heightmap : '400px' }">
-    </div>
+    <div
+      ref="mapElement"
+      :style="{ height: homePage ? heightmap : '400px' }"
+    ></div>
     <div v-if="!homePage">
       <button
         class="btn btn-danger btn-lg btn-block"

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="d-flex"
-    @click="handleClickOutside"
-  >
+  <div class="d-flex" @click="handleClickOutside">
     <div class="d-flex" style="width: 100%">
       <form class="d-flex w-100" style="padding-bottom: 1rem" role="search">
         <input

@@ -40,7 +40,10 @@
               ></div>
             </div>
             <div class="modal-body" style="padding: 0">
-              <div v-if="this.following.length === 0" style="padding: 2rem; justify-content: center; display: flex">
+              <div
+                v-if="this.following.length === 0"
+                style="padding: 2rem; justify-content: center; display: flex"
+              >
                 You don't have any {{ modalId }}
               </div>
               <div v-for="follower in this.following" :key="follower.id">
@@ -52,11 +55,7 @@
                   <img
                     :src="gravatarUrl(follower.email)"
                     :alt="follower.name"
-                    style="
-                      flex: 1;
-                      border-radius: 5rem;
-                      object-fit: contain;
-                    "
+                    style="flex: 1; border-radius: 5rem; object-fit: contain"
                   />
                   <div
                     style="
@@ -107,7 +106,7 @@ export default {
       return md5(email.trim().toLowerCase());
     },
     openModal() {
-      this.$emit("update")
+      this.$emit("update");
       this.followModal.show();
     },
     closeModal() {

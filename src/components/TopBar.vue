@@ -75,9 +75,13 @@
           style="flex: 1; display: flex; justify-content: right"
         >
           <!-- Your user info content here -->
-          <div v-if="isLoggedIn" class="dropdown-center" :class="isSmallScreen? 'ps-3': ''">
+          <div
+            v-if="isLoggedIn"
+            class="dropdown-center"
+            :class="isSmallScreen ? 'ps-3' : ''"
+          >
             <button
-              class="btn btn-secondary dropdown-toggle btn bg-transparent"
+              class="dropdown-toggle profileButton"
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
@@ -240,7 +244,7 @@ export default {
 
 <style scoped>
 .resto-nav {
-  transition: background-color 0.3s;
+  transition: background-color 0.25s;
   width: 100%;
   position: fixed;
   top: 0;
@@ -275,6 +279,18 @@ export default {
   .search-btn {
     display: none;
   }
+}
+.profileButton {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border-radius: 2rem;
+  color: white;
+  transition: ease-in-out 0.25s;
+}
+.profileButton:active {
+  background-color: #ab0404;
+  transition: ease-in-out 0.25s;
 }
 
 .icon-button {
