@@ -25,12 +25,13 @@
       class="accordion-collapse collapse"
       data-bs-parent="#accordionExample"
     >
-      <div class="accordion-body">
+      <div class="accordion-body" style="padding: 0">
         <div class="recently-visited-restaurants">
           <div
             v-if="visits.length === 0"
             id="empty-recently-visited-restaurants"
           >
+            <div>No Visits</div>
             <router-link to="/">
               <button class="btn btn-outline-success">Return Home</button>
             </router-link>
@@ -101,8 +102,7 @@ export default {
 
 .recently-visited-restaurants-container {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 </style>
