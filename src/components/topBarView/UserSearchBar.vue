@@ -69,7 +69,7 @@ export default {
     return {
       search: undefined,
       users: [],
-      followingList: []
+      followingList: [],
     };
   },
   methods: {
@@ -80,7 +80,8 @@ export default {
         })
         .then(() => {
           this.updateFollowingList();
-        }).catch((error) => {
+        })
+        .catch((error) => {
           displayPopup("Get some friends", error);
         });
     },
@@ -99,13 +100,13 @@ export default {
     },
     async updateFollowingList() {
       this.followingList = await getUserById(Cookies.get("userId")).then(
-        (user) => user.following
+        (user) => user.following,
       );
     },
     async searchUsers() {
       const queryOption = [
         [RestaurantQueryOptions.Q, this.search],
-        [RestaurantQueryOptions.LIMIT, 12]
+        [RestaurantQueryOptions.LIMIT, 12],
       ];
       let total = 0;
       [this.users, total] = await getUsers(queryOption);
@@ -120,7 +121,7 @@ export default {
     },
     isPresentInFollowingList(idToCheck) {
       return this.followingList.some((user) => user.id === idToCheck);
-    }
+    },
   },
   async created() {
     await this.updateFollowingList();
@@ -133,8 +134,8 @@ export default {
       } else {
         this.users = [];
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -143,5 +144,4 @@ export default {
   max-height: 30rem;
   overflow-y: auto;
 }
-
 </style>

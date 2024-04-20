@@ -130,18 +130,18 @@ export default {
       name: "",
       imageLarge: require("/src/assets/logo/ufood-white.png"),
       imageSmall: require("/src/assets/logo/ufood-white-mobile.png"),
-      imageSrc: '',
+      imageSrc: "",
       userId: Cookies.get("userId"),
     };
   },
   mounted() {
     // this helps restore the username when the page is refreshed
     this.setImageSrc();
-    window.addEventListener('resize', this.setImageSrc);
+    window.addEventListener("resize", this.setImageSrc);
     this.name = Cookies.get("userName");
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.setImageSrc);
+    window.removeEventListener("resize", this.setImageSrc);
   },
   watch: {
     userId() {
