@@ -103,7 +103,8 @@ export default {
   transition: ease-in-out 0.25s;
 }
 #userHeaderInfo {
-  display: flex; flex-direction: row
+  display: flex;
+  flex-direction: row;
 }
 
 @media screen and (max-width: 768px) {

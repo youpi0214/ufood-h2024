@@ -157,7 +157,14 @@ export default {
     },
   },
   mounted() {
+    console.log("mounted favourite: ", this.id);
     this.updateFavoriteList();
+  },
+  watch: {
+    id() {
+      console.log("id changed favourite: ", this.id);
+      this.updateFavoriteList();
+    },
   },
 };
 </script>

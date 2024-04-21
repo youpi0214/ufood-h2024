@@ -20,20 +20,20 @@
           />
         </div>
         <div id="follow" style="width: 100%; flex: 1">
-        <div class="follow-info">
-          <FollowModal
-            :following="this.followers"
-            modalId="followers"
-            v-if="dataReceived"
-            @click="getUserInfo(id)"
-          />
-          <FollowModal
-            :following="this.following"
-            modalId="following"
-            v-if="dataReceived"
-            @click="getUserInfo(id)"
-          />
-        </div>
+          <div class="follow-info">
+            <FollowModal
+              :following="this.followers"
+              modalId="followers"
+              v-if="dataReceived"
+              @click="getUserInfo(id)"
+            />
+            <FollowModal
+              :following="this.following"
+              modalId="following"
+              v-if="dataReceived"
+              @click="getUserInfo(id)"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -111,9 +111,10 @@ export default {
   created() {
     this.getUserInfo(this.$route.params.userId);
   },
-  beforeRouteUpdate(to, from) {
+  async beforeRouteUpdate(to, from) {
     this.dataReceived = false;
-    this.getUserInfo(to.params.userId);
+    this.id = to.params.userId;
+    await this.getUserInfo(to.params.userId);
   },
 };
 </script>
