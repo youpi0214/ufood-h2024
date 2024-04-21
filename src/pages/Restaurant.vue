@@ -16,7 +16,10 @@
       </div>
       <div id="sliderMapContainer">
         <div class="imagesWithButtons">
-          <ImageSlider  v-if="isDataRecieved" :pictures="restaurant.pictures"></ImageSlider>
+          <ImageSlider
+            v-if="isDataRecieved"
+            :pictures="restaurant.pictures"
+          ></ImageSlider>
           <div style="display: flex">
             <button
               style="flex: 1; border-radius: 0"
@@ -57,7 +60,10 @@
           :restaurant-id="restaurant.id"
         ></AddToFavoritesModal>
       </div>
-      <OpenHours  v-if="isDataRecieved" :opening-hours="restaurant.opening_hours"></OpenHours>
+      <OpenHours
+        v-if="isDataRecieved"
+        :opening-hours="restaurant.opening_hours"
+      ></OpenHours>
       <RecommendedRestaurants
         v-if="isDataRecieved"
         :current-restaurant="this.restaurant"
@@ -107,7 +113,7 @@ export default {
       showPopup: false,
       showForm: false,
       showAddToFavoritesModal: false,
-      isDataRecieved : false,
+      isDataRecieved: false,
     };
   },
   computed: {
@@ -130,7 +136,7 @@ export default {
       this.restaurant = await getRestaurantById(
         this.$route.params.restaurantId,
       );
-      this.isDataRecieved = true
+      this.isDataRecieved = true;
     } catch (error) {
       console.error("Error getting restaurant...");
     }
@@ -151,15 +157,13 @@ export default {
   },
   async beforeRouteUpdate(to, from) {
     try {
-      this.isDataRecieved = false
-      this.restaurant = await getRestaurantById(
-        to.params.restaurantId,
-      );
-      this.isDataRecieved = true
+      this.isDataRecieved = false;
+      this.restaurant = await getRestaurantById(to.params.restaurantId);
+      this.isDataRecieved = true;
     } catch (error) {
       console.error("Error getting restaurant...");
     }
-  }
+  },
 };
 </script>
 

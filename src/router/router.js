@@ -43,14 +43,17 @@ router.beforeEach((to, from, next) => {
     );
 
     next({ name: "Authentication" });
-  } else if (!Cookies.get("token") && from.name !== "Authentication" && to.name !=="Authentication"){
+  } else if (
+    !Cookies.get("token") &&
+    from.name !== "Authentication" &&
+    to.name !== "Authentication"
+  ) {
     displayPopup(
       "Please Login",
       "Token invalid or expired, please log in again",
     );
     next({ name: "Authentication" });
-  }
-    else {
+  } else {
     next();
   }
 });

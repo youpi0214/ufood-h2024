@@ -128,6 +128,7 @@ export default {
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: ease-in-out 0.25s;
 }
 
 .restaurant-card img {
@@ -202,6 +203,12 @@ export default {
   background-color: #ff3434;
 }
 
+.restaurant-card:hover {
+  transition: ease-in-out 0.25s;
+  background-color: #e8e8e8;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
 div {
   font-family: "Calibri Light", serif;
 }
