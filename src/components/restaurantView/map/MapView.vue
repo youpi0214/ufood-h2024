@@ -1,14 +1,16 @@
 <template>
   <div class="map-view w-100">
+    <div v-if="homePage && this.map" style="width: 100%">
+      <SearchBar :map-mode="true" :map-center="mapCenter" />
+    </div>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
       rel="stylesheet"
     />
-    <div ref="mapElement" :style="{ height: homePage ? heightmap : '400px' }">
-      <div v-if="homePage && this.map" style="position: relative; z-index: 1">
-        <SearchBar :map-mode="true" :map-center="mapCenter" />
-      </div>
-    </div>
+    <div
+      ref="mapElement"
+      :style="{ height: homePage ? heightmap : '400px' }"
+    ></div>
     <div v-if="!homePage">
       <button
         class="btn btn-danger btn-lg btn-block"

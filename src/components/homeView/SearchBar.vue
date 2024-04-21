@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="col d-flex justify-content-center position-relative"
-    @click="handleClickOutside"
-  >
-    <div class="col d-flex justify-content-center position-relative">
-      <form class="d-flex w-75 p-3" role="search">
+  <div class="d-flex" @click="handleClickOutside">
+    <div class="d-flex" style="width: 100%">
+      <form class="d-flex w-100" style="padding-bottom: 1rem" role="search">
         <input
           ref="searchInput"
           class="form-control me-2"

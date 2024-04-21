@@ -3,7 +3,7 @@
     <div>
       <!-- Button trigger modal -->
       <div
-        id="follwingbutton"
+        id="followingButton"
         type="button"
         class="btn"
         @click="openModal"
@@ -31,42 +31,43 @@
               <h1 class="modal-title fs-5" :id="`follow/${modalId}`">
                 {{ modalId }}
               </h1>
-              <button
+              <div
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
                 @click="closeModal"
                 aria-label="Close"
-              ></button>
+              ></div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 0">
+              <div
+                v-if="this.following.length === 0"
+                style="padding: 2rem; justify-content: center; display: flex"
+              >
+                You don't have any {{ modalId }}
+              </div>
               <div v-for="follower in this.following" :key="follower.id">
-                <div
+                <router-link
+                  :to="`/user/${follower.id}`"
                   id="follower"
-                  @click="this.$router.push(`/user/${follower.id}`)"
-                  data-bs-dismiss="modal"
+                  class="routerLink"
                 >
                   <img
                     :src="gravatarUrl(follower.email)"
                     :alt="follower.name"
-                    style="
-                      flex: 1;
-                      width: 50%;
-                      padding: 1rem;
-                      border-radius: 5rem;
-                    "
+                    style="flex: 1; border-radius: 5rem; object-fit: contain"
                   />
                   <div
                     style="
-                      flex: 10;
-                      padding: 1rem;
+                      flex: 8;
                       display: flex;
                       align-items: center;
+                      padding-left: 1rem;
                     "
                   >
                     {{ follower.name }}
                   </div>
-                </div>
+                </router-link>
               </div>
             </div>
           </div>
@@ -105,12 +106,11 @@ export default {
       return md5(email.trim().toLowerCase());
     },
     openModal() {
+      this.$emit("update");
       this.followModal.show();
-      this.$emit("update")
     },
     closeModal() {
       this.followModal.hide();
-      this.$emit("update")
     },
   },
   mounted() {
@@ -126,15 +126,33 @@ export default {
 
 <style scoped>
 #follower {
+  padding: 0.5rem;
   display: flex;
   flex-direction: row;
+  transition: ease-in-out 0.25s;
 }
 
-#follwingbutton {
+#follower:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+  transition: ease-in-out 0.25s;
+}
+
+#follower:active {
+  background-color: #f1f1f1;
+}
+
+#followingButton {
   border: none;
 }
 
-#follwingbutton:active {
+#followingButton:active {
   background-color: #f1f1f1;
+}
+.routerLink {
+  height: 4rem;
+  padding: 0.5rem;
+  color: black;
+  text-decoration-line: none;
 }
 </style>

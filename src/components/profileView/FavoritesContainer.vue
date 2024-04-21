@@ -55,7 +55,7 @@
               >
                 <div id="create" style="cursor: pointer">
                   <i
-                    v-if="isUserOwner "
+                    v-if="isUserOwner"
                     :class="btnLogo"
                     class="favorite-container-footer"
                     style="color: dodgerblue"
@@ -119,16 +119,15 @@ export default {
       );
     },
     isUserOwner() {
-      return this.id === this.userId
-    }
-
+      return this.id === this.userId;
+    },
   },
   data() {
     return {
       userFavoriteLists: [],
       newListName: null,
       addingNewList: false,
-      userId: Cookies.get("userId")
+      userId: Cookies.get("userId"),
     };
   },
   methods: {

@@ -28,7 +28,7 @@ export default {
 .restaurant-cards {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 40px;
 }
 </style>

@@ -13,7 +13,6 @@
         data-bs-target="#collapseTwo"
         aria-expanded="false"
         aria-controls="collapseTwo"
-        @click="toggleArrowRotation"
       >
         <div type="button" style="background: transparent; border: none">
           Recently Visited
@@ -25,19 +24,16 @@
       class="accordion-collapse collapse"
       data-bs-parent="#accordionExample"
     >
-      <div class="accordion-body">
+      <div class="accordion-body" style="padding: 0">
         <div class="recently-visited-restaurants">
           <div
             v-if="visits.length === 0"
             id="empty-recently-visited-restaurants"
           >
+            <div>No Visits</div>
             <router-link to="/" v-if="isUserOwner">
               <button class="btn btn-outline-success">Return Home</button>
             </router-link>
-            <div v-else>
-              No Visits
-            </div>
-
           </div>
           <div class="recently-visited-restaurants-container" v-else>
             <VisitCard
@@ -68,40 +64,39 @@ export default {
   props: {
     id: { type: String, required: true },
   },
-  computed:{
+  computed: {
     isUserOwner() {
-      return this.id === this.userId
-    }
+      return this.id === this.userId;
+    },
+  },
+  methods: {
+    async fetchUserVisits() {
+      const [result, _] = await getAllAvailableDataWithQueryFunction(
+        getUserRestaurantVisits,
+        [this.id],
+        10,
+      );
+      this.visits = extractUniqueAttributeListFromExistingList(
+        result,
+        "restaurant_id",
+      );
+    },
   },
   data() {
     return {
-      isArrowRotated: false,
       visits: [],
       userId: Cookies.get("userId"),
     };
   },
-  methods: {
-    toggleArrowRotation() {
-      this.isArrowRotated = !this.isArrowRotated;
-    },
-  },
-  async created() {
-    const [result, _] = await getAllAvailableDataWithQueryFunction(
-      getUserRestaurantVisits,
-      [this.id],
-      10,
-    );
-    this.visits = extractUniqueAttributeListFromExistingList(
-      result,
-      "restaurant_id",
-    );
+  mounted() {
+    this.fetchUserVisits();
   },
 };
 </script>
 
 <style scoped>
 #empty-recently-visited-restaurants {
-  margin-top: 2rem;
+  padding: 1rem;
   text-align: center;
 }
 
@@ -112,8 +107,7 @@ export default {
 
 .recently-visited-restaurants-container {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 </style>
