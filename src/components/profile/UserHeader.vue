@@ -113,6 +113,7 @@ export default {
   }
   #userHeaderInfo {
     flex-direction: column;
+    margin-bottom: 1rem;
   }
 }
 
