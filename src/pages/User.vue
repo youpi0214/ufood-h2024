@@ -2,7 +2,7 @@
   <div class="container-xl main-content">
     <div class="col-md-auto">
       <div class="profile-info">
-        <div class="avatar-name-container">
+        <div class="avatar-name-container" style="flex: 3">
           <div class="gravatar-container">
             <img
               :src="gravatarUrl"
@@ -19,6 +19,7 @@
             :followers="followers"
           />
         </div>
+        <div id="follow" style="width: 100%; flex: 1">
         <div class="follow-info">
           <FollowModal
             :following="this.followers"
@@ -32,6 +33,7 @@
             v-if="dataReceived"
             @click="getUserInfo(id)"
           />
+        </div>
         </div>
       </div>
     </div>
@@ -171,7 +173,16 @@ export default {
   align-items: center;
 }
 
+#follow {
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media screen and (max-width: 768px) {
+  #follow {
+    justify-content: center;
+  }
+
   .profile-info {
     flex-direction: column;
     align-items: flex-start;
