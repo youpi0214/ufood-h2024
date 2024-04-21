@@ -2,7 +2,7 @@
   <div class="container-xl main-content">
     <div class="col-md-auto">
       <div class="profile-info">
-        <div class="avatar-name-container">
+        <div class="avatar-name-container" style="flex: 3">
           <div class="gravatar-container">
             <img
               :src="gravatarUrl"
@@ -17,22 +17,23 @@
             :rating="rating"
             :id="id"
             :followers="followers"
-            @update="getUserInfo(id)"
           />
         </div>
-        <div class="follow-info">
-          <FollowModal
-            :following="this.followers"
-            modalId="followers"
-            v-if="dataReceived"
-            @update="getUserInfo(id)"
-          />
-          <FollowModal
-            :following="this.following"
-            modalId="following"
-            v-if="dataReceived"
-            @update="getUserInfo(id)"
-          />
+        <div id="follow" style="width: 100%; flex: 1">
+          <div class="follow-info">
+            <FollowModal
+              :following="this.followers"
+              modalId="followers"
+              v-if="dataReceived"
+              @click="getUserInfo(id)"
+            />
+            <FollowModal
+              :following="this.following"
+              modalId="following"
+              v-if="dataReceived"
+              @click="getUserInfo(id)"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -54,13 +55,13 @@
 
 <script>
 import md5 from "md5";
-import UserHeader from "@/components/profileView/UserHeader.vue";
-import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
-import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
+import UserHeader from "@/components/profile/UserHeader.vue";
+import RecentlyVisitedRestaurants from "@/components/profile/RecentlyVisitedRestaurant.vue";
+import FavoritesContainer from "@/components/profile/FavoritesContainer.vue";
 import Cookies from "js-cookie";
 import { getUserById } from "@/api/user";
 
-import FollowModal from "@/components/profileView/FollowModal.vue";
+import FollowModal from "@/components/profile/FollowModal.vue";
 
 export default {
   computed: {
@@ -101,7 +102,6 @@ export default {
         this.rating = userData.rating;
         this.followers = userData.followers;
         this.following = userData.following;
-        console.log(userData);
         this.dataReceived = true;
       } catch (error) {
         console.error("Error getting user...");
@@ -111,10 +111,10 @@ export default {
   created() {
     this.getUserInfo(this.$route.params.userId);
   },
-  beforeRouteUpdate(to, from) {
+  async beforeRouteUpdate(to, from) {
     this.dataReceived = false;
-    console.log(to.params.userId);
-    this.getUserInfo(to.params.userId);
+    this.id = to.params.userId;
+    await this.getUserInfo(to.params.userId);
   },
 };
 </script>
@@ -174,7 +174,16 @@ export default {
   align-items: center;
 }
 
+#follow {
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media screen and (max-width: 768px) {
+  #follow {
+    justify-content: center;
+  }
+
   .profile-info {
     flex-direction: column;
     align-items: flex-start;

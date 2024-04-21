@@ -1,6 +1,6 @@
 <template>
   <div id="userHeader">
-    <div id="userHeaderInfo" style="display: flex; flex-direction: row">
+    <div id="userHeaderInfo">
       <div id="userName" style="font-size: 2rem">
         {{ userName }}
       </div>
@@ -102,11 +102,19 @@ export default {
   background-color: #ab0404;
   transition: ease-in-out 0.25s;
 }
+#userHeaderInfo {
+  display: flex;
+  flex-direction: row;
+}
 
 @media screen and (max-width: 768px) {
   .followButton {
     display: flex;
     justify-content: center;
+  }
+  #userHeaderInfo {
+    flex-direction: column;
+    margin-bottom: 1rem;
   }
 }
 

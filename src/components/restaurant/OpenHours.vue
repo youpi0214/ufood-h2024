@@ -1,5 +1,5 @@
 <script>
-import { formatString } from "@/components/restaurantView/script/restaurant.utility";
+import { formatString } from "@/components/restaurant/script/restaurant.utility";
 
 export default {
   name: "OpenHours",

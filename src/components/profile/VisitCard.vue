@@ -72,7 +72,7 @@
 <script>
 import { getRestaurantVisitsByUserAndRestaurant } from "@/api/restaurant.visits";
 import { getRestaurantById } from "@/api/restaurant";
-import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
+import { getAllAvailableDataWithQueryFunction } from "@/components/profile/script/profile.utility";
 import { Modal } from "bootstrap";
 
 export default {

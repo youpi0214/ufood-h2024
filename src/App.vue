@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import TopBar from "@/components/TopBar.vue";
+import TopBar from "@/pages/TopBar.vue";
 import Cookies from "js-cookie";
 
 export default {

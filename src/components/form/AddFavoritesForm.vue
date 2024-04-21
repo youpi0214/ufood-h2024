@@ -68,7 +68,7 @@ import {
   createFavoriteList,
 } from "@/api/favorites.lists";
 import { RestaurantQueryOptions } from "@/api/api.utility";
-import { Owner } from "@/components/profileView/script/profile.utility";
+import { Owner } from "@/components/profile/script/profile.utility";
 import { triggerConfetti } from "@/components/form/script/form.utility";
 
 export default {

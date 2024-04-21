@@ -59,6 +59,7 @@
             <button
               v-if="isSmallScreen"
               style="outline: none; border: none"
+              :style="!searchClicked ? '' : 'height: 100%; margin-top: 1rem;'"
               class="btn btn-outline-light search-btn"
               @click="changeSearchClickedSate"
             >
@@ -121,7 +122,7 @@
 import { router } from "@/router/router";
 import { logout as apiLogout } from "@/api/auth.js";
 import Cookies from "js-cookie";
-import UserSearchBar from "@/components/topBarView/UserSearchBar.vue";
+import UserSearchBar from "@/components/topBar/UserSearchBar.vue";
 
 export default {
   name: "TopBar",
@@ -163,6 +164,8 @@ export default {
     async logout() {
       try {
         await apiLogout();
+        this.userId = "";
+        this.name = "";
         this.$emit("user-logout");
         await router.push({ name: "Authentication" });
       } catch (error) {
@@ -228,7 +231,10 @@ export default {
   watch: {
     isLoggedIn() {
       // Update name if user is logged in
-      if (this.isLoggedIn) this.name = Cookies.get("userName");
+      if (this.isLoggedIn) {
+        this.name = Cookies.get("userName");
+        this.userId = Cookies.get("userId");
+      }
     },
     $route(to, from) {
       if (to.name === "Home") {
@@ -280,6 +286,7 @@ export default {
     display: none;
   }
 }
+
 .profileButton {
   border: none;
   outline: none;
@@ -288,6 +295,7 @@ export default {
   color: white;
   transition: ease-in-out 0.25s;
 }
+
 .profileButton:active {
   background-color: #ab0404;
   transition: ease-in-out 0.25s;

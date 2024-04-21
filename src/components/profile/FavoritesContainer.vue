@@ -76,7 +76,7 @@
               </div>
             </div>
           </div>
-
+         <div v-if="userFavoriteLists.length === 0" class="d-flex justify-content-center">No Favorites</div>
           <FavoriteList
             v-for="list in userFavoriteLists"
             :id="list.id"
@@ -91,9 +91,9 @@
 </template>
 
 <script>
-import FavoriteList from "@/components/profileView/FavoriteList.vue";
+import FavoriteList from "@/components/profile/FavoriteList.vue";
 import { createFavoriteList } from "@/api/favorites.lists";
-import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
+import { getAllAvailableDataWithQueryFunction } from "@/components/profile/script/profile.utility";
 import { getUserFavoriteLists } from "@/api/user";
 import Cookies from "js-cookie";
 
@@ -158,6 +158,11 @@ export default {
   },
   mounted() {
     this.updateFavoriteList();
+  },
+  watch: {
+    id() {
+      this.updateFavoriteList();
+    },
   },
 };
 </script>

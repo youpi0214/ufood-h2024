@@ -5,7 +5,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
-import store from "./components/store";
+import store from "./pages/store";
 
 const app = createApp(App);
 

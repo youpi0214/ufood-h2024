@@ -1,5 +1,5 @@
 <template>
-  <div class="favorite-card">
+  <div class="favorite-card card border-0">
     <Card
       v-for="resto in restaurant"
       :key="resto.id"
@@ -7,14 +7,15 @@
       :registerDisable="true"
       :removeRestaurant="removeFromList"
       :activeRemoveBtn="isUserOwner"
+      :isInFavouriteList="true"
     />
   </div>
 </template>
 
 <script>
 import { getRestaurantById } from "@/api/restaurant";
-import { Restaurant } from "@/components/homeView/script/card.utility";
-import Card from "@/components/homeView/Card.vue";
+import { Restaurant } from "@/components/home/script/card.utility";
+import Card from "@/components/home/Card.vue";
 
 export default {
   name: "FavoriteCard",
