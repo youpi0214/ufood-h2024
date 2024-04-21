@@ -101,7 +101,6 @@ export default {
         this.rating = userData.rating;
         this.followers = userData.followers;
         this.following = userData.following;
-        console.log(userData);
         this.dataReceived = true;
       } catch (error) {
         console.error("Error getting user...");
@@ -113,7 +112,6 @@ export default {
   },
   beforeRouteUpdate(to, from) {
     this.dataReceived = false;
-    console.log(to.params.userId);
     this.getUserInfo(to.params.userId);
   },
 };
