@@ -7,24 +7,23 @@
             <div class="row g-0">
               <div class="col-md-6 col-lg-5 d-none d-md-block">
                 <img
-                  src="https://buildit.ca/wp-content/uploads/2022/02/restaurant-dining-tables-bar.png"
+                  src="@/assets/logo/ufood-red.png"
                   alt="login form"
                   class="img-fluid"
-                  style="border-radius: 1rem 0 0 1rem; height: 100%"
+                  style="
+                    border-radius: 1rem 0 0 1rem;
+                    height: 100%;
+                    object-fit: contain;
+                  "
                 />
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
                   <form>
-                    <div class="d-flex align-items-center mb-3 pb-1">
-                      <i
-                        class="fas fa-cubes fa-2x me-3"
-                        style="color: #ff6219"
-                      ></i>
-                      <span class="h1 fw-bold mb-0">Logo</span>
-                    </div>
-
-                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
+                    <h5
+                      class="fw-normal mb-3 pb-3 d-flex justify-content-center"
+                      style="letter-spacing: 1px"
+                    >
                       {{ formTitle }}
                     </h5>
 
