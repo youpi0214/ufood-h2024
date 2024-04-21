@@ -89,12 +89,10 @@ export default {
     };
   },
   mounted() {
-    console.log("mounted id changed visits: ", this.id);
     this.fetchUserVisits();
   },
   watch: {
     id() {
-      console.log("id changed visits: ", this.id);
       this.fetchUserVisits();
     },
   },
