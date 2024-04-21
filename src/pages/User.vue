@@ -17,6 +17,7 @@
             :rating="rating"
             :id="id"
             :followers="followers"
+            @update="getUserInfo(id)"
           />
         </div>
         <div id="follow" style="width: 100%; flex: 1">
