@@ -1,5 +1,5 @@
 <template>
-  <div class="favorite-card">
+  <div class="favorite-card card border-0">
     <Card
       v-for="resto in restaurant"
       :key="resto.id"
@@ -7,6 +7,7 @@
       :registerDisable="true"
       :removeRestaurant="removeFromList"
       :activeRemoveBtn="isUserOwner"
+      :isInFavouriteList="true"
     />
   </div>
 </template>
@@ -54,5 +55,7 @@ export default {
   margin: 0.2rem;
   align-items: center;
   background-color: #f8f9fa;
+
 }
+
 </style>

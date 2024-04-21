@@ -1,5 +1,5 @@
 <template>
-  <div class="restaurant-cards">
+  <div class="restaurant-cards justify-content-center">
     <Card
       v-for="restaurant in restaurants"
       :key="restaurant.id"

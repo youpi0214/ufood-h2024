@@ -1,5 +1,5 @@
 <template>
-  <div class="restaurant-card">
+  <div class="restaurant-card" :style="isInFavouriteList ? 'width:100%;' : ''">
     <div v-if="restaurant.id">
       <router-link
         style="text-decoration-line: none"
@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import { Restaurant } from "@/components/home/script/card.utility";
 import { formatRestaurantName } from "@/components/home/script/home.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 import {
@@ -87,6 +86,10 @@ export default {
       type: Function,
     },
     activeRemoveBtn: {
+      type: Boolean,
+      default: false,
+    },
+    isInFavouriteList: {
       type: Boolean,
       default: false,
     },
@@ -126,6 +129,8 @@ export default {
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+
 
 .restaurant-card img {
   width: 100%;
@@ -174,6 +179,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .registerVisitButton {
   transition: ease-in-out 0.25s;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
@@ -186,15 +192,18 @@ export default {
   left: 50%;
   transform: translate(-50%, 0);
 }
+
 .registerVisitButton:hover {
   background-color: #ff3434;
   transition: ease-in-out 0.25s;
   color: white;
   cursor: pointer;
 }
+
 .registerVisitButton.removeButton:hover {
   background-color: #ff3434;
 }
+
 div {
   font-family: "Calibri Light", serif;
 }
