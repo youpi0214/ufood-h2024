@@ -1,3 +1,19 @@
+<template>
+  <div>
+    <h2>You may also like</h2>
+    <div id="recommendedContainer">
+      <div style="display: flex">
+        <div
+          style="display: flex; flex-direction: column"
+          v-for="restaurant in sortedRestaurants"
+          :key="restaurant"
+        >
+          <Card :restaurant="restaurant" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 <script>
 import { getRestaurants } from "@/api/restaurant";
 import Card from "@/components/home/Card.vue";
@@ -97,24 +113,6 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div>
-    <h2>You may also like</h2>
-    <div id="recommendedContainer">
-      <div style="display: flex">
-        <div
-          style="display: flex; flex-direction: column"
-          v-for="restaurant in sortedRestaurants"
-          :key="restaurant"
-        >
-          <Card :restaurant="restaurant" />
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <style scoped>
 #recommendedContainer {
   background-color: #fafafa;

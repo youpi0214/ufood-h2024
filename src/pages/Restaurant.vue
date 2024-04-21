@@ -4,6 +4,7 @@
     <div v-if="restaurant" class="container">
       <div class="center-header">
         <PageHeaderInfos
+          v-if="isDataRecieved"
           :name="restaurant.name"
           :address="restaurant.address"
           :rating="restaurantRating"
@@ -15,7 +16,7 @@
       </div>
       <div id="sliderMapContainer">
         <div class="imagesWithButtons">
-          <ImageSlider :pictures="restaurant.pictures"></ImageSlider>
+          <ImageSlider  v-if="isDataRecieved" :pictures="restaurant.pictures"></ImageSlider>
           <div style="display: flex">
             <button
               style="flex: 1; border-radius: 0"
@@ -35,6 +36,7 @@
         </div>
         <div class="map">
           <MapView
+            v-if="isDataRecieved"
             :home-page="false"
             :centered-position="restaurant.location.coordinates"
           ></MapView>
@@ -42,19 +44,22 @@
       </div>
       <div v-if="showForm">
         <RegisterVisitForm
+          v-if="isDataRecieved"
           @close="hideFeedbackForm"
           :restaurant="restaurant"
         ></RegisterVisitForm>
       </div>
       <div v-if="showAddToFavoritesModal">
         <AddToFavoritesModal
+          v-if="isDataRecieved"
           :owner="this.User"
           @close-modal="handleCloseAddToFavoriteList"
           :restaurant-id="restaurant.id"
         ></AddToFavoritesModal>
       </div>
-      <OpenHours :opening-hours="restaurant.opening_hours"></OpenHours>
+      <OpenHours  v-if="isDataRecieved" :opening-hours="restaurant.opening_hours"></OpenHours>
       <RecommendedRestaurants
+        v-if="isDataRecieved"
         :current-restaurant="this.restaurant"
         :genres="this.restaurant.genres"
       />
@@ -102,6 +107,7 @@ export default {
       showPopup: false,
       showForm: false,
       showAddToFavoritesModal: false,
+      isDataRecieved : false,
     };
   },
   computed: {
@@ -124,6 +130,7 @@ export default {
       this.restaurant = await getRestaurantById(
         this.$route.params.restaurantId,
       );
+      this.isDataRecieved = true
     } catch (error) {
       console.error("Error getting restaurant...");
     }
@@ -142,6 +149,18 @@ export default {
       this.showAddToFavoritesModal = false;
     },
   },
+  async beforeRouteUpdate(to, from) {
+    try {
+      this.isDataRecieved = false
+      this.restaurant = await getRestaurantById(
+        to.params.restaurantId,
+      );
+      this.isDataRecieved = true
+      console.log("test update restaurant page")
+    } catch (error) {
+      console.error("Error getting restaurant...");
+    }
+  }
 };
 </script>
 

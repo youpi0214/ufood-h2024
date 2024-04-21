@@ -36,14 +36,21 @@ export const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== "Authentication" || !Cookies.get("token")) {
+  if (to.name !== "Authentication" && !Cookies.get("token")) {
     displayPopup(
       "Please Login",
       "You need to be authenticated to access this page.",
     );
 
     next({ name: "Authentication" });
-  } else {
+  } else if (!Cookies.get("token") && from.name !== "Authentication" && to.name !=="Authentication"){
+    displayPopup(
+      "Please Login",
+      "Token invalid or expired, please log in again",
+    );
+    next({ name: "Authentication" });
+  }
+    else {
     next();
   }
 });
