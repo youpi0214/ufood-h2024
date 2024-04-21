@@ -2,6 +2,10 @@ import { getUserFavoriteLists, getUsers } from "src/api/user.js";
 import { RestaurantQueryOptions } from "src/api/api.utility.js";
 import { test, describe, expect } from "vitest";
 
+const TEST_PASSWORD = "test"; // DON'T Change its value
+const TEST_EMAIL = "testyann@yann.com"; // DON'T Change its value
+const TEST_NAME = "testYann"; // DON'T Change its value
+
 describe("getUsers", () => {
   test("get users with a limit on the number of users returned ", async () => {
     const maxNumberOfUsers = 130;

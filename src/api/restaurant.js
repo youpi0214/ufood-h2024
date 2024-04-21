@@ -1,4 +1,5 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
+import Cookies from "js-cookie";
 
 export const getRestaurants = async (options = []) => {
   const queryString = convertQueryOptionsToString(options);
@@ -7,11 +8,14 @@ export const getRestaurants = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -25,12 +29,14 @@ export const getRestaurantById = async (id) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`Failed to fetch restaurant with id:${id}`);
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((restaurant) => {
@@ -46,11 +52,14 @@ export const getVisitsByRestaurantId = async (id, options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`Failed to fetch visits for restaurant with id:${id}`);
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
 
       return response.json();
     })
@@ -59,3 +68,25 @@ export const getVisitsByRestaurantId = async (id, options = []) => {
     })
     .catch((error) => console.error("Request failed:", error));
 };
+
+export async function getRestaurantsByUserLocation(options = []) {
+  const queryString = convertQueryOptionsToString(options);
+  return fetch(`${BASE_URL}/restaurants${queryString}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
+    },
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error(`Failed to fetch restaurants around `);
+      return response.json();
+    })
+    .then((restaurantsAroundUserLocation) => {
+      return [
+        restaurantsAroundUserLocation.items,
+        restaurantsAroundUserLocation.total,
+      ];
+    })
+    .catch((error) => console.error("Request failed:", error));
+}

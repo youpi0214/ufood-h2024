@@ -1,4 +1,6 @@
-export const BASE_URL = "https://ufoodapi.herokuapp.com/unsecure";
+const useUnsecureEndpoint = false;
+export const BASE_URL =
+  "https://ufoodapi.herokuapp.com" + (useUnsecureEndpoint ? "/unsecure" : "");
 
 export const RestaurantQueryOptions = {
   LIMIT: "limit",
@@ -28,3 +30,12 @@ export const convertQueryOptionsToString = function (options) {
 
   return optionsResult;
 };
+
+export class User {
+  constructor(id, name, email, token) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.token = token;
+  }
+}

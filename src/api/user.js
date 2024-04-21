@@ -1,4 +1,5 @@
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility.js";
+import Cookies from "js-cookie";
 
 export const getUsers = async (options = []) => {
   const queryString = convertQueryOptionsToString(options);
@@ -7,11 +8,14 @@ export const getUsers = async (options = []) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch");
-
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
       return response.json();
     })
     .then((data) => {
@@ -20,26 +24,20 @@ export const getUsers = async (options = []) => {
     .catch((error) => console.error("Request failed:", error));
 };
 
-export const getUserById = async (token, userId) => {
-  const response = await fetch(`${BASE_URL}/users/${userId}`, {
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  });
-  return await response.json();
-};
-
 export const getUserFavoriteLists = async (userId, options = []) => {
   const queryString = convertQueryOptionsToString(options);
   return fetch(`${BASE_URL}/users/${userId}/favorites${queryString}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
   })
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`Failed to fetch restaurant with id:${id}`);
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
 
       return response.json();
     })
@@ -49,24 +47,71 @@ export const getUserFavoriteLists = async (userId, options = []) => {
     .catch((error) => console.error("Request failed:", error));
 };
 
-export const followUser = async (token, userIdToFollow) => {
-  const response = await fetch(`${BASE_URL}/follow`, {
+export const getUserById = async (userId) => {
+  return fetch(`${BASE_URL}/users/${userId}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
+    },
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+
+      return response.json();
+    })
+    .then((userData) => {
+      return userData; // object { email, id, name, followers, following, rating }
+    })
+    .catch((error) => console.error("Request failed:", error));
+};
+
+export const followUser = async (userId) => {
+  return fetch(`${BASE_URL}/follow`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Token ${token}`,
+      Authorization: Cookies.get("token"),
     },
-    body: JSON.stringify({ id: userIdToFollow }),
-  });
-  return await response.json();
+    body: JSON.stringify({ id: userId }),
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+
+      return response.json();
+    })
+    .then((userData) => {
+      return userData[0]; // object { email, id, name, followers, following, rating }
+    })
+    .catch((error) => {
+      console.error("Request failed:", error);
+      throw error;
+    });
 };
 
-export const unfollowUser = async (token, userIdToUnfollow) => {
-  const response = await fetch(`${BASE_URL}/follow/${userIdToUnfollow}`, {
+export const unfollowUser = async (userId) => {
+  return fetch(`${BASE_URL}/follow/${userId}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Token ${token}`,
+      "Content-Type": "application/json",
+      Authorization: Cookies.get("token"),
     },
-  });
-  return await response.json();
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        let errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+
+      return response.json();
+    })
+    .then((userData) => {
+      return userData[0]; // object { email, id, name, followers, following, rating }
+    })
+    .catch((error) => console.error("Request failed:", error));
 };
