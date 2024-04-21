@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex" @click="handleClickOutside">
-    <div class="d-flex" style="width: 100%">
-      <form class="d-flex w-100" style="padding-bottom: 1rem" role="search">
+    <div class="d-flex dropdown-center" style="width: 100%">
+      <form class="d-flex w-100 p-3" role="search">
         <input
           ref="searchInput"
           class="form-control me-2"
