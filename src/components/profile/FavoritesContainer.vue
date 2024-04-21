@@ -76,7 +76,7 @@
               </div>
             </div>
           </div>
-
+         <div v-if="userFavoriteLists.length === 0" class="d-flex justify-content-center">No Favorites</div>
           <FavoriteList
             v-for="list in userFavoriteLists"
             :id="list.id"
