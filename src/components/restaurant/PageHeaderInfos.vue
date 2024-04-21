@@ -2,7 +2,7 @@
 import {
   formatGenres,
   ratingColor,
-} from "@/components/restaurantView/script/restaurant.utility";
+} from "@/components/restaurant/script/restaurant.utility";
 
 export default {
   name: "PageHeaderInfos",

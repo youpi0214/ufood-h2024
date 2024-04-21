@@ -122,7 +122,7 @@
 import { router } from "@/router/router";
 import { logout as apiLogout } from "@/api/auth.js";
 import Cookies from "js-cookie";
-import UserSearchBar from "@/components/topBarView/UserSearchBar.vue";
+import UserSearchBar from "@/components/topBar/UserSearchBar.vue";
 
 export default {
   name: "TopBar",

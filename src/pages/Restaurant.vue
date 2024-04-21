@@ -72,16 +72,16 @@
 </template>
 
 <script>
-import PageHeaderInfos from "@/components/restaurantView/PageHeaderInfos.vue";
-import ImageSlider from "@/components/restaurantView/ImageSlider.vue";
-import OpenHours from "@/components/restaurantView/OpenHours.vue";
-import MapView from "@/components/restaurantView/map/MapView.vue";
+import PageHeaderInfos from "@/components/restaurant/PageHeaderInfos.vue";
+import ImageSlider from "@/components/restaurant/ImageSlider.vue";
+import OpenHours from "@/components/restaurant/OpenHours.vue";
+import MapView from "@/components/restaurant/map/MapView.vue";
 import { getRestaurantById } from "@/api/restaurant";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 import AddToFavoritesModal from "@/components/form/AddFavoritesForm.vue";
-import { Owner } from "@/components/profileView/script/profile.utility";
-import RecommendedRestaurants from "@/components/restaurantView/RecommendedRestaurants.vue";
-import { Restaurant } from "@/components/homeView/script/card.utility";
+import { Owner } from "@/components/profile/script/profile.utility";
+import RecommendedRestaurants from "@/components/restaurant/RecommendedRestaurants.vue";
+import { Restaurant } from "@/components/home/script/card.utility";
 import Cookies from "js-cookie";
 
 export default {

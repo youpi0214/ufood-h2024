@@ -65,13 +65,13 @@
 </template>
 
 <script>
-import { Restaurant } from "@/components/homeView/script/card.utility";
-import { formatRestaurantName } from "@/components/homeView/script/home.utility";
+import { Restaurant } from "@/components/home/script/card.utility";
+import { formatRestaurantName } from "@/components/home/script/home.utility";
 import RegisterVisitForm from "@/components/form/RegisterVisitForm.vue";
 import {
   formatGenres,
   ratingColor,
-} from "@/components/restaurantView/script/restaurant.utility";
+} from "@/components/restaurant/script/restaurant.utility";
 
 export default {
   props: {

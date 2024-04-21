@@ -101,7 +101,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { formatString } from "../restaurantView/script/restaurant.utility";
+import { formatString } from "@/components/restaurant/script/restaurant.utility";
 
 export default {
   props: {

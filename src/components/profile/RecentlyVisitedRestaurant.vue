@@ -50,12 +50,12 @@
 </template>
 
 <script>
-import VisitCard from "@/components/profileView/VisitCard.vue";
+import VisitCard from "@/components/profile/VisitCard.vue";
 import { getUserRestaurantVisits } from "@/api/restaurant.visits";
 import {
   extractUniqueAttributeListFromExistingList,
   getAllAvailableDataWithQueryFunction,
-} from "@/components/profileView/script/profile.utility";
+} from "@/components/profile/script/profile.utility";
 import Cookies from "js-cookie";
 
 export default {

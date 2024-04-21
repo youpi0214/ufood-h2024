@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import LoginForm from "@/components/authenticationView/LoginForm.vue";
+import LoginForm from "@/components/form/LoginForm.vue";
 
 export default {
   name: "Authentication",

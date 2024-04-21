@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import Home from "@/components/Home";
-import Restaurant from "@/components/Restaurant";
-import User from "@/components/User";
-import Authentication from "@/components/Authentication.vue";
+import Home from "@/pages/Home.vue";
+import Restaurant from "@/pages/Restaurant.vue";
+import User from "@/pages/User.vue";
+import Authentication from "@/pages/Authentication.vue";
 import Cookies from "js-cookie";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal } from "bootstrap";

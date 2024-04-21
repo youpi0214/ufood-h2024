@@ -49,9 +49,9 @@ import {
   removeRestaurantFromFavoriteList,
   renameFavoriteList,
 } from "@/api/favorites.lists";
-import FavoriteCard from "@/components/profileView/FavoriteCard.vue";
-import SearchBar from "@/components/homeView/SearchBar.vue";
-import { Owner } from "@/components/profileView/script/profile.utility";
+import FavoriteCard from "@/components/profile/FavoriteCard.vue";
+import SearchBar from "@/components/home/SearchBar.vue";
+import { Owner } from "@/components/profile/script/profile.utility";
 
 export default {
   name: "FavoriteList",

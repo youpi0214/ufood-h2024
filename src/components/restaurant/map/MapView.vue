@@ -36,8 +36,8 @@ import mapboxgl from "!mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { getRoute, removeRoute, MAPBOX_API_KEY } from "./map.utility.js";
 import { getAllRestaurantsByUserLocation } from "./map.utility.js";
-import { getLocation } from "@/components/restaurantView/script/location.utility";
-import SearchBar from "@/components/homeView/SearchBar.vue";
+import { getLocation } from "@/components/restaurant/script/location.utility";
+import SearchBar from "@/components/home/SearchBar.vue";
 
 export default {
   components: { SearchBar },

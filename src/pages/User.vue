@@ -54,13 +54,13 @@
 
 <script>
 import md5 from "md5";
-import UserHeader from "@/components/profileView/UserHeader.vue";
-import RecentlyVisitedRestaurants from "@/components/profileView/RecentlyVisitedRestaurant.vue";
-import FavoritesContainer from "@/components/profileView/FavoritesContainer.vue";
+import UserHeader from "@/components/profile/UserHeader.vue";
+import RecentlyVisitedRestaurants from "@/components/profile/RecentlyVisitedRestaurant.vue";
+import FavoritesContainer from "@/components/profile/FavoritesContainer.vue";
 import Cookies from "js-cookie";
 import { getUserById } from "@/api/user";
 
-import FollowModal from "@/components/profileView/FollowModal.vue";
+import FollowModal from "@/components/profile/FollowModal.vue";
 
 export default {
   computed: {

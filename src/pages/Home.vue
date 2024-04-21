@@ -111,15 +111,15 @@
 </template>
 
 <script>
-import RestaurantCards from "@/components/homeView/RestaurantCardsContainer.vue";
+import RestaurantCards from "@/components/home/RestaurantCardsContainer.vue";
 import { mapActions, mapState } from "vuex";
 import { getRestaurants } from "@/api/restaurant";
-import SearchBar from "@/components/homeView/SearchBar.vue";
-import { Restaurant } from "@/components/homeView/script/card.utility";
-import { generateRestaurantFetchOptions } from "@/components/homeView/script/home.utility";
-import MapView from "@/components/restaurantView/map/MapView.vue";
-import { getAllAvailableDataWithQueryFunction } from "@/components/profileView/script/profile.utility";
-import RestaurantFilter from "@/components/homeView/RestaurantFilter.vue";
+import SearchBar from "@/components/home/SearchBar.vue";
+import { Restaurant } from "@/components/home/script/card.utility";
+import { generateRestaurantFetchOptions } from "@/components/home/script/home.utility";
+import MapView from "@/components/restaurant/map/MapView.vue";
+import { getAllAvailableDataWithQueryFunction } from "@/components/profile/script/profile.utility";
+import RestaurantFilter from "@/components/home/RestaurantFilter.vue";
 
 export default {
   components: {

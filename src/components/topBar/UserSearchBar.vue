@@ -57,7 +57,7 @@
 import { RestaurantQueryOptions } from "@/api/api.utility";
 import { followUser, getUserById, getUsers, unfollowUser } from "@/api/user";
 import Cookies from "js-cookie";
-import { displayPopup } from "@/components/topBarView/script/user_search";
+import { displayPopup } from "@/components/topBar/script/user_search";
 
 export default {
   name: "UserSearchBar",

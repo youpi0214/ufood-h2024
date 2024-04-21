@@ -1,9 +1,9 @@
 <script>
 import { getRestaurants } from "@/api/restaurant";
-import Card from "@/components/homeView/Card.vue";
-import { Restaurant } from "@/components/homeView/script/card.utility";
+import Card from "@/components/home/Card.vue";
+import { Restaurant } from "@/components/home/script/card.utility";
 import { RestaurantQueryOptions } from "@/api/api.utility";
-import { getCurrentPositionWithRetry } from "@/components/restaurantView/script/location.utility";
+import { getCurrentPositionWithRetry } from "@/components/restaurant/script/location.utility";
 
 export default {
   name: "RecommendedRestaurants",
