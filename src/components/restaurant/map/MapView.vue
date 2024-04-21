@@ -99,14 +99,11 @@ export default {
       });
       this.mapCenter = this.map.getCenter().toArray();
       if (this.homePage) {
-        this.map.on("idle", async () => {
-          this.map.resize();
-          this.mapCenter = this.map.getCenter().toArray();
-          const [restaurants, _] = await getAllRestaurantsByUserLocation(
-            this.mapCenter,
-          );
-          this.restaurants = restaurants;
-          this.filterRestaurants();
+        this.map.on("load", async () => {
+          await this.loadRestaurants();
+        });
+        this.map.on("moveend", async () => {
+          await this.loadRestaurants();
         });
         this.map
           .addControl(
@@ -150,6 +147,15 @@ export default {
         return this.currentPosition;
       }
     },
+    async loadRestaurants() {
+      this.map.resize();
+      this.mapCenter = this.map.getCenter().toArray();
+      const [restaurants, _] = await getAllRestaurantsByUserLocation(
+        this.mapCenter,
+      );
+      this.restaurants = restaurants;
+      this.filterRestaurants();
+    },
     displayRestaurantsMarkers(restaurants) {
       if (this.restaurantMarkers.length > 0) {
         this.restaurantMarkers.forEach((marker) => marker.remove());
@@ -158,6 +164,11 @@ export default {
       for (const restaurant of restaurants) {
         const marker = new mapboxgl.Marker({ color: "red" })
           .setLngLat(restaurant.location.coordinates)
+          .setPopup(
+            new mapboxgl.Popup().setHTML(
+              `<a href="#/restaurants/${restaurant.id}">${restaurant.name}</a>`,
+            ),
+          )
           .addTo(this.map);
         this.restaurantMarkers.push(marker);
       }
