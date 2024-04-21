@@ -17,7 +17,6 @@
             :rating="rating"
             :id="id"
             :followers="followers"
-            @update="getUserInfo(id)"
           />
         </div>
         <div class="follow-info">
@@ -25,13 +24,13 @@
             :following="this.followers"
             modalId="followers"
             v-if="dataReceived"
-            @update="getUserInfo(id)"
+            @click="getUserInfo(id)"
           />
           <FollowModal
             :following="this.following"
             modalId="following"
             v-if="dataReceived"
-            @update="getUserInfo(id)"
+            @click="getUserInfo(id)"
           />
         </div>
       </div>
