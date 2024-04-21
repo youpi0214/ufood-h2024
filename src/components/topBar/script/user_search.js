@@ -1,3 +1,4 @@
+import Modal from "bootstrap/js/src/modal";
 export const displayPopup = (title, message) => {
   const modal = document.createElement("div");
   modal.classList.add("modal", "fade", "show");

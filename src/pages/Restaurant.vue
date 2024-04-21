@@ -156,7 +156,6 @@ export default {
         to.params.restaurantId,
       );
       this.isDataRecieved = true
-      console.log("test update restaurant page")
     } catch (error) {
       console.error("Error getting restaurant...");
     }
