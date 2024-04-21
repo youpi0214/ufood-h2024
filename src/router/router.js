@@ -36,7 +36,7 @@ export const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== "Authentication" && !Cookies.get("token")) {
+  if (to.name !== "Authentication" || !Cookies.get("token")) {
     displayPopup(
       "Please Login",
       "You need to be authenticated to access this page.",
