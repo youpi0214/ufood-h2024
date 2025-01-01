@@ -1,48 +1,123 @@
-# vue-starter
+Here’s a **README.md** template for your cloned project:
 
-Kit de départ préconfiguré utilisant [vue-cli](https://cli.vuejs.org/), [ESLint](https://eslint.org/) avec [Prettier](https://prettier.io/) et [Jest](https://jestjs.io/).
+---
 
-## Prérequis
+# UFood
 
-- Git [Windows](http://www.git-scm.com/book/en/Getting-Started-Installing-Git#Installing-on-Windows), [Mac](http://www.git-scm.com/book/en/Getting-Started-Installing-Git#Installing-on-Mac), [Linux](http://www.git-scm.com/book/en/Getting-Started-Installing-Git#Installing-on-Linux)
-- [Node.js](https://nodejs.org/en/) (version LTS recommandée)
+UFood is a collaborative web application designed to help users discover restaurants, share favorites with friends, and track dining experiences. The application includes features like restaurant search, user profiles, dynamic filtering, and interactive maps.
 
-Vérifier que Node est installé avec la commande:
+---
 
-```bash
-node -v
-```
+## Features
 
-Vérifier que Node est installé avec la commande:
+- **Restaurant Discovery**: Search and filter restaurants by genre, price range, and more.
+- **User Profiles**: View recent visits, manage favorite restaurants, and track user scores.
+- **Responsive Design**: Fully optimized for desktop, tablet, and mobile devices.
+- **Dynamic Integration**: Integration with APIs for live restaurant data and map functionality.
+- **Authentication**: User login, registration, and secure token management.
 
-```bash
-npm -v
-```
+---
 
 ## Installation
 
-```bash
-# install dependencies
-npm install
+Follow these steps to set up the project locally:
+
+### Prerequisites
+- Node.js and npm installed.
+- Git installed on your machine.
+
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/saelf9/ufood-h2024.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd ufood-h2024
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm run serve
+   ```
+5. Open your browser and navigate to:
+   ```
+   http://localhost:8080
+   ```
+
+---
+
+## Project Structure
+
+```
+src/
+├── assets/         # Images and static files
+├── components/     # Vue components (Navbar, Hero, etc.)
+├── views/          # Page-level Vue components
+├── router/         # Vue Router configuration
+├── App.vue         # Root Vue component
+└── main.js         # Entry point for the application
 ```
 
-## Développement
+---
 
-```bash
-# serve with hot reload at localhost:8080
-npm run serve
-```
+## Technologies Used
 
-## Livrable 1
+- **Frontend Framework**: Vue.js
+- **Styling**: Tailwind CSS, optional Bootstrap
+- **API Integration**: RESTful APIs for dynamic data
+- **Mapping**: Google Maps API
+- **Build Tool**: Vite
 
-Faites vos modifications aux fichiers `Home.vue`, `Navigation.vue`, `Restaurant.vue` et `User.vue`. Ajoutez votre HTML dans la balise `<template>` et votre CSS dans la balise `<style>` de chacun des components. Vous pouvez également modifier la structure de fichiers si vous désirez.
+---
 
-## Livrable 2-3
+## How to Use
 
-Libre à vous de modifier la structure des fichiers.
+### Features:
+1. **Homepage**:
+   - View a list of restaurants.
+   - Use the search bar and filters for specific restaurants.
+2. **Restaurant Details**:
+   - View detailed information including name, address, phone, and images.
+   - Access maps and directions.
+3. **User Profiles**:
+   - Manage favorite restaurant lists.
+   - View recently visited restaurants.
 
-## Notes
+---
 
-### ESLint
+## Contributing
 
-ESLint est configuré afin de respecter un certain standard de code à travers votre équipe. Il est basé sur la configuration de Prettier. qui rassemble les règles de base populaires. Libre à vous de modifier cette configuration via `.eslintrc.js`.
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add feature-name"
+   ```
+4. Push the branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Open a pull request.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## Acknowledgments
+
+This project was developed as part of a collaborative session project. Special thanks to all team members for their contributions.
+
+---
