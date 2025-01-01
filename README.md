@@ -1,4 +1,4 @@
-Here’s a **README.md** template for your cloned project:
+
 
 ---
 
