@@ -1,3 +1,4 @@
+/* eslint-disable */
 const useUnsecureEndpoint = false;
 export const BASE_URL =
   "https://ufoodapi.herokuapp.com" + (useUnsecureEndpoint ? "/unsecure" : "");

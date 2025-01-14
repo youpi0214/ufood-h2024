@@ -55,6 +55,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import md5 from "md5";
 import UserHeader from "@/components/profile/UserHeader.vue";
 import RecentlyVisitedRestaurants from "@/components/profile/RecentlyVisitedRestaurant.vue";

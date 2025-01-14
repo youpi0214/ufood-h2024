@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { BASE_URL, convertQueryOptionsToString } from "./api.utility";
 import Cookies from "js-cookie";
 

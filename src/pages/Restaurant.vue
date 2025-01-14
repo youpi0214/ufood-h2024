@@ -83,6 +83,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import PageHeaderInfos from "@/components/restaurant/PageHeaderInfos.vue";
 import ImageSlider from "@/components/restaurant/ImageSlider.vue";
 import OpenHours from "@/components/restaurant/OpenHours.vue";

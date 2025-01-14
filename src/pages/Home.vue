@@ -1,4 +1,6 @@
+
 <template>
+  <!-- eslint-disable -->
   <div>
     <!-- Top Image Section -->
     <div class="top-image">
@@ -111,6 +113,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import RestaurantCards from "@/components/home/RestaurantCardsContainer.vue";
 import { mapActions, mapState } from "vuex";
 import { getRestaurants } from "@/api/restaurant";

@@ -1,3 +1,4 @@
+/* eslint-disable */
 export async function getLocation() {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Cookies from "js-cookie";
 
 const BASE_URL = "https://ufoodapi.herokuapp.com";

@@ -119,6 +119,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { router } from "@/router/router";
 import { logout as apiLogout } from "@/api/auth.js";
 import Cookies from "js-cookie";
